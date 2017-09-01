@@ -1,7 +1,14 @@
 package org.tour.persistence;
 
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+
 public class ReplyDAOImpl implements ReplyDAO {
 
-	private String namespace = "org.tour.mapper.ReplyMapper";
+	@Inject
+	private SqlSession session;
+	
+	private static String namespace = "org.tour.mapper.ReplyMapper";
 	
 }

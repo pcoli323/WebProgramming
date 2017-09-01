@@ -1,7 +1,14 @@
 package org.tour.persistence;
 
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+
 public class CourseInfoDAOImpl implements CourseInfoDAO {
 
-	private String namespace = "org.tour.mapper.CourseInfoMapper";
+	@Inject
+	private SqlSession session;
+	
+	private static String namespace = "org.tour.mapper.CourseInfoMapper";
 	
 }
