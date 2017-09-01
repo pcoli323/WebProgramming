@@ -2,7 +2,7 @@ package org.tour.domain;
 
 import java.util.Date;
 
-public class CourseInfo {
+public class CourseInfoVO {
 
 	private int gotoNumber;
 	private int courseNumber;
