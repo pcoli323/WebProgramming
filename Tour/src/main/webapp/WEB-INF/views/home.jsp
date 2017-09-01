@@ -6,6 +6,10 @@
 </head>
 <body>
 <h1>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 00e13566a1b985f5298754286738bbd52e78eb34
 	Hello world!  WOWOWOWO YEOMSOOYEONG HI~~ YAP Ra Na
 
 </h1>
