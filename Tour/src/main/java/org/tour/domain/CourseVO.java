@@ -11,7 +11,7 @@ public class CourseVO {
 	private Date updateDate;
 	private boolean isPosted;
 	private boolean isGotten;
-	private int like;
+	private int likeNumber;
 	private String story;
 	
 	public int getCourseNumber() {
@@ -57,10 +57,10 @@ public class CourseVO {
 		this.isGotten = isGotten;
 	}
 	public int getLike() {
-		return like;
+		return likeNumber;
 	}
 	public void setLike(int like) {
-		this.like = like;
+		this.likeNumber = like;
 	}
 	public String getStory() {
 		return story;

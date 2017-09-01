@@ -6,7 +6,7 @@ public class UserVO {
 
 	private int userNumber;
 	private String email;
-	private String password;
+	private String pwd;
 	private String userName;
 	private Date regDate;
 	private Date updateDate;
@@ -24,10 +24,10 @@ public class UserVO {
 		this.email = email;
 	}
 	public String getPassword() {
-		return password;
+		return pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String pwd) {
+		this.pwd = pwd;
 	}
 	public String getUserName() {
 		return userName;
