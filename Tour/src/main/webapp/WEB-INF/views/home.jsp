@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>
-<<<<<<< HEAD
+
 	Hello world!  WOWOWOWO YEOMSOOYEONG HI~~ YAP Ra Na
 
 </h1>
