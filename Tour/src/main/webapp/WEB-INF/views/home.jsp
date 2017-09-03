@@ -5,6 +5,11 @@
 	<title>Home</title>
 </head>
 <body>
+
+
+<%@include file="include/nav1.jsp"%>
+
+
 <h1>
 	Hello world!  WOWOWOWO YEOMSOOYEONG HI~~ YAP Ra Na
 </h1>
