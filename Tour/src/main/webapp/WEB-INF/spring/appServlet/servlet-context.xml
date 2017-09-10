@@ -22,10 +22,15 @@
 	</beans:bean>
 	
 	<beans:bean id="loginInterceptor" class="org.tour.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" class="org.tour.interceptor.AuthInterceptor"></beans:bean>
 	<interceptors>
 		<interceptor>
 			<mapping path="/login"></mapping>
 			<beans:ref bean="loginInterceptor"></beans:ref>
+		</interceptor>
+		<interceptor>
+			<mapping path="/main"></mapping>
+			<beans:ref bean="authInterceptor"></beans:ref>
 		</interceptor>
 	</interceptors>
 	
