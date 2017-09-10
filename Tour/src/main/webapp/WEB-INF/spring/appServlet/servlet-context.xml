@@ -26,6 +26,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/login"></mapping>
+			<mapping path="/logout"></mapping>
 			<beans:ref bean="loginInterceptor"></beans:ref>
 		</interceptor>
 		<interceptor>

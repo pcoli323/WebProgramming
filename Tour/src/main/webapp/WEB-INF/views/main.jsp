@@ -11,5 +11,13 @@
 </head>
 <body>
 	<%@include file="include/nav3.jsp"%>
+	
+<script>
+$(document).ready(function(){
+    $("#logout").click(function(){
+    	 location.replace("/logout");
+    });
+});
+</script>
 </body>
 </html>

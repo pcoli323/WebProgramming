@@ -24,7 +24,7 @@
     </form>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#"><span class="glyphicon glyphicon-user"></span> 마이페이지 </a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그아웃 </a></li>
+      <li id="logout"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그아웃 </a></li>
     </ul>
   </div>
 </nav>

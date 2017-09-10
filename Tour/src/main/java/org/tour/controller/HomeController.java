@@ -67,4 +67,10 @@ public class HomeController {
 		}
 		return "redirect:/main";
 	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(LoginDTO dto, Model model) {
+		
+		return "home";
+	}
 }
