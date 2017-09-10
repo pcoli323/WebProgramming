@@ -9,6 +9,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="resources/css/homeCSS.css">
+  
+  <style>
+  .modal-header, h4, .close {
+      background-color: #91BED4;
+      color:white !important;
+      text-align: center;
+      font-size: 30px;
+  }
+  .modal-footer {
+      background-color: #f9f9f9;
+  }
+  </style>
+  
 </head>
 <body>
 <div id="fullDIV">
@@ -42,7 +55,7 @@
       		</div>
 	  		<div class="item"  style="height:100%;margin-left:auto;margin-right:auto;">
         		<div class="carousel-caption" style="color:#91BED4;">     
-    			<form action="/" method="post">
+    			<form action="/register" method="post">
     				<div>
      					<h2>회원 가입</h2>
     				</div>
@@ -74,5 +87,51 @@
     </a>
   </div>	
 </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4><span class="glyphicon glyphicon-lock"></span> 로그인 </h4>
+        </div>
+        
+        <div class="modal-body" style="padding:40px 50px;">
+          <form role="form" action="/login" method="post">
+            <div class="form-group">
+              <label for="usrname"><span class="glyphicon glyphicon-user"></span> 이메일 </label>
+              <input type="text" class="form-control" id="usrname" placeholder="이메일을 입력해주세요." name="email">
+            </div>
+            <div class="form-group">
+              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호 </label>
+              <input type="password" class="form-control" id="psw" placeholder="비밀번호를 입력해주세요" name="pwd">
+            </div>
+            
+              <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> 로그인 </button>
+          </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+  
+<script>
+$(document).ready(function(){
+    $("#reg").click(function(){
+        $("#myCarousel").carousel(3);
+    });
+    $("#login").click(function(){
+    	$("#myModal").modal();
+    });
+});
+</script>
+
 </body>
 </html>

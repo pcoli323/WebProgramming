@@ -17,8 +17,8 @@
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> 회원가입 </a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그인 </a></li>
+      <li id="reg"><a href="#"><span class="glyphicon glyphicon-user"></span> 회원가입 </a></li>
+      <li id="login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그인 </a></li>
     </ul>   
   </div>
 </nav>

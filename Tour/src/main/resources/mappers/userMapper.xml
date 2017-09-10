@@ -9,4 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	insert into tbl_user (userName,email,pwd)
 	values(#{userName},#{email},#{pwd})
 </insert>
+
+<select id="login" resultType="UserVO">
+	select email,pwd from tbl_user where email=#{email} and pwd=#{pwd}
+</select>
+
 </mapper>

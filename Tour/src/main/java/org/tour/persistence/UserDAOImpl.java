@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.tour.domain.UserVO;
+import org.tour.dto.LoginDTO;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -17,6 +18,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void create(UserVO vo) throws Exception {
 		session.insert(namespace+".create",vo);
+	}
+
+	@Override
+	public UserVO login(LoginDTO dto) throws Exception {
+		return session.selectOne(namespace+".login",dto);
 	}
 	
 }
