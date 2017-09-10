@@ -1,5 +1,7 @@
 package org.tour.service;
 
-public interface UserService {
+import org.tour.domain.UserVO;
 
+public interface UserService {
+	public void register(UserVO user) throws Exception;
 }

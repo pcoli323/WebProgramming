@@ -5,4 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.UserMapper">
 
+<insert id="create">
+	insert into tbl_user (userName,email,pwd)
+	values(#{userName},#{email},#{pwd})
+</insert>
 </mapper>

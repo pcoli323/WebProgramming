@@ -23,10 +23,10 @@ public class UserVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
+	public String getPwd() {
 		return pwd;
 	}
-	public void setPassword(String pwd) {
+	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 	public String getUserName() {

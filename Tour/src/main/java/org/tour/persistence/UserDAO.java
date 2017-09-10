@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
-public interface UserDAO {
+import org.tour.domain.UserVO;
 
+public interface UserDAO {
+	public void create(UserVO vo) throws Exception;
 }
