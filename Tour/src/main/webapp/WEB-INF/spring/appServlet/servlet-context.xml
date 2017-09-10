@@ -21,6 +21,14 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id="loginInterceptor" class="org.tour.interceptor.LoginInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/login"></mapping>
+			<beans:ref bean="loginInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
+	
 	<context:component-scan base-package="org.tour.controller" />
 	
 	
