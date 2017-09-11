@@ -5,6 +5,11 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import org.json.simple.JSONArray;
@@ -14,10 +19,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.tour.dto.CourseMakeDTO;
 
 @Controller
 public class CourseMakeController {
 
+	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
+	public void add1(Locale locale, Model model) {
+		
+	}
+	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
 	public void add2(Locale locale, Model model) {
 		
@@ -38,7 +49,7 @@ public class CourseMakeController {
 			InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
 			JSONObject jsonObject = (JSONObject)JSONValue.parse(isr);
 
-			//System.out.println(jsonObject);
+			//System.out.println(url);
 			
 			
 			JSONObject dataObject = (JSONObject) jsonObject.get("response");
@@ -54,9 +65,50 @@ public class CourseMakeController {
 				model.addAttribute("jsonDataList", data.get("firstimage"));
 				//System.out.println(data.get("firstimage2"));
 				model.addAttribute("jsonDataList2", data.get("firstimage2"));
+				/*
+				System.out.println(data.get("areaname"));
+				System.out.println(data.get("areacode"));
+				System.out.println(data.get("addr1"));
+				System.out.println(data.get("addr2"));
+				System.out.println(data.get("contentid"));
+				System.out.println(data.get("contenttypeid"));
+				System.out.println(data.get("createdtime"));
+				System.out.println(data.get("firstimage"));
+				System.out.println(data.get("firstimage2"));
+				System.out.println(data.get("mapx"));
+				System.out.println(data.get("mapy"));
+				System.out.println(data.get("modifiedtime"));
+				System.out.println(data.get("readcount"));
+				System.out.println(data.get("tel"));
+				System.out.println(data.get("title"));
+				*/
 			}
 			
-			//model.addAttribute("jsonDataList", memberArray);
+			List<CourseMakeDTO> list = new ArrayList<CourseMakeDTO>();
+			for(int i=0; i<10; i++){
+				JSONObject data = (JSONObject)memberArray.get(i);
+				Calendar cal = new GregorianCalendar();
+			    cal.add(Calendar.DATE, i);
+				Date date = cal.getTime();
+				CourseMakeDTO dto = new CourseMakeDTO("Test",
+						(Long)data.get("areacode"),date,date,
+						(String)data.get("addr1"),
+						(String)data.get("addr2"),
+						(Long)data.get("contentid"),
+						(Long)data.get("contenttypeid"),
+						(Long)data.get("createdtime"),
+						(String)data.get("firstimage"),
+						(String)data.get("firstimage2"),
+						data.get("mapx"),
+						data.get("mapy"),
+						(Long)data.get("modifiedtime"),
+						(Long)data.get("readcount"),
+						(String)data.get("tel"),
+						(String)data.get("title"));	
+				list.add(dto);			
+			}
+			model.addAttribute("lists",list);
+			
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -68,4 +120,8 @@ public class CourseMakeController {
 		
 	}
 	
+	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
+	public void modify(Locale locale, Model model) {
+		
+	}
 }
