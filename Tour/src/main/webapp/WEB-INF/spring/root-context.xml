@@ -23,7 +23,21 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<context:component-scan base-package="org.tour.persistence"></context:component-scan>
+   	<!-- 이메일 관련 -->
+	<bean id="MailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    	<property name="host" value="smtp.gmail.com" />
+   	 	<property name="port" value="587" />
+   	 	<property name="username" value="tourwebsite0@gmail.com" />
+    	<property name="password" value="tourtour" />
+    	<property name="javaMailProperties">
+        	<props>
+        	    <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+        	    <prop key="mail.smtp.starttls.enable">true</prop>
+            	<prop key="mail.smtp.auth">true</prop>
+        	</props>
+    	</property>
+	</bean>
+   
+   	<context:component-scan base-package="org.tour.persistence"></context:component-scan>
 	<context:component-scan base-package="org.tour.service"></context:component-scan>
-	
 </beans>

@@ -41,22 +41,16 @@ public class HomeController {
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register(UserVO user, Model model) {
 		try {
-			//System.out.println(user.getEmail());
-			//System.out.println(user.getPwd());
-			//System.out.println(user.getUserName());
 			service.register(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/main";
+		return "home";
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public String login(LoginDTO dto, Model model) {
 		try {
-			System.out.println(dto.getEmail());
-			System.out.println(dto.getPwd());
-			
 			UserVO vo = service.login(dto);
 			if(vo==null)
 				return "/login/loginFalse";
