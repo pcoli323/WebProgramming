@@ -20,6 +20,7 @@
 	<img src="${list.firstimage}">
 </c:forEach>
 
+
 <div class="container">
 <div>
   <form action="/course/make/modify" method="get">
