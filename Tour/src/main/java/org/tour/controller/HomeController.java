@@ -35,7 +35,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "/Test/home";
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)

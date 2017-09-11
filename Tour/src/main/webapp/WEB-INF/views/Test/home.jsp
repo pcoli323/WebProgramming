@@ -21,23 +21,37 @@ html,#fullD {
 body {
 	height:100%;
 	background-color:white;
-	overflow: hidden;
 
+}
+#topD {
+	height:25px;
+	background-color:#000000;
 }
 #smallD {
 	height:70%;
 }
 #secondD {
-	height:500px;
-	background-color:red;
+	height:300px;
+	background-color:#2c3e50;
 }
 #thirdD {
-	height:500px;
-	background-color:blue;
+	height:300px;
+	background-color:#e74c3c;
+}
+#fourthD {
+	height:300px;
+	background-color:#3498db;
+}
+#fifthD {
+	height:300px;
+	background-color:#ecf0f1;
 }
 </style>
 <body>
 <div id="fullD">
+	<!-- Topbar -->
+	<div id="topD"></div>
+	
 	<!-- 1 : Navbar -->
 	<%@include file="include/nav1.jsp"%>
 	
@@ -85,12 +99,10 @@ body {
     		</a>
   		</div> <!-- Carousel -->
 	</div> <!-- SmallD -->
-	<div id="secondD">
-	<p>Hi</p>
-	</div>
-	<div id="thirdD">
-	<p>Hi2</p>
-	</div>
+	<div id="secondD"></div>
+	<div id="thirdD"></div>
+	<div id="fourthD"></div>
+	<div id="fifthD"></div>
 </div> <!-- fullD -->
 </body>
 </html>
