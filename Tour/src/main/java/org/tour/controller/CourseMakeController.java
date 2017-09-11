@@ -12,6 +12,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -30,7 +33,7 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
-	public void add2(Locale locale, Model model) {
+	public void add2(HttpServletRequest request, Model model) {
 		
 		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
 		String serviceKey = "?serviceKey=DHcqBxhjFPm%2FJrVtRuH0NExGuA9SrbZWeSAm6Dklg0o69DTFZh1rfrb3OFWZ7qt%2F9k4dxzTbPMax5VQvU0Tocw%3D%3D";
@@ -107,7 +110,9 @@ public class CourseMakeController {
 						(String)data.get("title"));	
 				list.add(dto);			
 			}
-			model.addAttribute("lists",list);
+			HttpSession session = request.getSession();
+			session.setAttribute("lists", list);
+			//model.addAttribute("lists",list);
 			
 			
 		} catch (MalformedURLException e) {
