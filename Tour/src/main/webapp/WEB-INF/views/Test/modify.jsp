@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,7 +36,7 @@
     .sidenav {
       padding-top: 20px;
       background-color: #f1f1f1;
-      height: 50em;
+      height: 55em;
       width: 27%;
       float: right;
     }
@@ -53,7 +55,7 @@
       .row.content {height:auto;} 
     }
     #map {
-      height: 50em;
+      height: 55em;
       width: 70%;
       float: left;
     }
@@ -91,15 +93,16 @@
     <div id="map"></div>
       <script>
       function initMap() {
-        var uluru = {lat: 36.322473, lng: 127.412501};
-        var uluru2 = {lat: 35.1795546, lng: 129.07564149999996};
+        var uluru = {lat: ${lists[0].mapy}, lng: ${lists[0].mapx}};
+        var uluru2 = {lat: ${lists[1].mapy}, lng: ${lists[1].mapx}};
+        console.log("uluru");
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 7,
-          center: uluru
+          center: uluru2
         });
 
-        var contentString = '<div style="width:100px;height:50px;">대전임</div>';
-        var contentString2 = '<div style="width:100px;height:50px;">부산임</div>';
+        var contentString = '<div style="width:100px;height:50px;">${lists[0].title}</div>';
+        var contentString2 = '<div style="width:100px;height:50px;">${lists[1].title}</div>';
 
         var infowindow = new google.maps.InfoWindow({
 	content: contentString,
@@ -159,24 +162,24 @@
 	}
         });
       }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap">
-    </script>
-    <div class="col-sm-2 sidenav">
-    	<div id="menuTitle">
-			<h3>가고 싶은 곳</h3>
-    	</div>
-    	<div class="menuList">
-			<form>
-				<input id="list" value="Hi" border=none readonly><button><span class="glyphicon glyphicon-remove" color="white"></span></button><br><br><br>
-				<input id="list2" value="여기로감?" border=none readonly><button><span class="glyphicon glyphicon-remove" color="white"></span></button><br><br><br>
-				<input id="list3" value="속안좋음" border=none readonly><button><span class="glyphicon glyphicon-remove" color="white"></span></button><br><br><br>
-			</form>
-		</div>
+      </script>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap">
+      </script>
+      <div class="col-sm-2 sidenav">
+      	<div id="menuTitle">
+  			<h3>가고 싶은 곳</h3>
+      	</div>
+      	<div class="menuList">
+  			<form>
+  				<c:forEach var="list" items="${lists }" varStatus="status">
+  					<input id="${status.count }" value="${list.title }" border=none readonly><button><span class="glyphicon glyphicon-remove" color="white"></span></button><br><br><br>
+  				</c:forEach>
+  			</form>
+  		</div>
+      </div>
     </div>
   </div>
-</div>
 
-</body>
-</html>
+  </body>
+  </html>

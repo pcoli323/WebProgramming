@@ -126,7 +126,7 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
-	public void modify(Locale locale, Model model) {
-		
+	public String modify(Locale locale, Model model) {
+		return "Test/modify";
 	}
 }
