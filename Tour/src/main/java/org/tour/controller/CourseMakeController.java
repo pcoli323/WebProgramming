@@ -106,7 +106,7 @@ public class CourseMakeController {
 	public void add2(HttpServletRequest request, Model model) {
 		
 		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
-		String serviceKey = "?serviceKey=DHcqBxhjFPm%2FJrVtRuH0NExGuA9SrbZWeSAm6Dklg0o69DTFZh1rfrb3OFWZ7qt%2F9k4dxzTbPMax5VQvU0Tocw%3D%3D";
+		String serviceKey = "?serviceKey=3H9Tndrczl9HltLWVxpLZUzyt0qDtJrURqSVeTESEU6zynlniIm5SUbflTYaV9bbs6ZEW31Dk3t2s9WSGmOjgQ%3D%3D";
 		String parameter = "";
 		String type = "&_type=json";
 		
