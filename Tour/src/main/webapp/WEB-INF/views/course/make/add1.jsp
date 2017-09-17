@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 <head>
   <title>Course Making...</title>
@@ -12,55 +13,164 @@
 </style>
 </head>
 <body>
-	<!-- 지역 검색 창 -->
-	<div class="container">
-		<h1>첫번째 단계 : 지역 선택 단계입니다.</h1>
-  		<p>여행하기 원하는 지역을 검색하여 추가해주세요.</p>
-  		<br>
-    	<div class="input-group">
-      		<input type="text" id="searchRegion" class="form-control" placeholder="Search" name="search">
-      		<div class="input-group-btn">
-        		<button id="searchButton" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-      		</div>
-    	</div>
-    	<hr>
-    	<p> 추가된 지역 : </p>
-      	<div id="regions">
-			<!-- <p id="regions"></p>-->
-      	</div>
-      	<hr>
+	<!-- header 1,2 추가 부분 -->
+	<!-- /course/make/add1 부분 -->
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+		<!-- 지역 선택 부분 -->
+		<div>
+			<!-- 지역 선택 단계를 소개해주는 부분 -->
+			<div>
+				<h1>첫번째 단계 : 지역 선택 단계입니다.</h1>
+				<p>여행하고 싶은 지역을 선택해 추가해주세요.</p>
+			</div>
+			<!-- 지역과 시군구를 보여주는 부분 -->
+			<div style="padding:10px; border:2px solid #F5F5F5;">
+				<!-- 지역 선택 부분 (탭) -->
+				<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding:10px;">
+					<li class="nav-item">
+    					<a class="nav-link active" data-toggle="tab" href="#${areacodeList[0].areaCode}" role="tab">${areacodeList[0].areaName}</a>
+    					<input type="hidden" id="N${areacodeList[0].areaCode}" value="${areacodeList[0].sAreaNum}">
+  					</li>
+					<c:forEach var="list" items="${areacodeList}" begin="1">
+						<li class="nav-item">
+    						<a class="nav-link" data-toggle="tab" href="#${list.areaCode}" role="tab">${list.areaName}</a>
+    						<input type="hidden" id="N${list.areaCode}" value="${list.sAreaNum}">
+  						</li>
+					</c:forEach>
+				</ul>
+				<!-- 상세 지역 선택 부분 -->
+				<div class="tab-content" id="checkboxes" style="padding:10px">
+					<div class="tab-pane active" id="${areacodeList[0].areaCode}" role="tabpanel">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-primary" id="B${areacodeList[0].areaCode}-0">
+  								<input type="checkbox" autocomplete="off" id="${areacodeList[0].areaCode}-0" name="${areacodeList[0].areaName}"> 전체
+  							</label>
+  							<c:if test="${areacodeList[0].sAreaNum > 1}">
+								<c:forEach var="slist" items="${areacodeList[0].sAreaList}">
+  									<label class="btn btn-primary" id="B${areacodeList[0].areaCode}-${slist.sAreaCode}">
+  										<input type="checkbox" autocomplete="off" id="${areacodeList[0].areaCode}-${slist.sAreaCode}" name="${slist.sAreaName}"> ${slist.sAreaName}
+  									</label>
+  								</c:forEach>
+  							</c:if>
+						</div>
+					</div>
+					<c:forEach var="list" items="${areacodeList}" begin="1">
+						<div class="tab-pane" id="${list.areaCode}" role="tabpanel">
+							<div class="btn-group" data-toggle="buttons">
+								<label class="btn btn-primary" id="B${list.areaCode}-0">
+  									<input type="checkbox" autocomplete="off" id="${list.areaCode}-0"  name="${list.areaName}"> 전체
+  								</label>
+  								<c:if test="${list.sAreaNum > 1}">
+								<c:forEach var="slist" items="${list.sAreaList}">
+  									<label class="btn btn-primary" id="B${list.areaCode}-${slist.sAreaCode}">
+  										<input type="checkbox" autocomplete="off" id="${list.areaCode}-${slist.sAreaCode}"  name="${slist.sAreaName}"> ${slist.sAreaName}
+  									</label>
+  								</c:forEach>
+  								</c:if>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			<!-- 선택한 지역을 출력해주는 부분 -->
+			<div class="well" id="checked" style="padding:10px;">
+				<p> 지역을 추가해주세요. </p>
+			</div>
+		</div>
+		<!-- 날짜 선택 부분 -->
+		<div></div>
+		<!-- 다음 단계 이동 부분 -->
+		<div>
+			<ul class="pager">
+  				<li><a href="/course/make/add2" id="next">다음</a></li>
+			</ul>
+		</div>
 	</div>
-	<!-- 다음 단계 이동 버튼 -->
-	<div class="container">
-		<div style="padding:10px;">
-  			<form action="/course/make/add2" method="get">
-  				<button type="submit" class="btn btn-primary pull-right"> 완료 </button>
-  			</form>
-  		</div>
-	</div>
+	<!-- footer 추가 부분 -->
 <script>
-$("#searchButton").click(function(){
-	var keyword = document.getElementById("searchRegion").value;
-	var url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword?serviceKey=DHcqBxhjFPm%2FJrVtRuH0NExGuA9SrbZWeSAm6Dklg0o69DTFZh1rfrb3OFWZ7qt%2F9k4dxzTbPMax5VQvU0Tocw%3D%3D&MobileOS=ETC&MobileApp=Tour&keyword="+keyword+"&_type=json";  
-    $.ajax({
-        url:url,
-        dataType: "json",
-        success:function(returnedData){
-        	var str = keyword + ":" + returnedData.response.body.items.item[0].areacode;
-        	//console.log(returnedData);
-        	//var tag = <p> </p> $("region").append(tag);
-        	var pp = document.createElement("p");
-    		var node = document.createTextNode(str);
-    		pp.id = 'region'+'1';
-    		pp.appendChild(node);
-    		var element = document.getElementById("regions");
-    		element.appendChild(pp);
-    		
-        	//document.getElementById("regions").innerHTML = keyword + ":" + returnedData.response.body.items.item[0].areacode;
-    		//alert('${lists[0].title}');
-        }
-    });  
-      
+$('#myTab a').click(function (e) {
+	e.preventDefault()
+	$(this).tab('show')
+})
+	
+var checked = new Array();
+var checkedN = new Array();
+$('#checkboxes :checkbox').change(function() { 
+    if (this.checked) {
+    	alert("추가되었습니다.");
+    	if(this.id.charAt(this.id.indexOf("-")+1)=='0'){
+    		var strs = this.id.split("-");
+    		var areacode = parseFloat(strs[0]);
+    		var id = "N"+areacode;
+    		var leng = document.getElementById(id).value;
+    		if(leng==1){
+    			var id2 = areacode+"-"+0;
+    			checked.push(id2);
+    			checkedN.push(document.getElementById(id2).name);
+    		}
+    		else{
+    			var pos = 1;
+    			for(var i=1; pos<=leng; i++){
+    				var id2 = areacode + "-" + i;
+    				var bid = "B" + areacode + "-" + i;
+    				if(document.getElementById(id2)){
+    					if(!document.getElementById(id2).checked){
+    						document.getElementById(id2).checked = true;
+    						$(document.getElementById(bid)).addClass("active");
+    						checked.push(id2);
+        					checkedN.push(document.getElementById(id2).name);
+    					}
+    					pos++;
+    				}
+    			}
+    		}
+    	}
+    	else{
+    		checked.push(this.id);
+    		checkedN.push(this.name);
+       	}
+    }    
+    else {
+    	alert("삭제되었습니다.");
+    	if(this.id.charAt(this.id.indexOf("-")+1)=='0'){
+    		var strs = this.id.split("-");
+    		var areacode = parseFloat(strs[0]);
+    		var id = "N"+areacode;
+    		var leng = document.getElementById(id).value;
+    		if(leng==1){
+    			var id2 = areacode+"-"+0;
+    			checked.splice(checked.indexOf(id2),1);
+	    		checkedN.splice(checkedN.indexOf(document.getElementById(id2).name),1);
+    		}
+    		else {
+    			var pos = 1;
+    			for(var i=1; pos<=leng; i++){
+    				var id2 = areacode + "-" + i;
+    				var bid = "B" + areacode + "-" + i;
+    				if(document.getElementById(id2)){
+    					if(document.getElementById(id2).checked){
+    						document.getElementById(id2).checked = false;
+    						$(document.getElementById(bid)).removeClass("active");
+    						checked.splice(checked.indexOf(id2),1);
+    	    				checkedN.splice(checkedN.indexOf(document.getElementById(id2).name),1);
+    					}
+    					pos++;
+    				}
+    			}
+    		}
+    	}
+    	else{
+    		checked.splice(checked.indexOf(this.id),1);
+    		checkedN.splice(checkedN.indexOf(this.name),1);
+    	}
+    }
+    	
+    if(checkedN.length>0){
+    	document.getElementById("checked").innerHTML = "선택한 지역 : " + checkedN.join(" ");
+    }
+    else{
+    	document.getElementById("checked").innerHTML = "지역을 추가해주세요.";
+    }
 });
 </script>
 </body>

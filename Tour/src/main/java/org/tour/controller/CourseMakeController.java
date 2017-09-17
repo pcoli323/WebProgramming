@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.tour.dto.AreaDTO;
 import org.tour.dto.CourseMakeDTO;
 
 @Controller
@@ -30,6 +31,75 @@ public class CourseMakeController {
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public void add1(Locale locale, Model model) {
 		
+		int maxArea = 100;
+		
+		String startURL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode";
+		String serviceKey = "?ServiceKey=" + "3H9Tndrczl9HltLWVxpLZUzyt0qDtJrURqSVeTESEU6zynlniIm5SUbflTYaV9bbs6ZEW31Dk3t2s9WSGmOjgQ%3D%3D";
+		// ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D
+		// 3H9Tndrczl9HltLWVxpLZUzyt0qDtJrURqSVeTESEU6zynlniIm5SUbflTYaV9bbs6ZEW31Dk3t2s9WSGmOjgQ%3D%3D
+		// PsYIjFoWi0Uurp5lB%2BBF18%2BVI1IT391RgIRMaAyYriZeIgTyKC9hHF7BmUpFDPNc7l6GH3tnhL4qH4Q5pR6%2BZA%3D%3D
+		
+		String parameter = "";
+		String type = "&_type=json";
+		
+		parameter = parameter + "&" + "MobileOS=ETC";
+		parameter = parameter + "&" + "MobileApp=Tour";
+		parameter = parameter + "&" + "numOfRows=" + maxArea;
+		
+		String addr = startURL + serviceKey + parameter + type;
+		
+		try {
+			URL url = new URL(addr);
+			//System.out.println(url);
+			InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
+			JSONObject jsonObject = (JSONObject)JSONValue.parse(isr);
+			
+			JSONObject dataObject = (JSONObject) jsonObject.get("response");
+			JSONObject dataObject2 = (JSONObject) dataObject.get("body");
+			JSONObject dataObject3 = (JSONObject) dataObject2.get("items");
+			JSONArray memberArray = (JSONArray) dataObject3.get("item");
+			
+			model.addAttribute("areacodeNum", memberArray.size());
+			List<AreaDTO> areaList = new ArrayList<AreaDTO>();
+			for(int i=0; i<memberArray.size(); i++){
+				JSONObject data = (JSONObject)memberArray.get(i);
+				AreaDTO adto = new AreaDTO();
+				adto.setAreaCode((Long)data.get("code"));
+				adto.setAreaName((String)data.get("name"));
+				
+				String addr2 = startURL + serviceKey+ "&areaCode=" + data.get("code").toString() + parameter + type;
+				URL url2 = new URL(addr2);
+				//System.out.println(url2);
+				InputStreamReader isr2 = new InputStreamReader(url2.openConnection().getInputStream(), "UTF-8");
+				JSONObject jsonObject2 = (JSONObject)JSONValue.parse(isr2);
+				
+				JSONObject sdataObject = (JSONObject) jsonObject2.get("response");
+				JSONObject sdataObject2 = (JSONObject) sdataObject.get("body");
+				JSONObject sdataObject3 = (JSONObject) sdataObject2.get("items");
+				JSONArray smemberArray;
+				if(sdataObject3.get("item") instanceof JSONArray) {
+					smemberArray = (JSONArray) sdataObject3.get("item");
+					for(int j=0; j<smemberArray.size(); j++){
+						JSONObject sdata = (JSONObject)smemberArray.get(j);
+						adto.addSArea((String)sdata.get("name"), (Long)sdata.get("code"));
+					}
+					adto.setsAreaNum(smemberArray.size());
+				}
+				else {
+					adto.addSArea((String)sdataObject3.get("name"), (Long)sdataObject3.get("code"));
+					adto.setsAreaNum(1);
+				}
+				areaList.add(adto);
+			}
+			model.addAttribute("areacodeList",areaList);
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
