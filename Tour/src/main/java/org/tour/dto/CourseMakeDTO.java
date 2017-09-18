@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class CourseMakeDTO {
 	private String areaname;
-	private Long areacode;
-	private Date startdate;
-	private Date enddate;
+	private Long areacode;	//
+	private Date startdate;	//
+	private Date enddate;	//
 	private String addr1;
 	private String addr2;
 	private Long contentid;

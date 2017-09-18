@@ -107,20 +107,33 @@ public class CourseMakeController {
 		
 		String arrCode = request.getParameter("arrCode");
 		String arrName = request.getParameter("arrName");
+		String arrName2 = request.getParameter("arrName2");
 		String arrSDate = request.getParameter("arrSDate");
 		String arrEDate = request.getParameter("arrEDate");
-		 
-		System.out.println(arrCode);
-		System.out.println(arrName);
-		System.out.println(arrSDate);
-		System.out.println(arrEDate);
 		
-		//String[] arrSelMenuValue = selMenuValue.split(",");
-		//String[] arrMenuText = selMenuText.split(",");
-
-
+		String[] arrCodeValues = arrCode.split(",");
+		String[] arrNameValues = arrName.split(",");
+		String[] arrNameValues2 = arrName2.split(",");
+		String[] arrSDateValues = arrSDate.split(",");
+		String[] arrEDateValues = arrEDate.split(",");
+		
+		/*
+		for(int i=0; i<arrCodeValues.length; i++) {
+			System.out.println(arrCodeValues[i]);
+			System.out.println(arrNameValues[i]);
+			System.out.println(arrNameValues2[i]);
+			System.out.println(arrSDateValues[i]);
+			System.out.println(arrEDateValues[i]);
+			System.out.println();
+		}
+		*/
+		
 		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
 		String serviceKey = "?serviceKey=ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D";
+		// ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D
+		// 3H9Tndrczl9HltLWVxpLZUzyt0qDtJrURqSVeTESEU6zynlniIm5SUbflTYaV9bbs6ZEW31Dk3t2s9WSGmOjgQ%3D%3D
+		// PsYIjFoWi0Uurp5lB%2BBF18%2BVI1IT391RgIRMaAyYriZeIgTyKC9hHF7BmUpFDPNc7l6GH3tnhL4qH4Q5pR6%2BZA%3D%3D
+		
 		String parameter = "";
 		String type = "&_type=json";
 		
