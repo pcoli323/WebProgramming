@@ -6,14 +6,11 @@
   <title>코스 생성 중 - 단계 1</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
 <style>
 </style>
 </head>
@@ -88,7 +85,8 @@
 		<div>
 			<form action="/course/make/add2" id="nextF">
 				<input type="hidden" id="arrCode" name = "arrCode" value="">
-  				<input type="hidden" id="arrName" name = "arrName"  value="">
+				<input type="hidden" id="arrName" name = "arrName"  value="">
+  				<input type="hidden" id="arrName2" name = "arrName2"  value="">
   				<input type="hidden" id="arrSDate" name = "arrSDate"  value="">
   				<input type="hidden" id="arrEDate" name = "arrEDate"  value="">
   				<button type="button" class="btn btn-default" id="nextB">다음</button>
@@ -206,7 +204,6 @@ $('#checkboxes :checkbox').change(function() {
     $("#dayList").html(strs);
 });
 
-
 window.onload = function() { 
 	document.getElementById('nextB').onclick = function() {
 		
@@ -226,6 +223,7 @@ window.onload = function() {
 			alert("날짜를 선택하지 않은 것이 있습니다.");
 		}
 		else{
+			var areaN = new Array();
 			var sdate = new Array();
 			var edate = new Array();
 			for(var i=0; i<checked.length; i++){
@@ -233,10 +231,12 @@ window.onload = function() {
 				var id = ids[0];
 				sdate.push(document.getElementById("D"+id).value);
 				edate.push(document.getElementById("D"+id+"X").value);
+				areaN.push(document.getElementById("N"+id).name);
 			}
 			
 			document.getElementById("arrCode").value=checked;
-			document.getElementById("arrName").value=checkedN;
+			document.getElementById("arrName").value=areaN;
+			document.getElementById("arrName2").value=checkedN;
 			document.getElementById("arrSDate").value=sdate;
 			document.getElementById("arrEDate").value=edate;
 			
@@ -250,8 +250,6 @@ window.onload = function() {
 $(document).on("focus",".datepicker",function(){ 
 	$( ".datepicker" ).datepicker();
 } );
-
-
 </script>
 </body>
 </html>
