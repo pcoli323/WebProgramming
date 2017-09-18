@@ -93,9 +93,11 @@
         		<div class="courseView-footer" style="text-align:right">
 					<button type="button" class="btn" id="like" style="background-color:#ffffff;outline:0">
 						<span class="glyphicon glyphicon-heart symbol" style="color:#ff0000"></span>
+						<small class="likeNum"></small>
 					</button>
 					<button type="button" class="btn" id="reply" style="background-color:#ffffff;outline:0">
 						<span class="glyphicon glyphicon-comment symbol"></span>
+						<small class="replyNum"></small>
 					</button>
 					<button type="button" class="btn" id="change" style="background-color:#ffffff;outline:0">
 						<span class="glyphicon glyphicon-search symbol"></span>
@@ -108,9 +110,12 @@
         	</div><!-- /courseView -->
 </div><!-- /content -->
 
-<!-- 마우스 올렸을 때 이미지 띄우기 -->
+
 <script>
 	$(document).ready(function(){
+		likeNumber();
+		replyNumber();
+		// 마우스 올렸을 때 이미지 띄우기
 		$(".representativeImage").mouseover(function(){
 			$(".representativeImageBig").show();
 			var imgSrc = "";
@@ -122,12 +127,37 @@
 			$(".representativeImageBig").hide();
 		});
 	});
+	
+	var courseNumber = ${courseVO.courseNumber};
+	// like 수
+	function likeNumber(){
+		$.ajax({
+			type:'get',
+			url:'/like/count/'+courseNumber,
+			headers: { "Content-Type": "application/json" },
+			success:function(result){
+				$('.likeNum').html(result);
+			}
+		});
+	}
+	// reply 수
+	function replyNumber(){
+		$.ajax({
+			type:'get',
+			url:'/replise/count/'+courseNumber,
+			headers: { "Content-Type": "application/json" },
+			success:function(result){
+				$('.replyNum').html(result);
+			}
+		});
+	}
 </script>
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
+	var loginUserNumber = ${login.userNumber};
 	$('#follow').on("click", function(){
 		var following = ${userVO.userNumber};
-		var followed = ${login.userNumber};
+		var followed = loginUserNumber;
 		
 		$.ajax({
 			type:'post',
@@ -151,8 +181,8 @@
 	});
 	
 	$('#like').on("click", function(){
-		var courseNumber = ${courseVO.courseNumber};
-		var userNumber = ${login.userNumber};
+		// courseNumber는 위에
+		var userNumber = loginUserNumber;
 		
 		$.ajax({
 			type:'post',
@@ -170,6 +200,7 @@
 				console.log("result:" + result);
 				if(result == 'SUCCESS'){
 					alert("like!!");
+					likeNumber();
 				}
 			}
 		});

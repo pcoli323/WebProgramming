@@ -19,5 +19,11 @@ public class LikeDAOImpl implements LikeDAO {
 
 		session.insert(namespace + ".add", vo);
 	}
+
+	@Override
+	public int count(int courseNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".count", courseNumber);
+	}
 	
 }

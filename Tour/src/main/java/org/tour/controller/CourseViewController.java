@@ -60,7 +60,6 @@ public class CourseViewController {
 			HttpSession	session = request.getSession();
 			session.setAttribute("login", loginUser);
 			
-			
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
 			List<CourseInfoVO> representatives = courseInfoService.representatives(courseNumber);

@@ -162,7 +162,7 @@ $(document).ready(function(){
     	location.href="/logout";
     });
     $("#courseView").click(function(){
-    	location.href="/course/view/simple";
+    	location.href="/course/view/simple?courseNumber=1";
     });
     $("#courseMake").click(function(){
     	location.href="/course/make/add1";
