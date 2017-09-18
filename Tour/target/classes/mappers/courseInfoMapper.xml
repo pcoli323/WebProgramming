@@ -5,4 +5,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.CourseInfoMapper">
 
+	<select id="representatives" resultType="courseInfoVO">
+		select *
+		from tbl_courseInfo
+		where courseNumber = #{courseNumber} and isRepresented = true
+		order by representedOrder asc
+	</select>
+	
+	<select id="dates" resultType="date">
+		select distinct gotoDate
+		from tbl_courseInfo
+		where courseNumber = #{courseNumber}
+		order by gotoDate asc
+	</select>
+	
+	<select id="gotoCodes" resultType="string">
+		select gotoCode
+		from tbl_courseInfo
+		where gotoDate = #{gotoDate}
+	</select>
 </mapper>

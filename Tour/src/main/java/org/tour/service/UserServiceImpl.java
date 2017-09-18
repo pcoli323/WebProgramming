@@ -23,4 +23,9 @@ public class UserServiceImpl implements UserService {
 		return dao.login(dto);
 	}
 	
+	@Override
+	public String readName(int userNumber) throws Exception {
+		
+		return dao.readName(userNumber);
+	}
 }

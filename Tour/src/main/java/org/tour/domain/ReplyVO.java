@@ -11,6 +11,7 @@ public class ReplyVO {
 	private Date regDate;
 	private Date updateDate;
 	private int report;
+	private String replyerName;
 	
 	public int getReplyNumber() {
 		return replyNumber;
@@ -53,6 +54,12 @@ public class ReplyVO {
 	}
 	public void setReport(int report) {
 		this.report = report;
+	}
+	public String getReplyerName() {
+		return replyerName;
+	}
+	public void setReplyerName(String replyerName) {
+		this.replyerName = replyerName;
 	}
 	
 	

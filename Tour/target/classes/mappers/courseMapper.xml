@@ -5,4 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.CourseMapper">
 
+	<select id="read" resultType="CourseVO">
+		select *
+		from tbl_course
+		where courseNumber = #{courseNumber}
+	</select>
+	
 </mapper>
