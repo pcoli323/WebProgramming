@@ -10,4 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values (#{following}, #{followed})
 	</insert>
 	
+	<select id="check" resultType="int">
+		select count(followed)
+		from tbl_follow
+		where following = #{following} and followed = #{followed}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_follow
+		where following = #{following} and followed = #{followed}
+	</delete>
+	
 </mapper>

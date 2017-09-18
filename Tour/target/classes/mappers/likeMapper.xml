@@ -15,4 +15,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_like
 		where courseNumber = #{courseNumber}
 	</select>
+	
+	<select id="check" resultType="int">
+		select count(userNumber)
+		from tbl_like
+		where courseNumber = #{courseNumber} and userNumber = #{userNumber}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_like
+		where courseNumber = #{courseNumber} and userNumber = #{userNumber}
+	</delete>
 </mapper>

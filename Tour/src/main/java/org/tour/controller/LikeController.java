@@ -45,4 +45,31 @@ public class LikeController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	public ResponseEntity<Integer> check(@RequestBody LikeVO vo){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			entity = new ResponseEntity<Integer>(service.check(vo), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<String> delete(@RequestBody LikeVO vo){
+		
+		ResponseEntity<String> entity = null;
+		try {
+			service.delete(vo);
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }

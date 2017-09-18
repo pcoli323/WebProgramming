@@ -25,5 +25,17 @@ public class LikeDAOImpl implements LikeDAO {
 		
 		return session.selectOne(namespace + ".count", courseNumber);
 	}
+
+	@Override
+	public int check(LikeVO vo) throws Exception {
+		
+		return session.selectOne(namespace + ".check", vo);
+	}
+
+	@Override
+	public void delete(LikeVO vo) throws Exception {
+
+		session.delete(namespace + ".delete", vo);
+	}
 	
 }
