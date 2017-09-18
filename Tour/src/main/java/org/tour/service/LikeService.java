@@ -1,8 +1,8 @@
-package org.tour.persistence;
+package org.tour.service;
 
 import org.tour.domain.LikeVO;
 
-public interface LikeDAO {
+public interface LikeService {
 
 	public void add(LikeVO vo) throws Exception;
 }

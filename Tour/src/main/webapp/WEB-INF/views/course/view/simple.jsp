@@ -52,7 +52,7 @@
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:right">
-        		<h5>${userName}
+        		<h5>${userVO.userName}
         		<button type="button" class="btn" id="follow" style="background-color:#ffffff;outline:0">
 					<span class="glyphicon glyphicon-star symbol" style="color:#ffff00"></span>
 				</button>
@@ -108,6 +108,7 @@
         	</div><!-- /courseView -->
 </div><!-- /content -->
 
+<!-- 마우스 올렸을 때 이미지 띄우기 -->
 <script>
 	$(document).ready(function(){
 		$(".representativeImage").mouseover(function(){
@@ -119,6 +120,58 @@
 		});
 		$(".representativeImage").mouseout(function(){
 			$(".representativeImageBig").hide();
+		});
+	});
+</script>
+<!-- symbol인 버튼 눌렀을 때 -->
+<script>
+	$('#follow').on("click", function(){
+		var following = ${userVO.userNumber};
+		var followed = ${login.userNumber};
+		
+		$.ajax({
+			type:'post',
+			url:'/follow/add',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				following:following,
+				followed:followed
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("follow!!");
+				}
+			}
+		});
+	});
+	
+	$('#like').on("click", function(){
+		var courseNumber = ${courseVO.courseNumber};
+		var userNumber = ${login.userNumber};
+		
+		$.ajax({
+			type:'post',
+			url:'/like/add',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				userNumber:userNumber
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("like!!");
+				}
+			}
 		});
 	});
 	

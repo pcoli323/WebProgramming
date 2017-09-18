@@ -90,7 +90,7 @@
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:left">
-        		<h5>${userName}
+        		<h5>${userVO.userName}
         		<button type="button" class="btn" id="follow" style="background-color:#ffffff;outline:0">
 					<span class="glyphicon glyphicon-star symbol" style="color:#ffff00"></span>
 				</button>
@@ -181,7 +181,59 @@
         
 	</div><!-- /courseView -->
 </div><!-- /content -->
-
+<!-- symbol인 버튼 눌렀을 때 -->
+<script>
+	$('#follow').on("click", function(){
+		var following = ${userVO.userNumber};
+		var followed = ${login.userNumber};
+		
+		$.ajax({
+			type:'post',
+			url:'/follow/add',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				following:following,
+				followed:followed
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("follow!!");
+				}
+			}
+		});
+	});
+	
+	$('#like').on("click", function(){
+		var courseNumber = ${courseVO.courseNumber};
+		var userNumber = ${login.userNumber};
+		
+		$.ajax({
+			type:'post',
+			url:'/like/add',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				userNumber:userNumber
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("like!!");
+				}
+			}
+		});
+	});
+	
+</script>
 <!-- 댓글 처리 -->
 <script id="template" type="tex/x-handlerbars-template">
 	{{#each.}}

@@ -11,11 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="login" resultType="UserVO">
-		select email,pwd from tbl_user where email=#{email} and pwd=#{pwd}
+		select * from tbl_user where email=#{email} and pwd=#{pwd}
 	</select>
 
-	<select id="readName" resultType="string">
-		select userName
+	<select id="read" resultType="UserVO">
+		select *
 		from tbl_user
 		where userNumber = #{userNumber}
 	</select>

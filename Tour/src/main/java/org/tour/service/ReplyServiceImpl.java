@@ -13,17 +13,17 @@ import org.tour.persistence.ReplyDAO;
 public class ReplyServiceImpl implements ReplyService {
 
 	@Inject
-	private ReplyDAO replyDAO;
+	private ReplyDAO dao;
 	@Inject
 	private UserService userService;
 	
 	@Override
 	public List<ReplyVO> list(int courseNumber, Criteria cri) throws Exception {
 		
-		List<ReplyVO> replyVOs = replyDAO.list(courseNumber, cri);
+		List<ReplyVO> replyVOs = dao.list(courseNumber, cri);
 		for(int i=0; i<replyVOs.size(); i++) {
 			ReplyVO replyVO = replyVOs.get(i);
-			replyVO.setReplyerName(userService.readName(replyVO.getReplyer()));
+			replyVO.setReplyerName(userService.read(replyVO.getReplyer()).getUserName());
 		}
 		return replyVOs;
 	}
@@ -31,24 +31,24 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int count(int courseNumber) throws Exception {
 		
-		return replyDAO.count(courseNumber);
+		return dao.count(courseNumber);
 	}
 	
 	@Override
-	public void addReply(ReplyVO vo) throws Exception {
+	public void add(ReplyVO vo) throws Exception {
 		
-		replyDAO.create(vo);
+		dao.create(vo);
 	}
 
 	@Override
-	public void modifyReply(ReplyVO vo) throws Exception {
+	public void modify(ReplyVO vo) throws Exception {
 		
-		replyDAO.update(vo);
+		dao.update(vo);
 	}
 
 	@Override
-	public void deleteReply(int replyNumber) throws Exception {
+	public void delete(int replyNumber) throws Exception {
 		
-		replyDAO.delete(replyNumber);
+		dao.delete(replyNumber);
 	}
 }

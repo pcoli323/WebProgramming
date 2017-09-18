@@ -5,4 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.LikeMapper">
 
+	<insert id="add">
+		insert into tbl_like (courseNumber, userNumber)
+		values (#{courseNumber}, #{userNumber})
+	</insert>
+	
 </mapper>

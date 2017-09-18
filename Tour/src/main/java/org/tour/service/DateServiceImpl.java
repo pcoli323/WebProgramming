@@ -14,7 +14,7 @@ import org.tour.persistence.CourseInfoDAO;
 import org.tour.persistence.GotoDAO;
 
 @Service
-public class DateServiceImpl implements DateService {
+public class DateServiceImpl implements DateService{
 
 	@Inject
 	private CourseInfoDAO courseInfoDao;
@@ -23,7 +23,6 @@ public class DateServiceImpl implements DateService {
 	
 	@Override
 	public Map<String, List<String>> gotoListAccordingToDate(int courseNumber) throws Exception {
-		
 		Map<String, List<String>> plan = new LinkedHashMap<String, List<String>>();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		
@@ -45,5 +44,4 @@ public class DateServiceImpl implements DateService {
 		return plan;
 	}
 
-	
 }

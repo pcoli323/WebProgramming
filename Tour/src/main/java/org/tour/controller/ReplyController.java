@@ -23,7 +23,7 @@ import org.tour.service.ReplyService;
 public class ReplyController {
 	
 	@Inject
-	private ReplyService replyService;
+	private ReplyService service;
 	
 	@RequestMapping(value = "/list/{courseNumber}/{page}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("courseNumber") int courseNumber,
@@ -38,11 +38,11 @@ public class ReplyController {
 			pageMaker.setCri(cri);
 			
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<ReplyVO> list = replyService.list(courseNumber, cri);
+			List<ReplyVO> list = service.list(courseNumber, cri);
 			
 			map.put("list", list);
 			
-			int replyCnt = replyService.count(courseNumber);
+			int replyCnt = service.count(courseNumber);
 			pageMaker.setTotalCount(replyCnt);
 			
 			map.put("pageMaker", pageMaker);
@@ -63,7 +63,7 @@ public class ReplyController {
 			if(vo.getReply().equals("")) {
 				return entity;
 			}
-			replyService.addReply(vo);
+			service.add(vo);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -78,7 +78,7 @@ public class ReplyController {
 		ResponseEntity<String> entity = null;
 		try {
 			vo.setReplyNumber(replyNumber);
-			replyService.modifyReply(vo);
+			service.modify(vo);
 			
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
@@ -93,7 +93,7 @@ public class ReplyController {
 		
 		ResponseEntity<String> entity = null;
 		try {
-			replyService.deleteReply(replyNumber);
+			service.delete(replyNumber);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();

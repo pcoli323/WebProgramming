@@ -10,6 +10,4 @@ public interface UserDAO {
 	public UserVO login(LoginDTO dto) throws Exception;
 	
 	public UserVO read(int userNumber) throws Exception;
-	
-	public String readName(int userNumber) throws Exception;
 }

@@ -12,20 +12,20 @@ public class UserServiceImpl implements UserService {
 
 	@Inject
 	private UserDAO dao;
-
+	
 	@Override
 	public void register(UserVO user) throws Exception {
 		dao.create(user);
 	}
-
+	
 	@Override
 	public UserVO login(LoginDTO dto) throws Exception {
 		return dao.login(dto);
 	}
 	
 	@Override
-	public String readName(int userNumber) throws Exception {
+	public UserVO read(int userNumber) throws Exception {
 		
-		return dao.readName(userNumber);
+		return dao.read(userNumber);
 	}
 }

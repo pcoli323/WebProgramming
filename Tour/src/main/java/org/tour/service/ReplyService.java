@@ -12,9 +12,9 @@ public interface ReplyService {
 	
 	public int count(int courseNumber) throws Exception;
 	
-	public void addReply(ReplyVO vo) throws Exception;
+	public void add(ReplyVO vo) throws Exception;
 	
-	public void modifyReply(ReplyVO vo) throws Exception;
+	public void modify(ReplyVO vo) throws Exception;
 	
-	public void deleteReply(int replyNumber) throws Exception;
+	public void delete(int replyNumber) throws Exception;
 }

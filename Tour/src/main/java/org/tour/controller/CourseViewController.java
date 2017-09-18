@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tour.domain.CourseInfoVO;
 import org.tour.domain.CourseVO;
+import org.tour.domain.UserVO;
+import org.tour.dto.LoginDTO;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
 import org.tour.service.DateService;
@@ -45,17 +49,26 @@ public class CourseViewController {
 	private ImageService imageService;
 	
 	@RequestMapping(value = "/simple", method = RequestMethod.GET)
-	public void readSimple(@RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
+	public void readSimple(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
 		
 		try {
+			/* ¿”¿«¿« login ∏∏µÍ */
+			LoginDTO loginDto = new LoginDTO();
+			loginDto.setEmail("user01@bbb.com");
+			loginDto.setPwd("user01");
+			UserVO loginUser = userService.login(loginDto);
+			HttpSession	session = request.getSession();
+			session.setAttribute("login", loginUser);
+			
+			
 			CourseVO courseVO = courseService.read(courseNumber);
-			String userName = userService.readName(courseVO.getUserNumber());
+			UserVO userVO = userService.read(courseVO.getUserNumber());
 			List<CourseInfoVO> representatives = courseInfoService.representatives(courseNumber);
 			List<String> representativeNames = gotoService.readRepresentativeNames(representatives);
 			
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
-			model.addAttribute("userName", userName);
+			model.addAttribute("userVO", userVO);
 			model.addAttribute("representatives", representatives);
 			model.addAttribute("representativeNames", representativeNames);
 			
@@ -79,12 +92,12 @@ public class CourseViewController {
 		
 		try {
 			CourseVO courseVO = courseService.read(courseNumber);
-			String userName = userService.readName(courseVO.getUserNumber());
+			UserVO userVO = userService.read(courseVO.getUserNumber());
 			Map<String, List<String>> plan = dateService.gotoListAccordingToDate(courseNumber);
 			
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
-			model.addAttribute("userName", userName);
+			model.addAttribute("userVO", userVO);
 			model.addAttribute("plan", plan);
 			
 		} catch(Exception e) {

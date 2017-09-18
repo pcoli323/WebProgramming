@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.tour.domain.LikeVO;
 
 @Repository
 public class LikeDAOImpl implements LikeDAO {
@@ -12,5 +13,11 @@ public class LikeDAOImpl implements LikeDAO {
 	private SqlSession session;
 	
 	private static String namespace = "org.tour.mapper.LikeMapper";
+
+	@Override
+	public void add(LikeVO vo) throws Exception {
+
+		session.insert(namespace + ".add", vo);
+	}
 	
 }
