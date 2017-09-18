@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <title>WebSiteName</title>
   <meta charset="utf-8">
@@ -8,85 +8,109 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="resources/css/homeCSS.css">
-  
-  <style>
-  .modal-header, h4, .close {
-      background-color: #91BED4;
-      color:white !important;
-      text-align: center;
-      font-size: 30px;
-  }
-  .modal-footer {
-      background-color: #f9f9f9;
-  }
-  </style>
-  
 </head>
+<style>
+* {
+	margin:0;
+	padding:0;
+	weight:100%;
+}
+html,#fullD {
+	height:100%;
+	background-color:white;
+}
+body {
+	height:100%;
+	background-color:white;
+
+}
+#topD {
+	height:25px;
+	background-color:#000000;
+}
+#smallD {
+	height:70%;
+}
+#secondD {
+	height:300px;
+	background-color:#2c3e50;
+}
+#thirdD {
+	height:300px;
+	background-color:#e74c3c;
+}
+#fourthD {
+	height:300px;
+	background-color:#3498db;
+}
+#fifthD {
+	height:300px;
+	background-color:#ecf0f1;
+}
+</style>
 <body>
-<div id="fullDIV">
-	<%@include file="include/nav1.jsp"%>
-	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="height:80%;">
-    	<!-- Indicators -->
-   		<ol class="carousel-indicators" >
-      		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      		<li data-target="#myCarousel" data-slide-to="1"></li>
-      		<li data-target="#myCarousel" data-slide-to="2"></li>
-      		<li data-target="#myCarousel" data-slide-to="3"></li>
-    	</ol>
-    	<!-- Wrapper for slides -->
-    	<div class="carousel-inner"  style="height:100%;margin-left:auto;margin-right:auto;">
-      		<div class="item active"  style="height:100%;margin-left:auto;margin-right:auto;">
-        		<div class="carousel-caption" style="color:#91BED4;">
-          			<h1>WebSiteName</h1>
-          			<p>여행 코스 제작 & 공유</p>
-          			<img src="resources/img/1.JPG" width="80%" height="80%">
-        		</div>
-      		</div>
-      		<div class="item"  style="height:100%;margin-left:auto;margin-right:auto;">
-        		<div class="carousel-caption" style="color:#91BED4;">
-          			<h3>여행 코스 제작</h3>
-        		</div>
-      		</div>   
-      		<div class="item"  style="height:100%;margin-left:auto;margin-right:auto;">
-        		<div class="carousel-caption" style="color:#91BED4;">
-         			<h3>여행 코스 공유</h3>
-        		</div>
-      		</div>
-	  		<div class="item"  style="height:100%;margin-left:auto;margin-right:auto;">
-        		<div class="carousel-caption" style="color:#91BED4;">     
-    			<form action="/register" method="post">
-    				<div>
-     					<h2>회원 가입</h2>
-    				</div>
-    				<div class="form-group">
-      					<label for="email" style="color:#91BED4;">이메일</label>
-      					<input type="email" class="form-control" id="email" placeholder="이메일을 입력해주세요" name="email">
-    				</div>
-    				<div class="form-group">
-      					<label for="pwd" style="color:#91BED4;">비밀번호</label>
-      					<input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요" name="pwd">
-    				</div>
-    				<div class="form-group">
-  						<label for="usr" style="color:#91BED4;">이름</label>
-  						<input type="text" class="form-control" id="usr" placeholder="이름을 입력해주세요" name="userName">
-					</div>
-					<input type="submit" class="btn btn-primary btn-lg" value="회원가입">
-    			</form>
-     			</div>
-     	 </div>
-    </div>
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev" style="background-image: none; color:#91BED4">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next" style="background-image: none; color:#91BED4">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>	
-</div>
+<div id="fullD">
+	<!-- Topbar -->
+	<div id="topD"></div>
+	
+	<!-- 1 : Navbar -->
+	<%@include file="include/nav.jsp"%>
+	
+	<!-- 2 : Carousel -->
+	<div id="smallD">
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    		<!-- Indicators -->
+    		<ol class="carousel-indicators">
+      			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      			<li data-target="#myCarousel" data-slide-to="1"></li>
+      			<li data-target="#myCarousel" data-slide-to="2"></li>
+   	 		</ol>
+    		<!-- Wrapper for slides -->
+    		<div class="carousel-inner">
+      			<div class="item active">
+        			<img src="/resources/Test/img/R1.jpg" alt="Los Angeles" style="width:100%;">
+        			<div class="carousel-caption">
+          				<h3>Los Angeles</h3>
+          				<p>LA is always so much fun!</p>
+        			</div>
+      			</div>
+      			<div class="item">
+        			<img src="/resources/Test/img/R2.jpg" alt="Chicago" style="width:100%;">
+        			<div class="carousel-caption">
+          				<h3>Chicago</h3>
+          				<p>Thank you, Chicago!</p>
+        			</div>
+      			</div>
+      			<div class="item">
+        			<img src="/resources/Test/img/R3.jpg" alt="New York" style="width:100%;">
+        			<div class="carousel-caption">
+          				<h3>New York</h3>
+          				<p>We love the Big Apple!</p>
+        			</div>
+      			</div>
+  			</div>
+			<!-- Left and right controls -->
+    		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      			<span class="glyphicon glyphicon-chevron-left"></span>
+      			<span class="sr-only">Previous</span>
+    		</a>
+    		<a class="right carousel-control" href="#myCarousel" data-slide="next">
+      			<span class="glyphicon glyphicon-chevron-right"></span>
+      			<span class="sr-only">Next</span>
+    		</a>
+  		</div> <!-- Carousel -->
+	</div> <!-- SmallD -->
+	<div id="secondD">
+		
+	</div>
+	<div id="thirdD">
+		<button id="courseView" type="button" class="btn btn-default"> 코스 보기 </button>
+		<button id="courseMake" type="button" class="btn btn-default"> 코스 만들기 </button>
+	</div>
+	<div id="fourthD"></div>
+	<div id="fifthD"></div>
+		
+</div> <!-- fullD -->
 
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -122,16 +146,27 @@
     </div>
   </div> 
   
+</body>
 <script>
 $(document).ready(function(){
     $("#reg").click(function(){
-        $("#myCarousel").carousel(3);
+        //
     });
     $("#login").click(function(){
     	$("#myModal").modal();
     });
+    $("#mypage").click(function(){
+        //
+    });
+    $("#logout").click(function(){
+    	location.href="/logout";
+    });
+    $("#courseView").click(function(){
+    	location.href="/course/view/simple";
+    });
+    $("#courseMake").click(function(){
+    	location.href="/course/make/add1";
+    });
 });
 </script>
-
-</body>
 </html>

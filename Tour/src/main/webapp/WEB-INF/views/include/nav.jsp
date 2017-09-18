@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="resources/css/nav2.css">
-  <style>
+<style>
   .navbar-inverse { background-color: #FFFFFF}
 .navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #FFFFFF}
 .navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #FFFFFF}
@@ -30,7 +31,7 @@
 .navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-top-color: #FFFFFF}
 .navbar-inverse .navbar-nav>.dropdown>a .caret { border-bottom-color: #FFFFFF}
 .navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
-  </style>
+</style>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -38,10 +39,20 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">WebSiteName</a>
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li id="reg"><a href="#"><span class="glyphicon glyphicon-user"></span> 회원가입 </a></li>
-      <li id="login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그인 </a></li>
-    </ul>   
+    <c:choose>
+  		<c:when test="${empty login}">
+    		<ul class="nav navbar-nav navbar-right">
+      			<li id="reg"><a href="#"><span class="glyphicon glyphicon-user"></span> 회원가입 </a></li>
+      			<li id="login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그인 </a></li>
+    		</ul>
+  		</c:when>
+  		<c:otherwise>
+  			<ul class="nav navbar-nav navbar-right">
+      			<li id="mypage"><a href="#"><span class="glyphicon glyphicon-user"></span> 마이페이지 </a></li>
+      			<li id="logout"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그아웃 </a></li>
+    		</ul>
+  		</c:otherwise>
+	</c:choose>
   </div>
 </nav>
 </body>

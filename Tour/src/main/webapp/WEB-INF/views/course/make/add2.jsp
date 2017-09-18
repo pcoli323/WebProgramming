@@ -14,6 +14,24 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body> 
+	<!-- header 1,2 추가 부분 -->
+	<!-- /course/make/add2 부분  -->
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+		<!-- 여행 코스 선택 부분 -->
+			<!-- 지역 선택 부분 -->
+			<!-- 카테고리 선택 부분 -->
+			<!-- 여행 코스 선택 부분 -->
+		<!-- 다음 단계 이동 부분 -->
+		<div>
+			<ul class="pager">
+  				<li><a href="/course/make/modify" id="next">다음</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- footer 추가 부분 -->
+
+
+
 
 <c:forEach var="list" items="${lists}">
 	${list.title}
