@@ -34,6 +34,14 @@
 	display:inline-block;
 	margin:20px;
 	}
+	.symbolButton{
+  	font-size: 14px;
+  	text-align: center;
+  	vertical-align: middle;
+  	border: 1px solid transparent;
+  	background-color:#ffffff;
+  	outline:0
+	}
 	.story{
 	border:1px solid gold;
 	padding:20px;
@@ -76,8 +84,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body onload="parent.resizeTo(1030,700)">
+<body onload="parent.resizeTo(1030,700)" onUnload="reloadSimple()">
 
 <div class="content">
 	<div class="courseView">
@@ -90,10 +99,9 @@
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:left">
-        		<h5>${userVO.userName}
-        		<button type="button" class="btn" id="follow" style="background-color:#ffffff;outline:0">
-					<span class="glyphicon glyphicon-star symbol" style="color:#ffff00"></span>
-				</button>
+        		<h5>
+        			<button type="button" class="symbolButton" id="follow"></button>
+        			${userVO.userName}
         		</h5>
         	</div><!-- /courseMaker -->
         	
@@ -128,15 +136,15 @@
         </div><!-- /courseView-body -->
         		
         <div class="courseView-footer" style="text-align:right; clear:left">
-        	<button type="button" class="btn" id="like" style="background-color:#ffffff;outline:0">
-				<span class="glyphicon glyphicon-heart symbol" style="color:#ff0000"></span>
+        	<button type="button" class="symbolButton" id="like">
+				<span class="glyphicon symbol" id="like_symbol" style="color:#ff0000"></span>
 				<small class="likeNum"></small>
 			</button>
-			<button type="button" class="btn" id="reply" style="background-color:#ffffff;outline:0">
+			<button type="button" class="symbolButton" id="reply">
 				<span class="glyphicon glyphicon-comment symbol"></span>
 				<small class="replyNum"></small>
 			</button>
-			<button type="button" class="btn" id="getCourse" style="background-color:#ffffff;outline:0">
+			<button type="button" class="symbolButton" id="getCourse">
 				<span class="glyphicon glyphicon-share-alt symbol"></span>
 			</button>
 		</div><!-- /courseView-footer -->
@@ -186,11 +194,43 @@
 
 <script>
 	$(document).ready(function(){
+		followCheck();
+		likeCheck();
 		likeNumber();
 		replyNumber();
 	});
 	
 	var courseNumber = ${courseVO.courseNumber};
+	var loginUserNumber = ${login.userNumber};
+	var following = ${userVO.userNumber};
+	
+	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
+	function followCheck(){
+		$.ajax({
+			type:'post',
+			url:'/follow/check',
+			headers:{
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				following:following,
+				followed:loginUserNumber
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 0){
+					// 사용자가 팔로우를 하지 않은 상태
+					followToggle("non-follow");
+				}
+				else{
+					followToggle("follow");
+				}
+			}
+		});
+	}
+	
 	// like 수
 	function likeNumber(){
 		$.ajax({
@@ -202,6 +242,37 @@
 			}
 		});
 	}
+	// courseView를 보는 사용자가 종아요를 누른 사용자인가?
+	function likeCheck(){
+		$.ajax({
+			type:'post',
+			url:'/like/check',
+			headers:{
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				userNumber:loginUserNumber
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 0){
+					// 사용자가 좋아요를 누르지 않은 상태
+					likeToggle("non-active");
+				}
+				else if(result == 1){
+					// 사용자가 좋아요를 누른 상태
+					likeToggle("ative");
+				}
+				else{
+					console.log("check user number in like");
+				}
+			}
+		});
+	}
+	
 	// reply 수
 	function replyNumber(){
 		$.ajax({
@@ -216,57 +287,130 @@
 </script>
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
-	var loginUserNumber = ${login.userNumber};
 	$('#follow').on("click", function(){
-		var following = ${userVO.userNumber};
-		var followed = loginUserNumber;
+		var checkFollow = $(this).hasClass("active");
 		
-		$.ajax({
-			type:'post',
-			url:'/follow/add',
-			headers: {
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				following:following,
-				followed:followed
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 'SUCCESS'){
-					alert("follow!!");
+		if(checkFollow == 0){
+			$.ajax({
+				type:'post',
+				url:'/follow/add',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					following:following,
+					followed:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("follow!!");
+						followToggle("follow");
+					}
 				}
-			}
-		});
+			});
+		}
+		else{
+			$.ajax({
+				type:'delete',
+				url:'/follow/delete',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "DELETE"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					following:following,
+					followed:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("no follow!!");
+						followToggle("non-follow");
+					}
+				}
+			});
+		}
 	});
+	function followToggle(status){
+		// status는 원하는 상태
+		var str = "";
+		if(status == "non-follow"){
+			str = "<i class='material-icons' style='color:#d21a0b'>person_add</i>";
+			$('#follow').removeClass("active");
+			$('#follow').html(str);
+		}
+		else{
+			str = "<i class='material-icons' style='color:#d21a0b'>people</i>";
+			$('#follow').addClass("active");
+			$('#follow').html(str);
+		}
+	}
 	
 	$('#like').on("click", function(){
-		// courseNumber는 위에
-		var userNumber = loginUserNumber;
+		var checkLike = $(this).hasClass("active");
 		
-		$.ajax({
-			type:'post',
-			url:'/like/add',
-			headers: {
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				userNumber:userNumber
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 'SUCCESS'){
-					alert("like!!");
+		if(checkLike == 0){
+			$.ajax({
+				type:'post',
+				url:'/like/add',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					userNumber:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("like!!");
+						likeToggle("active");
+						likeNumber();
+					}
 				}
-			}
-		});
+			});
+		}
+		else{
+			$.ajax({
+				type:'delete',
+				url:'/like/delete',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "DELETE"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					userNumber:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("no like!!");
+						likeToggle("non-active");
+						likeNumber();
+					}
+				}
+			});
+		}
 	});
-	
+	function likeToggle(status){
+		// status는 원하는 상태
+		if(status == "non-active"){
+			$('#like').removeClass("active");
+			$('#like_symbol').removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
+		}
+		else{
+			$('#like').addClass("active");
+			$('#like_symbol').removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
+		}
+	}
 </script>
 <!-- 댓글 처리 -->
 <script id="template" type="tex/x-handlerbars-template">
@@ -429,6 +573,11 @@
 		});
 	});
 </script>
-
+<!-- 종료시 -->
+<script>
+	function reloadSimple(){
+		opener.location.reload();
+	}
+</script>
 </body>
 </html>

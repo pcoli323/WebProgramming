@@ -18,4 +18,16 @@ public class FollowServiceImpl implements FollowService {
 		dao.add(vo);
 	}
 	
+	@Override
+	public int check(FollowVO vo) throws Exception {
+		
+		return dao.check(vo);
+	}
+	
+	@Override
+	public void delete(FollowVO vo) throws Exception {
+		
+		dao.delete(vo);
+	}
+	
 }

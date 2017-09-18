@@ -20,4 +20,16 @@ public class FollowDAOImpl implements FollowDAO {
 		session.insert(namespace + ".add", vo);
 	}
 	
+	@Override
+	public int check(FollowVO vo) throws Exception {
+		
+		return session.selectOne(namespace + ".check", vo);
+	}
+	
+	@Override
+	public void delete(FollowVO vo) throws Exception {
+		
+		session.delete(namespace + ".delete", vo);
+	}
+	
 }
