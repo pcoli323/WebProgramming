@@ -25,4 +25,15 @@ public class UserDAOImpl implements UserDAO {
 		return session.selectOne(namespace+".login",dto);
 	}
 	
+	@Override
+	public UserVO read(int userNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".read", userNumber);
+	}
+	
+	@Override
+	public String readName(int userNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".readName", userNumber);
+	}
 }

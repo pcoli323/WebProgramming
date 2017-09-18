@@ -5,4 +5,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.ReplyMapper">
 
+	<select id="list" resultType="ReplyVO">
+		select *
+		from tbl_reply
+		where courseNumber = #{courseNumber}
+		order by replyNumber desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(courseNumber)
+		from tbl_reply
+		where courseNumber = #{courseNumber}
+	</select>
+	
+	<insert id="create">
+		insert into tbl_reply (courseNumber, reply, replyer)
+		values (#{courseNumber}, #{reply}, #{replyer})
+	</insert>
+	
+	<update id="update">
+		update tbl_reply set reply = #{reply}, updateDate = now()
+		where replyNumber = #{replyNumber}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_reply where replyNumber = #{replyNumer}
+	</delete>
 </mapper>

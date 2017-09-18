@@ -5,13 +5,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.tour.mapper.UserMapper">
 
-<insert id="create">
-	insert into tbl_user (userName,email,pwd)
-	values(#{userName},#{email},#{pwd})
-</insert>
+	<insert id="create">
+		insert into tbl_user (userName,email,pwd)
+		values(#{userName},#{email},#{pwd})
+	</insert>
+	
+	<select id="login" resultType="UserVO">
+		select email,pwd from tbl_user where email=#{email} and pwd=#{pwd}
+	</select>
 
-<select id="login" resultType="UserVO">
-	select email,pwd from tbl_user where email=#{email} and pwd=#{pwd}
-</select>
+	<select id="readName" resultType="string">
+		select userName
+		from tbl_user
+		where userNumber = #{userNumber}
+	</select>
 
 </mapper>
