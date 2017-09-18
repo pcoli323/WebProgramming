@@ -35,13 +35,13 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "/Test/home";
+		return "home";
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register(UserVO user, Model model) {
 		try {
-			service.register(user);
+			((UserService) service).register(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/main";
+		return "home";
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
