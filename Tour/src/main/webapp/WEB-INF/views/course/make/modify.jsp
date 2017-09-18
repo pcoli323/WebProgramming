@@ -34,7 +34,6 @@
     
     /* Set gray background color and 100% height */
     .sidenav {
-      padding-top: 20px;
       background-color: #f1f1f1;
       height: 55em;
       width: 27%;
@@ -68,7 +67,7 @@
     	padding-left: 2px;
     }
     button {
-    	height: 1.6em;
+    	height: 1.7em;
     	border: none;
     }
     #modDiv {
@@ -82,6 +81,9 @@
     	margin-left: -150px;
     	padding: 10px;
     	z-index: 1000;
+    }
+    table td {
+    	padding-left: 20px;
     }
   </style>
 </head>
@@ -100,22 +102,34 @@
 	</div>
 </nav>
  
-<div class="container-fluid text-center">    
+<div class="container-fluid text-center">
+	<%
+	int count = 0;
+	%>
+	<c:forEach var="list" items="${lists }" varStatus="status">
+		<input type="hidden" id="mapx[${status.index }]" value="${list.mapx }">
+		<input type="hidden" id="mapy[${status.index }]" value="${list.mapy }">
+		<input type="hidden" id="title[${status.index }]" value="${list.title }">
+		<input type="hidden" id="img[${status.index }]" value="${list.firstimage2 }">
+    	
+		<%
+		count++;
+		%>
+	</c:forEach>
+	<script>
+	var mapx = new Array();
+	var mapy = new Array();
+	var mapTitle = new Array();
+	var count = <%=count%>;
+
+	for(var i=0; i<count; i++){
+		mapx[i] =  document.getElementById("mapx[" + i + "]").value;
+		mapy[i] =  document.getElementById("mapy[" + i + "]").value;
+		mapTitle[i] = document.getElementById("title[" + i + "]").value;
+	}
+	</script>
 	<div class="row content">
 		<div id="map"></div>
-		<%
-		int count = 0;
-		%>
-		<c:forEach var="list" items="${lists }" varStatus="status">
-			<input type="hidden" id="mapx[${status.index }]" value="${list.mapx }">
-			<input type="hidden" id="mapy[${status.index }]" value="${list.mapy }">
-			<input type="hidden" id="title[${status.index }]" value="${list.title }">
-			<input type="hidden" id="img[${status.index }]" value="${list.firstimage2 }">
-      		
-			<%
-			count++;
-			%>
-		</c:forEach>
 		<script>
 		function initMap() {
 			var mapcenter = {lat: 37.5693679015, lng: 126.9838371210};
@@ -123,18 +137,15 @@
 				zoom: 11,
 				center: mapcenter
 			});
-			var mapPositions = [];
-			var mapTitle = [];
-			for(var i=0; i<<%=count%>; i++){
-				mapPositions[i] =  new google.maps.LatLng(document.getElementById("mapy[" + i + "]").value, document.getElementById("mapx[" + i + "]").value);
-				mapTitle[i] = document.getElementById("title[" + i + "]").value;
-			}
 
 			var contentString = [];
 			var marker = [];
 			var infowindow = [];
 			var img = [];
-			for(var i=0; i<<%=count%>; i++){
+			var mapPositions = [];
+			
+			for(var i=0; i<count; i++){
+				mapPositions[i] = new google.maps.LatLng(mapy[i], mapx[i]);
 				marker[i] = new google.maps.Marker({
 					position: mapPositions[i],
 					map: map,
@@ -164,59 +175,48 @@
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap">
 		</script>
-  		<div class="col-sm-2 sidenav">
-			<div id="menuTitle">
-				<h3>가고 싶은 곳</h3>
+		
+		<form>
+		<div class="col-sm-2 sidenav">
+			<br><br><h3>가고 싶은 곳</h3>
+			<table>
+ 				<tr>
+ 					<td style="height:40em;"></td>
+					<td>
+						<table class="menuList">
+							<c:forEach var="list" items="${lists }" varStatus="status">
+								<tr>
+									<td><input id="title[${status.index }]" value="${list.title }" style="height:23px; width:170px" border=none readonly></td>
+									<td><button id="button[${status.index }]" onClick="deleteLine(this, ${status.index});"><span class="glyphicon glyphicon-remove" color="white"></span></button></td>
+									<td style="height:50px"></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<br><br><br>
+			"F5를 누르면 초기화됩니다."
 			</div>
-			<div class="menuList">
-				<form>
-					<c:forEach var="list" items="${lists }" varStatus="status">
-						<input id="title[${status.index }]" value="${list.title }" border=none readonly><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove" color="white"></span></button><br><br><br>
-					</c:forEach>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	<!-- Modal
-	<div id='modDiv'>
-		<div class='modal-title'></div>
-		<div>
-			<input type='text' id='replytext'>
-		</div>
-		<div>
-			<button type="button" id="DelBtn">DELETE</button>
-			<button type="button" id="closeBtn">Close</button>
-		</div>
-	</div>
-	 -->
-	<!-- 
-	<script>
-	$("#DelBtn").on("click", function() {
-
-		var rno = $(".modal-title").html();
-		var replytext = $("#replytext").val();
-
-		$.ajax({
-			type : 'delete',
-			url : '/replies/' + rno,
-			headers : {
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "DELETE"
-			},
-			dataType : 'text',
-			success : function(result) {
-				console.log("result: " + result);
-				if (result == 'SUCCESS') {
-					alert("삭제 되었습니다.");
-					$("#modDiv").hide("slow");
-					getAllList();
+		</form>
+		<script type="text/javascript">
+		function deleteLine(obj, index) {
+			var tr = $(obj).parent().parent();
+			
+			for(var i=0; i<count;i++){
+				if( i == index){
+					mapx[i] = null;
+					mapy[i] = null;
+					mapTitle[i] = null;
+					break;
 				}
 			}
-		});
-	});
-	</script>
-	 -->
+			//라인 삭제
+			tr.remove();
+			initMap();
+		}
+		</script>
+	</div>
 </div>
 </body>
 </html>
