@@ -130,9 +130,11 @@
         <div class="courseView-footer" style="text-align:right; clear:left">
         	<button type="button" class="btn" id="like" style="background-color:#ffffff;outline:0">
 				<span class="glyphicon glyphicon-heart symbol" style="color:#ff0000"></span>
+				<small class="likeNum"></small>
 			</button>
 			<button type="button" class="btn" id="reply" style="background-color:#ffffff;outline:0">
 				<span class="glyphicon glyphicon-comment symbol"></span>
+				<small class="replyNum"></small>
 			</button>
 			<button type="button" class="btn" id="getCourse" style="background-color:#ffffff;outline:0">
 				<span class="glyphicon glyphicon-share-alt symbol"></span>
@@ -181,11 +183,43 @@
         
 	</div><!-- /courseView -->
 </div><!-- /content -->
+
+<script>
+	$(document).ready(function(){
+		likeNumber();
+		replyNumber();
+	});
+	
+	var courseNumber = ${courseVO.courseNumber};
+	// like 수
+	function likeNumber(){
+		$.ajax({
+			type:'get',
+			url:'/like/count/'+courseNumber,
+			headers: { "Content-Type": "application/json" },
+			success:function(result){
+				$('.likeNum').html(result);
+			}
+		});
+	}
+	// reply 수
+	function replyNumber(){
+		$.ajax({
+			type:'get',
+			url:'/replise/count/'+courseNumber,
+			headers: { "Content-Type": "application/json" },
+			success:function(result){
+				$('.replyNum').html(result);
+			}
+		});
+	}
+</script>
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
+	var loginUserNumber = ${login.userNumber};
 	$('#follow').on("click", function(){
 		var following = ${userVO.userNumber};
-		var followed = ${login.userNumber};
+		var followed = loginUserNumber;
 		
 		$.ajax({
 			type:'post',
@@ -209,8 +243,8 @@
 	});
 	
 	$('#like').on("click", function(){
-		var courseNumber = ${courseVO.courseNumber};
-		var userNumber = ${login.userNumber};
+		// courseNumber는 위에
+		var userNumber = loginUserNumber;
 		
 		$.ajax({
 			type:'post',
@@ -251,7 +285,7 @@
 	{{/each}}
 </script>
 <script>
-	var courseNumber = ${courseVO.courseNumber};
+	// courseNumber는 위에
 	var replyPage = 1;
 	$('#reply').on("click", function(evt){
 		$(".replyInputForm").show();

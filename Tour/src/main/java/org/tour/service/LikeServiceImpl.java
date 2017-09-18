@@ -17,5 +17,11 @@ public class LikeServiceImpl implements LikeService {
 		
 		dao.add(vo);
 	}
+
+	@Override
+	public int count(int courseNumber) throws Exception {
+		
+		return dao.count(courseNumber);
+	}
 	
 }

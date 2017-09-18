@@ -55,6 +55,19 @@ public class ReplyController {
 		return entity;
 	}
 	
+	@RequestMapping(value = "/count/{courseNumber}", method = RequestMethod.GET)
+	public ResponseEntity<Integer> count (@PathVariable("courseNumber") int courseNumber){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			entity = new ResponseEntity<Integer>(service.count(courseNumber), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<String> add(@RequestBody ReplyVO vo){
 		
