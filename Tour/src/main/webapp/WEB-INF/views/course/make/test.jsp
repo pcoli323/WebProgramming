@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>/course/make/add2</title>
+<title>/course/make/test</title>
 </head>
 <body>
 	<div>
@@ -13,11 +13,6 @@
 		</ul>
 	</div>
 </body>
-</html>
 <script>
-var jsonArr = JSON.parse('${list}');
-for(var i=0; i<jsonArr.length; i++){
-	var json = jsonArr[i];
-	console.log(json.title);
-}
 </script>
+</html>
