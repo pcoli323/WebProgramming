@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.tour.domain.FollowVO;
 import org.tour.dto.AreaDTO;
 import org.tour.dto.SelectedAreaDTO;
 import org.tour.service.AreaService;
@@ -44,13 +43,12 @@ public class CourseMakeController {
 	private SigunguService sigunguService;
 	
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
-	public String add1(Locale locale, Model model) throws Exception {
+	public void add1(Locale locale, Model model) throws Exception {
 		
 		Gson gson = new Gson();
 		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
 		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
-		
-		return "/course/make/add1";
+
 	}
 	
 	@RequestMapping(value = "/course/make/add1/save", method = RequestMethod.POST)
@@ -69,8 +67,7 @@ public class CourseMakeController {
 	public void add2(HttpServletRequest request, Model model) {
 
 	}
-	
-	
+		
 	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)
 	public void test(HttpServletRequest request, Locale locale, Model model) throws UnsupportedEncodingException, IOException {
 		
@@ -103,14 +100,13 @@ public class CourseMakeController {
 	public String modify(Locale locale, Model model) {
 		return "course/make/modify";
 	}
-	
 	@RequestMapping(value = "/course/make/modify/remove/{Status}", method = RequestMethod.POST)
 	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("Status") int Status){
 		
 		ResponseEntity<Integer> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			ArrayList<String> list = (ArrayList<String>)session.getAttribute("lists");
+			JSONArray list = (JSONArray)session.getAttribute("list");
 			
 			list.remove(Status);
 			
@@ -122,3 +118,4 @@ public class CourseMakeController {
 		return entity;
 	}
 }
+
