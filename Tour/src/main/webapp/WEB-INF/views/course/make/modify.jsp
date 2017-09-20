@@ -34,10 +34,22 @@
     
     /* Set gray background color and 100% height */
     .sidenav {
+      padding-top: 20px;
       background-color: #f1f1f1;
-      height: 55em;
+      height: 375px;
       width: 27%;
       float: right;
+      overflow:auto;
+    }
+    
+    .sidenav2 {
+      padding-top: 50px;
+      margin-top: 20px;
+      background-color: #f1f1f1;
+      height: 375px;
+      width: 27%;
+      float: right;
+      overflow:auto;
     }
 
     .text-center {
@@ -46,15 +58,15 @@
     }
     
     /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
+   /* @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
         padding: 15px;
       }
       .row.content {height:auto;} 
-    }
+    }*/
     #map {
-      height: 55em;
+      height: 770px;
       width: 70%;
       float: left;
     }
@@ -85,6 +97,7 @@
     table td {
     	padding-left: 20px;
     }
+    
   </style>
 </head>
 <body>
@@ -101,121 +114,125 @@
 		</div>
 	</div>
 </nav>
- 
+
+<script>
+var jsonArr = JSON.parse('${list}');
+var date = [];
+var inputCount = 0;
+</script>
+
 <div class="container-fluid text-center">
-	<%
-	int count = 0;
-	%>
-	<c:forEach var="list" items="${lists }" varStatus="status">
-		<input type="hidden" id="mapx[${status.index }]" value="${list.mapx }">
-		<input type="hidden" id="mapy[${status.index }]" value="${list.mapy }">
-		<input type="hidden" id="title[${status.index }]" value="${list.title }">
-		<input type="hidden" id="img[${status.index }]" value="${list.firstimage2 }">
-    	
-		<%
-		count++;
-		%>
-	</c:forEach>
-	<script>
-	var mapx = new Array();
-	var mapy = new Array();
-	var mapTitle = new Array();
-	var count = <%=count%>;
-
-	for(var i=0; i<count; i++){
-		mapx[i] =  document.getElementById("mapx[" + i + "]").value;
-		mapy[i] =  document.getElementById("mapy[" + i + "]").value;
-		mapTitle[i] = document.getElementById("title[" + i + "]").value;
-	}
-	</script>
 	<div class="row content">
-		<div id="map"></div>
-		<script>
-		function initMap() {
-			var mapcenter = {lat: 37.5693679015, lng: 126.9838371210};
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 11,
-				center: mapcenter
-			});
-
-			var contentString = [];
-			var marker = [];
-			var infowindow = [];
-			var img = [];
-			var mapPositions = [];
-			
-			for(var i=0; i<count; i++){
-				mapPositions[i] = new google.maps.LatLng(mapy[i], mapx[i]);
-				marker[i] = new google.maps.Marker({
-					position: mapPositions[i],
-					map: map,
-					title: mapTitle[i],
+		<div id="map">
+			<script>
+			function initMap() {
+				var mapcenter = {lat: 37.5693679015, lng: 126.9838371210};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 11,
+					center: mapcenter
 				});
-				//contentString[i] = document.getElementById("title[" + i + "]").value;
-				img[i] = document.getElementById("img[" + i + "]").value;
-				contentString[i] = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + img[i] + "></div><div style='float:right; padding: 10px;'>" + mapTitle[i] +"</div>"
-				infowindow[i] = new google.maps.InfoWindow({
-					content: contentString[i],
-					size: new google.maps.Size(200,100)
-				}); 
-				markerListener(marker[i], infowindow[i]);
-			}
-		}
-		function markerListener(localmarker, infowindow){    
-	       	google.maps.event.addListener(localmarker, 'click', function() {
-				infowindow.open(map, localmarker);
-				localmarker.setAnimation(google.maps.Animation.BOUNCE);
-			});
-	       	
-	       	google.maps.event.addListener(infowindow, 'closeclick', function(){
-				localmarker.setAnimation(null);
-	       	});
-		}
-		</script>
-		<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap">
-		</script>
-		
-		<form>
-		<div class="col-sm-2 sidenav">
-			<br><br><h3>가고 싶은 곳</h3>
-			<table>
- 				<tr>
- 					<td style="height:40em;"></td>
-					<td>
-						<table class="menuList">
-							<c:forEach var="list" items="${lists }" varStatus="status">
-								<tr>
-									<td><input id="title[${status.index }]" value="${list.title }" style="height:23px; width:170px" border=none readonly></td>
-									<td><button id="button[${status.index }]" onClick="deleteLine(this, ${status.index});"><span class="glyphicon glyphicon-remove" color="white"></span></button></td>
-									<td style="height:50px"></td>
-								</tr>
-							</c:forEach>
-						</table>
-					</td>
-				</tr>
-			</table>
-			<br><br><br>
-			"F5를 누르면 초기화됩니다."
-			</div>
-		</form>
-		<script type="text/javascript">
-		function deleteLine(obj, index) {
-			var tr = $(obj).parent().parent();
-			
-			for(var i=0; i<count;i++){
-				if( i == index){
-					mapx[i] = null;
-					mapy[i] = null;
-					mapTitle[i] = null;
-					break;
+	
+				for(var i=0; i<jsonArr.length; i++){
+					var mapPositions = new google.maps.LatLng(Number(jsonArr[i].mapy), Number(jsonArr[i].mapx));
+					var marker = new google.maps.Marker({
+						position: mapPositions,
+						map: map,
+						title: jsonArr[i].title,
+					});
+					//contentString[i] = document.getElementById("title[" + i + "]").value;
+					if(jsonArr[i].img != null){
+						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].img + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
+					} else
+						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;'></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString,
+						size: new google.maps.Size(200,100)
+					}); 
+					markerListener(marker, infowindow);
+					inputCount++;
 				}
 			}
-			//라인 삭제
-			tr.remove();
-			initMap();
+			function markerListener(localmarker, infowindow){    
+		       	google.maps.event.addListener(localmarker, 'click', function() {
+					infowindow.open(map, localmarker);
+					localmarker.setAnimation(google.maps.Animation.BOUNCE);
+				});
+		       	
+		       	google.maps.event.addListener(infowindow, 'closeclick', function(){
+					localmarker.setAnimation(null);
+		       	});
+			}
+			</script>
+		</div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"
+    async defer></script>
+		
+		<form name="inputForm">
+			<div class="sidenav">
+				<h3>가고 싶은 곳</h3>
+				<table>
+	 				<tr>
+	 					<td style="height:20em;"></td>
+						<td>
+							<table class="menuList">
+								<c:forEach var="list" items="${list }" varStatus="status">
+									<tr>
+										<td><input id="title[${status.index }]" value="" style="height:23px; width:175px" border=none readonly ></td>
+										<td><button id="deleteBtn" onClick="deleteLine(${status.index})"><span class="glyphicon glyphicon-remove" color="white"></span></button></td>
+										<td style="height:50px"></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+		<script>
+		for(var i=0; i<jsonArr.length; i++){
+			document.getElementById("title[" + i + "]").value = jsonArr[i].title;
+			var date
 		}
 		</script>
+		<script>
+		function deleteLine(index) {
+			var tr = $(this).parent().parent();
+			var Status = index;
+	        $.ajax({
+	        	type:'post',
+	            url: '/course/make/modify/remove/' + Status,
+	            headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				success: function(result){
+			        tr.remove();
+				}
+	        });
+	    }
+		</script>
+		<!-- 
+		<form name="dateForm">
+			<div class="sidenav2">
+				<select name="selectDate" onchange="dateGo(this.form)">
+					<option value="0">날짜를 선택하세요</option>
+					<option value="1">2017-09-20</option>
+					<option value="2">2017-09-21</option>
+					<option value="3">2017-09-22</option>
+				</select>
+			</div>
+		</form>
+		<script>
+		function dateGo(frm){
+			var date = frm.selectDate.selectedIndex;
+			
+			switch(date){
+			case 0:
+				
+			}
+		}
+		</script>
+		 -->
 	</div>
 </div>
 </body>

@@ -1,93 +1,50 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR" isELIgnored="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>ì½”ìŠ¤ ìƒì„±ì¤‘ - 2ë‹¨ê³„</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-<body> 
-	<!-- header 1,2 Ãß°¡ ºÎºĞ -->
-	<!-- /course/make/add2 ºÎºĞ  -->
+<style>
+</style>
+<body>
+	<!-- header 1,2 -->
+	<div></div>
+	<!-- /course/make/add2 -->
 	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
-		<!-- ¿©ÇàÁö ¼±ÅÃ ºÎºĞ -->
+		<!-- ì†Œê°œ -->
 		<div>
-			<!-- Áö¿ª ¼±ÅÃ ´Ü°è¸¦ ¼Ò°³ÇØÁÖ´Â ºÎºĞ -->
-			<div>
-				<h1>µÎ ¹øÂ° ´Ü°è : ¿©ÇàÁö ¼±ÅÃ ´Ü°èÀÔ´Ï´Ù.</h1>
-				<p>¿©ÇàÁö¸¦ ¼±ÅÃÇØ Ãß°¡ÇØÁÖ¼¼¿ä.</p>
-			</div>
-			<!-- ¿©ÇàÁö¸¦ º¸¿©ÁÖ´Â ºÎºĞ -->
-			<div style="padding:10px; border:2px solid #F5F5F5;">
-				<!-- Áö¿ª ¼±ÅÃ ºÎºĞ (ÅÇ) -->
-				<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding:10px;">
-					<li class="nav-item">
-    					<a class="nav-link active" data-toggle="tab" href="#${selectedAreaList[0].areacode}" role="tab">${selectedAreaList[0].areaname}</a>
-    				</li>
-					<c:forEach var="list" items="${selectedAreaList}" begin="1">
-						<li class="nav-item">
-    						<a class="nav-link" data-toggle="tab" href="#${list.areacode}" role="tab">${list.areaname}</a>
-  						</li>
-					</c:forEach>
-				</ul>
-				<!-- °ü±¤Å¸ÀÔ ¼±ÅÃ ºÎºĞ (ÅÇ) -->
-				<div class="tab-content" id="checkboxes" style="padding:10px">
-					<div class="tab-pane active" id="${selectedAreaList[0].areaCode}" role="tabpanel">
-					
-					
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-primary" id="B${areacodeList[0].areaCode}-0">
-  								<input type="checkbox" autocomplete="off" id="${areacodeList[0].areaCode}-0" name="${areacodeList[0].areaName}"> ÀüÃ¼
-  							</label>
-  							<c:if test="${areacodeList[0].sAreaNum > 1}">
-								<c:forEach var="slist" items="${areacodeList[0].sAreaList}">
-  									<label class="btn btn-primary" id="B${areacodeList[0].areaCode}-${slist.sAreaCode}">
-  										<input type="checkbox" autocomplete="off" id="${areacodeList[0].areaCode}-${slist.sAreaCode}" name="${slist.sAreaName}"> ${slist.sAreaName}
-  									</label>
-  								</c:forEach>
-  							</c:if>
-						</div>
-						
-						
-					</div>
-					
-					<c:forEach var="list" items="${selectedAreaList}" begin="1">
-						<div class="tab-pane" id="${selectedAreaList.areaCode}" role="tabpanel">
-						
-						
-							<div class="btn-group" data-toggle="buttons">
-								<label class="btn btn-primary" id="B${list.areaCode}-0">
-  									<input type="checkbox" autocomplete="off" id="${list.areaCode}-0"  name="${list.areaName}"> ÀüÃ¼
-  								</label>
-  								<c:if test="${list.sAreaNum > 1}">
-								<c:forEach var="slist" items="${list.sAreaList}">
-  									<label class="btn btn-primary" id="B${list.areaCode}-${slist.sAreaCode}">
-  										<input type="checkbox" autocomplete="off" id="${list.areaCode}-${slist.sAreaCode}"  name="${slist.sAreaName}"> ${slist.sAreaName}
-  									</label>
-  								</c:forEach>
-  								</c:if>
-							</div>
-							
-							
-						</div>
-					</c:forEach>
-				</div>
-				<!-- ¿©ÇàÁö ¼±ÅÃ ºÎºĞ -->
-			</div>
+			<h1>ë‘ ë²ˆì§¸ ë‹¨ê³„ : ì—¬í–‰ì§€ ì„ íƒ ë‹¨ê³„ì…ë‹ˆë‹¤.</h1>
+			<p>ì—¬í–‰ì§€ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.</p>
+		</div>	
+		<!-- ì„ íƒ -->
+		<div style="padding:10px; border:2px solid #F5F5F5;">
+			<!-- ì§€ì—­ ì„ íƒ (íƒ­) -->
+			<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding:10px;"></ul>
+			<!-- ì—¬í–‰ì§€ ì„ íƒ (ì²´í¬ë°•ìŠ¤) -->
+			<div class="tab-content" id="checkboxes" style="padding:10px"></div>
 		</div>
-		<!-- ´ÙÀ½ ´Ü°è ÀÌµ¿ ºÎºĞ -->
-		<div>
-			<ul class="pager">
-  				<li><a href="/course/make/modify" id="next">´ÙÀ½</a></li>
-			</ul>
+		<!-- ì„ íƒ ì¶œë ¥ -->
+		<div style="padding:10px;">		
+			<!-- ì†Œê°œ -->
+			<div id="sIntro"></div>
+			<!-- ì¶œë ¥ -->
+			<div id="sList" style="margin-top: 10px;"></div>		
+		</div>
+		<!-- ë‹¤ìŒ ë‹¨ê³„ ì´ë™ -->
+		<div style="padding:10px;">
+			<button type="button" class="btn btn-default pull-right" id="next">ë‹¤ìŒ</button>
 		</div>
 	</div>
-	<!-- footer Ãß°¡ ºÎºĞ -->
+	<!-- footer -->
+	<div></div>
 </body>
+<script>
+</script>
 </html>
