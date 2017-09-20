@@ -84,7 +84,7 @@ $(document).ready(function(){
 });
 
 // 체크-버튼 이벤트 처리 부분
-$(document).on("change","#checkboxes :checkbox",function() {
+$(document).on("change","#checkboxes :checkbox",function(){
 	
 	// 알림, 리스트 저장 및 삭제 부분
 	var strs = this.id.split("-");
@@ -110,8 +110,7 @@ $(document).on("change","#checkboxes :checkbox",function() {
 	if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
 	else $("#dsIntro").html("");
 	$("#dsList").html(str2);
-} 
-);
+});
 
 //달력 이벤트 처리 부분
 $(document).on("focus",".datepicker",function(){ 
@@ -152,6 +151,8 @@ $("#next").click(function(){
 					data.sigunguCode = strs[1];
 					data.areaName = strs[2];
 					data.sigunguName = strs[3];
+					data.startDate = strs[4];
+					data.endDate = strs[5];
 				}
 				jsonIdArr.push(data);
 			}
@@ -163,9 +164,14 @@ $("#next").click(function(){
         		dataType:"json",
         		data:jsonData,
         		contentType:"application/json; charset=utf-8",
-        		 
+        		success:function(){
+        			location.href="/course/make/add2";
+    			},
+			 	error:function(){
+     				location.href="/course/make/add2";
+ 				}
   		  	});
-			location.href="/course/make/add2";
+			
 		}
 	}
 });
