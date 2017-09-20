@@ -1,11 +1,11 @@
-package org.tour.domain;
+package org.tour.dto;
 
-public class SigunguVO {
+public class AreaDateDTO {
 
 	private int areaCode;
 	private int sigunguCode;
+	private String areaName;
 	private String sigunguName;
-	private boolean isServiced;
 	
 	public int getAreaCode() {
 		return areaCode;
@@ -19,17 +19,17 @@ public class SigunguVO {
 	public void setSigunguCode(int sigunguCode) {
 		this.sigunguCode = sigunguCode;
 	}
+	public String getAreaName() {
+		return areaName;
+	}
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
 	public String getSigunguName() {
 		return sigunguName;
 	}
 	public void setSigunguName(String sigunguName) {
 		this.sigunguName = sigunguName;
-	}
-	public boolean getIsServiced() {
-		return isServiced;
-	}
-	public void setIsServiced(boolean isServiced) {
-		this.isServiced = isServiced;
 	}
 	
 }

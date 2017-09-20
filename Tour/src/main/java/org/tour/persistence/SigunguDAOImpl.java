@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,6 +21,12 @@ public class SigunguDAOImpl implements SigunguDAO {
 
 		session.insert(namespace + ".add", vo);
 		
+	}
+
+	@Override
+	public List<SigunguVO> selectAll() throws Exception {
+		
+		return session.selectList(namespace + ".selectAll");
 	}
 	
 }

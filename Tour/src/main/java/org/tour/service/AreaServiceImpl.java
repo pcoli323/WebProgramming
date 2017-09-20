@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,13 @@ public class AreaServiceImpl implements AreaService {
 	public void add(AreaVO vo) throws Exception {
 
 		dao.add(vo);
+		
+	}
+
+	@Override
+	public List<AreaVO> selectAll() throws Exception {
+
+		return dao.selectAll();
 		
 	}
 	

@@ -19,16 +19,16 @@ public class AreaVO {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
-	public boolean isServiced() {
+	public boolean getIsServiced() {
 		return isServiced;
 	}
-	public void setServiced(boolean isServiced) {
+	public void setIsServiced(boolean isServiced) {
 		this.isServiced = isServiced;
 	}
-	public boolean isServicedAll() {
+	public boolean getIsServicedAll() {
 		return isServicedAll;
 	}
-	public void setServicedAll(boolean isServicedAll) {
+	public void setIsServicedAll(boolean isServicedAll) {
 		this.isServicedAll = isServicedAll;
 	}
 	

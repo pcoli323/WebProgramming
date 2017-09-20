@@ -26,6 +26,8 @@ import org.tour.dto.SelectedAreaDTO;
 import org.tour.service.AreaService;
 import org.tour.service.SigunguService;
 
+import com.google.gson.Gson;
+
 @Controller
 public class CourseMakeController {
 
@@ -37,11 +39,18 @@ public class CourseMakeController {
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public String add1(Locale locale, Model model) throws Exception {
 		
+		/*
 		// DB에서 지역, 시군구 데이터를 가져오는 부분
 		model.addAttribute("areaList", areaService.selectAll());
 		model.addAttribute("sigunguList", sigunguService.selectAll());
 		
 		return "/course/make/add1";
+		*/
+		Gson gson = new Gson();
+		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
+		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
+		
+		return "/course/make/newAdd1";
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)

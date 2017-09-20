@@ -10,4 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values (#{areaCode},#{areaName})
 	</insert>
 	
+	<select id="selectAll" resultType="org.tour.domain.AreaVO">
+	<![CDATA[
+	select
+		*
+	from
+		tbl_Area
+	where areaCode > 0
+	order by areaCode asc
+	]]>
+	</select>
+	
 </mapper>

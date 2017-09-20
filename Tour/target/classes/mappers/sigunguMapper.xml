@@ -10,4 +10,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values (#{areaCode},#{sigunguCode},#{sigunguName})
 	</insert>
 	
+	<select id="selectAll" resultType="org.tour.domain.SigunguVO">
+	<![CDATA[
+	select
+		*
+	from
+		tbl_Sigungu
+	where sigunguCode > 0
+	order by areaCode asc, sigunguCode asc
+	]]>
+	</select>
 </mapper>
