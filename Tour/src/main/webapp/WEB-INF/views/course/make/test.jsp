@@ -14,3 +14,10 @@
 	</div>
 </body>
 </html>
+<script>
+var jsonArr = JSON.parse('${list}');
+for(var i=0; i<jsonArr.length; i++){
+	var json = jsonArr[i];
+	console.log(json.title);
+}
+</script>
