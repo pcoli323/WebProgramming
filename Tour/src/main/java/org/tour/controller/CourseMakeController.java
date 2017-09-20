@@ -17,8 +17,11 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.tour.dto.AreaDTO;
@@ -258,6 +261,26 @@ public class CourseMakeController {
 	*/
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
-	public void modify(Locale locale, Model model) {
+	public String modify(Locale locale, Model model) {
+		return "course/make/modify";
+	}
+	
+	@RequestMapping(value = "/course/make/modify/remove/{Status}", method = RequestMethod.POST)
+	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("Status") int Status){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			HttpSession session = request.getSession();
+			ArrayList<String> list = (ArrayList<String>)session.getAttribute("lists");
+			
+			list.remove(Status);
+			
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }
+
