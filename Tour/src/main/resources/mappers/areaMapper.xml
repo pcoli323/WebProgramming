@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.tour.mapper.AreaMapper">
+
+	<insert id="add">
+		insert into tbl_Area (areaCode,areaName)
+		values (#{areaCode},#{areaName})
+	</insert>
+	
+	<select id="selectAll" resultType="org.tour.domain.AreaVO">
+	<![CDATA[
+	select
+		*
+	from
+		tbl_Area
+	where areaCode > 0
+	order by areaCode asc
+	]]>
+	</select>
+	
+</mapper>

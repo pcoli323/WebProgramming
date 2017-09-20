@@ -6,105 +6,69 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.tour.dto.AreaDTO;
-import org.tour.dto.CourseMakeDTO;
+import org.tour.dto.SelectedAreaDTO;
+import org.tour.service.AreaService;
+import org.tour.service.SigunguService;
+
+import com.google.gson.Gson;
 
 @Controller
 public class CourseMakeController {
 
+	@Inject
+	private AreaService areaService;
+	@Inject
+	private SigunguService sigunguService;
+	
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
-	public void add1(Locale locale, Model model) {
+	public String add1(Locale locale, Model model) throws Exception {
 		
-		int maxArea = 100;
+		/*
+		// DB에서 지역, 시군구 데이터를 가져오는 부분
+		model.addAttribute("areaList", areaService.selectAll());
+		model.addAttribute("sigunguList", sigunguService.selectAll());
 		
-		String startURL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode";
-		String serviceKey = "?ServiceKey=" + "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D";
-		// ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D
-		// 3H9Tndrczl9HltLWVxpLZUzyt0qDtJrURqSVeTESEU6zynlniIm5SUbflTYaV9bbs6ZEW31Dk3t2s9WSGmOjgQ%3D%3D
-		// PsYIjFoWi0Uurp5lB%2BBF18%2BVI1IT391RgIRMaAyYriZeIgTyKC9hHF7BmUpFDPNc7l6GH3tnhL4qH4Q5pR6%2BZA%3D%3D
+		return "/course/make/add1";
+		*/
+		Gson gson = new Gson();
+		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
+		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
 		
-		String parameter = "";
-		String type = "&_type=json";
-		
-		parameter = parameter + "&" + "MobileOS=ETC";
-		parameter = parameter + "&" + "MobileApp=Tour";
-		parameter = parameter + "&" + "numOfRows=" + maxArea;
-		
-		String addr = startURL + serviceKey + parameter + type;
-		
-		try {
-			URL url = new URL(addr);
-			//System.out.println(url);
-			InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
-			JSONObject jsonObject = (JSONObject)JSONValue.parse(isr);
-			
-			JSONObject dataObject = (JSONObject) jsonObject.get("response");
-			JSONObject dataObject2 = (JSONObject) dataObject.get("body");
-			JSONObject dataObject3 = (JSONObject) dataObject2.get("items");
-			JSONArray memberArray = (JSONArray) dataObject3.get("item");
-			
-			model.addAttribute("areacodeNum", memberArray.size());
-			List<AreaDTO> areaList = new ArrayList<AreaDTO>();
-			for(int i=0; i<memberArray.size(); i++){
-				JSONObject data = (JSONObject)memberArray.get(i);
-				AreaDTO adto = new AreaDTO();
-				adto.setAreaCode((Long)data.get("code"));
-				adto.setAreaName((String)data.get("name"));
-				
-				String addr2 = startURL + serviceKey+ "&areaCode=" + data.get("code").toString() + parameter + type;
-				URL url2 = new URL(addr2);
-				//System.out.println(url2);
-				InputStreamReader isr2 = new InputStreamReader(url2.openConnection().getInputStream(), "UTF-8");
-				JSONObject jsonObject2 = (JSONObject)JSONValue.parse(isr2);
-				
-				JSONObject sdataObject = (JSONObject) jsonObject2.get("response");
-				JSONObject sdataObject2 = (JSONObject) sdataObject.get("body");
-				JSONObject sdataObject3 = (JSONObject) sdataObject2.get("items");
-				JSONArray smemberArray;
-				if(sdataObject3.get("item") instanceof JSONArray) {
-					smemberArray = (JSONArray) sdataObject3.get("item");
-					for(int j=0; j<smemberArray.size(); j++){
-						JSONObject sdata = (JSONObject)smemberArray.get(j);
-						adto.addSArea((String)sdata.get("name"), (Long)sdata.get("code"));
-					}
-					adto.setsAreaNum(smemberArray.size());
-				}
-				else {
-					adto.addSArea((String)sdataObject3.get("name"), (Long)sdataObject3.get("code"));
-					adto.setsAreaNum(1);
-				}
-				areaList.add(adto);
-			}
-			model.addAttribute("areacodeList",areaList);
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return "/course/make/newAdd1";
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
-	public void add2(HttpServletRequest request, Model model) {
+	public String add2(HttpServletRequest request, Model model) throws UnsupportedEncodingException, IOException {
 		
+		/*
+		String idList = request.getParameter("idList");
+		String[] idListValue = idList.split(",");
+		for(int i=0; i<idListValue.length; i++) {
+			System.out.println(idListValue[i]);
+		}
+		*/
+		
+		/*
+		// /course/make/add1 과 연결되는 부분
 		String arrCode = request.getParameter("arrCode");
 		String arrName = request.getParameter("arrName");
 		String arrName2 = request.getParameter("arrName2");
@@ -117,6 +81,43 @@ public class CourseMakeController {
 		String[] arrSDateValues = arrSDate.split(",");
 		String[] arrEDateValues = arrEDate.split(",");
 		
+		List<SelectedAreaDTO> selectedAreaDTO = new ArrayList<SelectedAreaDTO>();
+		for(int i=0; i<arrCodeValues.length; i++) {
+			SelectedAreaDTO tmp = new SelectedAreaDTO();
+			String[] area = arrCodeValues[i].split("-");
+			tmp.setAreacode(area[0]);
+			tmp.setSigungucode(area[1]);
+			tmp.setAreaname(arrNameValues[i]);
+			tmp.setSigunguname(arrNameValues2[i]);
+			tmp.setStartdate(arrSDateValues[i]);
+			tmp.setEnddate(arrEDateValues[i]);
+			
+			selectedAreaDTO.add(tmp);
+		}
+		model.addAttribute("selectedAreaList", selectedAreaDTO);
+		*/
+		/*
+		// /course/make/add2 테스트용 코드
+		List<SelectedAreaDTO> selectedAreaDTO = new ArrayList<SelectedAreaDTO>();
+		SelectedAreaDTO tmp = new SelectedAreaDTO();
+		tmp.setAreacode("1");
+		tmp.setAreaname("서울");
+		tmp.addSigungu("강남구", "1");
+		tmp.addSigungu("강동구", "2");
+		tmp.setStartdate("2017/09/20");
+		tmp.setEnddate("2017/09/21");
+		selectedAreaDTO.add(tmp);
+		SelectedAreaDTO tmp2 = new SelectedAreaDTO();
+		tmp2.setAreacode("2");
+		tmp2.setAreaname("인천");
+		tmp.addSigungu("강화군", "1");
+		tmp2.setStartdate("2017/09/21");
+		tmp2.setEnddate("2017/09/22");
+		selectedAreaDTO.add(tmp2);
+		model.addAttribute("selectedAreaList", selectedAreaDTO);
+		*/
+		
+		
 		/*
 		for(int i=0; i<arrCodeValues.length; i++) {
 			System.out.println(arrCodeValues[i]);
@@ -128,6 +129,32 @@ public class CourseMakeController {
 		}
 		*/
 		
+		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
+		String serviceKey = "?serviceKey=ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D";
+		String parameter = "";
+		String type = "&_type=json";
+		
+		parameter += "&MobileOS=ETC";
+		parameter += "&MobileApp=Tour";
+		parameter += "&arrange=B";
+		parameter += "&areaCode=1";
+		
+		addr += serviceKey + parameter + type;
+		
+		URL url = new URL(addr);
+		InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(isr);
+		JSONObject dataObject = (JSONObject) jsonObject.get("response");
+		JSONObject dataObject2 = (JSONObject) dataObject.get("body");
+		JSONObject dataObject3 = (JSONObject) dataObject2.get("items");
+		JSONArray memberArray = (JSONArray) dataObject3.get("item");
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("list", memberArray);
+		
+		return "/course/make/test";
+		
+		/*
 		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
 		String serviceKey = "?serviceKey=ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D";
 		// ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D
@@ -165,7 +192,7 @@ public class CourseMakeController {
 				model.addAttribute("jsonDataList", data.get("firstimage"));
 				//System.out.println(data.get("firstimage2"));
 				model.addAttribute("jsonDataList2", data.get("firstimage2"));
-				/*
+				
 				System.out.println(data.get("areaname"));
 				System.out.println(data.get("areacode"));
 				System.out.println(data.get("addr1"));
@@ -181,7 +208,7 @@ public class CourseMakeController {
 				System.out.println(data.get("readcount"));
 				System.out.println(data.get("tel"));
 				System.out.println(data.get("title"));
-				*/
+				
 			}
 			
 			List<CourseMakeDTO> list = new ArrayList<CourseMakeDTO>();
@@ -190,8 +217,8 @@ public class CourseMakeController {
 				Calendar cal = new GregorianCalendar();
 			    cal.add(Calendar.DATE, i);
 				Date date = cal.getTime();
-				CourseMakeDTO dto = new CourseMakeDTO("Test",
-						(Long)data.get("areacode"),date,date,
+				CourseMakeDTO dto = new CourseMakeDTO("Test","Test",
+						(Long)data.get("areacode"),(Long)data.get("sigungucode"),date,date,
 						(String)data.get("addr1"),
 						(String)data.get("addr2"),
 						(Long)data.get("contentid"),
@@ -209,7 +236,6 @@ public class CourseMakeController {
 			}
 			HttpSession session = request.getSession();
 			session.setAttribute("lists", list);
-			//model.addAttribute("lists",list);
 			
 			
 		} catch (MalformedURLException e) {
@@ -219,11 +245,42 @@ public class CourseMakeController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		*/
 	}
+	
+	/*
+	@RequestMapping(value = "/course/make/test2", method = RequestMethod.GET)
+	public void test2(HttpServletRequest request, Locale locale, Model model) {
+		HttpSession session = request.getSession();
+		JSONArray jsonArr = (JSONArray) session.getAttribute("list");
+		for(int i=0; i<jsonArr.size(); i++) {
+			JSONObject data = (JSONObject)jsonArr.get(i);
+			System.out.println(data.get("title"));
+		}
+	}
+	*/
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
 	public String modify(Locale locale, Model model) {
-		return "Test/modify";
+		return "course/make/modify";
+	}
+	
+	@RequestMapping(value = "/course/make/modify/remove/{Status}", method = RequestMethod.POST)
+	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("Status") int Status){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			HttpSession session = request.getSession();
+			ArrayList<String> list = (ArrayList<String>)session.getAttribute("lists");
+			
+			list.remove(Status);
+			
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }
+

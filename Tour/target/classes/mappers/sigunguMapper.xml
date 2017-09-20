@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.tour.mapper.SigunguMapper">
+
+	<insert id="add">
+		insert into tbl_Sigungu (areaCode,sigunguCode,sigunguName)
+		values (#{areaCode},#{sigunguCode},#{sigunguName})
+	</insert>
+	
+	<select id="selectAll" resultType="org.tour.domain.SigunguVO">
+	<![CDATA[
+	select
+		*
+	from
+		tbl_Sigungu
+	where sigunguCode > 0
+	order by areaCode asc, sigunguCode asc
+	]]>
+	</select>
+</mapper>
