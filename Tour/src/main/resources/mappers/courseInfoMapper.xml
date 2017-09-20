@@ -12,6 +12,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by representedOrder asc
 	</select>
 	
+	<select id="getRealImage" resultType="string">
+		select gotoImageReal
+		from tbl_courseInfo
+		where gotoNumber = #{gotoNumber}
+	</select>
+	
 	<select id="dates" resultType="date">
 		select distinct gotoDate
 		from tbl_courseInfo
@@ -24,4 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_courseInfo
 		where gotoDate = #{gotoDate}
 	</select>
+	
+	<select id="readAll" resultType="courseInfoVO">
+		select *
+		from tbl_courseInfo
+		where courseNumber = #{courseNumber}
+	</select>
+	
+	<insert id="add">
+		insert into tbl_courseInfo (courseNumber, gotoDate, regionCode, gotoCode, gotoImage, gotoLocation)
+		values (#{courseNumber}, #{gotoDate}, #{regionCode}, #{gotoCode}, #{gotoImage}, #{gotoLocation})
+	</insert>
 </mapper>

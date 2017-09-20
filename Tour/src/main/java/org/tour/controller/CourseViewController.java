@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,12 +72,12 @@ public class CourseViewController {
 			model.addAttribute("representatives", representatives);
 			model.addAttribute("representativeNames", representativeNames);
 			
+			
 		} catch(Exception e) {
 			logger.info("readSimple");
 			e.printStackTrace();
 		}
 	}
-	
 	@RequestMapping(value = "/getByteImage", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> getByteImage(@RequestParam("title") String title) throws Exception{
 		Object image = imageService.getImage(title);
@@ -84,6 +85,18 @@ public class CourseViewController {
 		final HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.IMAGE_PNG);
 		return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/getRealImage", method = RequestMethod.GET)
+	public ResponseEntity<String> getRealImage(@RequestParam("gotoNumber") int gotoNumber) throws Exception{
+		ResponseEntity<String> entity = null;
+		try {
+			String realImage = courseInfoService.getRealImage(gotoNumber);
+			entity = new ResponseEntity<String>(realImage, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
@@ -104,4 +117,5 @@ public class CourseViewController {
 			e.printStackTrace();
 		}
 	}
+	
 }

@@ -20,4 +20,22 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		return dao.representatives(courseNumber);
 	}
 
+	@Override
+	public String getRealImage(int gotoNumber) throws Exception {
+		
+		return dao.getRealImage(gotoNumber);
+	}
+
+	@Override
+	public List<CourseInfoVO> readAll(int courseNumber) throws Exception {
+		
+		return dao.readAll(courseNumber);
+	}
+
+	@Override
+	public void add(CourseInfoVO vo) throws Exception {
+
+		dao.add(vo);
+	}
+	
 }

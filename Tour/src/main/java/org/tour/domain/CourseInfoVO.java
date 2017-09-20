@@ -9,7 +9,8 @@ public class CourseInfoVO {
 	private Date gotoDate;
 	private String regionCode;
 	private String gotoCode;
-	private String gotoImage;
+	private String gotoImageReal;
+	private String gotoImageThum;
 	private String gotoLocation;
 	private boolean isRepresented;
 	private int representedOrder;
@@ -44,11 +45,17 @@ public class CourseInfoVO {
 	public void setGotoCode(String gotoCode) {
 		this.gotoCode = gotoCode;
 	}
-	public String getGotoImage() {
-		return gotoImage;
+	public String getGotoImageReal() {
+		return gotoImageReal;
 	}
-	public void setGotoImage(String gotoImage) {
-		this.gotoImage = gotoImage;
+	public void setGotoImageReal(String gotoImageReal) {
+		this.gotoImageReal = gotoImageReal;
+	}
+	public String getGotoImageThum() {
+		return gotoImageThum;
+	}
+	public void setGotoImageThum(String gotoImageThum) {
+		this.gotoImageThum = gotoImageThum;
 	}
 	public String getGotoLocation() {
 		return gotoLocation;

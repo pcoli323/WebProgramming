@@ -22,6 +22,12 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		
 		return session.selectList(namespace + ".representatives", courseNumber);
 	}
+
+	@Override
+	public String getRealImage(int gotoNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".getRealImage", gotoNumber);
+	}
 	
 	@Override
 	public List<Date> dates(int courseNumber) throws Exception {
@@ -33,6 +39,18 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 	public List<String> gotoCodes(Date gotoDate) throws Exception {
 		
 		return session.selectList(namespace + ".gotoCodes", gotoDate);
+	}
+
+	@Override
+	public List<CourseInfoVO> readAll(int courseNumber) throws Exception {
+		
+		return session.selectList(namespace + ".readAll", courseNumber);
+	}
+
+	@Override
+	public void add(CourseInfoVO vo) throws Exception {
+		
+		session.insert(namespace + ".add", vo);
 	}
 	
 }

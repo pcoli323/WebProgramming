@@ -10,6 +10,7 @@
 	
 	.courseView{
 	padding:50px;
+	padding-bottom:0px;
 	}
 	.symbolButton{
   	font-size: 14px;
@@ -28,14 +29,22 @@
     object-fit: cover;
     border-radius: 50%;
     }
-    .representativeImageBig {
-    width: 320px; height: 200px;
-    }
     .representativeImageTable {
     padding-top:10px;
     padding-bottom:10px;
     padding-right:40px;
     padding-left:40px;
+    }
+    .mouseOverImage{
+    position:absolute;
+    top:430px;
+    z-index:1;
+    display:none;
+    text-align:center;
+    width:100%;
+    }
+    .representativeImageBig {
+    width: 420px; height:auto;
     }
 </style>
 <head>
@@ -49,7 +58,7 @@
 </head>
 <body>
 
-<div class="content">
+<div class="content" style="position:relative">
 	<div class="courseView">
 
 		<div class="courseView-header">
@@ -67,13 +76,21 @@
         	</div>
         	<div class="representatives" style="text-align:center">
         		<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
-        		<img src="" class="representativeImageBig" style="position:absolute; display:none">
         		<table style="display:inline-block">
         			<tr>
         				<c:forEach items="${representatives}" var="representative" varStatus="status">
         					<c:if test="${status.index % 2 == 0}">
         						<td class="representativeImageTable">
-        							<img src="${representative.gotoImage}" class="representativeImage"><br>${representativeNames[status.index]}
+        							<c:choose>
+        								<c:when test="${representative.gotoImageThum eq ''}">
+        									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
+        									${representativeNames[status.index]}
+        								</c:when>
+        								<c:otherwise>
+        									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
+        									${representativeNames[status.index]}
+        								</c:otherwise>
+        							</c:choose>
         						</td>
         					</c:if>
         					<c:if test="${status.index % 2 != 0}">
@@ -88,7 +105,16 @@
         					</c:if>
         					<c:if test="${status.index % 2 != 0}">
         						<td class="representativeImageTable">
-        							<img src="${representative.gotoImage}" class="representativeImage"><br>${representativeNames[status.index]}
+        							<c:choose>
+        								<c:when test="${representative.gotoImageThum eq ''}">
+        									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
+        									${representativeNames[status.index]}
+        								</c:when>
+        								<c:otherwise>
+        									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
+        									${representativeNames[status.index]}
+        								</c:otherwise>
+        							</c:choose>
         						</td>
         					</c:if>
         				</c:forEach>
@@ -115,8 +141,10 @@
         </div><!-- /courseView-footer -->
        	
 	</div><!-- /courseView -->
+	<!-- mouseOver시 보여지는 big 이미지-->
+	<div class="mouseOverImage" style="">
+	</div>
 </div><!-- /content -->
-
 
 <script>
 	$(document).ready(function(){
@@ -125,15 +153,30 @@
 		likeNumber();
 		replyNumber();
 		// 마우스 올렸을 때 이미지 띄우기
-		$(".representativeImage").mouseover(function(){
-			$(".representativeImageBig").show();
+		$(".representativeImage").mouseover(function(event){
 			var imgSrc = "";
-			imgSrc = $(this).attr("src");
-			//imgSrc = imgSrc
-			$(".representativeImageBig").attr("src", imgSrc);
+			
+			if ($(this).hasClass("realImage") == true){
+				imgSrc = $(this).attr("src");
+			}
+			else{
+				var gotoNumber = $(this).attr("id");
+				
+				$.ajax({
+					type:'get',
+					url:'/course/view/getRealImage?gotoNumber=' + gotoNumber,
+					success:function(realImage){
+						console.log("realImage : " + realImage);
+						imgSrc = realImage;
+					}
+				});
+			}
+			var imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
+			$(".mouseOverImage").html(imgHtml);
+			$(".mouseOverImage").show();
 		});
 		$(".representativeImage").mouseout(function(){
-			$(".representativeImageBig").hide();
+			$(".mouseOverImage").hide();
 		});
 	});
 	
@@ -351,6 +394,33 @@
 	
 	$('#change').on("click", function(evt){
 		window.open("/course/view/detail?courseNumber=1", "startpop", "width=1030, height=700");
+	});
+	
+	$('#getCourse').on("click", function(){
+		var courseName = "${courseVO.courseName}";
+		var isGotten = true;
+		
+		$.ajax({
+			type:'post',
+			url:'/get/course',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "post"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				courseName:courseName,
+				userNumber:loginUserNumber,
+				isGotten:isGotten
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("get course!!");
+				}
+			}
+		});
 	});
 </script>
 

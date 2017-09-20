@@ -61,4 +61,5 @@ public class ReplyVO {
 	public void setReplyerName(String replyerName) {
 		this.replyerName = replyerName;
 	}
+	
 }
