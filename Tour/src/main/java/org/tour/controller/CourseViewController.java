@@ -72,6 +72,7 @@ public class CourseViewController {
 			model.addAttribute("representatives", representatives);
 			model.addAttribute("representativeNames", representativeNames);
 			
+			
 		} catch(Exception e) {
 			logger.info("readSimple");
 			e.printStackTrace();
