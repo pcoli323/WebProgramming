@@ -140,8 +140,8 @@ var inputCount = 0;
 						title: jsonArr[i].title,
 					});
 					//contentString[i] = document.getElementById("title[" + i + "]").value;
-					if(jsonArr[i].img != null){
-						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].img + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
+					if(jsonArr[i].firstimage != null){
+						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
 					} else
 						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;'></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
 					var infowindow = new google.maps.InfoWindow({
