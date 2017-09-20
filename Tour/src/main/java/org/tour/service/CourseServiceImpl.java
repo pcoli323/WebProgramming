@@ -18,4 +18,16 @@ public class CourseServiceImpl implements CourseService {
 		return dao.read(courseNumber);
 	}
 
+	@Override
+	public void add(CourseVO vo) throws Exception {
+		
+		dao.add(vo);
+	}
+
+	@Override
+	public int newCourseNumber(int userNumber) throws Exception {
+		
+		return dao.newCourseNumber(userNumber);
+	}
+
 }

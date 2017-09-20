@@ -9,4 +9,5 @@ public interface FollowService {
 	public int check(FollowVO vo) throws Exception;
 	
 	public void delete(FollowVO vo) throws Exception;
+	
 }

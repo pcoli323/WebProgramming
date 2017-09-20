@@ -7,7 +7,8 @@ public interface UserService {
 	
 	public void register(UserVO user) throws Exception;
 	
-	public UserVO login(LoginDTO dto) throws Exception;
+	public UserVO login(LoginDTO loginDto) throws Exception;
 	
 	public UserVO read(int userNumber) throws Exception;
+
 }

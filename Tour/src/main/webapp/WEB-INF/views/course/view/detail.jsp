@@ -411,6 +411,33 @@
 			$('#like_symbol').removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
 		}
 	}
+	
+	$('#getCourse').on("click", function(){
+		var courseName = "${courseVO.courseName}";
+		var isGotten = true;
+		
+		$.ajax({
+			type:'post',
+			url:'/get/course',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "post"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				courseName:courseName,
+				userNumber:loginUserNumber,
+				isGotten:isGotten
+			}),
+			success:function(result){
+				console.log("result:" + result);
+				if(result == 'SUCCESS'){
+					alert("get course!!");
+				}
+			}
+		});
+	});
 </script>
 <!-- 댓글 처리 -->
 <script id="template" type="tex/x-handlerbars-template">
