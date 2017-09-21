@@ -46,5 +46,66 @@
 	<div></div>
 </body>
 <script>
+
+// 초기 화면 생성 부분
+$(document).ready(function(){
+	var jsonIDArr = JSON.parse('${idList}');
+	
+	// 지역 선택 (탭) 추가
+	var str ="";
+	for(var i=0; i<jsonIDArr.length; i++){
+		var json = jsonIDArr[i];
+		str += "<li class='nav-item'>" + "<a class='nav-link' data-toggle='tab' href='#" + json.areaCode + "-" + json.sigunguCode + "' role='tab'>" + json.areaName + " " + json.sigunguName + "</a>" + "</li>";
+	}
+	document.getElementById("myTab").innerHTML = str;
+	
+	// 여행지 선택 탭칸 추가
+	str = "";
+	for(var i=0; i<jsonIDArr.length; i++){
+		var json = jsonIDArr[i];
+		str += "<div class='tab-pane' id='" + json.areaCode + "-" + json.sigunguCode + "' role='tabpanel'></div>";
+	}
+	document.getElementById("checkboxes").innerHTML = str;
+});
+
+// 체크-버튼 이벤트 처리 부분
+$(document).on("click",".nav-link",function(){
+	var id = this.href.split("#")[1];
+	
+	// ajax를 사용한 공공 API 호출 및 저장
+	var codes = id.split("-");
+	var url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?serviceKey=ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D&MobileOS=ETC&MobileApp=Tour&arrange=B&areaCode=" + codes[0];
+	if(codes[1]!="0")
+		url += "&sigunguCode="+codes[1];
+	url += "&_type=json";
+	
+	//console.log(url);
+	
+	$.ajax({      
+        type:"GET",  
+        url:url,
+        success: function(data) {
+        	saveAprint(data,id);
+        },
+        error:function(request,status,error){
+            alert("다시 시도해주세요.\n" + "code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+    });
+});
+
+// API 호출 후 화면 생성 부분
+function saveAprint(data,id) {
+    var jsonItems = data.response.body.items.item;
+    var str ="";
+	for(var i=0; i<jsonItems.length; i++){
+		var json = jsonItems[i];
+		if(json.firstimage!=null)
+			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; weight=100%; display: inline-block;'><img src='" + json.firstimage + "' style='float: left; width: 50%; height: 50%'>";
+		else
+			str += "<div style='margin:10px; padding=:5px;border:2px solid #F5F5F5; weight=100%; display: inline-block'><div style='weight:500;height:333;background-color:#F5F5F5'>이미지가 존재하지 않습니다.</div>"
+		str += "<p>"+json.title+"<br>"+json.addr1+"<br>"+json.addr2+"<br>"+json.tel+"</p>"+"</div>";
+	}
+	document.getElementById(id).innerHTML = str;
+}
 </script>
 </html>

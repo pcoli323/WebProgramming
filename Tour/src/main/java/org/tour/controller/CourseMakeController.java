@@ -33,6 +33,8 @@ import org.tour.service.AreaService;
 import org.tour.service.SigunguService;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 @Controller
 public class CourseMakeController {
@@ -59,8 +61,8 @@ public class CourseMakeController {
 		JSONArray jsonarray = (JSONArray)obj;
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("idlist", jsonarray);
-		
+		session.setAttribute("idList", jsonarray);
+		System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
@@ -93,6 +95,12 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("list", memberArray);
+		
+		String data = "[{\"areaCode\":\"1\",\"areaName\":\"서울\",\"endDate\":\"09\\/23\\/2017\",\"sigunguName\":\"전체\",\"sigunguCode\":\"0\",\"startDate\":\"09\\/21\\/2017\"}]";
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(data);
+		//System.out.println(jsonArray);
+		session.setAttribute("idList", jsonArray);
 		
 	}
 	
