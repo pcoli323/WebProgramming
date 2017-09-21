@@ -17,5 +17,4 @@ public class FollowVO {
 	public void setFollowed(int followed) {
 		this.followed = followed;
 	}
-	
 }

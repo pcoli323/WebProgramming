@@ -34,6 +34,10 @@
 	display:inline-block;
 	margin:20px;
 	}
+	.mapView{
+	margin:30px;
+	height:250px;
+	}
 	.symbolButton{
   	font-size: 14px;
   	text-align: center;
@@ -85,6 +89,46 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- map처리 -->
+<script>
+	var map;
+	function initMap() {
+		var mapcenter = {lat: 37.3422186, lng: 127.92016209999997};
+		map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 11,
+			center: mapcenter
+		});
+	}
+	function makeMarker(locationX, locationY, image, title){
+		if(locationX != ""){
+			var mapPositions = new google.maps.LatLng(locationY, locationX);
+			var marker = new google.maps.Marker({
+				position: mapPositions,
+				map: map,
+				title:title,
+			});
+			if(image != ""){
+				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + image 
+										+ "></div><div style='float:right; padding: 10px;'>" + title +"</div>";
+			
+			} else
+				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title +"</div>";
+			var infowindow = new google.maps.InfoWindow({
+									content: contentString,
+									size: new google.maps.Size(200,100)}); 
+			markerListener(marker, infowindow);
+		}
+	}
+	function markerListener(localmarker, infowindow){    
+	      	google.maps.event.addListener(localmarker, 'click', function() {
+				infowindow.open(map, localmarker);
+				localmarker.setAnimation(google.maps.Animation.BOUNCE);
+				});
+	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
+				localmarker.setAnimation(null);
+			});
+	}
+</script>
 </head>
 <body onload="parent.resizeTo(1030,700)" onUnload="reloadSimple()">
 
@@ -114,9 +158,9 @@
         					</tr>
         					<tr class="gotoField">
         						<td style="text-align:center">
-        							<c:set var="gotoNameList" value="${plan.get(date)}"></c:set>
-        							<c:forEach var="gotoName" items="${gotoNameList}">
-        								<i>${gotoName}</i><br><br>
+        							<c:set var="gotoList" value="${plan.get(date)}"></c:set>
+        							<c:forEach var="gotoOne" items="${gotoList}">
+        								<i>${gotoOne.gotoName}</i><br><br>
         							</c:forEach>
         						</td>
         					</tr>
@@ -125,8 +169,17 @@
         		</c:forEach>
         	</div><!-- /planTable -->
         	
-        	<div class="map">
-        		지도를 입력해주세요
+        	<!-- 지도 -->
+        	<div class="mapView" id="map">
+        			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
+        			<c:forEach var="date" items="${plan.keySet()}">
+        				<c:set var="gotoList" value="${plan.get(date)}"></c:set>
+        				<c:forEach var="gotoOne" items="${gotoList}">
+        					<script>
+        						makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}");
+        					</script>
+        				</c:forEach>
+        			</c:forEach>
         	</div>
         	
         	<div class="story">
@@ -285,6 +338,7 @@
 		});
 	}
 </script>
+
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
 	$('#follow').on("click", function(){

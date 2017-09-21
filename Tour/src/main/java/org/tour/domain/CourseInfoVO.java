@@ -11,7 +11,8 @@ public class CourseInfoVO {
 	private String gotoCode;
 	private String gotoImageReal;
 	private String gotoImageThum;
-	private String gotoLocation;
+	private String gotoLocationX;
+	private String gotoLocationY;
 	private boolean isRepresented;
 	private int representedOrder;
 	
@@ -57,11 +58,17 @@ public class CourseInfoVO {
 	public void setGotoImageThum(String gotoImageThum) {
 		this.gotoImageThum = gotoImageThum;
 	}
-	public String getGotoLocation() {
-		return gotoLocation;
+	public String getGotoLocationX() {
+		return gotoLocationX;
 	}
-	public void setGotoLocation(String gotoLocation) {
-		this.gotoLocation = gotoLocation;
+	public void setGotoLocationX(String gotoLocationX) {
+		this.gotoLocationX = gotoLocationX;
+	}
+	public String getGotoLocationY() {
+		return gotoLocationY;
+	}
+	public void setGotoLocationY(String gotoLocationY) {
+		this.gotoLocationY = gotoLocationY;
 	}
 	public boolean isRepresented() {
 		return isRepresented;
