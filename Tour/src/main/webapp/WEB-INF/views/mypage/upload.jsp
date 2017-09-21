@@ -120,12 +120,6 @@
 	$(document).ready(function(){
 		
 	});
-	
-	var courseNumber = ${courseVO.courseNumber};
-	var loginUserNumber = ${login.userNumber};
-	var following = ${userVO.userNumber};
-	
-	
 </script>
 
 </body>

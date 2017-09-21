@@ -25,10 +25,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by gotoDate asc
 	</select>
 	
-	<select id="gotoCodes" resultType="string">
-		select gotoCode
+	<select id="readAccordingToDate" parameterType="hashmap" resultType="courseInfoVO">
+		select *
 		from tbl_courseInfo
-		where gotoDate = #{gotoDate}
+		where courseNumber = #{courseNumber} and gotoDate = #{gotoDate}
+	</select>
+	
+	<select id="gotoLocationX" resultType="string">
+		select gotoLocationX
+		from tbl_courseInfo
+		where gotoNumber = #{gotoNumber}
+	</select>
+	
+	<select id="gotoLocationY" resultType="string">
+		select gotoLocationY
+		from tbl_courseInfo
+		where gotoNumber = #{gotoNumber}
 	</select>
 	
 	<select id="readAll" resultType="courseInfoVO">

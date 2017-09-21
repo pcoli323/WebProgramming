@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +22,10 @@ import org.tour.domain.CourseInfoVO;
 import org.tour.domain.CourseVO;
 import org.tour.domain.UserVO;
 import org.tour.dto.LoginDTO;
+import org.tour.dto.CourseInfoDTO;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
-import org.tour.service.DateService;
+import org.tour.service.PlanService;
 import org.tour.service.GotoService;
 import org.tour.service.ImageService;
 import org.tour.service.UserService;
@@ -45,7 +45,7 @@ public class CourseViewController {
 	@Inject
 	private GotoService gotoService;
 	@Inject
-	private DateService dateService;
+	private PlanService planService;
 	@Inject
 	private ImageService imageService;
 	
@@ -104,7 +104,7 @@ public class CourseViewController {
 		try {
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
-			Map<String, List<String>> plan = dateService.gotoListAccordingToDate(courseNumber);
+			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);
 			
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
@@ -116,5 +116,5 @@ public class CourseViewController {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

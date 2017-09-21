@@ -1,6 +1,7 @@
 package org.tour.persistence;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,11 +37,23 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 	}
 
 	@Override
-	public List<String> gotoCodes(Date gotoDate) throws Exception {
+	public List<CourseInfoVO> readAccordingToDate(HashMap<String, Object> courseNumberAndDate) throws Exception {
 		
-		return session.selectList(namespace + ".gotoCodes", gotoDate);
+		return session.selectList(namespace + ".readAccordingToDate", courseNumberAndDate);
+	}
+	
+	@Override
+	public String gotoLocationX(int gotoNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".gotoLocationX", gotoNumber);
 	}
 
+	@Override
+	public String gotoLocationY(int gotoNumber) throws Exception {
+
+		return session.selectOne(namespace + ".gotoLocationY", gotoNumber);
+	}
+	
 	@Override
 	public List<CourseInfoVO> readAll(int courseNumber) throws Exception {
 		
@@ -52,5 +65,5 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		
 		session.insert(namespace + ".add", vo);
 	}
-	
+
 }
