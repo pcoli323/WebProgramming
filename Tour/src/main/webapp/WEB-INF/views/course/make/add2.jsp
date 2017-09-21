@@ -43,7 +43,7 @@
 			<button type="button" class="btn btn-default pull-right" id="next">다음</button>
 		</div>
 	</div>
-	<div class="floating"> 광고코드붙혀넣는곳 </div>:
+	<div class="floating"> 선택한 여행지 </div>:
 	<!-- footer -->
 	<div></div>
 </body>
