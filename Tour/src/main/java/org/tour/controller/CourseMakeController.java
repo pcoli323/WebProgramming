@@ -50,7 +50,6 @@ public class CourseMakeController {
 		Gson gson = new Gson();
 		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
 		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
-
 	}
 	
 	@RequestMapping(value = "/course/make/add1/save", method = RequestMethod.POST)
@@ -62,12 +61,23 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
-		//System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
 	public void add2(HttpServletRequest request, Model model) {
-
+		HttpSession session = request.getSession();
+		session.setAttribute("serviceKey", "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D");
+	}
+	
+	@RequestMapping(value = "/course/make/add2/save", method = RequestMethod.POST)
+	public void add2Save(HttpServletRequest request, @RequestBody String data) throws ParseException {
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse( data );
+		JSONArray jsonarray = (JSONArray)obj;
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("list", jsonarray);
 	}
 		
 	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)

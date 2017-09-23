@@ -96,7 +96,6 @@ $(document).on("change","#checkboxes :checkbox",function(){
 		alert(strs[2] + " " + strs[3] + " 이(가) 삭제되었습니다.");
 		idList.splice(idList.indexOf(this.id),1);
 	}
-	console.log( idList );
 	
 	// 날짜 선택 추가 부분
 	var str2 ="";
