@@ -128,7 +128,7 @@
 				<span class="glyphicon symbol" id="like_symbol" style="color:#ff0000"></span>
 				<small class="likeNum"></small>
 			</button>
-			<button type="button" class="symbolButton" id="reply">
+			<button type="button" class="symbolButton" id="reply" style="cursor:default">
 				<span class="glyphicon glyphicon-comment symbol"></span>
 				<small class="replyNum"></small>
 			</button>
@@ -147,7 +147,22 @@
 </div><!-- /content -->
 
 <script>
+	var loginCheck;
+	var loginUserNumber;
+	var courseNumber;
+	var following;
 	$(document).ready(function(){
+		// 변수 초기화
+		loginCheck = ${loginCheck};
+		if(loginCheck == false){
+			loginUserNumber = null;
+		}
+		else{
+			loginUserNumber = ${loginUser.userNumber};
+		}
+		courseNumber = ${courseVO.courseNumber};
+		following = ${userVO.userNumber};
+		// view 초기화
 		followCheck();
 		likeCheck();
 		likeNumber();
@@ -180,35 +195,38 @@
 		});
 	});
 	
-	var courseNumber = ${courseVO.courseNumber};
-	var loginUserNumber = ${login.userNumber};
-	var following = ${userVO.userNumber};
-	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
 	function followCheck(){
-		$.ajax({
-			type:'post',
-			url:'/follow/check',
-			headers:{
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				following:following,
-				followed:loginUserNumber
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 0){
-					// 사용자가 팔로우를 하지 않은 상태
-					followToggle("non-follow");
-				}
-				else{
-					followToggle("follow");
-				}
+		if(loginCheck == true){
+			if(loginUserNumber != ${courseVO.userNumber}){
+				$.ajax({
+					type:'post',
+					url:'/follow/check',
+					headers:{
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 0){
+							// 사용자가 팔로우를 하지 않은 상태
+							followToggle("non-follow");
+						}
+						else{
+							followToggle("follow");
+						}
+					}
+				});
 			}
-		});
+		}
+		else{
+			followToggle("non-follow");
+		}
 	}
 	
 	// like 수
@@ -224,33 +242,38 @@
 	}
 	// courseView를 보는 사용자가 종아요를 누른 사용자인가?
 	function likeCheck(){
-		$.ajax({
-			type:'post',
-			url:'/like/check',
-			headers:{
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				userNumber:loginUserNumber
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 0){
-					// 사용자가 좋아요를 누르지 않은 상태
-					likeToggle("non-active");
+		if(loginCheck == true){
+			$.ajax({
+				type:'post',
+				url:'/like/check',
+				headers:{
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					userNumber:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 0){
+						// 사용자가 좋아요를 누르지 않은 상태
+						likeToggle("non-active");
+					}
+					else if(result == 1){
+						// 사용자가 좋아요를 누른 상태
+						likeToggle("ative");
+					}
+					else{
+						console.log("check user number in like");
+					}
 				}
-				else if(result == 1){
-					// 사용자가 좋아요를 누른 상태
-					likeToggle("ative");
-				}
-				else{
-					console.log("check user number in like");
-				}
-			}
-		});
+			});
+		}
+		else{
+			likeToggle("non-active");
+		}
 	}
 	
 	// reply 수
@@ -268,51 +291,55 @@
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
 	$('#follow').on("click", function(){
-		var checkFollow = $(this).hasClass("active");
-		
-		if(checkFollow == 0){
-			$.ajax({
-				type:'post',
-				url:'/follow/add',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					following:following,
-					followed:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("follow!!");
-						followToggle("follow");
-					}
-				}
-			});
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			$.ajax({
-				type:'delete',
-				url:'/follow/delete',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "DELETE"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					following:following,
-					followed:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("no follow!!");
-						followToggle("non-follow");
+			var checkFollow = $(this).hasClass("active");
+			if(checkFollow == 0){
+				$.ajax({
+					type:'post',
+					url:'/follow/add',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("follow!!");
+							followToggle("follow");
+						}
 					}
-				}
-			});
+				});
+			}
+			else{
+				$.ajax({
+					type:'delete',
+					url:'/follow/delete',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "DELETE"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("no follow!!");
+							followToggle("non-follow");
+						}
+					}
+				});
+			}
 		}
 	});
 	function followToggle(status){
@@ -331,53 +358,57 @@
 	}
 	
 	$('#like').on("click", function(){
-		var checkLike = $(this).hasClass("active");
-		
-		if(checkLike == 0){
-			$.ajax({
-				type:'post',
-				url:'/like/add',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					courseNumber:courseNumber,
-					userNumber:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("like!!");
-						likeToggle("active");
-						likeNumber();
-					}
-				}
-			});
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			$.ajax({
-				type:'delete',
-				url:'/like/delete',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "DELETE"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					courseNumber:courseNumber,
-					userNumber:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("no like!!");
-						likeToggle("non-active");
-						likeNumber();
+			var checkLike = $(this).hasClass("active");
+			if(checkLike == 0){
+				$.ajax({
+					type:'post',
+					url:'/like/add',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						courseNumber:courseNumber,
+						userNumber:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("like!!");
+							likeToggle("active");
+							likeNumber();
+						}
 					}
-				}
-			});
+				});
+			}
+			else{
+				$.ajax({
+					type:'delete',
+					url:'/like/delete',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "DELETE"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						courseNumber:courseNumber,
+						userNumber:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("no like!!");
+							likeToggle("non-active");
+							likeNumber();
+						}
+					}
+				});
+			}
 		}
 	});
 	function likeToggle(status){
@@ -397,30 +428,35 @@
 	});
 	
 	$('#getCourse').on("click", function(){
-		var courseName = "${courseVO.courseName}";
-		var isGotten = true;
-		
-		$.ajax({
-			type:'post',
-			url:'/get/course',
-			headers: {
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "post"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				courseName:courseName,
-				userNumber:loginUserNumber,
-				isGotten:isGotten
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 'SUCCESS'){
-					alert("get course!!");
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
+		}
+		else{
+			var courseName = "${courseVO.courseName}";
+			var isGotten = true;
+			
+			$.ajax({
+				type:'post',
+				url:'/get/course',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "post"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					courseName:courseName,
+					userNumber:loginUserNumber,
+					isGotten:isGotten
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("get course!!");
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 </script>
 
