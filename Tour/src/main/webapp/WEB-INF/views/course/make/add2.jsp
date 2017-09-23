@@ -12,6 +12,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
+.floating { position: fixed; right: 50%; top: 180px; margin-right: -780px; text-align:center; width: 150px; border:2px solid #4E7AC7;}
 </style>
 <body>
 	<!-- header 1,2 -->
@@ -42,6 +43,7 @@
 			<button type="button" class="btn btn-default pull-right" id="next">다음</button>
 		</div>
 	</div>
+	<div class="floating"> 선택한 여행지 </div>:
 	<!-- footer -->
 	<div></div>
 </body>
@@ -100,10 +102,10 @@ function saveAprint(data,id) {
 	for(var i=0; i<jsonItems.length; i++){
 		var json = jsonItems[i];
 		if(json.firstimage!=null)
-			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; weight=100%; display: inline-block;'><img src='" + json.firstimage + "' style='float: left; width: 50%; height: 50%'>";
+			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><img src='" + json.firstimage + "' style='height:485px; weight:auto;float:left;'>";
 		else
-			str += "<div style='margin:10px; padding=:5px;border:2px solid #F5F5F5; weight=100%; display: inline-block'><div style='weight:500;height:333;background-color:#F5F5F5'>이미지가 존재하지 않습니다.</div>"
-		str += "<p>"+json.title+"<br>"+json.addr1+"<br>"+json.addr2+"<br>"+json.tel+"</p>"+"</div>";
+			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><div style='height:485px;width:70%;background-color:#F5F5F5;float:left;'>이미지파일이 없습니다.</div>"
+		str += "<div><p>"+json.title+"<br>"+json.addr1+"<br>"+json.addr2+"<br>"+json.tel+"</p>"+"</div></div>";
 	}
 	document.getElementById(id).innerHTML = str;
 }
