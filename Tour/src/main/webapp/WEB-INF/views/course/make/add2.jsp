@@ -120,6 +120,7 @@ function saveAprint(data,id) {
 	
 	// 페이징
 	str += "<ul class='pagination'>";
+	var max = ((total/10)+1) - (((total/10)+1)%5);
 	var num;
 	for(var i=0; i<5; i++){
 		if((presentPage-1)%5==i){
@@ -137,11 +138,12 @@ function saveAprint(data,id) {
 			str += "<li class='active'><a href='#' id='"+s+"'onclick='callpage(this)'>"+presentPage+"</a></li>";
 		}
 		else{
-			var s = id+"_"+(presentPage-(num-i));
-			str += "<li><a href='#' id='"+s+"'onclick='callpage(this)'>"+(presentPage-(num-i))+"</a></li>";
+			if((presentPage-(num-i))<=max){
+				var s = id+"_"+(presentPage-(num-i));
+				str += "<li><a href='#' id='"+s+"'onclick='callpage(this)'>"+(presentPage-(num-i))+"</a></li>";
+			}		
 		}
 	}
-	var max = ((total/10)+1) - (((total/10)+1)%5);
 	if(presentPage<=max){
 		var s = id+"_"+(presentPage+(5-num));
 		str += "<li><a href='#' id='"+s+"'onclick='callpage(this)');'>다음</a></li>";

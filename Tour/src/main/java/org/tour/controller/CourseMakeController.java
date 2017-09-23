@@ -61,6 +61,7 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
+		//System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
@@ -78,6 +79,7 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("list", jsonarray);
+		//System.out.println(jsonarray);
 	}
 		
 	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)
