@@ -99,6 +99,8 @@
 			center: mapcenter
 		});
 	}
+	var markers = [];
+	var infowindows = [];
 	function makeMarker(locationX, locationY, image, title){
 		if(locationX != ""){
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
@@ -107,6 +109,7 @@
 				map: map,
 				title:title,
 			});
+			markers.push(marker);
 			if(image != ""){
 				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + image 
 										+ "></div><div style='float:right; padding: 10px;'>" + title +"</div>";
@@ -115,7 +118,8 @@
 				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title +"</div>";
 			var infowindow = new google.maps.InfoWindow({
 									content: contentString,
-									size: new google.maps.Size(200,100)}); 
+									size: new google.maps.Size(200,100)});
+			infowindows.push(infowindow);
 			markerListener(marker, infowindow);
 		}
 	}
@@ -150,6 +154,7 @@
         	</div><!-- /courseMaker -->
         	
        		<div class="planTables">
+       			<c:set var="gotoID" value="0"></c:set>
         		<c:forEach var="date" items="${plan.keySet()}">
         			<div class="planTable">
         				<table style="background-color:#ffff99">
@@ -160,7 +165,8 @@
         						<td style="text-align:center">
         							<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         							<c:forEach var="gotoOne" items="${gotoList}">
-        								<i>${gotoOne.gotoName}</i><br><br>
+        								<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i><br><br>
+        								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         							</c:forEach>
         						</td>
         					</tr>
@@ -205,7 +211,6 @@
 		<!-- reply button click으로 추가되는 부분 -->
 		<div class="replySection">
 			<div class="replyInputForm">
-				<input class="inputForm" type="text" placeholder="USER ID" id="newReplyer">
 				<input class="inputForm" type="text" placeholder="댓글을 입력하세요" id="newReply">
 			</div>
 			<div class="replyInputFormButton text-right">
@@ -230,7 +235,7 @@
 					</div><!-- modal-header -->
 					
 					<div class="modal-body">
-						<input class="inputForm" type="text" id="modifyrReply">
+						<input class="inputForm" type="text" id="modifyReply">
 					</div><!-- modal-body -->
 						
 					<div class="modal-footer text-right">
@@ -246,42 +251,60 @@
 </div><!-- /content -->
 
 <script>
+	var loginCheck;
+	var loginUserNumber;
+	var courseNumber;
+	var following;
 	$(document).ready(function(){
+		// 변수 초기화
+		loginCheck = ${loginCheck};
+		if(loginCheck == false){
+			loginUserNumber = null;
+		}
+		else{
+			loginUserNumber = ${loginUser.userNumber};
+		}
+		courseNumber = ${courseVO.courseNumber};
+		following = ${userVO.userNumber};
+		// view 초기화
 		followCheck();
 		likeCheck();
 		likeNumber();
 		replyNumber();
 	});
 	
-	var courseNumber = ${courseVO.courseNumber};
-	var loginUserNumber = ${login.userNumber};
-	var following = ${userVO.userNumber};
-	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
 	function followCheck(){
-		$.ajax({
-			type:'post',
-			url:'/follow/check',
-			headers:{
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				following:following,
-				followed:loginUserNumber
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 0){
-					// 사용자가 팔로우를 하지 않은 상태
-					followToggle("non-follow");
-				}
-				else{
-					followToggle("follow");
-				}
+		if(loginCheck == true){
+			if(loginUserNumber != ${courseVO.userNumber}){
+				$.ajax({
+					type:'post',
+					url:'/follow/check',
+					headers:{
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 0){
+							// 사용자가 팔로우를 하지 않은 상태
+							followToggle("non-follow");
+						}
+						else{
+							followToggle("follow");
+						}
+					}
+				});
 			}
-		});
+		}
+		else{
+			followToggle("non-follow");
+		}
 	}
 	
 	// like 수
@@ -297,33 +320,38 @@
 	}
 	// courseView를 보는 사용자가 종아요를 누른 사용자인가?
 	function likeCheck(){
-		$.ajax({
-			type:'post',
-			url:'/like/check',
-			headers:{
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				userNumber:loginUserNumber
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 0){
-					// 사용자가 좋아요를 누르지 않은 상태
-					likeToggle("non-active");
+		if(loginCheck == true){
+			$.ajax({
+				type:'post',
+				url:'/like/check',
+				headers:{
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					userNumber:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 0){
+						// 사용자가 좋아요를 누르지 않은 상태
+						likeToggle("non-active");
+					}
+					else if(result == 1){
+						// 사용자가 좋아요를 누른 상태
+						likeToggle("ative");
+					}
+					else{
+						console.log("check user number in like");
+					}
 				}
-				else if(result == 1){
-					// 사용자가 좋아요를 누른 상태
-					likeToggle("ative");
-				}
-				else{
-					console.log("check user number in like");
-				}
-			}
-		});
+			});
+		}
+		else{
+			likeToggle("non-active");
+		}
 	}
 	
 	// reply 수
@@ -337,56 +365,90 @@
 			}
 		});
 	}
+	
+	// goto 마우스로 over되면 색 변하도록
+	$('.goto').mouseover(function(){
+		var index = $(this).attr("id");
+		
+		if(index < markers.length){
+			$(this).attr("style", "background-color:#d9ff66;cursor:pointer");
+		}
+		else{
+			$(this).attr("style", "cursor:not-allowed");
+		}
+	});
+	$('.goto').mouseout(function(){
+		var index = $(this).attr("id");
+		
+		if(index < markers.length){
+			$(this).attr("style", "");
+		}
+	});
+	
+	// goto 누르면 지도에 해당하는 marker에 대해 작동하도록
+	// markers[]
+	$('.goto').on("click", function(){
+		var index = $(this).attr("id");
+		
+		if(index < markers.length){
+			infowindows[index].open(map, markers[index]);
+			markers[index].setAnimation(google.maps.Animation.BOUNCE);
+		}
+	});
 </script>
 
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
 	$('#follow').on("click", function(){
-		var checkFollow = $(this).hasClass("active");
-		
-		if(checkFollow == 0){
-			$.ajax({
-				type:'post',
-				url:'/follow/add',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					following:following,
-					followed:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("follow!!");
-						followToggle("follow");
-					}
-				}
-			});
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			$.ajax({
-				type:'delete',
-				url:'/follow/delete',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "DELETE"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					following:following,
-					followed:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("no follow!!");
-						followToggle("non-follow");
+			var checkFollow = $(this).hasClass("active");
+			if(checkFollow == 0){
+				$.ajax({
+					type:'post',
+					url:'/follow/add',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("follow!!");
+							followToggle("follow");
+						}
 					}
-				}
-			});
+				});
+			}
+			else{
+				$.ajax({
+					type:'delete',
+					url:'/follow/delete',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "DELETE"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						following:following,
+						followed:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("no follow!!");
+							followToggle("non-follow");
+						}
+					}
+				});
+			}
 		}
 	});
 	function followToggle(status){
@@ -405,53 +467,57 @@
 	}
 	
 	$('#like').on("click", function(){
-		var checkLike = $(this).hasClass("active");
-		
-		if(checkLike == 0){
-			$.ajax({
-				type:'post',
-				url:'/like/add',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					courseNumber:courseNumber,
-					userNumber:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("like!!");
-						likeToggle("active");
-						likeNumber();
-					}
-				}
-			});
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			$.ajax({
-				type:'delete',
-				url:'/like/delete',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "DELETE"
-				},
-				dataType:'text',
-				data: JSON.stringify({
-					courseNumber:courseNumber,
-					userNumber:loginUserNumber
-				}),
-				success:function(result){
-					console.log("result:" + result);
-					if(result == 'SUCCESS'){
-						alert("no like!!");
-						likeToggle("non-active");
-						likeNumber();
+			var checkLike = $(this).hasClass("active");
+			if(checkLike == 0){
+				$.ajax({
+					type:'post',
+					url:'/like/add',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "POST"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						courseNumber:courseNumber,
+						userNumber:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("like!!");
+							likeToggle("active");
+							likeNumber();
+						}
 					}
-				}
-			});
+				});
+			}
+			else{
+				$.ajax({
+					type:'delete',
+					url:'/like/delete',
+					headers: {
+						"Content-Type": "application/json",
+						"X-HTTP-Method-Override": "DELETE"
+					},
+					dataType:'text',
+					data: JSON.stringify({
+						courseNumber:courseNumber,
+						userNumber:loginUserNumber
+					}),
+					success:function(result){
+						console.log("result:" + result);
+						if(result == 'SUCCESS'){
+							alert("no like!!");
+							likeToggle("non-active");
+							likeNumber();
+						}
+					}
+				});
+			}
 		}
 	});
 	function likeToggle(status){
@@ -467,30 +533,35 @@
 	}
 	
 	$('#getCourse').on("click", function(){
-		var courseName = "${courseVO.courseName}";
-		var isGotten = true;
-		
-		$.ajax({
-			type:'post',
-			url:'/get/course',
-			headers: {
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "post"
-			},
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				courseName:courseName,
-				userNumber:loginUserNumber,
-				isGotten:isGotten
-			}),
-			success:function(result){
-				console.log("result:" + result);
-				if(result == 'SUCCESS'){
-					alert("get course!!");
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
+		}
+		else{
+			var courseName = "${courseVO.courseName}";
+			var isGotten = true;
+			
+			$.ajax({
+				type:'post',
+				url:'/get/course',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "post"
+				},
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					courseName:courseName,
+					userNumber:loginUserNumber,
+					isGotten:isGotten
+				}),
+				success:function(result){
+					console.log("result:" + result);
+					if(result == 'SUCCESS'){
+						alert("get course!!");
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 </script>
 <!-- 댓글 처리 -->
@@ -504,7 +575,9 @@
 			<p class="media-body-reply">{{reply}}</p>
 		</div>
 		<div class="media-modify" style="text-align:right">
+			{{#eqReplyer replyer}}
 			<a class="btn btn-success btn-sm" data-toggle="modal" data-target="#replyModifyModal">수정</a>
+			{{/eqReplyer}}
 		</div>
 	</div>
 	{{/each}}
@@ -567,51 +640,61 @@
 		
 		return localDate.toISOString().replace("T", " ").slice(0, 19);
 	});
-	
-	$("#addReplyBtn").on("click", function(){
-		var replyerObj = $("#newReplyer");
-		var replyObj = $("#newReply");
-		var replyer = replyerObj.val();
-		var reply = replyObj.val();
-		
-		$.ajax({
-			type:'post',
-			url:'/replise/add',
-			headers: {
-				"Content-Type": "application/json",
-				"X-HTTP-Method-Override": "POST" },
-			dataType:'text',
-			data: JSON.stringify({
-				courseNumber:courseNumber,
-				reply:reply,
-				replyer:replyer
-			}),
-			success:function(result){
-				console.log("result: " + result);
-				if(result == 'SUCCESS'){
-					alert("등록 되었습니다.");
-					replyPage = 1;
-					getList(replyPage);
-					replyerObj.val("");
-					replyObj.val("");
-				}
-			}
-		});
+	// 자신이 등록한 댓글만 수정이 가능하도록
+	Handlebars.registerHelper("eqReplyer", function(replyer, block){
+		var accum = '';
+		if(replyer == loginUserNumber){
+			accum += block.fn(); // fn은 block의 값을 그대로 string으로 출력해주는 것, block은 handlebar가 사용된 부분을 들고옴
+		}
+		return accum;
 	});
 	
+	$("#addReplyBtn").on("click", function(){
+		if(loginCheck == false){
+			alert("로그인 후 사용하실 수 있습니다.");
+		}
+		else{
+			var replyObj = $("#newReply");
+			var reply = replyObj.val();
+			
+			$.ajax({
+				type:'post',
+				url:'/replise/add',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST" },
+				dataType:'text',
+				data: JSON.stringify({
+					courseNumber:courseNumber,
+					reply:reply,
+					replyer:loginUserNumber
+				}),
+				success:function(result){
+					console.log("result: " + result);
+					if(result == 'SUCCESS'){
+						alert("등록 되었습니다.");
+						replyPage = 1;
+						getList(replyPage);
+						replyerObj.val("");
+						replyObj.val("");
+					}
+				}
+			});
+		}
+	});
 	// 댓글별 수정버튼 처리
 	$(".replise").on("click", ".media", function(event){
 		
 		var replyObj = $(this);
 		
-		$("#modifyrReply").val(replyObj.find('.media-body-reply').text());
+		$("#modifyReply").val(replyObj.find('.media-body-reply').text());
 		$(".modal-title").html(replyObj.attr("data-replyNumber"));
 	})
 	
 	$("#modifyReplyBtn").on("click", function(){
 		
 		var replyNumber = $(".modal-title").html();
-		var reply = $("#modifyrReply").val();
+		var reply = $("#modifyReply").val();
 		
 		$.ajax({
 			type:'put',

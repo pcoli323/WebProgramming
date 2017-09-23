@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="add">
-		insert into tbl_courseInfo (courseNumber, gotoDate, regionCode, gotoCode, gotoImage, gotoLocation)
-		values (#{courseNumber}, #{gotoDate}, #{regionCode}, #{gotoCode}, #{gotoImage}, #{gotoLocation})
+		insert into tbl_courseInfo (courseNumber, gotoDate, regionCode, gotoCode, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY)
+		values (#{courseNumber}, #{gotoDate}, #{regionCode}, #{gotoCode}, #{gotoImageReal}, #{gotoImageThum}, #{gotoLocationX}, #{gotoLocationY})
 	</insert>
 </mapper>

@@ -53,19 +53,26 @@ public class CourseViewController {
 	public void readSimple(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
 		
 		try {
-			/* ¿”¿«¿« login ∏∏µÍ */
-			LoginDTO loginDto = new LoginDTO();
-			loginDto.setEmail("user01@bbb.com");
-			loginDto.setPwd("user01");
-			UserVO loginUser = userService.login(loginDto);
 			HttpSession	session = request.getSession();
-			session.setAttribute("login", loginUser);
+			UserVO loginUser = new UserVO();;
+			if(session.getAttribute("login") == null) {
+				model.addAttribute("loginCheck", false);
+				loginUser.setUserNumber(-1);
+				loginUser.setEmail(null);
+				loginUser.setPwd(null);
+				loginUser.setUserName(null);
+			}
+			else {
+				model.addAttribute("loginCheck", true);
+				loginUser = (UserVO) session.getAttribute("login");
+			}
 			
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
 			List<CourseInfoVO> representatives = courseInfoService.representatives(courseNumber);
 			List<String> representativeNames = gotoService.readRepresentativeNames(representatives);
 			
+			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
 			model.addAttribute("userVO", userVO);
@@ -99,13 +106,35 @@ public class CourseViewController {
 	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public void readDetail(@RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
+	public void readDetail(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
 		
 		try {
+			LoginDTO loginDto = new LoginDTO();
+			loginDto.setEmail("user01@bbb.com");
+			loginDto.setPwd("user01");
+			UserVO loginUserCheck = userService.login(loginDto);
+			HttpSession	session = request.getSession();
+			session.setAttribute("login", loginUserCheck);
+			
+			//HttpSession	session = request.getSession();
+			UserVO loginUser = new UserVO();;
+			if(session.getAttribute("login") == null) {
+				model.addAttribute("loginCheck", false);
+				loginUser.setUserNumber(-1);
+				loginUser.setEmail(null);
+				loginUser.setPwd(null);
+				loginUser.setUserName(null);
+			}
+			else {
+				model.addAttribute("loginCheck", true);
+				loginUser = (UserVO) session.getAttribute("login");
+			}
+			
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
 			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);
 			
+			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
 			model.addAttribute("userVO", userVO);

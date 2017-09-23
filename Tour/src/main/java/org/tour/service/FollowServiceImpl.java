@@ -29,5 +29,4 @@ public class FollowServiceImpl implements FollowService {
 		
 		dao.delete(vo);
 	}
-	
 }
