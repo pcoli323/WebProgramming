@@ -41,8 +41,8 @@
 			<div id="dsList" style="margin-top: 10px;"></div>		
 		</div>	
 		<!-- 다음 단계 이동 -->
-		<div style="padding:10px;">
-			<button type="button" class="btn btn-default" id="cancel">취소</button>
+		<div style="padding:10px; float:right">
+			<button type="button" class="btn btn-default puul-left" id="cancel">취소</button>
 			<button type="button" class="btn btn-default pull-right" id="next">다음</button>
 		</div>
 	</div>		
@@ -125,12 +125,28 @@ function printDay(strs,id){
 	var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
 	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "S'>"
 	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "E'>"
-	str2 += tagL + tagSI + tagEI + "<br>";
+	str2 += tagL + tagSI + tagEI;
+	str2 += "<button type='button' class='close' aria-label='Close' id='D_"+id+"'><span aria-hidden='true'>&times;</span></button>";
 	var newD = document.createElement("div");
 	newD.setAttribute("id","D"+strs[2]+strs[3]);
+	newD.setAttribute("style","float:left");
 	newD.innerHTML=str2;
 	document.getElementById('dsList').appendChild(newD);
 }
+
+//여행지 삭제 이벤트 처리
+$(document).on("click","#dsList :button",function(){
+	for(var i=0; i<idList.length; i++){
+		if(this.id.split("_")[1]==idList[i]){
+			alert("여행지를 삭제했습니다.");
+			idList.splice(i,1);
+			document.getElementById(this.id.split("_")[1]).checked = false;
+			document.getElementById(this.id.split("_")[1]).parentElement.classList.remove('active');
+			document.getElementById('dsList').removeChild(document.getElementById("D"+this.id.split("_")[1].split("-")[2]+this.id.split("_")[1].split("-")[3]));
+			break;
+		}
+	}
+});
 
 //달력 이벤트 처리 부분
 $(document).on("focus",".datepicker",function(){ 
@@ -148,9 +164,9 @@ $("#next").click(function(){
 			//var sd = $("#D" + idList[i] + "S").datepicker( 'getDate' );
 			//var ed = $("#D" + idList[i] + "E").datepicker( 'getDate' );
 			var sdate = document.getElementById("D"+idList[i]+"S").value.split("/");
-			var sd = new Date(sdate[2],sdate[1],sdate[0]);	
+			var sd = new Date(sdate[2],sdate[0],sdate[1]);	
 			var edate = document.getElementById("D"+idList[i]+"E").value.split("/");
-			var ed = new Date(edate[2],edate[1],edate[0]);
+			var ed = new Date(edate[2],edate[0],edate[1]);
 			if(sdate=="" || edate==""){
 				alert("날짜를 선택하지 않은 것이 있습니다.");
 				stop = true;
