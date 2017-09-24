@@ -11,8 +11,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="jquery.tablednd.js"></script>
   <style>
     
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -129,9 +127,9 @@ var inputCount = 0;
 		<div id="map"></div>
 			<script>
 			function initMap() {
-				var mapcenter = {lat: 37.5693679015, lng: 126.9838371210};
+				var mapcenter = {lat: 36.5626, lng: 127.957764};
 				var map = new google.maps.Map(document.getElementById('map'), {
-					zoom: 11,
+					zoom: 7,
 					center: mapcenter
 				});
 	
@@ -273,7 +271,7 @@ var inputCount = 0;
 		function initScheduleTable(){
 			var scheduleDateTable = "";
 			for(var i=0; i<scheduleBetweenDay; i++){
-				scheduleDateTable += "<tr><td><table><tr><th>" + str[i] + "</th></tr><table class='drag' id=" + str[i] + "></table></table></td></tr>";
+				scheduleDateTable += "<tr><td><table><tr><th>" + str[i] + "</th></tr><table id=" + str[i] + "></table></table></td></tr>";
 			}
 			document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 		}
@@ -316,13 +314,14 @@ var inputCount = 0;
 					var endDateObj = new Date(Number(splitEndDate[2]), Number(splitEndDate[0])-1, Number(splitEndDate[1]));
 					
 					var betweenDay =((endDateObj.getTime() - strDateObj.getTime())/1000/60/60/24)+1;
-						
+					var dateOrderOption = [];
 					var stringOption = "<option value=''>날짜를 선택하세요</option>";
 					for(var optionDate=0; optionDate<betweenDay; optionDate++){
 						var dateObj = new Date(Number(splitStrDate[2]), Number(splitStrDate[0])-1, Number(splitStrDate[1]));
 						dateObj.setDate(dateObj.getDate()+optionDate);
 						var str = dateObj.getFullYear() + "/" + (dateObj.getMonth()+1) + "/" + dateObj.getDate();
 						stringOption += "<option class='setDate' value=" + str + ">" + str + "</option>";
+						dateOrderOption[optionDate] = str;
 					}
 					break;
 				}
@@ -330,34 +329,45 @@ var inputCount = 0;
 			document.getElementById("selectDate").innerHTML = stringOption;
 	    });
 		var selectDateVar;
+		var orderCount = [];
+		for(var i=0; i<betweenDay; i++)
+			orderCount[i] = 0;
 		$(document).ready(function(){
 		    $(".selectDate").click(function(){
 				selectDateVar = this.value;
+				for(var i=0; i<betweenDay; i++){
+					if(dateOrderOption[i] == selectDateVar){
+						jsonArr[calBtnValue].order = i + "-" + orderCount[i];
+						orderCount[i]++;
+						break;
+					}
+				}
+				
 			}); 
 		});
 
+		var updownString = [];
 		// calendar modal창 확인
 		function insertDate(){
 			jsonArr[calBtnValue].gotoDate = selectDateVar;
 			initSchedule();
 		}
 		var stringGoto = [];
+		var getCollect = [];
 		function initSchedule(){
 			for(var j=0; j<scheduleBetweenDay; j++){
-				stringGoto[j] = "";
 				for(var i=0; i<jsonArr.length; i++){
 					if(str[j] == jsonArr[i].gotoDate){
-						stringGoto[j] += "<tr><td>" + jsonArr[i].title + "</td></tr>";
-					} else {
-						stringGoto[j] += "";
+						getCollect[j] = jsonArr[i];
 					}
 				}
-				document.getElementById(str[j]).innerHTML = stringGoto[j];
+			}
+			for(var i=0; i<jsonArr.length; i++){
+				if(str[j] == jsonArr[i].gotoDate){
+					getCollect[j] = jsonArr[i];
+				}
 			}
 		}
-		$(document).on("focus",".drag",function(){
-		    $(".drag").tableDnD();
-		});
 		</script>
 	</div>
 
