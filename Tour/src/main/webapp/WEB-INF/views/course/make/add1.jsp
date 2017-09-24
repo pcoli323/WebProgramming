@@ -82,6 +82,21 @@ $(document).ready(function(){
 		str += "</div>" + "</div>";
 	}
 	document.getElementById("checkboxes").innerHTML = str;
+	
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${idList}');
+	for(var i=0; i<jsona.length; i++){
+		var json = jsona[i];
+		var str = json.areaCode + "-" + json.sigunguCode + "-" + json.areaName + "-" + json.sigunguName;
+		idList.push(str);
+		printDay(str.split("-"),str);
+		document.getElementById(str).checked = true;
+		document.getElementById(str).parentElement.classList.add('active');
+		document.getElementById("D"+str+"S").value=json.startDate;
+		document.getElementById("D"+str+"E").value=json.endDate;
+	}
+	
 });
 
 // 체크-버튼 이벤트 처리 부분
@@ -92,17 +107,7 @@ $(document).on("change","#checkboxes :checkbox",function(){
 	if (this.checked) {
 		alert(strs[2] + " " + strs[3] + " 이(가) 추가되었습니다.");
 		idList.push(this.id);
-		
-		if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
-		var str2 ="";
-		var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
-    	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + this.id + "S'>"
-    	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + this.id + "E'>"
-    	str2 += tagL + tagSI + tagEI + "<br>";
-    	var newD = document.createElement("div");
-    	newD.setAttribute("id","D"+strs[2]+strs[3]);
-    	newD.innerHTML=str2;
-    	document.getElementById('dsList').appendChild(newD);
+		printDay(strs,this.id);
 	}
 	else{
 		alert(strs[2] + " " + strs[3] + " 이(가) 삭제되었습니다.");
@@ -112,6 +117,20 @@ $(document).on("change","#checkboxes :checkbox",function(){
 		document.getElementById('dsList').removeChild(document.getElementById("D"+strs[2]+strs[3]));
 	}
 });
+
+// 화면에 컴포넌트를 추가하는 부분
+function printDay(strs,id){
+	if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
+	var str2 ="";
+	var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
+	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "S'>"
+	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "E'>"
+	str2 += tagL + tagSI + tagEI + "<br>";
+	var newD = document.createElement("div");
+	newD.setAttribute("id","D"+strs[2]+strs[3]);
+	newD.innerHTML=str2;
+	document.getElementById('dsList').appendChild(newD);
+}
 
 //달력 이벤트 처리 부분
 $(document).on("focus",".datepicker",function(){ 
@@ -126,19 +145,24 @@ $("#next").click(function(){
 	else {
 		var stop = false;
 		for(var i=0; i<idList.length; i++){
-			var sd = $("#D" + idList[i] + "S").datepicker( 'getDate' );
-			var ed = $("#D" + idList[i] + "E").datepicker( 'getDate' );
-			if(sd==null || ed==null){
+			//var sd = $("#D" + idList[i] + "S").datepicker( 'getDate' );
+			//var ed = $("#D" + idList[i] + "E").datepicker( 'getDate' );
+			var sdate = document.getElementById("D"+idList[i]+"S").value.split("/");
+			var sd = new Date(sdate[2],sdate[1],sdate[0]);	
+			var edate = document.getElementById("D"+idList[i]+"E").value.split("/");
+			var ed = new Date(edate[2],edate[1],edate[0]);
+			if(sdate=="" || edate==""){
 				alert("날짜를 선택하지 않은 것이 있습니다.");
 				stop = true;
 				break;
 			}
-			else if(sd > ed){
+			else if(sd.getTime() > ed.getTime()){
 				alert("시작날짜와 끝날짜를 확인해주세요.");
 				stop = true;
 				break;
 			}
 		}
+		
 		if(stop==false){
 			for(var i=0; i<idList.length; i++)
 				idList[i] += "-" + document.getElementById("D" + idList[i] + "S").value + "-" + document.getElementById("D" + idList[i] + "E").value;

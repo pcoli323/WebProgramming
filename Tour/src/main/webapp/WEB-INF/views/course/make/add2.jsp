@@ -69,6 +69,30 @@ $(document).ready(function(){
 		str += "<div class='tab-pane' id='" + json.areaCode + "-" + json.sigunguCode + "' role='tabpanel'></div>";
 	}
 	document.getElementById("checkboxes").innerHTML = str;
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${list}');
+	for(var i=0; i<jsona.length; i++){
+		var json = jsona[i];
+		var ok = false;
+		for(var j=0; j<jsonIDArr.length; j++){
+			var json2 = jsonIDArr[j];
+			if(json2.sigunguCode==0){
+				if(json.areacode==json2.areaCode){
+					ok=true;break;
+				}
+			}
+			else{
+				if(json.areacode==json2.areaCode&&json.sigungucode==json2.sigunguCode){
+					ok=true;break;
+				}
+			}
+		}
+		if(ok==true){
+			selectedList.push(json);
+		}
+	}
+	printList();
 });
 
 // 체크-버튼 이벤트 처리 부분

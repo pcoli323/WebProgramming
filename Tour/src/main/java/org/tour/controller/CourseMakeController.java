@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -207,17 +208,17 @@ public class CourseMakeController {
 						.setGotoAreaCode((int)json.get("areacode"))
 						.setGotoContentID((int)json.get("contentid"))
 						.setGotoContentTypeID((int)json.get("contenttypeid"))
-						.setGotoCreateTime((Date)json.get("createtime"))
+						.setGotoCreateTime(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("createtime")))
 						.setGotoImageReal((String)json.get("firstimage"))
 						.setGotoImageThum((String)json.get("firstimage2"))
 						.setGotoLocationX((String)json.get("mapx"))
 						.setGotoLocationY((String)json.get("mapy"))
-						.setGotoModifiedTime((Date)json.get("modifiedtime"))
+						.setGotoModifiedTime(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("modifiedtime")))
 						.setGotoReadCount((int)json.get("readcount"))
 						.setGotoSigunguCode((int)json.get("sigungucode"))
 						.setGotoTel((String)json.get("tel"))
 						.setGotoTitle((String)json.get("title"))
-						.setGotoDate((Date)json.get("date"))	// ?
+						.setGotoDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("date")))	// ?
 						.setGotoOrder((int)json.get("order"))	// ?
 						);
 			} catch (Exception e) {
@@ -233,8 +234,8 @@ public class CourseMakeController {
 				courseInfoSimpleService.courseInfoSimpleAdd(new CourseInfoSimpleVO().setCourseNumber(courseNumber)
 						.setAreaCode((int)json.get("areaCode"))
 						.setSigunguCode((int)json.get("sigunguCode"))
-						.setStartDate((Date)json.get("startDate"))
-						.setEndDate((Date)json.get("endDate"))
+						.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("startDate")))
+						.setEndDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("endDate")))
 						);
 			} catch (Exception e) {
 				e.printStackTrace();
