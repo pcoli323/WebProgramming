@@ -26,7 +26,7 @@ import org.tour.dto.CourseInfoDTO;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
 import org.tour.service.PlanService;
-import org.tour.service.GotoService;
+//import org.tour.service.GotoService;
 import org.tour.service.ImageService;
 import org.tour.service.UserService;
 
@@ -42,8 +42,9 @@ public class CourseViewController {
 	private UserService userService;
 	@Inject
 	private CourseInfoService courseInfoService;
+	/*
 	@Inject
-	private GotoService gotoService;
+	private GotoService gotoService;*/
 	@Inject
 	private PlanService planService;
 	@Inject
@@ -70,14 +71,14 @@ public class CourseViewController {
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
 			List<CourseInfoVO> representatives = courseInfoService.representatives(courseNumber);
-			List<String> representativeNames = gotoService.readRepresentativeNames(representatives);
+			//List<String> representativeNames = gotoService.readRepresentativeNames(representatives);
 			
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
 			model.addAttribute("userVO", userVO);
 			model.addAttribute("representatives", representatives);
-			model.addAttribute("representativeNames", representativeNames);
+			//model.addAttribute("representativeNames", representativeNames);
 			
 		} catch(Exception e) {
 			logger.info("readSimple");

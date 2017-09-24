@@ -14,16 +14,17 @@ import org.springframework.stereotype.Service;
 import org.tour.domain.CourseInfoVO;
 import org.tour.dto.CourseInfoDTO;
 import org.tour.persistence.CourseInfoDAO;
-import org.tour.persistence.GotoDAO;
+//import org.tour.persistence.GotoDAO;
 
 @Service
 public class PlanServiceImpl implements PlanService{
 
 	@Inject
 	private CourseInfoDAO courseInfoDao;
+	/*
 	@Inject
 	private GotoDAO gotoDao;
-	
+	*/
 	@Override
 	public Map<String, List<CourseInfoDTO>> gotoListAccordingToDate(int courseNumber) throws Exception {
 		Map<String, List<CourseInfoDTO>> plan = new LinkedHashMap<String, List<CourseInfoDTO>>();
@@ -42,7 +43,7 @@ public class PlanServiceImpl implements PlanService{
 			for(int j=0; j<gotoList.size(); j++) {
 				CourseInfoDTO courseInfoDto = new CourseInfoDTO();
 				courseInfoDto.setGotoNumber(gotoList.get(j).getGotoNumber());
-				courseInfoDto.setGotoName(gotoDao.readName(gotoList.get(j).getGotoCode()));
+				courseInfoDto.setGotoName(gotoList.get(j).getGotoTitle());
 				courseInfoDto.setLocationX(gotoList.get(j).getGotoLocationX());
 				courseInfoDto.setLocationY(gotoList.get(j).getGotoLocationY());
 				String gotoImage = gotoList.get(j).getGotoImageThum();
