@@ -242,10 +242,30 @@ public class CourseMakeController {
 		}
 		
 		// 4. 세션에서 idList, list, name 삭제
-		session.removeAttribute("idList");
-		session.removeAttribute("list");
-		session.removeAttribute("name");
+		removeAttributes(request);
 		
+	}
+	
+	@RequestMapping(value = "/course/make/cancel", method = RequestMethod.GET)
+	public void cancel(HttpServletRequest request) throws ParseException {
+		
+		removeAttributes(request);
+		
+	}
+	
+	public void removeAttributes(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("idList")!=null) {
+			session.removeAttribute("idList");
+		}
+		if(session.getAttribute("list")!=null) {
+			session.removeAttribute("list");
+		}
+		if(session.getAttribute("name")!=null) {
+			session.removeAttribute("name");
+		}
 	}
 }
 

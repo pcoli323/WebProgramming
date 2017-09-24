@@ -34,6 +34,7 @@
 		</div>
 		<!-- 다음 단계 이동 -->
 		<div class="floating2">
+			<button type="button" class="btn btn-default" id="cancel">취소</button>
 			<button type="button" class="btn btn-default" id="next">다음</button>
 		</div>
 		<div class="floating" id="selected">
@@ -251,6 +252,20 @@ $("#next").click(function(){
  			}
   		 });
 	}
+});
+
+// 취소 버튼 이벤트 처리
+$("#cancel").click(function(){
+	$.ajax({      
+        type:"GET",  
+        url:"/course/make/cancel",
+        success:function(){
+        	location.href="/";
+    	},
+		 error:function(){
+     		location.href="/";
+ 		}
+  	});
 });
 </script>
 </html>
