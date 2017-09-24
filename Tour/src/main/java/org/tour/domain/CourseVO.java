@@ -13,6 +13,7 @@ public class CourseVO {
 	private boolean isGotten;
 	private int likeNumber;
 	private String story;
+	private int readCount;
 	
 	public int getCourseNumber() {
 		return courseNumber;
@@ -67,6 +68,12 @@ public class CourseVO {
 	}
 	public void setStory(String story) {
 		this.story = story;
+	}
+	public int getReadCount() {
+		return readCount;
+	}
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
 	}
 	
 }
