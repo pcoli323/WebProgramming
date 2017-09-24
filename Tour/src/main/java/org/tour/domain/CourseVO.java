@@ -24,14 +24,16 @@ public class CourseVO {
 	public String getCourseName() {
 		return courseName;
 	}
-	public void setCourseName(String courseName) {
+	public CourseVO setCourseName(String courseName) {
 		this.courseName = courseName;
+		return this;
 	}
 	public int getUserNumber() {
 		return userNumber;
 	}
-	public void setUserNumber(int userNumber) {
+	public CourseVO setUserNumber(int userNumber) {
 		this.userNumber = userNumber;
+		return this;
 	}
 	public Date getRegDate() {
 		return regDate;

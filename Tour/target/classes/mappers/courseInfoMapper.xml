@@ -53,4 +53,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into tbl_courseInfo (courseNumber, gotoDate, regionCode, gotoCode, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY)
 		values (#{courseNumber}, #{gotoDate}, #{regionCode}, #{gotoCode}, #{gotoImageReal}, #{gotoImageThum}, #{gotoLocationX}, #{gotoLocationY})
 	</insert>
+	
+	<insert id="courseInfoAdd">
+		insert into tbl_courseInfo (courseNumber, gotoAddr1, gotoAddr2, gotoAreaCode, gotoContentID, gotoContentTypeID, gotoCreateTime, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY, gotoModifiedTime, gotoReadCount, gotoSigunguCide, gotoTel, gotoTitle, gotoDate, gotoOrder)
+		values (#{courseNumber}, #{gotoAddr1}, #{gotoAddr2}, #{gotoAreaCode}, #{gotoContentID}, #{gotoContentTypeID}, #{gotoCreateTime}, #{gotoImageReal}, #{gotoImageThum}, #{gotoLocationX}, #{gotoLocationY}, #{gotoModifiedTime}, #{gotoReadCount}, #{gotoSigunguCide}, #{gotoTel}, #{gotoTitle}, #{gotoDate}, #{gotoOrder})
+	</insert>
 </mapper>

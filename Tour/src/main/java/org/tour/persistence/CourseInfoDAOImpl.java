@@ -66,4 +66,10 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		session.insert(namespace + ".add", vo);
 	}
 
+	@Override
+	public void courseInfoAdd(CourseInfoVO vo) throws Exception {
+		session.insert(namespace + ".courseInfoAdd", vo);
+		//int courseNumber, CourseInfoVO vo
+	}
+
 }

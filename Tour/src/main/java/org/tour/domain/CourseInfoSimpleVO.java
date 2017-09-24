@@ -13,32 +13,37 @@ public class CourseInfoSimpleVO {
 	public int getCourseNumber() {
 		return courseNumber;
 	}
-	public void setCourseNumber(int courseNumber) {
+	public CourseInfoSimpleVO setCourseNumber(int courseNumber) {
 		this.courseNumber = courseNumber;
+		return this;
 	}
 	public int getAreaCode() {
 		return areaCode;
 	}
-	public void setAreaCode(int areaCode) {
+	public CourseInfoSimpleVO setAreaCode(int areaCode) {
 		this.areaCode = areaCode;
+		return this;
 	}
 	public int getSigunguCode() {
 		return sigunguCode;
 	}
-	public void setSigunguCode(int sigunguCode) {
+	public CourseInfoSimpleVO setSigunguCode(int sigunguCode) {
 		this.sigunguCode = sigunguCode;
+		return this;
 	}
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public CourseInfoSimpleVO setStartDate(Date startDate) {
 		this.startDate = startDate;
+		return this;
 	}
 	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public CourseInfoSimpleVO setEndDate(Date endDate) {
 		this.endDate = endDate;
+		return this;
 	}
 	
 }

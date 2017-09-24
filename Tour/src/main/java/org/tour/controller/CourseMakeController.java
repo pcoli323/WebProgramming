@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,9 +28,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.tour.domain.CourseInfoSimpleVO;
+import org.tour.domain.CourseInfoVO;
+import org.tour.domain.CourseVO;
+import org.tour.domain.UserVO;
 import org.tour.dto.AreaDTO;
 import org.tour.dto.SelectedAreaDTO;
 import org.tour.service.AreaService;
+import org.tour.service.CourseInfoService;
+import org.tour.service.CourseInfoSimpleService;
+import org.tour.service.CourseService;
 import org.tour.service.SigunguService;
 
 import com.google.gson.Gson;
@@ -43,6 +51,12 @@ public class CourseMakeController {
 	private AreaService areaService;
 	@Inject
 	private SigunguService sigunguService;
+	@Inject
+	private CourseService courseService;
+	@Inject
+	private CourseInfoService courseInfoService;
+	@Inject
+	private CourseInfoSimpleService courseInfoSimpleService;
 	
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public void add1(Locale locale, Model model) throws Exception {
@@ -136,6 +150,102 @@ public class CourseMakeController {
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	
+	@RequestMapping(value = "/course/make/modify/save", method = RequestMethod.POST)
+	public void modifySave(HttpServletRequest request) throws ParseException {
+		
+		HttpSession session = request.getSession();
+		// <Session> idList, list, name(?)
+		// idList : areaCode, sigunguCode, areaName, sigunguName, startDate, endDate
+		/*
+		list			내용			DB(tbl_CourseInfo)
+		------------------------------------------------
+		addr1			주소			gotoAddr1
+		addr2			상세주소		gotoAddr2	
+		areacode		지역코드		gotoAreaCode
+		contentid		콘텐츠		gotoContentId
+		contenttypeid	관광타입		gotoContentTypeId
+		createtime		등록일		gotoCreateTime
+		firstimage		원본			gotoImageReal
+		firstimage2		썸네일		gotoImageThum
+		mapx			GPS X		gotoLocationX
+		mapy			GPS Y		gotoLocationY
+		modifiedtime	수정일		gotoModifiedTime
+		readcount		조회수		gotoReadCount
+		sigungucode		시군구코드		gotoSigunguCode
+		tel				전화번호		gotoTel
+		title			제목			gotoTitle
+		
+		date(?)			여행날짜		gotoDate
+		order(?)		날짜별순서		gotoOrder
+		*/
+		// name : courseName
+		
+		
+		// 1. tbl_Course에 코스 추가
+		try {
+			courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int courseNumber = -1;
+		try {
+			courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 2. tbl_CourseInfo에 코스정보 추가
+		JSONArray data = (JSONArray) session.getAttribute("list");
+		for(int i=0; i<data.size(); i++) {
+			JSONObject json = (JSONObject) data.get(i);
+			try {
+				courseInfoService.courseInfoAdd(new CourseInfoVO().setCourseNumber(courseNumber)
+						.setGotoAddr1((String)json.get("addr1"))
+						.setGotoAddr2((String)json.get("addr2"))
+						.setGotoAreaCode((int)json.get("areacode"))
+						.setGotoContentID((int)json.get("contentid"))
+						.setGotoContentTypeID((int)json.get("contenttypeid"))
+						.setGotoCreateTime((Date)json.get("createtime"))
+						.setGotoImageReal((String)json.get("firstimage"))
+						.setGotoImageThum((String)json.get("firstimage2"))
+						.setGotoLocationX((String)json.get("mapx"))
+						.setGotoLocationY((String)json.get("mapy"))
+						.setGotoModifiedTime((Date)json.get("modifiedtime"))
+						.setGotoReadCount((int)json.get("readcount"))
+						.setGotoSigunguCode((int)json.get("sigungucode"))
+						.setGotoTel((String)json.get("tel"))
+						.setGotoTitle((String)json.get("title"))
+						.setGotoDate((Date)json.get("date"))	// ?
+						.setGotoOrder((int)json.get("order"))	// ?
+						);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// 3. tbl_CourseInfoSimple에 코스정보2 추가
+		data = (JSONArray) session.getAttribute("idList");
+		for(int i=0; i<data.size(); i++) {
+			JSONObject json = (JSONObject) data.get(i);
+			try {
+				courseInfoSimpleService.courseInfoSimpleAdd(new CourseInfoSimpleVO().setCourseNumber(courseNumber)
+						.setAreaCode((int)json.get("areaCode"))
+						.setSigunguCode((int)json.get("sigunguCode"))
+						.setStartDate((Date)json.get("startDate"))
+						.setEndDate((Date)json.get("endDate"))
+						);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// 4. 세션에서 idList, list, name 삭제
+		session.removeAttribute("idList");
+		session.removeAttribute("list");
+		session.removeAttribute("name");
+		
 	}
 }
 

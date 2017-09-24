@@ -10,4 +10,7 @@ public interface CourseService {
 	
 	public int newCourseNumber(int userNumber) throws Exception;
 
+	public void courseAdd(CourseVO vo) throws Exception;
+	public int courseNumberRead(int userNumber) throws Exception;
+	
 }

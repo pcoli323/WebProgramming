@@ -13,4 +13,6 @@ public interface CourseInfoService {
 	public List<CourseInfoVO> readAll(int courseNumber) throws Exception;
 	
 	public void add(CourseInfoVO vo) throws Exception;
+	
+	public void courseInfoAdd(CourseInfoVO vo) throws Exception;
 }

@@ -25,11 +25,23 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		session.insert(namespace + ".add", vo);
 	}
-
+	
 	@Override
 	public int newCourseNumber(int userNumber) throws Exception {
 		
 		return session.selectOne(namespace + ".newCourseNumber", userNumber);
+	}
+
+	@Override
+	public void courseAdd(CourseVO vo) throws Exception {
+		
+		session.insert(namespace + ".courseAdd", vo);
+	}
+	
+	@Override
+	public int courseNumberRead(int userNumber) throws Exception {
+
+		return session.selectOne(namespace + ".courseNumberRead", userNumber);
 	}
 	
 }
