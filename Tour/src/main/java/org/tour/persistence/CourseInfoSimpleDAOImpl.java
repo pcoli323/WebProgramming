@@ -6,11 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RegionDAOImpl implements RegionDAO {
+public class CourseInfoSimpleDAOImpl implements CourseInfoSimpleDAO {
 
 	@Inject
 	private SqlSession session;
 	
-	private static String namespace = "org.tour.mapper.RegionMapper";
-	
+	private static String namespace = "org.tour.mapper.CourseInfoSimpleMapper";
+
 }

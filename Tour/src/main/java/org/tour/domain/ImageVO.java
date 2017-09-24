@@ -2,24 +2,28 @@ package org.tour.domain;
 
 public class ImageVO {
 
-	private String title;
+	private int imageNumber;
+	private byte[] readfile;
+	private byte[] thumfile;
 	
-	private byte[] realfile;
+	public int getImageNumber() {
+		return imageNumber;
+	}
+	public void setImageNumber(int imageNumber) {
+		this.imageNumber = imageNumber;
+	}
+	public byte[] getReadfile() {
+		return readfile;
+	}
+	public void setReadfile(byte[] readfile) {
+		this.readfile = readfile;
+	}
+	public byte[] getThumfile() {
+		return thumfile;
+	}
+	public void setThumfile(byte[] thumfile) {
+		this.thumfile = thumfile;
+	}
 	
-	public byte[] getRealfile() {
-		return realfile;
-	}
-	public void setRealfile(byte[] realfile) {
-		this.realfile = realfile;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	@Override
-	public String toString() {
-		return "title : " + title + "  realfile : " + realfile;
-	}
+	
 }

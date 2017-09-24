@@ -14,5 +14,7 @@
 	</div>
 </body>
 <script>
+var jsonIDArr = JSON.parse('${idList}');
+
 </script>
 </html>
