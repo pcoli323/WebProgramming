@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="jquery.tablednd.js"></script>
   <style>
     
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -42,8 +44,8 @@
       overflow:auto;
     }
     
-    .sidenav2 {
-      padding-top: 50px;
+    .schedule {
+      padding-top: 30px;
       margin-top: 20px;
       background-color: #f1f1f1;
       height: 375px;
@@ -71,7 +73,7 @@
       float: left;
     }
     
-    .menuList {
+    .gotoList {
     	padding-top: 30px;
     }
     input {
@@ -97,7 +99,7 @@
     table td {
     	padding-left: 20px;
     }
-    
+
   </style>
 </head>
 <body>
@@ -117,13 +119,14 @@
 
 <script>
 var jsonArr = JSON.parse('${list}');
-var date = [];
+var dateJson = JSON.parse('${idList}');
+var jsonArrLength = jsonArr.length;
 var inputCount = 0;
 </script>
 
 <div class="container-fluid text-center">
 	<div class="row content">
-		<div id="map">
+		<div id="map"></div>
 			<script>
 			function initMap() {
 				var mapcenter = {lat: 37.5693679015, lng: 126.9838371210};
@@ -140,10 +143,12 @@ var inputCount = 0;
 						title: jsonArr[i].title,
 					});
 					//contentString[i] = document.getElementById("title[" + i + "]").value;
-					if(jsonArr[i].firstimage != null){
+					if(jsonArr[i].firstimage2 != null){
+						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage2 + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
+					} else if(jsonArr[i].firstimage != null){
 						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
 					} else
-						var contentString = "<div style='float:left;'><img style='width:150px; height:100px;'></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
+						var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title +"</div>";
 					var infowindow = new google.maps.InfoWindow({
 						content: contentString,
 						size: new google.maps.Size(200,100)
@@ -162,26 +167,19 @@ var inputCount = 0;
 					localmarker.setAnimation(null);
 		       	});
 			}
+			
 			</script>
-		</div>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"
     async defer></script>
-		
+
 		<form name="inputForm">
 			<div class="sidenav">
 				<h3>가고 싶은 곳</h3>
 				<table>
 	 				<tr>
-	 					<td style="height:20em;"></td>
 						<td>
-							<table class="menuList">
-								<c:forEach var="list" items="${list }" varStatus="status">
-									<tr>
-										<td><input id="title[${status.index }]" value="" style="height:23px; width:175px" border=none readonly ></td>
-										<td><button id="deleteBtn" onClick="deleteLine(${status.index})"><span class="glyphicon glyphicon-remove" color="white"></span></button></td>
-										<td style="height:50px"></td>
-									</tr>
-								</c:forEach>
+							<table class = "gotoList" id="gotoList">
+							
 							</table>
 						</td>
 					</tr>
@@ -189,51 +187,180 @@ var inputCount = 0;
 			</div>
 		</form>
 		<script>
-		for(var i=0; i<jsonArr.length; i++){
-			document.getElementById("title[" + i + "]").value = jsonArr[i].title;
-			var date
+		initTitle();
+		
+		function initTitle(){
+			var str = "";
+			for(var i=0; i<jsonArr.length; i++){
+				var str1 = "<tr style='height:20px;'><td><input id='title['" + i + "']' value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
+				var str2 = "<td><button type='button' class='calBtn' value=" + i + "><span class='glyphicon glyphicon-calendar'></span></button></td>";
+				var str3 = "<td><button type='button' class='delBtn' value=" + i + "><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
+				var str4 = "<td style='height:20px;'></td></tr>";
+				str += str1 + str2 + str3 + str4;
+			}
+			document.getElementById("gotoList").innerHTML = str;
 		}
 		</script>
+		<!-- Delete Modal -->
+		<div class="modal fade" id="delModal" role="dialog">
+			<div class="modal-dialog" style="width:300px;">
+    
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header" style="height:50px;">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">확인창</h4>
+					</div>
+					<div class="modal-body" style="height:45px;">
+						<p>정말 삭제하시겠습니까?</p>
+					</div>
+					<div class="modal-footer" style="height:60px;">
+						<button type=button class="btn btn-default" data-dismiss="modal" onClick="deleteLine()" style="height:35px;">네</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px;">아니오</button>
+					</div>
+				</div>
+      
+			</div>
+		</div>
 		<script>
-		function deleteLine(index) {
-			var tr = $(this).parent().parent();
-			var Status = index;
-	        $.ajax({
-	        	type:'post',
-	            url: '/course/make/modify/remove/' + Status,
-	            headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				success: function(result){
-			        tr.remove();
-				}
-	        });
+		var delBtnValue;
+		$(document).on("focus",".delBtn",function(){ 
+	    	delBtnValue = this.value;
+	        $("#delModal").modal();
+		});
+		</script>
+		<script>
+		function deleteLine() {
+			var Status = delBtnValue;
+	        jsonArr.splice(Status,1);
+	        initMap();
+	        initTitle();
+	        initScheduleTable();
+	        initSchedule();
 	    }
 		</script>
-		<!-- 
-		<form name="dateForm">
-			<div class="sidenav2">
-				<select name="selectDate" onchange="dateGo(this.form)">
-					<option value="0">날짜를 선택하세요</option>
-					<option value="1">2017-09-20</option>
-					<option value="2">2017-09-21</option>
-					<option value="3">2017-09-22</option>
-				</select>
+		
+		
+		
+		
+		
+		
+		<form>
+			<div class="schedule">
+				<h3>일정</h3>
+				<table id="scheduleDate">
+
+				</table>
 			</div>
 		</form>
 		<script>
-		function dateGo(frm){
-			var date = frm.selectDate.selectedIndex;
+		var scheduleStrDate = dateJson[0].startDate;
+		var splitScheduleStrDate = scheduleStrDate.split('/');
+		var scheduleEndDate = dateJson[(dateJson.length-1)].endDate;
+		var splitScheduleEndDate = scheduleEndDate.split('/');
 			
-			switch(date){
-			case 0:
-				
+		var scheduleStrDateObj = new Date(Number(splitScheduleStrDate[2]), Number(splitScheduleStrDate[0])-1, Number(splitScheduleStrDate[1]));
+		var scheduleEndDateObj = new Date(Number(splitScheduleEndDate[2]), Number(splitScheduleEndDate[0])-1, Number(splitScheduleEndDate[1]));
+			
+		var scheduleBetweenDay =((scheduleEndDateObj.getTime() - scheduleStrDateObj.getTime())/1000/60/60/24)+1;
+		var str = [];
+		for(var i=0; i<scheduleBetweenDay; i++){
+			var dateObj = new Date(Number(splitScheduleStrDate[2]), Number(splitScheduleStrDate[0])-1, Number(splitScheduleStrDate[1]));
+			dateObj.setDate(dateObj.getDate()+i);
+			str[i] = dateObj.getFullYear() + "/" + (dateObj.getMonth()+1) + "/" + dateObj.getDate();
+		}
+		initScheduleTable();
+		function initScheduleTable(){
+			var scheduleDateTable = "";
+			for(var i=0; i<scheduleBetweenDay; i++){
+				scheduleDateTable += "<tr><td><table><tr><th>" + str[i] + "</th></tr><table class='drag' id=" + str[i] + "></table></table></td></tr>";
 			}
+			document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 		}
 		</script>
-		 -->
+		
+		<!-- Calendar Modal -->
+		<div class="modal fade" id="calModal" role="dialog">
+			<div class="modal-dialog" style="width:300px;">
+    
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body" style="height:45px;">
+						<form name="dateForm">
+							<select class="selectDate" id="selectDate">
+								
+							</select>
+						</form>
+					</div>
+					<div class="modal-footer" style="height:60px;">
+						<button type=button class="btn btn-default" data-dismiss="modal" onClick="insertDate()" style="height:35px;">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+		var calBtnValue;
+		$(document).on("focus",".calBtn",function(){
+		    calBtnValue = this.value;
+		    $("#calModal").modal();
+			for(var i=0; i<dateJson.length;i++){
+				if(dateJson[i].areaCode == jsonArr[calBtnValue].areacode){
+					var strDate = dateJson[i].startDate;
+					var splitStrDate = strDate.split('/');
+					
+					var endDate = dateJson[i].endDate;
+					var splitEndDate = endDate.split('/');
+					
+					var strDateObj = new Date(Number(splitStrDate[2]), Number(splitStrDate[0])-1, Number(splitStrDate[1]));
+					var endDateObj = new Date(Number(splitEndDate[2]), Number(splitEndDate[0])-1, Number(splitEndDate[1]));
+					
+					var betweenDay =((endDateObj.getTime() - strDateObj.getTime())/1000/60/60/24)+1;
+						
+					var stringOption = "<option value=''>날짜를 선택하세요</option>";
+					for(var optionDate=0; optionDate<betweenDay; optionDate++){
+						var dateObj = new Date(Number(splitStrDate[2]), Number(splitStrDate[0])-1, Number(splitStrDate[1]));
+						dateObj.setDate(dateObj.getDate()+optionDate);
+						var str = dateObj.getFullYear() + "/" + (dateObj.getMonth()+1) + "/" + dateObj.getDate();
+						stringOption += "<option class='setDate' value=" + str + ">" + str + "</option>";
+					}
+					break;
+				}
+			}
+			document.getElementById("selectDate").innerHTML = stringOption;
+	    });
+		var selectDateVar;
+		$(document).ready(function(){
+		    $(".selectDate").click(function(){
+				selectDateVar = this.value;
+			}); 
+		});
+
+		// calendar modal창 확인
+		function insertDate(){
+			jsonArr[calBtnValue].gotoDate = selectDateVar;
+			initSchedule();
+		}
+		var stringGoto = [];
+		function initSchedule(){
+			for(var j=0; j<scheduleBetweenDay; j++){
+				stringGoto[j] = "";
+				for(var i=0; i<jsonArr.length; i++){
+					if(str[j] == jsonArr[i].gotoDate){
+						stringGoto[j] += "<tr><td>" + jsonArr[i].title + "</td></tr>";
+					} else {
+						stringGoto[j] += "";
+					}
+				}
+				document.getElementById(str[j]).innerHTML = stringGoto[j];
+			}
+		}
+		$(document).on("focus",".drag",function(){
+		    $(".drag").tableDnD();
+		});
+		</script>
 	</div>
+
 </div>
 </body>
 </html>
