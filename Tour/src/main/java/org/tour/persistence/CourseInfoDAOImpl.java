@@ -43,18 +43,6 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 	}
 	
 	@Override
-	public String gotoLocationX(int gotoNumber) throws Exception {
-		
-		return session.selectOne(namespace + ".gotoLocationX", gotoNumber);
-	}
-
-	@Override
-	public String gotoLocationY(int gotoNumber) throws Exception {
-
-		return session.selectOne(namespace + ".gotoLocationY", gotoNumber);
-	}
-	
-	@Override
 	public List<CourseInfoVO> readAll(int courseNumber) throws Exception {
 		
 		return session.selectList(namespace + ".readAll", courseNumber);

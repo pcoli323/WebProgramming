@@ -84,11 +84,11 @@
         							<c:choose>
         								<c:when test="${representative.gotoImageThum eq ''}">
         									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        									${representativeNames[status.index]}
+        									${representative.gotoTitle}
         								</c:when>
         								<c:otherwise>
         									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        									${representativeNames[status.index]}
+        									${representative.gotoTitle}
         								</c:otherwise>
         							</c:choose>
         						</td>
@@ -108,11 +108,11 @@
         							<c:choose>
         								<c:when test="${representative.gotoImageThum eq ''}">
         									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        									${representativeNames[status.index]}
+        									${representative.gotoTitle}
         								</c:when>
         								<c:otherwise>
         									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        									${representativeNames[status.index]}
+        									${representative.gotoTitle}
         								</c:otherwise>
         							</c:choose>
         						</td>
