@@ -16,11 +16,8 @@ public interface CourseInfoDAO {
 
 	public List<CourseInfoVO> readAccordingToDate(HashMap<String, Object> courseNumberAndDate) throws Exception;
 	
-	public String gotoLocationX(int gotoNumber) throws Exception;
-	
-	public String gotoLocationY(int gotoNumber) throws Exception;
-	
 	public List<CourseInfoVO> readAll(int courseNumber) throws Exception;
 	
 	public void add(CourseInfoVO vo) throws Exception;
+
 }

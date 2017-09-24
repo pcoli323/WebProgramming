@@ -43,6 +43,9 @@
 	padding:20px;
 	line-height:200%;
 	}
+	.representativeCheck{
+	color:LightGray;
+	}
 </style>
 
 <head>
@@ -102,17 +105,15 @@
 <div class="content">
 	<div class="courseView">
 	
-		<div class="courseView-header">
-			<h2 class="courseName" style="text-align:center">
-				${courseVO.courseName}
-			</h2>
+		<div class="courseView-header" style="text-align:center">
+			<input class="courseName" type="text" maxlength="200" value="${courseVO.courseName}" 
+					data-toggle="tooltip" data-placement="top" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:left">
         		<h5>
-        			<button type="button" class="symbolButton" id="follow"></button>
-        			${userVO.userName}
+        			${loginUser.userName}
         		</h5>
         	</div><!-- /courseMaker -->
         	
@@ -125,10 +126,16 @@
         						<th style="text-align:center;height:30px;background-color:#ffff80">${date}</th>
         					</tr>
         					<tr class="gotoField">
-        						<td style="text-align:center">
+        						<td>
         							<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         							<c:forEach var="gotoOne" items="${gotoList}">
-        								<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i><br><br>
+        								<div style="text-align:left;float:left;">
+        									<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i>
+        								</div>
+        								<div style="text-align:right">
+        									<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}"></span>
+        								</div>
+        								<br><br>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         							</c:forEach>
         						</td>
@@ -152,7 +159,7 @@
         	</div>
         	
         	<div class="story">
-        		${courseVO.story}
+        		<textarea rows="9" cols="120" maxlength="1000" placeholder="1000자 내외" style="border:0px;resize:none;outline:none"></textarea>
         	</div>
         			
         </div><!-- /courseView-body -->
@@ -168,6 +175,7 @@
 	var loginUserNumber;
 	
 	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();
 		// 변수 초기화
 		loginCheck = ${loginCheck};
 		if(loginCheck == false){
@@ -205,6 +213,19 @@
 		if(index < markers.length){
 			infowindows[index].open(map, markers[index]);
 			markers[index].setAnimation(google.maps.Animation.BOUNCE);
+		}
+	});
+</script>
+<script>
+	var representatives = [];
+	$('.representativeCheck').on("click", function(){
+		var checkCheck = $(this).hasClass("active");
+		
+		if(checkCheck == 0){
+			var idStr = $(this).attr('id').split('-');
+			var id = idStr[1];
+			var gotoNumber = idStr[2];
+			console.log(id + " : " + gotoNumber);
 		}
 	});
 </script>

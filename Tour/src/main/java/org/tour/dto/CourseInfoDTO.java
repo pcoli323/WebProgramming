@@ -2,15 +2,22 @@ package org.tour.dto;
 
 public class CourseInfoDTO {
 
+	private int gotoNumber;
 	private String gotoName;
 	private String locationX;
 	private String locationY;
 	private String gotoImage;
 	
+	public int getGotoNumber() {
+		return gotoNumber;
+	}
+	public void setGotoNumber(int gotoNumber) {
+		this.gotoNumber = gotoNumber;
+	}
 	public String getGotoName() {
 		return gotoName;
 	}
-	public void setGotoNames(String gotoName) {
+	public void setGotoName(String gotoName) {
 		this.gotoName = gotoName;
 	}
 	public String getLocationX() {
