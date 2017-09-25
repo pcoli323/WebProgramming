@@ -35,7 +35,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		return "main";
+		return "home";
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
@@ -45,7 +45,7 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "main";
+		return "home";
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
@@ -59,12 +59,12 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "main";
+		return "home";
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(LoginDTO dto, Model model) {
 		
-		return "main";
+		return "home";
 	}
 }
