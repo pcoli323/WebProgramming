@@ -18,20 +18,23 @@ public class CourseVO {
 	public int getCourseNumber() {
 		return courseNumber;
 	}
-	public void setCourseNumber(int courseNumber) {
+	public CourseVO setCourseNumber(int courseNumber) {
 		this.courseNumber = courseNumber;
+		return this;
 	}
 	public String getCourseName() {
 		return courseName;
 	}
-	public void setCourseName(String courseName) {
+	public CourseVO setCourseName(String courseName) {
 		this.courseName = courseName;
+		return this;
 	}
 	public int getUserNumber() {
 		return userNumber;
 	}
-	public void setUserNumber(int userNumber) {
+	public CourseVO setUserNumber(int userNumber) {
 		this.userNumber = userNumber;
+		return this;
 	}
 	public Date getRegDate() {
 		return regDate;

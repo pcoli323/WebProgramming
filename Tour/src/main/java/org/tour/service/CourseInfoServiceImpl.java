@@ -1,5 +1,6 @@
 package org.tour.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +37,12 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	public void add(CourseInfoVO vo) throws Exception {
 
 		dao.add(vo);
+	}
+
+	@Override
+	public void courseInfoAdd(CourseInfoVO vo) throws Exception {
+		
+		dao.courseInfoAdd(vo);		
 	}
 	
 }

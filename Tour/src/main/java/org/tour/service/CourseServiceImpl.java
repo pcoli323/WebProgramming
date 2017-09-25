@@ -30,4 +30,17 @@ public class CourseServiceImpl implements CourseService {
 		return dao.newCourseNumber(userNumber);
 	}
 
+	@Override
+	public void courseAdd(CourseVO vo) throws Exception {
+
+		dao.courseAdd(vo);
+		
+	}
+
+	@Override
+	public int courseNumberRead(int userNumber) throws Exception {
+
+		return dao.courseNumberRead(userNumber);
+	}
+
 }

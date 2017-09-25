@@ -41,7 +41,8 @@
 			<div id="dsList" style="margin-top: 10px;"></div>		
 		</div>	
 		<!-- 다음 단계 이동 -->
-		<div style="padding:10px;">
+		<div style="padding:10px; float:right">
+			<button type="button" class="btn btn-default puul-left" id="cancel">취소</button>
 			<button type="button" class="btn btn-default pull-right" id="next">다음</button>
 		</div>
 	</div>		
@@ -81,6 +82,21 @@ $(document).ready(function(){
 		str += "</div>" + "</div>";
 	}
 	document.getElementById("checkboxes").innerHTML = str;
+	
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${idList}');
+	for(var i=0; i<jsona.length; i++){
+		var json = jsona[i];
+		var str = json.areaCode + "-" + json.sigunguCode + "-" + json.areaName + "-" + json.sigunguName;
+		idList.push(str);
+		printDay(str.split("-"),str);
+		document.getElementById(str).checked = true;
+		document.getElementById(str).parentElement.classList.add('active');
+		document.getElementById("D"+str+"S").value=json.startDate;
+		document.getElementById("D"+str+"E").value=json.endDate;
+	}
+	
 });
 
 // 체크-버튼 이벤트 처리 부분
@@ -91,17 +107,7 @@ $(document).on("change","#checkboxes :checkbox",function(){
 	if (this.checked) {
 		alert(strs[2] + " " + strs[3] + " 이(가) 추가되었습니다.");
 		idList.push(this.id);
-		
-		if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
-		var str2 ="";
-		var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
-    	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + this.id + "S'>"
-    	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + this.id + "E'>"
-    	str2 += tagL + tagSI + tagEI + "<br>";
-    	var newD = document.createElement("div");
-    	newD.setAttribute("id","D"+strs[2]+strs[3]);
-    	newD.innerHTML=str2;
-    	document.getElementById('dsList').appendChild(newD);
+		printDay(strs,this.id);
 	}
 	else{
 		alert(strs[2] + " " + strs[3] + " 이(가) 삭제되었습니다.");
@@ -109,6 +115,36 @@ $(document).on("change","#checkboxes :checkbox",function(){
 		
 		if(idList.length<=0) $("#dsIntro").html("");
 		document.getElementById('dsList').removeChild(document.getElementById("D"+strs[2]+strs[3]));
+	}
+});
+
+// 화면에 컴포넌트를 추가하는 부분
+function printDay(strs,id){
+	if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
+	var str2 ="";
+	var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
+	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "S'>"
+	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "E'>"
+	str2 += tagL + tagSI + tagEI;
+	str2 += "<button type='button' class='close' aria-label='Close' id='D_"+id+"'><span aria-hidden='true'>&times;</span></button>";
+	var newD = document.createElement("div");
+	newD.setAttribute("id","D"+strs[2]+strs[3]);
+	newD.setAttribute("style","float:left");
+	newD.innerHTML=str2;
+	document.getElementById('dsList').appendChild(newD);
+}
+
+//여행지 삭제 이벤트 처리
+$(document).on("click","#dsList :button",function(){
+	for(var i=0; i<idList.length; i++){
+		if(this.id.split("_")[1]==idList[i]){
+			alert("여행지를 삭제했습니다.");
+			idList.splice(i,1);
+			document.getElementById(this.id.split("_")[1]).checked = false;
+			document.getElementById(this.id.split("_")[1]).parentElement.classList.remove('active');
+			document.getElementById('dsList').removeChild(document.getElementById("D"+this.id.split("_")[1].split("-")[2]+this.id.split("_")[1].split("-")[3]));
+			break;
+		}
 	}
 });
 
@@ -125,19 +161,24 @@ $("#next").click(function(){
 	else {
 		var stop = false;
 		for(var i=0; i<idList.length; i++){
-			var sd = $("#D" + idList[i] + "S").datepicker( 'getDate' );
-			var ed = $("#D" + idList[i] + "E").datepicker( 'getDate' );
-			if(sd==null || ed==null){
+			//var sd = $("#D" + idList[i] + "S").datepicker( 'getDate' );
+			//var ed = $("#D" + idList[i] + "E").datepicker( 'getDate' );
+			var sdate = document.getElementById("D"+idList[i]+"S").value.split("/");
+			var sd = new Date(sdate[2],sdate[0],sdate[1]);	
+			var edate = document.getElementById("D"+idList[i]+"E").value.split("/");
+			var ed = new Date(edate[2],edate[0],edate[1]);
+			if(sdate=="" || edate==""){
 				alert("날짜를 선택하지 않은 것이 있습니다.");
 				stop = true;
 				break;
 			}
-			else if(sd > ed){
+			else if(sd.getTime() > ed.getTime()){
 				alert("시작날짜와 끝날짜를 확인해주세요.");
 				stop = true;
 				break;
 			}
 		}
+		
 		if(stop==false){
 			for(var i=0; i<idList.length; i++)
 				idList[i] += "-" + document.getElementById("D" + idList[i] + "S").value + "-" + document.getElementById("D" + idList[i] + "E").value;
@@ -174,6 +215,21 @@ $("#next").click(function(){
 			
 		}
 	}
+});
+
+
+//취소 버튼 이벤트 처리
+$("#cancel").click(function(){
+	$.ajax({      
+     type:"GET",  
+     url:"/course/make/cancel",
+     success:function(){
+     	location.href="/";
+ 	},
+		 error:function(){
+  		location.href="/";
+		}
+	});
 });
 </script>
 </html>

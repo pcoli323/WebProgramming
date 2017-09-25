@@ -34,9 +34,10 @@
 		</div>
 		<!-- 다음 단계 이동 -->
 		<div class="floating2">
+			<button type="button" class="btn btn-default" id="cancel">취소</button>
 			<button type="button" class="btn btn-default" id="next">다음</button>
 		</div>
-		<div class="floating" id="selected">
+		<div class="floating" style="overflow-y:auto; overflow-x:hidden; height:400px;" id="selected">
 			<h4>선택한 여행지</h4>
 		</div>
 	</div>
@@ -68,6 +69,30 @@ $(document).ready(function(){
 		str += "<div class='tab-pane' id='" + json.areaCode + "-" + json.sigunguCode + "' role='tabpanel'></div>";
 	}
 	document.getElementById("checkboxes").innerHTML = str;
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${list}');
+	for(var i=0; i<jsona.length; i++){
+		var json = jsona[i];
+		var ok = false;
+		for(var j=0; j<jsonIDArr.length; j++){
+			var json2 = jsonIDArr[j];
+			if(json2.sigunguCode==0){
+				if(json.areacode==json2.areaCode){
+					ok=true;break;
+				}
+			}
+			else{
+				if(json.areacode==json2.areaCode&&json.sigungucode==json2.sigunguCode){
+					ok=true;break;
+				}
+			}
+		}
+		if(ok==true){
+			selectedList.push(json);
+		}
+	}
+	printList();
 });
 
 // 체크-버튼 이벤트 처리 부분
@@ -251,6 +276,20 @@ $("#next").click(function(){
  			}
   		 });
 	}
+});
+
+// 취소 버튼 이벤트 처리
+$("#cancel").click(function(){
+	$.ajax({      
+        type:"GET",  
+        url:"/course/make/cancel",
+        success:function(){
+        	location.href="/";
+    	},
+		 error:function(){
+     		location.href="/";
+ 		}
+  	});
 });
 </script>
 </html>

@@ -4,5 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.tour.mapper.CourseInfoSimpleMapper">
+
+	<insert id="courseInfoSimpleAdd">
+		insert into tbl_courseInfoSimple (courseNumber, areaCode, sigunguCode, startDate, endDate)
+		values (#{courseNumber},#{areaCode},#{sigunguCode},#{startDate},#{endDate})
+	</insert>
 	
 </mapper>

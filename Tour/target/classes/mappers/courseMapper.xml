@@ -21,4 +21,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
+	
+	<insert id="courseAdd">
+		insert into tbl_course (courseName, userNumber)
+		values(#{courseName}, #{userNumber})
+	</insert>
+	<select id="courseNumberRead" resultType="int">
+		select max(courseNumber)
+		from tbl_course
+		where userNumber = #{userNumber}
+	</select>
 </mapper>
