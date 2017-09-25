@@ -8,6 +8,7 @@ public class CourseInfoVO {
 	private int courseNumber;
 	private boolean isRepresented;
 	private int representedOrder;
+	private boolean isNew;
 	
 	private String gotoAddr1;
 	private String gotoAddr2;
@@ -41,11 +42,18 @@ public class CourseInfoVO {
 		this.courseNumber = courseNumber;
 		return this;
 	}
-	public boolean isRepresented() {
+	public boolean getIsRepresented() {
 		return isRepresented;
 	}
-	public CourseInfoVO setRepresented(boolean isRepresented) {
+	public CourseInfoVO setIsRepresented(boolean isRepresented) {
 		this.isRepresented = isRepresented;
+		return this;
+	}
+	public boolean getIsNew() {
+		return isNew;
+	}
+	public CourseInfoVO setIsNew(boolean isNew) {
+		this.isNew = isNew;
 		return this;
 	}
 	public int getRepresentedOrder() {

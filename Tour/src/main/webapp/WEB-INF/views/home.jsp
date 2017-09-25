@@ -31,8 +31,17 @@
   #section41 {padding-top:120px;height:850px;color: #fff; background-color: #00bcd4;}
   #section42 {padding-top:120px;height:850px;color: #fff; background-color: #009688;}
   #section43 {padding-top:120px;height:850px;color: #fff; background-color: #1E88E5;}
-  #section44 {padding-top:120px;height:850px;color: #fff; background-color: #673ab7;}
+  #section44 {padding-top:120px;height:200px;color: #fff; background-color: #673ab7;}
   #section45 {padding-top:120px;height:300px;color: #fff; background-color: #ff9800;}
+  
+  .modal {
+   position: absolute;
+   top: 100px;
+   right: 450px;
+   bottom: auto;
+   left: auto;
+	}
+
   </style>
 </head>
 <body data-spy="scroll" data-target=".navbar">
@@ -57,8 +66,8 @@
   		</c:when>
   		<c:otherwise>
   			<ul class="nav navbar-nav navbar-right">
-      			<li id="mypage"><a href="#"><span class="glyphicon glyphicon-user"></span> 마이페이지 </a></li>
-      			<li id="logout"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 로그아웃 </a></li>
+      			<li id="mypage"><a href="#"> 마이페이지 </a></li>
+      			<li id="logout"><a href="#"> 로그아웃 </a></li>
     		</ul>
   		</c:otherwise>
 	</c:choose>
@@ -177,7 +186,7 @@
 </div>
 <div id="section45" class="container-fluid">
    	<div class="container">
-		<p>Footer..</p>
+		<p>(Footer) API 제공 : 한국 관광공사</p>
 	</div>
 </div>
 
@@ -188,7 +197,6 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header" style="padding:35px 50px;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4><span class="glyphicon glyphicon-lock"></span> 로그인 </h4>
         </div>
         
@@ -208,7 +216,7 @@
         </div>
         
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
+          <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
         </div>
       </div>
       
