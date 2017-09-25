@@ -153,4 +153,5 @@ public class CourseInfoVO {
 	public void setGotoOrder(int gotoOrder) {
 		this.gotoOrder = gotoOrder;
 	}
+	
 }

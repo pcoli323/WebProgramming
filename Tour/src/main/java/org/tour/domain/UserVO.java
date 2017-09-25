@@ -47,5 +47,4 @@ public class UserVO {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
 }

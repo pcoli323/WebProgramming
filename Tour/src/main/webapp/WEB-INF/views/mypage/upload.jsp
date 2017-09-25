@@ -23,6 +23,7 @@
 	width:1010px;
 	resize:none;
 	padding:50px;
+	margin: auto;
 	}
 	.planTables{
 	background-color:#F2F2F2;
@@ -46,11 +47,28 @@
 	.representativeCheck{
 	color:LightGray;
 	}
+	.floating {
+	position: fixed;
+	right: 60%;
+	top: 150px;
+	margin-right:-750px;
+	text-align:center;
+	width: 150px;
+	border:2px solid #4E7AC7;
+	}
+	.representativeListOne{
+	border-top:1px solid lightgray;
+	padding:5px 10px 5px 10px;
+	font-size:10px;
+	}
+	.addImage{
+	color:LightGray;
+	}
 </style>
 
 <head>
 	<meta charset="UTF-8">
-	<title>courseView Detail</title>
+	<title>course upload</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -61,7 +79,7 @@
 	function initMap() {
 		var mapcenter = {lat: 37.3422186, lng: 127.92016209999997};
 		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 11,
+			zoom: 5,
 			center: mapcenter
 		});
 	}
@@ -100,12 +118,12 @@
 	}
 </script>
 </head>
-<body onload="parent.resizeTo(1030,700)" onUnload="reloadSimple()">
+<body>
 
 <div class="content">
 	<div class="courseView">
 	
-		<div class="courseView-header" style="text-align:center">
+		<div class="courseView-header" style="text-align:center;padding:20px">
 			<input class="courseName" type="text" maxlength="200" value="${courseVO.courseName}" 
 					data-toggle="tooltip" data-placement="top" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
 		</div><!-- /courseView-header -->
@@ -133,7 +151,8 @@
         									<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i>
         								</div>
         								<div style="text-align:right">
-        									<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}"></span>
+        									<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
+        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}" style=""></span>
         								</div>
         								<br><br>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
@@ -168,7 +187,21 @@
 		</div><!-- /courseView-footer -->
         
 	</div><!-- /courseView -->
+	<div class="floating">
+		<h5>대표코스</h5>
+		<div class="representativeList"></div>
+	</div>
 </div><!-- /content -->
+
+<div id="imageUploadWindow">
+	<div class="imageHeader">
+		<h3>나만의 사진을 저장</h3>
+		<div>
+			<span class="glyphicon glyphicon-hand-right"></span>
+			<span class="glyphicon glyphicon-hand-left" id="my-glyphicon"></span>
+		</div>
+	</div><!-- /imageHeader -->
+</div><!-- /imageUploadWindow -->
 
 <script>
 	var loginCheck;
@@ -215,17 +248,66 @@
 			markers[index].setAnimation(google.maps.Animation.BOUNCE);
 		}
 	});
-</script>
-<script>
+
+	// 대표코스 설정
 	var representatives = [];
+	var representativeIDs = [];
 	$('.representativeCheck').on("click", function(){
 		var checkCheck = $(this).hasClass("active");
 		
 		if(checkCheck == 0){
+			if(representatives.length == 4){
+				alert("대표코스는 최대 6개까지 입니다.")
+			}
+			else{
+				var idStr = $(this).attr('id').split('-');
+				var gotoNameID = idStr[1];
+				var gotoNumber = idStr[2];
+				console.log(gotoNameID + " : " + gotoNumber);
+				representativeIDs.push(gotoNameID);
+				representatives.push(gotoNumber);
+				console.log(representatives);
+				$(this).addClass("active");
+				$(this).attr("style", "color:#6495ED");
+				representativeList();
+			}
+		}
+		else{
 			var idStr = $(this).attr('id').split('-');
-			var id = idStr[1];
+			var gotoNameID = idStr[1];
 			var gotoNumber = idStr[2];
-			console.log(id + " : " + gotoNumber);
+			console.log(gotoNameID + " : " + gotoNumber);
+			for(var i=0; i<representatives.length; i++){
+				if(representatives[i] == gotoNumber){
+					representatives.splice(i, 1);
+					representativeIDs.splice(i, 1);
+					console.log(representatives);
+					console.log(representativeIDs);
+					break;
+				}
+			}
+			$(this).removeClass("active");
+			$(this).attr("style", "");
+			representativeList();
+		}
+	});
+	function representativeList(){
+		var str = "";
+		for(var i=0; i<representatives.length; i++){
+			var id = representativeIDs[i];
+			var gotoName = $("#"+id).text();
+			console.log(gotoName);
+			str += "<div class='representativeListOne'>" + gotoName + "</div>";
+		}
+		$(".representativeList").html(str);
+	}
+	
+	// image 추가하기
+	$('.addImage').on("click", function(){
+		var checkImage = $(this).hasClass("active");
+		
+		if(checkImage == 0){
+			window.open("/mypage/imageUpload?userNumber=1", "startpop", "width=600, height=350");
 		}
 	});
 </script>

@@ -23,6 +23,7 @@
 	width:1010px;
 	resize:none;
 	padding:50px;
+	margin:auto;
 	}
 	.planTables{
 	background-color:#F2F2F2;
@@ -95,7 +96,7 @@
 	function initMap() {
 		var mapcenter = {lat: 37.3422186, lng: 127.92016209999997};
 		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 11,
+			zoom: 5,
 			center: mapcenter
 		});
 	}
@@ -188,9 +189,12 @@
         			</c:forEach>
         	</div>
         	
-        	<div class="story">
-        		${courseVO.story}
-        	</div>
+        	
+        	<c:if test="${courseVO.story ne null}">
+        		<div class="story">
+        			${courseVO.story}
+        		</div>
+        	</c:if>
         			
         </div><!-- /courseView-body -->
         		

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +19,7 @@ import org.tour.service.CourseService;
 import org.tour.service.PlanService;
 
 @Controller
-@RequestMapping("/mypage/upload/*")
+@RequestMapping("/mypage/*")
 public class CoursePostController {
 	
 	@Inject
@@ -29,7 +28,7 @@ public class CoursePostController {
 	private PlanService planService;
 	
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public void coursePost(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception{
 		
 		try {
@@ -58,5 +57,9 @@ public class CoursePostController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping(value = "/imageUpload", method = RequestMethod.GET)
+	public void openImagePop(@RequestParam("userNumber") int userNumber) throws Exception{
 	}
 }

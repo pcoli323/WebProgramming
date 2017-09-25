@@ -9,5 +9,4 @@ public interface CourseService {
 	public void add(CourseVO vo) throws Exception;
 	
 	public int newCourseNumber(int userNumber) throws Exception;
-
 }
