@@ -14,7 +14,7 @@ public class CourseInfoVO {
 	private int gotoAreaCode;
 	private int gotoContentID;
 	private int gotoContentTypeID;
-	private Long gotoCreateTime;
+	private Long gotoCreatedTime;
 	private String gotoImageReal;
 	private String gotoImageThum;
 	private String gotoLocationX;
@@ -90,11 +90,11 @@ public class CourseInfoVO {
 		this.gotoContentTypeID = gotoContentTypeID;
 		return this;
 	}
-	public Long getGotoCreateTime() {
-		return gotoCreateTime;
+	public Long getGotoCreatedTime() {
+		return gotoCreatedTime;
 	}
-	public CourseInfoVO setGotoCreateTime(Long gotoCreateTime) {
-		this.gotoCreateTime = gotoCreateTime;
+	public CourseInfoVO setGotoCreatedTime(Long gotoCreateTime) {
+		this.gotoCreatedTime = gotoCreateTime;
 		return this;
 	}
 	public String getGotoImageReal() {

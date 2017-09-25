@@ -220,7 +220,7 @@ public class CourseMakeController {
 							.setGotoAreaCode(((Long)json.get("areacode")).intValue())
 							.setGotoContentID(((Long) json.get("contentid")).intValue())
 							.setGotoContentTypeID(((Long) json.get("contenttypeid")).intValue())
-							.setGotoCreateTime((Long)json.get("createdtime"))
+							.setGotoCreatedTime((Long)json.get("createdtime"))
 							.setGotoImageReal((String)json.get("firstimage"))
 							.setGotoImageThum((String)json.get("firstimage2"))
 							.setGotoModifiedTime((Long)json.get("modifiedtime"))
@@ -288,15 +288,12 @@ public class CourseMakeController {
 		
 		if(session.getAttribute("idList")!=null) {
 			session.removeAttribute("idList");
-			System.out.println(session.getAttribute("idList"));
 		}
 		if(session.getAttribute("list")!=null) {
 			session.removeAttribute("list");
-			System.out.println(session.getAttribute("list"));
 		}
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");
-			System.out.println(session.getAttribute("name"));
 		}
 	}	
 }
