@@ -82,15 +82,23 @@
         					<c:if test="${status.index % 2 == 0}">
         						<td class="representativeImageTable">
         							<c:choose>
-        								<c:when test="${representative.gotoImageThum eq ''}">
+        								<c:when test="${representative.gotoImageThum ne null}">
         									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        									${representative.gotoTitle}
         								</c:when>
         								<c:otherwise>
-        									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        									${representative.gotoTitle}
+        									<c:choose>
+        										<c:when test="${representative.gotoImageReal ne null}">
+        											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
+        										</c:when>
+        										<c:otherwise>
+        											<div class="representativeImage noImage" style="background-color:lightGray">
+        											이미지가 없습니다
+        											</div>
+        										</c:otherwise>
+        									</c:choose>
         								</c:otherwise>
         							</c:choose>
+        							${representative.gotoTitle}
         						</td>
         					</c:if>
         					<c:if test="${status.index % 2 != 0}">
@@ -106,15 +114,23 @@
         					<c:if test="${status.index % 2 != 0}">
         						<td class="representativeImageTable">
         							<c:choose>
-        								<c:when test="${representative.gotoImageThum eq ''}">
+        								<c:when test="${representative.gotoImageThum ne null}">
         									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        									${representative.gotoTitle}
         								</c:when>
         								<c:otherwise>
-        									<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        									${representative.gotoTitle}
+        									<c:choose>
+        										<c:when test="${representative.gotoImageReal ne null}">
+        											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
+        										</c:when>
+        										<c:otherwise>
+        											<div class="representativeImage noImage" style="background-color:lightGray;vertical-align: middle;text-align: center;display:table-cell;">
+        												<div style="display:inline-block;position:relative;font-size:10px">사진이<br>없습니다</div>
+        											</div>
+        										</c:otherwise>
+        									</c:choose>
         								</c:otherwise>
         							</c:choose>
+        							${representative.gotoTitle}
         						</td>
         					</c:if>
         				</c:forEach>
@@ -170,28 +186,35 @@
 		// 마우스 올렸을 때 이미지 띄우기
 		$(".representativeImage").mouseover(function(event){
 			var imgSrc = "";
+			var imgHtml;
 			
-			if ($(this).hasClass("realImage") == true){
-				imgSrc = $(this).attr("src");
-			}
-			else{
-				var gotoNumber = $(this).attr("id");
+			if($(this).hasClass("noImage") == false){
+				if ($(this).hasClass("realImage") == true){
+					imgSrc = $(this).attr("src");
+					imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
+					$(".mouseOverImage").html(imgHtml);
+					$(".mouseOverImage").show();
+				}
+				else{
+					var gotoNumber = $(this).attr("id");
 				
-				$.ajax({
-					type:'get',
-					url:'/course/view/getRealImage?gotoNumber=' + gotoNumber,
-					success:function(realImage){
-						console.log("realImage : " + realImage);
-						imgSrc = realImage;
-					}
-				});
+					$.ajax({
+						type:'get',
+						url:'/course/view/getRealImage?gotoNumber=' + gotoNumber,
+						success:function(realImage){
+							imgSrc = realImage;
+							imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
+							$(".mouseOverImage").html(imgHtml);
+							$(".mouseOverImage").show();
+						}
+					});
+				}
 			}
-			var imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
-			$(".mouseOverImage").html(imgHtml);
-			$(".mouseOverImage").show();
 		});
 		$(".representativeImage").mouseout(function(){
-			$(".mouseOverImage").hide();
+			if($(this).hasClass("noImage") == false){
+				$(".mouseOverImage").hide();
+			}
 		});
 	});
 	
@@ -424,7 +447,8 @@
 	}
 	
 	$('#change').on("click", function(evt){
-		window.open("/course/view/detail?courseNumber=1", "startpop", "width=1030, height=700");
+		var url = "/course/view/detail?courseNumber=" + ${courseVO.courseNumber};
+		window.open(url, "startpop", "width=1030, height=700");
 	});
 	
 	$('#getCourse').on("click", function(){
