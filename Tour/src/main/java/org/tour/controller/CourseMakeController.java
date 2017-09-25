@@ -165,112 +165,121 @@ public class CourseMakeController {
 			Object obj = parser.parse( jspData );
 			JSONArray jsonarray = (JSONArray)obj;
 			
-			session.setAttribute("idList", jsonarray);
-			System.out.println(jsonarray);
-	
+			session.setAttribute("list", jsonarray);
+			//System.out.println(jsonarray);
+			
+			// <Session> idList, list, name(?)
+			// idList : areaCode, sigunguCode, areaName, sigunguName, startDate, endDate
+			/*
+			list			내용			DB(tbl_CourseInfo)
+			------------------------------------------------
+			addr1			주소			gotoAddr1
+			addr2			상세주소		gotoAddr2	
+			areacode		지역코드		gotoAreaCode
+			contentid		콘텐츠		gotoContentId
+			contenttypeid	관광타입		gotoContentTypeId
+			createtime		등록일		gotoCreateTime
+			firstimage		원본			gotoImageReal
+			firstimage2		썸네일		gotoImageThum
+			mapx			GPS X		gotoLocationX
+			mapy			GPS Y		gotoLocationY
+			modifiedtime	수정일		gotoModifiedTime
+			readcount		조회수		gotoReadCount
+			sigungucode		시군구코드		gotoSigunguCode
+			tel				전화번호		gotoTel
+			title			제목			gotoTitle
+			
+			gotoDate		여행날짜		gotoDate
+			order			날짜별순서		gotoOrder
+			*/
+			// name : courseName
+			
+			// 1. tbl_Course에 코스 추가
+			try {
+				courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+				//courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			int courseNumber = -1;
+			try {
+				courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			// 2. tbl_CourseInfo에 코스정보 추가
+			JSONArray data = (JSONArray) session.getAttribute("list");
+			for(int i=0; i<data.size(); i++) {
+				JSONObject json = (JSONObject) data.get(i);
+				try {
+					CourseInfoVO vo = new CourseInfoVO();
+					vo.setCourseNumber(courseNumber)
+							.setGotoAddr1((String)json.get("addr1"))
+							.setGotoAddr2((String)json.get("addr2"))
+							.setGotoAreaCode(((Long)json.get("areacode")).intValue())
+							.setGotoContentID(((Long) json.get("contentid")).intValue())
+							.setGotoContentTypeID(((Long) json.get("contenttypeid")).intValue())
+							.setGotoCreateTime((Long)json.get("createdtime"))
+							.setGotoImageReal((String)json.get("firstimage"))
+							.setGotoImageThum((String)json.get("firstimage2"))
+							.setGotoModifiedTime((Long)json.get("modifiedtime"))
+							.setGotoReadCount(((Long) json.get("readcount")).intValue())
+							.setGotoSigunguCode(((Long) json.get("sigungucode")).intValue())
+							.setGotoTel((String)json.get("tel"))
+							.setGotoTitle((String)json.get("title"))
+							.setGotoDate(new SimpleDateFormat("yyyy/mm/dd").parse((String) json.get("gotoDate")))
+							.setGotoOrder(((Long)json.get("order")).intValue())
+							;
+					if(json.get("mapx") instanceof Double) {
+						vo.setGotoLocationX(Double.toString((Double)json.get("mapx")));
+					}
+					if(json.get("mapx") instanceof String) {
+						vo.setGotoLocationX((String)json.get("mapx"));
+					}
+					if(json.get("mapy") instanceof Double) {
+						vo.setGotoLocationY(Double.toString((Double)json.get("mapy")));
+					}
+					if(json.get("mapy") instanceof String) {
+						vo.setGotoLocationY((String)json.get("mapy"));
+					}
+					courseInfoService.courseInfoAdd(vo);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// 3. tbl_CourseInfoSimple에 코스정보2 추가
+			data = (JSONArray) session.getAttribute("idList");
+			for(int i=0; i<data.size(); i++) {
+				JSONObject json = (JSONObject) data.get(i);
+				try {
+					courseInfoSimpleService.courseInfoSimpleAdd(new CourseInfoSimpleVO().setCourseNumber(courseNumber)
+							.setAreaCode(Integer.parseInt((String) json.get("areaCode")))
+							.setSigunguCode(Integer.parseInt((String) json.get("sigunguCode")))
+							.setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse((String) json.get("startDate")))
+							.setEndDate(new SimpleDateFormat("MM/dd/yyyy").parse((String) json.get("endDate")))
+							);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// 4. 세션에서 idList, list, name 삭제
+			removeAttributes(request);
+			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
-		return entity;
-		
-		// <Session> idList, list, name(?)
-		// idList : areaCode, sigunguCode, areaName, sigunguName, startDate, endDate
-		/*
-		list			내용			DB(tbl_CourseInfo)
-		------------------------------------------------
-		addr1			주소			gotoAddr1
-		addr2			상세주소		gotoAddr2	
-		areacode		지역코드		gotoAreaCode
-		contentid		콘텐츠		gotoContentId
-		contenttypeid	관광타입		gotoContentTypeId
-		createtime		등록일		gotoCreateTime
-		firstimage		원본			gotoImageReal
-		firstimage2		썸네일		gotoImageThum
-		mapx			GPS X		gotoLocationX
-		mapy			GPS Y		gotoLocationY
-		modifiedtime	수정일		gotoModifiedTime
-		readcount		조회수		gotoReadCount
-		sigungucode		시군구코드		gotoSigunguCode
-		tel				전화번호		gotoTel
-		title			제목			gotoTitle
-		
-		date(?)			여행날짜		gotoDate
-		order(?)		날짜별순서		gotoOrder
-		*/
-		// name : courseName
-		
-		
-		// 1. tbl_Course에 코스 추가
-		/*
-		try {
-			courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		int courseNumber = -1;
-		try {
-			courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		// 2. tbl_CourseInfo에 코스정보 추가
-		JSONArray data = (JSONArray) session.getAttribute("list");
-		for(int i=0; i<data.size(); i++) {
-			JSONObject json = (JSONObject) data.get(i);
-			try {
-				courseInfoService.courseInfoAdd(new CourseInfoVO().setCourseNumber(courseNumber)
-						.setGotoAddr1((String)json.get("addr1"))
-						.setGotoAddr2((String)json.get("addr2"))
-						.setGotoAreaCode((int)json.get("areacode"))
-						.setGotoContentID((int)json.get("contentid"))
-						.setGotoContentTypeID((int)json.get("contenttypeid"))
-						.setGotoCreateTime(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("createtime")))
-						.setGotoImageReal((String)json.get("firstimage"))
-						.setGotoImageThum((String)json.get("firstimage2"))
-						.setGotoLocationX((String)json.get("mapx"))
-						.setGotoLocationY((String)json.get("mapy"))
-						.setGotoModifiedTime(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("modifiedtime")))
-						.setGotoReadCount((int)json.get("readcount"))
-						.setGotoSigunguCode((int)json.get("sigungucode"))
-						.setGotoTel((String)json.get("tel"))
-						.setGotoTitle((String)json.get("title"))
-						.setGotoDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("date")))	// ?
-						.setGotoOrder((int)json.get("order"))	// ?
-						);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		// 3. tbl_CourseInfoSimple에 코스정보2 추가
-		data = (JSONArray) session.getAttribute("idList");
-		for(int i=0; i<data.size(); i++) {
-			JSONObject json = (JSONObject) data.get(i);
-			try {
-				courseInfoSimpleService.courseInfoSimpleAdd(new CourseInfoSimpleVO().setCourseNumber(courseNumber)
-						.setAreaCode((int)json.get("areaCode"))
-						.setSigunguCode((int)json.get("sigunguCode"))
-						.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("startDate")))
-						.setEndDate(new SimpleDateFormat("dd/MM/yyyy").parse((String) json.get("endDate")))
-						);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		// 4. 세션에서 idList, list, name 삭제
-		removeAttributes(request);
-		*/
+		return entity;		
 	}
 	
 	@RequestMapping(value = "/course/make/cancel", method = RequestMethod.GET)
 	public void cancel(HttpServletRequest request) throws ParseException {
 		
-		removeAttributes(request);
-		
+		removeAttributes(request);	
 	}
 	
 	public void removeAttributes(HttpServletRequest request) {
@@ -279,13 +288,15 @@ public class CourseMakeController {
 		
 		if(session.getAttribute("idList")!=null) {
 			session.removeAttribute("idList");
+			System.out.println(session.getAttribute("idList"));
 		}
 		if(session.getAttribute("list")!=null) {
 			session.removeAttribute("list");
+			System.out.println(session.getAttribute("list"));
 		}
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");
+			System.out.println(session.getAttribute("name"));
 		}
 	}	
 }
-
