@@ -154,9 +154,27 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify/save", method = RequestMethod.POST)
-	public void modifySave(HttpServletRequest request) throws ParseException {
+	public ResponseEntity<Integer> modifySave(HttpServletRequest request, @RequestBody String jspData) throws ParseException {
+
+		ResponseEntity<Integer> entity = null;
 		
-		HttpSession session = request.getSession();
+		try {
+			HttpSession session = request.getSession();
+			
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse( jspData );
+			JSONArray jsonarray = (JSONArray)obj;
+			
+			session.setAttribute("idList", jsonarray);
+			System.out.println(jsonarray);
+	
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+		
 		// <Session> idList, list, name(?)
 		// idList : areaCode, sigunguCode, areaName, sigunguName, startDate, endDate
 		/*
@@ -185,6 +203,7 @@ public class CourseMakeController {
 		
 		
 		// 1. tbl_Course에 코스 추가
+		/*
 		try {
 			courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
 		} catch (Exception e) {
@@ -244,7 +263,7 @@ public class CourseMakeController {
 		
 		// 4. 세션에서 idList, list, name 삭제
 		removeAttributes(request);
-		
+		*/
 	}
 	
 	@RequestMapping(value = "/course/make/cancel", method = RequestMethod.GET)
@@ -267,6 +286,6 @@ public class CourseMakeController {
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");
 		}
-	}
+	}	
 }
 
