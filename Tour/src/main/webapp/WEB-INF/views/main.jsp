@@ -32,6 +32,7 @@
   #section42 {padding-top:120px;height:850px;color: #fff; background-color: #009688;}
   #section43 {padding-top:120px;height:850px;color: #fff; background-color: #1E88E5;}
   #section44 {padding-top:120px;height:850px;color: #fff; background-color: #673ab7;}
+  #section45 {padding-top:120px;height:300px;color: #fff; background-color: #ff9800;}
   </style>
 </head>
 <body data-spy="scroll" data-target=".navbar">
@@ -174,7 +175,11 @@
 		<button class="btn btn-default"> 더보기 </button>
 	</div>
 </div>
-
+<div id="section45" class="container-fluid">
+   	<div class="container">
+		<p>Footer..</p>
+	</div>
+</div>
 
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
