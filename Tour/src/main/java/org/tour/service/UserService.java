@@ -10,4 +10,5 @@ public interface UserService {
 	public UserVO login(LoginDTO loginDto) throws Exception;
 	
 	public UserVO read(int userNumber) throws Exception;
+
 }

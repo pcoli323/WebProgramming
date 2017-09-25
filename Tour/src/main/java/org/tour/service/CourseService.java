@@ -12,5 +12,6 @@ public interface CourseService {
 
 	public void courseAdd(CourseVO vo) throws Exception;
 	public int courseNumberRead(int userNumber) throws Exception;
+
 	
 }

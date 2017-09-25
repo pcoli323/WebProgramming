@@ -37,7 +37,7 @@
 			<button type="button" class="btn btn-default" id="cancel">취소</button>
 			<button type="button" class="btn btn-default" id="next">다음</button>
 		</div>
-		<div class="floating" id="selected">
+		<div class="floating" style="overflow-y:auto; overflow-x:hidden; height:400px;" id="selected">
 			<h4>선택한 여행지</h4>
 		</div>
 	</div>

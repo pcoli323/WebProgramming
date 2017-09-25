@@ -21,4 +21,5 @@ public interface CourseInfoDAO {
 	public void add(CourseInfoVO vo) throws Exception;
 	
 	public void courseInfoAdd(CourseInfoVO vo) throws Exception;
+
 }

@@ -18,8 +18,9 @@ public class CourseVO {
 	public int getCourseNumber() {
 		return courseNumber;
 	}
-	public void setCourseNumber(int courseNumber) {
+	public CourseVO setCourseNumber(int courseNumber) {
 		this.courseNumber = courseNumber;
+		return this;
 	}
 	public String getCourseName() {
 		return courseName;
