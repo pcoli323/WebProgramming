@@ -1,86 +1,61 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>코스 생성중 - 3단계</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
+	<title>코스 생성중 - 3단계</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	.gotoTitle {
+		padding-top: 20px;
+		background-color: #f1f1f1;
+		height: 375px;
+		width: 27%;
+		float: right;
+		overflow:auto;
+		text-align:center;
+	}
     
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
+	.schedule {
+		padding-top: 10px;
+		margin-top: 20px;
+		background-color: #f1f1f1;
+		height: 375px;
+		width: 27%;
+		float: right;
+		overflow:auto;
+		text-align:center;
+	}
     
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {
-    	padding-top: 30px;
-    	height: 780px;
-    }
+	#scheduleDate {
+		padding-top: 10px;
+	}
     
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 375px;
-      width: 27%;
-      float: right;
-      overflow:auto;
-      padding-right:3%;
-      padding-left:3%;
-    }
+	#map {
+		height: 770px;
+		width: 70%;
+		float: left;
+	}
     
-    .schedule {
-      padding-top: 10px;
-      margin-top: 20px;
-      background-color: #f1f1f1;
-      height: 375px;
-      width: 27%;
-      float: right;
-      overflow:auto;
-    }
-    
-    #scheduleDate {
-      padding-top: 10px;
-    }
-
-    .text-center {
-        padding-right:15%;
-        padding-left:15%;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-   /* @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
-    }*/
-    #map {
-      height: 770px;
-      width: 70%;
-      float: left;
-    }
-    
-    .gotoList {
-    	padding-top: 30px;
-    }
-    input {
+	.gotoList {
+		padding-top: 30px;
+	}
+	.gotoTitle input {
     	border: none;
     	padding-left: 2px;
-    }
-    button {
-    	height: 1.7em;
-    	border: none;
-    }
-    .gotoTitle { 
-    	margin-bottom: 25px;
-    }
+	}
+	button {
+		height: 1.7em;
+		border: none;
+	}
+	.Title { 
+		margin-bottom: 25px;
+	}
     #modDiv {
     	width:300px;
     	height:100px;
@@ -97,16 +72,6 @@
     	padding-left: 20px;
     }
     
-    .scheduleSize {
-    	width:330px;
-    	height:40px;
-		margin:auto;
-    }
-    .scheduleSize th {
-    	text-align:center;
-    	background-color:#c8dbdd;
-    	font-size:15px;
-    }
     .updown {
     	font-size:7px;
     	margin:0;
@@ -120,7 +85,14 @@
     	height:50px;
     	float:right;
     }
-  </style>
+    #contentImg {
+    	float:left;
+    }
+    #contentString {
+    	float:right;
+    	padding: 10px;
+    }
+	</style>
 </head>
 <body>
 
@@ -140,6 +112,7 @@ var realDateCount = 0;
 	<!-- <div class="row content text-center"> -->
 	<div id="map"></div>
 	<script>
+	// google map 생성 부분
 	var map;
 	var markers = [];
 	function initMap() {
@@ -148,7 +121,7 @@ var realDateCount = 0;
 			zoom: 7,
 			center: mapcenter
 		});
-			markerPosition();
+		markerPosition();
 	}
 	function markerPosition(){
 		for(var i=0; i<jsonArr.length; i++){
@@ -166,13 +139,12 @@ var realDateCount = 0;
 			if(tel == null)
 				tel = "";
 				
-			//contentString[i] = document.getElementById("title[" + i + "]").value;
 			if(jsonArr[i].firstimage2 != null){
-				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage2 + "></div><div style='float:right; padding: 10px;'>" + jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+				var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage2 + "></div><div id='contentString'>" + jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
 			} else if(jsonArr[i].firstimage != null){
-					var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div style='float:right; padding: 10px;'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+					var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
 			} else
-				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+				var contentString = "<div id='contentImg'></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
 			var infowindow = new google.maps.InfoWindow({
 				content: contentString,
 				size: new google.maps.Size(200,100)
@@ -180,8 +152,11 @@ var realDateCount = 0;
 		markerListener(marker, infowindow);
 		}
 	}
-	function clearMarkers(i) {
-		markers[i].setMap(null);
+	function clearMarkers() {
+		for(var i=0; i<jsonArr.length; i++){
+			markers[i].setMap(null);
+			markers[i]=null
+		}
 	}
 	function markerListener(localmarker, infowindow){    
        	google.maps.event.addListener(localmarker, 'click', function() {
@@ -193,36 +168,19 @@ var realDateCount = 0;
 			localmarker.setAnimation(null);
        	});
 	}
-
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"
- 	  async defer></script>
-		<form name="inputForm">
-		<div class="sidenav">
-			<div class="gotoTitle">
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
+	
+	<form name="inputForm">
+		<div class="gotoTitle">
+			<div class="Title">
 				<h3>가고 싶은 곳</h3>
 			</div>
 			<table class = "gotoList" id="gotoList">
-			
+				<!-- initTitle() -->
 			</table>
-	</div>
+		</div>
 	</form>
-	<script>
-	initTitle();
-	
-	// 가고 싶은 곳 title 출력 문
-	function initTitle(){
-		var str = "";
-		for(var i=0; i<jsonArr.length; i++){
-			var str1 = "<tr style='height:20px;'><td><input id='title['" + i + "']' value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
-			var str2 = "<td><button type='button' class='calBtn' value=" + i + "><span class='glyphicon glyphicon-calendar'></span></button></td>";
-			var str3 = "<td><button type='button' class='delBtn' value=" + i + "><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
-			var str4 = "<td style='height:20px;'></td></tr>";
-			str += str1 + str2 + str3 + str4;
-		}
-		document.getElementById("gotoList").innerHTML = str;
-	}
-	</script>
 
 	<!-- Delete Modal -->
 	<div class="modal fade" id="delModal" role="dialog">
@@ -245,7 +203,75 @@ var realDateCount = 0;
      
 		</div>
 	</div>
+	
+	<!-- 일청 div -->
+	<form>
+		<div class="schedule">
+			<h3>일정</h3>
+			<div id="scheduleDate">
+				<!-- initScheduleTable() -->
+			</div>
+		</div>
+	</form>
+	
+	<!-- Calendar Modal -->
+	<div class="modal fade" id="calModal" role="dialog">
+		<div class="modal-dialog" style="width:300px;">
+   
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body" style="height:45px;">
+					<form name="dateForm">
+						<select class="selectDate" id="selectDate">
+							<!-- $(document).on("focus",".calBtn",function(){}); -->
+						</select>
+					</form>
+				</div>
+				<div class="modal-footer" style="height:60px;">
+					<button type=button class="btn btn-default" data-dismiss="modal" onClick="insertDate()" style="height:35px;">확  인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="complete">
+		<button type="button" id="completeBtn" class="btn btn-default" style="padding-bottom:2px; height:30px;">완료</button>
+	</div>
+	
+	<!-- Complete Modal -->
+	<div class="modal fade" id="completeModal" role="dialog">
+		<div class="modal-dialog" style="width:300px;">
+    		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="height:50px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">코스 이름을 설정하세요.</h4>
+				</div>
+				<div class="modal-body" style="height:45px;">
+					<input id="courseName" border>
+				</div>
+				<div class="modal-footer" style="height:60px;">
+					<button type=button class="btn btn-default" data-dismiss="modal" onClick="completeName()" style="height:35px;">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
+	initTitle();
+	
+	// 가고 싶은 곳 title 출력 문
+	function initTitle(){
+		var str = "";
+		for(var i=0; i<jsonArr.length; i++){
+			var str1 = "<tr style='height:20px;'><td><input id='title['" + i + "']' value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
+			var str2 = "<td><button type='button' class='calBtn' value=" + i + "><span class='glyphicon glyphicon-calendar'></span></button></td>";
+			var str3 = "<td><button type='button' class='delBtn' value=" + i + "><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
+			var str4 = "<td style='height:20px;'></td></tr>";
+			str += str1 + str2 + str3 + str4;
+		}
+		document.getElementById("gotoList").innerHTML = str;
+	}
+	
 	// 삭제 버튼 클릭시 삭제 모달창
 	var delBtnValue;
 	$(document).on("focus",".delBtn",function(){ 
@@ -255,25 +281,15 @@ var realDateCount = 0;
 		// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
-        clearMarkers(Status);
+        clearMarkers();
         jsonArr.splice(Status,1);
+		orderTable();
         markerPosition();
         initTitle();
         initScheduleTable();
         initSchedule();
     }
-	</script>
-
-	<!-- 일청 div -->
-	<form>
-		<div class="schedule">
-			<h3>일정</h3>
-			<div id="scheduleDate">
-				
-			</div>
-		</div>
-	</form>
-	<script>
+	
 	// api데이터를 date로 변환
 	function DateInvert(pdate){
 		var date = pdate;
@@ -316,41 +332,35 @@ var realDateCount = 0;
 			var end = DateInvert(dateJson[i].endDate);
 			for(var j=0; j<scheduleBetweenDay; j++){
 				var date = StringDateInvert(str[j]);
-				if(start <= date){
-					scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
-					realDate[realDateCount] = str[j];
-					realDateCount++;
-					if(date >= end){
-						break;
+				if(i != 0){
+					var compareEnd = DateInvert(dateJson[i-1].endDate);
+					if(compareEnd.getTime() == date.getTime()){
+						scheduleDateTable += "";
+					}
+					else{
+						if(start <= date){
+							scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
+							realDate[realDateCount] = str[j];
+							realDateCount++;
+							if(date >= end){
+								break;
+							}
+						}
+					}
+				} else {
+					if(start <= date){
+						scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
+						realDate[realDateCount] = str[j];
+						realDateCount++;
+						if(date >= end){
+							break;
+						}
 					}
 				}
 			}
 		}
 		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 	}
-	</script>
-	
-	<!-- Calendar Modal -->
-	<div class="modal fade" id="calModal" role="dialog">
-		<div class="modal-dialog" style="width:300px;">
-   
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-body" style="height:45px;">
-					<form name="dateForm">
-						<select class="selectDate" id="selectDate">
-							
-						</select>
-					</form>
-				</div>
-				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" onClick="insertDate()" style="height:35px;">확  인</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script>
 	// calendar 버튼 클릭 시 날짜 선정 모달 띄움
 	var calBtnValue;
 	$(document).on("focus",".calBtn",function(){
@@ -387,33 +397,65 @@ var realDateCount = 0;
 			selectDateVar = this.value;
 		}); 
 	});
-		// calendar modal 창에서 확인 누를 시 동작
+	
+	// 일정을 다시 선택하는 지 여부 따지기 위해 설정. 나중에 delete시킴
+	for(var i=0; i<jsonArr.length; i++){
+		jsonArr[i].init = 0;
+	}
+	// calendar modal 창에서 확인 누를 시 동작
 	function insertDate(){
 		jsonArr[calBtnValue].gotoDate = selectDateVar;
+		orderTable();
+		if(jsonArr[calBtnValue].init == 1){
+			delete jsonArr[calBtnValue].order;
+			jsonArr[calBtnValue].init = 0;
+		}
 		initSchedule();
+		jsonArr[calBtnValue].init = 1;
 	}
-
 	// 일정 부분 td 출력
 	var stringGoto = [];
 	function initSchedule(){
-		for(var j=0; j<scheduleBetweenDay; j++){
-			stringGoto[j] = "";
-			document.getElementById(str[j]).innerHTML = stringGoto[j];
-			for(var i=0; i<jsonArr.length; i++){
-				if(str[j] == jsonArr[i].gotoDate){
-					var str1 = "<tr style='height:30px;'><td style='text-align:left; width:95%;'>" + jsonArr[i].title + "</td>";
-					var str2 = "<td style='text-align:right;'><button type='button' class=" + i + " id =" + i + " onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
-					var str3 = "<button type='button' id = " + i + "  onclick='moveDown(this)' class='updown'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
-					stringGoto[j] += str1 + str2 + str3;
-				} else {
-					stringGoto[j] += "";
+		for(var i=0; i<realDate.length; i++){
+			// 기존 td부분 삭제
+			stringGoto[i] = "";
+			document.getElementById(realDate[i]).innerHTML = stringGoto[i];
+			for(var j=0; j<jsonArr.length; j++){
+				for(var x=0; x<jsonArr.length; x++){
+					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
+						if(jsonArr[x].order == j){
+							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;'>" + jsonArr[x].title + "</td>";
+							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
+							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
+							stringGoto[i] += str1 + str2 + str3;
+						}
+					}
 				}
 			}
-			if(stringGoto[j])
-				document.getElementById(str[j]).innerHTML = stringGoto[j];
 		}
+		if(jsonArr[calBtnValue].init == 1){
+			for(var i=0; i<realDate.length; i++){
+				if(realDate[i] == jsonArr[calBtnValue].gotoDate){
+					stringGoto[i] += "";
+				}
+				if(stringGoto[i])
+					document.getElementById(realDate[i]).innerHTML = stringGoto[i];
+			}
+		}
+		else{
+			for(var i=0; i<realDate.length; i++){
+				if(realDate[i] == jsonArr[calBtnValue].gotoDate){
+					var str1 = "<tr style='height:30px;'><td style='text-align:left; width:95%;'>" + jsonArr[calBtnValue].title + "</td>";
+					var str2 = "<td style='text-align:right;'><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
+					var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
+					stringGoto[i] += str1 + str2 + str3;
+				}
+				if(stringGoto[i])
+					document.getElementById(realDate[i]).innerHTML = stringGoto[i];
+			}
+		}
+		orderTable();
 	}
-
 	function moveUp(el){
 		var $tr = $(el).parent().parent(); // 클릭한 버튼이 속한 tr 요소
 		$tr.prev().before($tr); // 현재 tr 의 이전 tr 앞에 선택한 tr 넣기
@@ -422,21 +464,6 @@ var realDateCount = 0;
 		var $tr = $(el).parent().parent(); // 클릭한 버튼이 속한 tr 요소
 		$tr.next().after($tr); // 현재 tr 의 다음 tr 뒤에 선택한 tr 넣기
 	}
-	/*
-	function orderTable(){
-		for(var j=0; j<scheduleBetweenDay; j++){ //완전한 날짜로 돌림
-			var order = 0;
-			for(var i=0; i<jsonArr.length; i++){
-				if(str[j] == jsonArr[i].gotoDate){ //gotoDate 설정되어있는 날짜만
-					var table = document.getElementById(str[j]);
-					var rows = table.getElementsByTagName("TR");
-					jsonArr[i].order = order;
-					order++;
-				}
-			}
-		}
-	}
-	*/
 	function orderTable(){
 		for(var i=0; i<realDate.length; i++){
 			var table = document.getElementById(realDate[i]);
@@ -450,55 +477,45 @@ var realDateCount = 0;
 			}
 		}
 	}
-	</script>
-	<div id="complete">
-		<button type="button" id="completeBtn" class="btn btn-default" style="padding-bottom:2px; height:30px;">완료</button>
-	</div>
-	<!-- Complete Modal -->
-	<div class="modal fade" id="completeModal" role="dialog">
-		<div class="modal-dialog" style="width:300px;">
-    
-    		<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header" style="height:50px;">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">코스 이름을 설정하세요.</h4>
-				</div>
-				<div class="modal-body" style="height:45px;">
-					<input id="courseName" style="border:black">
-				</div>
-				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" onClick="completeName()" style="height:35px;">확인</button>
-				</div>
-			</div>
-	    
-		</div>
-	</div>
-	<script>
 	// 완료 버튼 클릭시 코스 제목 모달창
 	$(document).on("focus","#completeBtn",function(){
 		orderTable();
-		console.log(jsonArr);
         $("#completeModal").modal();
 	});
 	
 	function completeName(){
-		jsonArr.courseName = document.getElementById("courseName").value;
-		var jsonData = JSON.stringify(jsonArr);
-		$.ajax({      
-	    	type:"POST",  
-	    	url:"/course/make/modify/save",
-	    	dataType:"json",
-	    	data:jsonData,
+		for(var i=0; i<jsonArr.length; i++)
+			delete jsonArr[i].init;
+		var courseName = document.getElementById("courseName").value;
+
+		$.ajax({
+			type:"POST",
+			url:"/course/make/modify/name",
+			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
 	    	success:function(){
-    			alert("코스가 생성되었습니다.");
-    			location.href="/mypage";
+	    		var jsonData = JSON.stringify(jsonArr);
+	    		$.ajax({      
+	    	    	type:"POST",  
+	    	    	url:"/course/make/modify/save",
+	    	    	dataType:"json",
+	    	    	data:jsonData,
+	    	    	contentType:"application/json; charset=utf-8",
+	    	    	success:function(){
+	        			alert("코스가 생성되었습니다.");
+	        			location.href="/mypage";
+	    			},
+	    			error:function(){
+	        			alert("실패");
+	    			},
+	    		});
 			},
 			error:function(){
     			alert("실패");
 			},
 		});
+		
+		
 	}
 	</script>
 </div>

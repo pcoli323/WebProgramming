@@ -97,19 +97,51 @@ public class CourseMakeController {
 		//System.out.println(jsonarray);
 	}
 		
+	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)
+	public void test(HttpServletRequest request, Locale locale, Model model) throws UnsupportedEncodingException, IOException {
+		
+		String addr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList";
+		String serviceKey = "?serviceKey=ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D";
+		String parameter = "";
+		String type = "&_type=json";
+		
+		parameter += "&MobileOS=ETC";
+		parameter += "&MobileApp=Tour";
+		parameter += "&arrange=B";
+		parameter += "&areaCode=1";
+		
+		addr += serviceKey + parameter + type;
+		
+		URL url = new URL(addr);
+		InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(isr);
+		JSONObject dataObject = (JSONObject) jsonObject.get("response");
+		JSONObject dataObject2 = (JSONObject) dataObject.get("body");
+		JSONObject dataObject3 = (JSONObject) dataObject2.get("items");
+		JSONArray memberArray = (JSONArray) dataObject3.get("item");
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("list", memberArray);
+		
+		String data = "[{\"areaCode\":\"1\",\"areaName\":\"서울\",\"endDate\":\"09\\/23\\/2017\",\"sigunguName\":\"전체\",\"sigunguCode\":\"0\",\"startDate\":\"09\\/21\\/2017\"}]";
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(data);
+		//System.out.println(jsonArray);
+		session.setAttribute("idList", jsonArray);
+		
+	}
+	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
 	public String modify(Locale locale, Model model) {
 		return "course/make/modify";
 	}
-	@RequestMapping(value = "/course/make/modify/remove/{Status}", method = RequestMethod.POST)
-	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("Status") int Status){
+	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
+	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
 		
 		ResponseEntity<Integer> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			JSONArray list = (JSONArray)session.getAttribute("list");
-			
-			list.remove(Status);
+			session.setAttribute("name", courseName);
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		}catch(Exception e) {
@@ -162,8 +194,8 @@ public class CourseMakeController {
 			
 			// 1. tbl_Course에 코스 추가
 			try {
-				courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
-				//courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+				//courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+				courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
