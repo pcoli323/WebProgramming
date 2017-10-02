@@ -238,7 +238,6 @@ var realDateCount = 0;
 				title: jsonArr[i].title,
 				icon: pinSymbol(pinColor[i]),
 			});
-			console.log(marker);
 			markers[i] = marker;
 			var address = jsonArr[i].address;
 			if(address == null)
@@ -283,6 +282,10 @@ var realDateCount = 0;
 	for(var i=0; i<jsonArr.length; i++){
 		jsonArr[i].init = 0;
 	}
+	// 날짜 선택시 border처리. 나중에 delete
+	for(var i=0; i<jsonArr.length; i++){
+		jsonArr[i].border = 0;
+	}
 	
 	initTitle();
 	
@@ -323,9 +326,9 @@ var realDateCount = 0;
         markers.splice(Status,1);
 		orderTable();
         initTitle();
+        inputTitleBorder();
         initScheduleTable();
-        Realschedule();
-		alert("삭제되었습니다.");
+        orderRangeSchedule();
     }
 	
 	// api데이터를 date로 변환
@@ -405,7 +408,7 @@ var realDateCount = 0;
 	    calBtnValue = this.value;
 	    $("#calModal").modal();
 		for(var i=0; i<dateJson.length;i++){
-			if(dateJson[i].areaCode == jsonArr[calBtnValue].areacode){
+			if(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].sigunguCode == jsonArr[calBtnValue].sigungucode){
 				var strDate = dateJson[i].startDate;
 				var splitStrDate = strDate.split('/');
 				
@@ -435,6 +438,13 @@ var realDateCount = 0;
 			selectDateVar = this.value;
 		}); 
 	});
+	function inputTitleBorder(){
+		for(var i=0; i<jsonArr.length; i++){
+			if(jsonArr[i].border == 1){
+				document.getElementsByClassName('inputTitle')[i].style.border = '2px solid #ccc';
+			}
+		}
+	}
 	
 	// calendar modal 창에서 확인 누를 시 동작
 	function insertDate(){
@@ -443,12 +453,15 @@ var realDateCount = 0;
 		if(jsonArr[calBtnValue].init == 1){
 			delete jsonArr[calBtnValue].order;
 			jsonArr[calBtnValue].init = 0;
+			jsonArr[calBtnValue].border = 0;
 		}
 		initSchedule();
+		jsonArr[calBtnValue].border = 1;
+		inputTitleBorder();
 		jsonArr[calBtnValue].init = 1;
 	}
-	
-	function Realschedule(){
+
+	function orderRangeSchedule(){
 		for(var i=0; i<realDate.length; i++){
 			// 기존 td부분 삭제
 			stringGoto[i] = "";
@@ -457,6 +470,31 @@ var realDateCount = 0;
 				for(var x=0; x<jsonArr.length; x++){
 					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
 						if(jsonArr[x].order == j){
+							console.log(j);
+							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;' class='inputScheduleT' id=" + x + ">" + jsonArr[x].title + "</td>";
+							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
+							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
+							stringGoto[i] += str1 + str2 + str3;
+						}
+					}
+				}
+			}
+			if(stringGoto[i])
+				document.getElementById(realDate[i]).innerHTML = stringGoto[i];
+		}
+	}
+	// 일정 부분 td 출력
+	var stringGoto = [];
+	function initSchedule(){
+		for(var i=0; i<realDate.length; i++){
+			// 기존 td부분 삭제
+			stringGoto[i] = "";
+			document.getElementById(realDate[i]).innerHTML = stringGoto[i];
+			for(var j=0; j<jsonArr.length; j++){
+				for(var x=0; x<jsonArr.length; x++){
+					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
+						if(jsonArr[x].order == j){
+							console.log(j);
 							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;' class='inputScheduleT' id=" + x + ">" + jsonArr[x].title + "</td>";
 							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
 							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
@@ -466,12 +504,6 @@ var realDateCount = 0;
 				}
 			}
 		}
-	}
-	
-	// 일정 부분 td 출력
-	var stringGoto = [];
-	function initSchedule(){
-		Realschedule();
 	
 		if(jsonArr[calBtnValue].init == 1){
 			for(var i=0; i<realDate.length; i++){
@@ -524,8 +556,10 @@ var realDateCount = 0;
 	});
 	
 	function completeName(){
-		for(var i=0; i<jsonArr.length; i++)
+		for(var i=0; i<jsonArr.length; i++){
 			delete jsonArr[i].init;
+			delete jsonArr[i].border;
+		}
 		var courseName = document.getElementById("courseName").value;
 
 		$.ajax({
