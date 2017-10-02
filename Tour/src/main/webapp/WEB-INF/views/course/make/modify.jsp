@@ -111,65 +111,6 @@ var realDateCount = 0;
 	</div>
 	<!-- <div class="row content text-center"> -->
 	<div id="map"></div>
-	<script>
-	// google map 생성 부분
-	var map;
-	var markers = [];
-	function initMap() {
-		var mapcenter = {lat: 36.350527, lng: 128.122559};
-		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 7,
-			center: mapcenter
-		});
-		markerPosition();
-	}
-	function markerPosition(){
-		for(var i=0; i<jsonArr.length; i++){
-			var mapPositions = new google.maps.LatLng(Number(jsonArr[i].mapy), Number(jsonArr[i].mapx));
-			var marker = new google.maps.Marker({
-				position: mapPositions,
-				map: map,
-				title: jsonArr[i].title,
-			});
-			markers[i] = marker;
-			var address = jsonArr[i].address;
-			if(address == null)
-				address = "";
-			var tel = jsonArr[i].tel;
-			if(tel == null)
-				tel = "";
-				
-			if(jsonArr[i].firstimage2 != null){
-				var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage2 + "></div><div id='contentString'>" + jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
-			} else if(jsonArr[i].firstimage != null){
-					var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
-			} else
-				var contentString = "<div id='contentImg'></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
-			var infowindow = new google.maps.InfoWindow({
-				content: contentString,
-				size: new google.maps.Size(200,100)
-			}); 
-		markerListener(marker, infowindow);
-		}
-	}
-	function clearMarkers() {
-		for(var i=0; i<jsonArr.length; i++){
-			markers[i].setMap(null);
-			markers[i]=null
-		}
-	}
-	function markerListener(localmarker, infowindow){    
-       	google.maps.event.addListener(localmarker, 'click', function() {
-			infowindow.open(map, localmarker);
-			localmarker.setAnimation(google.maps.Animation.BOUNCE);
-		});
-       	
-       	google.maps.event.addListener(infowindow, 'closeclick', function(){
-			localmarker.setAnimation(null);
-       	});
-	}
-	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
 	
 	<form name="inputForm">
 		<div class="gotoTitle">
@@ -256,14 +197,100 @@ var realDateCount = 0;
 			</div>
 		</div>
 	</div>
+</div>
 	<script>
+	// google map 생성 부분
+	var map;
+	var markers = [];
+	function initMap() {
+		var mapcenter = {lat: 36.350527, lng: 128.122559};
+		map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 7,
+			center: mapcenter
+		});
+		pinColorRed()
+		markerPosition();
+	}
+	var pinColor = [];
+	function pinSymbol(color) {
+		return {
+			path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+			fillColor: color,
+			fillOpacity: 1,
+			strokeColor: '#000',
+			strokeWeight: 1,
+			scale: 1,
+		};
+	}
+	
+	function pinColorRed(){
+		for(var i=0; i<jsonArr.length; i++){
+			pinColor[i] = "red";
+		}
+	}
+	
+	function markerPosition(){
+		for(var i=0; i<jsonArr.length; i++){
+			var mapPositions = new google.maps.LatLng(Number(jsonArr[i].mapy), Number(jsonArr[i].mapx));
+			var marker = new google.maps.Marker({
+				position: mapPositions,
+				map: map,
+				title: jsonArr[i].title,
+				icon: pinSymbol(pinColor[i]),
+			});
+			console.log(marker);
+			markers[i] = marker;
+			var address = jsonArr[i].address;
+			if(address == null)
+				address = "";
+			var tel = jsonArr[i].tel;
+			if(tel == null)
+				tel = "";
+				
+			if(jsonArr[i].firstimage2 != null){
+				var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage2 + "></div><div id='contentString'>" + jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+			} else if(jsonArr[i].firstimage != null){
+					var contentString = "<div id='contentImg'><img style='width:150px; height:100px;' src=" + jsonArr[i].firstimage + "></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+			} else
+				var contentString = "<div id='contentImg'></div><div id='contentString'>"+ jsonArr[i].title + "<br>" + address + "<br>" + tel + "</div>";
+			var infowindow = new google.maps.InfoWindow({
+				content: contentString,
+				size: new google.maps.Size(200,100)
+			}); 
+		markerListener(marker, infowindow);
+		}
+	}
+	
+	function clearMarkers(i) {
+		markers[i].setMap(null);
+	}
+
+	function markerListener(localmarker, infowindow){    
+       	google.maps.event.addListener(localmarker, 'click', function() {
+			infowindow.open(map, localmarker);
+			localmarker.setAnimation(google.maps.Animation.BOUNCE);
+		});
+       	
+       	google.maps.event.addListener(infowindow, 'closeclick', function(){
+			localmarker.setAnimation(null);
+       	});
+	}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
+	<script>
+	
+	// 일정을 다시 선택하는 지 여부 따지기 위해 설정. 나중에 delete시킴
+	for(var i=0; i<jsonArr.length; i++){
+		jsonArr[i].init = 0;
+	}
+	
 	initTitle();
 	
 	// 가고 싶은 곳 title 출력 문
 	function initTitle(){
 		var str = "";
 		for(var i=0; i<jsonArr.length; i++){
-			var str1 = "<tr style='height:20px;'><td><input id='title['" + i + "']' value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
+			var str1 = "<tr style='height:20px;'><td><input class='inputTitle' id=" + i + " value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
 			var str2 = "<td><button type='button' class='calBtn' value=" + i + "><span class='glyphicon glyphicon-calendar'></span></button></td>";
 			var str3 = "<td><button type='button' class='delBtn' value=" + i + "><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
 			var str4 = "<td style='height:20px;'></td></tr>";
@@ -271,6 +298,16 @@ var realDateCount = 0;
 		}
 		document.getElementById("gotoList").innerHTML = str;
 	}
+	
+	$(document).on("mouseover",".inputTitle",function(){
+		var i = this.id;
+		markers[i].setIcon((pinSymbol("green")));
+	});
+	
+	$(document).on("mouseout",".inputTitle",function(){
+		var i = this.id;
+		markers[i].setIcon((pinSymbol("red")));
+	});
 	
 	// 삭제 버튼 클릭시 삭제 모달창
 	var delBtnValue;
@@ -281,13 +318,14 @@ var realDateCount = 0;
 		// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
-        clearMarkers();
+        clearMarkers(Status);
         jsonArr.splice(Status,1);
+        markers.splice(Status,1);
 		orderTable();
-        markerPosition();
         initTitle();
         initScheduleTable();
-        initSchedule();
+        Realschedule();
+		alert("삭제되었습니다.");
     }
 	
 	// api데이터를 date로 변환
@@ -398,10 +436,6 @@ var realDateCount = 0;
 		}); 
 	});
 	
-	// 일정을 다시 선택하는 지 여부 따지기 위해 설정. 나중에 delete시킴
-	for(var i=0; i<jsonArr.length; i++){
-		jsonArr[i].init = 0;
-	}
 	// calendar modal 창에서 확인 누를 시 동작
 	function insertDate(){
 		jsonArr[calBtnValue].gotoDate = selectDateVar;
@@ -413,9 +447,8 @@ var realDateCount = 0;
 		initSchedule();
 		jsonArr[calBtnValue].init = 1;
 	}
-	// 일정 부분 td 출력
-	var stringGoto = [];
-	function initSchedule(){
+	
+	function Realschedule(){
 		for(var i=0; i<realDate.length; i++){
 			// 기존 td부분 삭제
 			stringGoto[i] = "";
@@ -424,7 +457,7 @@ var realDateCount = 0;
 				for(var x=0; x<jsonArr.length; x++){
 					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
 						if(jsonArr[x].order == j){
-							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;'>" + jsonArr[x].title + "</td>";
+							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;' class='inputScheduleT' id=" + x + ">" + jsonArr[x].title + "</td>";
 							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
 							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
 							stringGoto[i] += str1 + str2 + str3;
@@ -433,6 +466,13 @@ var realDateCount = 0;
 				}
 			}
 		}
+	}
+	
+	// 일정 부분 td 출력
+	var stringGoto = [];
+	function initSchedule(){
+		Realschedule();
+	
 		if(jsonArr[calBtnValue].init == 1){
 			for(var i=0; i<realDate.length; i++){
 				if(realDate[i] == jsonArr[calBtnValue].gotoDate){
@@ -518,6 +558,5 @@ var realDateCount = 0;
 		
 	}
 	</script>
-</div>
 </body>
 </html>
