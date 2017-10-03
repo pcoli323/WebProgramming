@@ -226,7 +226,7 @@ public class CourseMakeController {
 							.setGotoSigunguCode(((Long) json.get("sigungucode")).intValue())
 							.setGotoTel((String)json.get("tel"))
 							.setGotoTitle((String)json.get("title"))
-							.setGotoDate(new SimpleDateFormat("yyyy/mm/dd").parse((String) json.get("gotoDate")))
+							.setGotoDate(new SimpleDateFormat("yyyy/MM/dd").parse((String) json.get("gotoDate")))
 							.setGotoOrder(((Long)json.get("order")).intValue())
 							;
 					if(json.get("mapx") instanceof Double) {
