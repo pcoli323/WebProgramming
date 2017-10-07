@@ -135,15 +135,13 @@ public class CourseMakeController {
 	public String modify(Locale locale, Model model) {
 		return "course/make/modify";
 	}
-	@RequestMapping(value = "/course/make/modify/remove/{Status}", method = RequestMethod.POST)
-	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("Status") int Status){
+	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
+	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
 		
 		ResponseEntity<Integer> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			JSONArray list = (JSONArray)session.getAttribute("list");
-			
-			list.remove(Status);
+			session.setAttribute("name", courseName);
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		}catch(Exception e) {
@@ -196,8 +194,8 @@ public class CourseMakeController {
 			
 			// 1. tbl_Course에 코스 추가
 			try {
-				courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
-				//courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+				//courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
+				courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -228,7 +226,7 @@ public class CourseMakeController {
 							.setGotoSigunguCode(((Long) json.get("sigungucode")).intValue())
 							.setGotoTel((String)json.get("tel"))
 							.setGotoTitle((String)json.get("title"))
-							.setGotoDate(new SimpleDateFormat("yyyy/mm/dd").parse((String) json.get("gotoDate")))
+							.setGotoDate(new SimpleDateFormat("yyyy/MM/dd").parse((String) json.get("gotoDate")))
 							.setGotoOrder(((Long)json.get("order")).intValue())
 							;
 					if(json.get("mapx") instanceof Double) {
