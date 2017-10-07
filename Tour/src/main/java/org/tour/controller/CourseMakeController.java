@@ -262,9 +262,13 @@ public class CourseMakeController {
 					e.printStackTrace();
 				}
 			}
-			
+
 			// 4. 세션에서 idList, list, name 삭제
 			removeAttributes(request);
+			
+			// session에 courseNumber 추가 -> myPage에서 코스보기 형식을 그런 식으로
+			session.setAttribute("courseNum", courseNumber);
+			System.out.println(courseNumber);
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
