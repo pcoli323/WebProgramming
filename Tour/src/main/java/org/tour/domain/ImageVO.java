@@ -3,8 +3,10 @@ package org.tour.domain;
 public class ImageVO {
 
 	private int imageNumber;
-	private byte[] readfile;
+	private int userNumber;
+	private byte[] realfile;
 	private byte[] thumfile;
+	private String type;
 	
 	public int getImageNumber() {
 		return imageNumber;
@@ -12,11 +14,17 @@ public class ImageVO {
 	public void setImageNumber(int imageNumber) {
 		this.imageNumber = imageNumber;
 	}
-	public byte[] getReadfile() {
-		return readfile;
+	public int getUserNumber() {
+		return userNumber;
 	}
-	public void setReadfile(byte[] readfile) {
-		this.readfile = readfile;
+	public void setUserNumber(int userNumber) {
+		this.userNumber = userNumber;
+	}
+	public byte[] getReadfile() {
+		return realfile;
+	}
+	public void setRealfile(byte[] realfile) {
+		this.realfile = realfile;
 	}
 	public byte[] getThumfile() {
 		return thumfile;
@@ -24,6 +32,11 @@ public class ImageVO {
 	public void setThumfile(byte[] thumfile) {
 		this.thumfile = thumfile;
 	}
-	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 }

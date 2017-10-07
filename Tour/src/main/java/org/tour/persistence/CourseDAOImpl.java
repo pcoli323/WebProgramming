@@ -43,5 +43,11 @@ public class CourseDAOImpl implements CourseDAO {
 
 		return session.selectOne(namespace + ".courseNumberRead", userNumber);
 	}
+
+	@Override
+	public void update(CourseVO vo) throws Exception {
+		
+		session.update(namespace + ".update", vo);
+	}
 	
 }

@@ -23,9 +23,27 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public Object getImage(String title) throws Exception {
+	public Object getRealImage(int ImageNumber) throws Exception {
 		
-		return dao.get(title);
+		return dao.getRealImage(ImageNumber);
 	}
 
+	@Override
+	public Object getThumImage(int imageNumber) throws Exception {
+		
+		return dao.getThumImage(imageNumber);
+	}
+	
+	@Override
+	public String getType(int imageNumber) throws Exception {
+		
+		return dao.getType(imageNumber);
+	}
+/*
+	@Override
+	public void deleteIamge(int imageNumber) throws Exception {
+		
+		dao.delete(imageNumber);
+	}
+	*/
 }

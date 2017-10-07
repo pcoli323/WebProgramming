@@ -22,4 +22,9 @@ public interface CourseInfoDAO {
 	
 	public void courseInfoAdd(CourseInfoVO vo) throws Exception;
 
+	public void changeImage(HashMap<String, Object> data) throws Exception;
+	
+	public void deleteImage(int gotoNumber) throws Exception;
+	
+	public void representativeMark(HashMap<String, Object> data) throws Exception;
 }
