@@ -1,7 +1,5 @@
 package org.tour.persistence;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -46,9 +44,4 @@ public class CourseDAOImpl implements CourseDAO {
 		return session.selectOne(namespace + ".courseNumberRead", userNumber);
 	}
 	
-	@Override
-	public List<String> courseNameRead(int userNumber) throws Exception {
-
-		return session.selectList(namespace + ".courseNameRead", userNumber);
-	}
 }

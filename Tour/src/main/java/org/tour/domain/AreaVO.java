@@ -31,6 +31,5 @@ public class AreaVO {
 	public void setIsServicedAll(boolean isServicedAll) {
 		this.isServicedAll = isServicedAll;
 	}
-
 	
 }

@@ -603,7 +603,7 @@ var realDateCount = 0;
 	    	    	contentType:"application/json; charset=utf-8",
 	    	    	success:function(){
 	        			alert("코스가 생성되었습니다.");
-	        			location.href="/mypage/${courseNum}";
+	        			location.href="/mypage";
 	    			},
 	    			error:function(){
 	        			alert("실패");
