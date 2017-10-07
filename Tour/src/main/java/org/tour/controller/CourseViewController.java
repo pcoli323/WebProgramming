@@ -9,10 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +23,6 @@ import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
 import org.tour.service.PlanService;
 //import org.tour.service.GotoService;
-import org.tour.service.ImageService;
 import org.tour.service.UserService;
 
 @Controller
@@ -47,8 +42,6 @@ public class CourseViewController {
 	private GotoService gotoService;*/
 	@Inject
 	private PlanService planService;
-	@Inject
-	private ImageService imageService;
 	
 	@RequestMapping(value = "/simple", method = RequestMethod.GET)
 	public void readSimple(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
@@ -84,26 +77,6 @@ public class CourseViewController {
 			logger.info("readSimple");
 			e.printStackTrace();
 		}
-	}
-	@RequestMapping(value = "/getByteImage", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> getByteImage(@RequestParam("title") String title) throws Exception{
-		Object image = imageService.getImage(title);
-		byte[] imageContent = (byte[]) image;
-		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_PNG);
-		return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
-	}
-	@RequestMapping(value = "/getRealImage", method = RequestMethod.GET)
-	public ResponseEntity<String> getRealImage(@RequestParam("gotoNumber") int gotoNumber) throws Exception{
-		ResponseEntity<String> entity = null;
-		try {
-			String realImage = courseInfoService.getRealImage(gotoNumber);
-			entity = new ResponseEntity<String>(realImage, HttpStatus.OK);
-		}catch(Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return entity;
 	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)

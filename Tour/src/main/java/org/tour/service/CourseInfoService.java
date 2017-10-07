@@ -16,4 +16,9 @@ public interface CourseInfoService {
 	
 	public void courseInfoAdd(CourseInfoVO vo) throws Exception;
 	
+	public void changeImage(int gotoNumber, int imageNumber) throws Exception;
+	
+	public void deleteImage(int gotoNumber) throws Exception;
+	
+	public void representativeMark(int gotoNumber, int representedOrder) throws Exception;
 }

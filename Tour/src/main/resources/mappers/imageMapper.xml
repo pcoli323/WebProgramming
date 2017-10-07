@@ -6,13 +6,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.zerock.mapper.ImageMapper">
 	
 	<insert id="create">
- 		insert into tbl_image (title, realfile) 
- 		values(#{title},#{realfile})
+ 		insert into tbl_image (userNumber, realfile, thumfile, type) 
+ 		values(#{userNumber},#{realfile}, #{thumfile}, #{type})
+ 		<selectKey keyProperty="imageNumber" resultType="Integer" order="AFTER"> 
+ 			SELECT LAST_INSERT_ID() 
+ 		</selectKey>
  	</insert>
 	
-	<select id="getImage" resultType="object">
+	<select id="getRealImage" resultType="object">
 		select realfile
 		from tbl_image
-		where title = #{title}
+		where imageNumber = #{imageNumber}
 	</select>
+	
+	<select id="getThumImage" resultType="object">
+		select thumfile
+		from tbl_image
+		where imageNumber = #{imageNumber}
+	</select>
+	
+	<select id="getType" resultType="string">
+		select type
+		from tbl_image
+		where imageNumber = #{imageNumber}
+	</select>
+	<!-- 
+	<delete id="delete">
+		delete from tbl_image
+		where imageNumber = #{imageNumber}
+	</delete>
+	 -->
 </mapper>

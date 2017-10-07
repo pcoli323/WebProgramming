@@ -35,11 +35,16 @@
 	display:inline-block;
 	margin:20px;
 	}
+	.popover{
+	display:;
+	padding:5px;
+	text-align:cente;
+	}
 	.mapView{
 	margin:30px;
 	height:250px;
 	}
-	.story{
+	.storyView{
 	border:1px solid gold;
 	padding:20px;
 	line-height:200%;
@@ -85,7 +90,9 @@
 	}
 	var markers = [];
 	var infowindows = [];
-	function makeMarker(locationX, locationY, image, title){
+	var markerIndex = 0;
+	var gotoNumberMapMarker = new Map();
+	function makeMarker(locationX, locationY, image, title, gotoNumber){
 		if(locationX != ""){
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
 			var marker = new google.maps.Marker({
@@ -98,13 +105,16 @@
 				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + image 
 										+ "></div><div style='float:right; padding: 10px;'>" + title +"</div>";
 			
-			} else
+			} else{
 				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title +"</div>";
+			}
 			var infowindow = new google.maps.InfoWindow({
 									content: contentString,
 									size: new google.maps.Size(200,100)});
 			infowindows.push(infowindow);
 			markerListener(marker, infowindow);
+			gotoNumberMapMarker.set(gotoNumber, markerIndex);
+			markerIndex++;
 		}
 	}
 	function markerListener(localmarker, infowindow){    
@@ -124,7 +134,7 @@
 	<div class="courseView">
 	
 		<div class="courseView-header" style="text-align:center;padding:20px">
-			<input class="courseName" type="text" maxlength="200" value="${courseVO.courseName}" 
+			<input id="courseName" type="text" maxlength="20" value="${courseVO.courseName}" 
 					data-toggle="tooltip" data-placement="top" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
 		</div><!-- /courseView-header -->
         
@@ -152,7 +162,11 @@
         								</div>
         								<div style="text-align:right">
         									<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
-        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}" style=""></span>
+        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style=""></span>
+        									<!-- 
+        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}-modify"
+        									data-toggle="popover" data-placement="top"></span>
+        									 -->
         								</div>
         								<br><br>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
@@ -163,7 +177,13 @@
         			</div>
         		</c:forEach>
         	</div><!-- /planTable -->
-        	
+        	<!-- 
+        	<div class="popover fade top in" id="imageControl">
+        		<div class="imageGotoNumber" style="display:none"></div>
+        		<button type="button" class="btn btn-default btn-xs" id="modifyImageBtn">수정</button>
+				<button type="button" class="btn btn-default btn-xs" id="deleteImageBtn">삭제</button>
+        	</div>
+        	 -->
         	<!-- 지도 -->
         	<div class="mapView" id="map">
         			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
@@ -171,37 +191,28 @@
         				<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         				<c:forEach var="gotoOne" items="${gotoList}">
         					<script>
-        						makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}");
+        						makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.gotoNumber}");
         					</script>
         				</c:forEach>
         			</c:forEach>
         	</div>
         	
-        	<div class="story">
-        		<textarea rows="9" cols="120" maxlength="1000" placeholder="1000자 내외" style="border:0px;resize:none;outline:none"></textarea>
+        	<div class="storyView">
+        		<textarea id="story" rows="9" cols="120" maxlength="1000" placeholder="1000자 내외" style="border:0px;resize:none;outline:none"></textarea>
         	</div>
         			
         </div><!-- /courseView-body -->
         		
-        <div class="courseView-footer" style="text-align:right; clear:left">
+        <div class="courseView-footer" style="text-align:right; clear:left; margin-top:10px;">
+        	<button type="button" class="btn btn-success" id="postCourse" style="outline:0">게시</button>
 		</div><!-- /courseView-footer -->
         
 	</div><!-- /courseView -->
-	<div class="floating">
+	<div class="floating" data-toggle="tooltip" data-placement="top" title="다른 사람들에게 가장 먼저 보여주고 싶은 코스를 정해주세요">
 		<h5>대표코스</h5>
 		<div class="representativeList"></div>
 	</div>
 </div><!-- /content -->
-
-<div id="imageUploadWindow">
-	<div class="imageHeader">
-		<h3>나만의 사진을 저장</h3>
-		<div>
-			<span class="glyphicon glyphicon-hand-right"></span>
-			<span class="glyphicon glyphicon-hand-left" id="my-glyphicon"></span>
-		</div>
-	</div><!-- /imageHeader -->
-</div><!-- /imageUploadWindow -->
 
 <script>
 	var loginCheck;
@@ -303,13 +314,120 @@
 	}
 	
 	// image 추가하기
+	var gotoNumber;
+	var gotoName;
+	var isModify;
+	var addImageList = new Map();
 	$('.addImage').on("click", function(){
 		var checkImage = $(this).hasClass("active");
+		var idStr = $(this).attr('id').split('-');
+		gotoNumber = idStr[1];
+		gotoName = idStr[2];
 		
 		if(checkImage == 0){
-			window.open("/mypage/imageUpload?userNumber=1", "startpop", "width=600, height=350");
+			isModify = false;
+			var url="/imageUpload";
+			window.open(url, "startpop", "width=600, height=400");
+		}
+		else{
+			isModify = true;
+			var url="/imageUpload";
+			window.open(url, "startpop", "width=600, height=400");
+			/*
+			$('[data-toggle="popover"]').popover({
+				html: true, 
+				content: function() {
+					return $('#imageControl').html();
+				},
+				$('.imageGotoNumber').html(gotoNumber);
+			});
+			var idStr = $(this).attr('id').split('-');
+			var gotoNumber = idStr[1];
+			
+			$('.imageGotoNumber').html(gotoNumber);
+			$('#imageControl').popover();
+			*/
 		}
 	});
+	
+	//게시
+	$('#postCourse').on("click", function(){
+		var courseNumber = ${courseNumber};
+		var courseName = $('#courseName').val();
+		var story = $('#story').val();
+		if(courseName == ""){
+			alert("코스 이름을 만들어주세요");
+		}
+		else if(representatives.length == 0){
+			alert("하나 이상의 대표코스를 정해주세요");
+		}
+		else{
+			// courseName, story (course를 변경) & representatives(courseInfo를 변경) json형태로 coursePostController에서 처리
+			// image는 imageController에서 처리
+			// success로 끝나면 게시된 거 보여주기
+			updateCourse(courseNumber, courseName, story);
+			representativeMark();
+			addImages();
+		}
+	});
+	function updateCourse(courseNumber, courseName, story){
+		$.ajax({
+			type: 'POST',
+			url: '/mypage/updateCourse',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				courseName:courseName,
+				story:story
+			}),
+			dataType:'text',
+			success: function(){
+				console.log("courseUpdate");
+			}
+		});
+	}
+	function representativeMark(){
+		representatives.forEach(function(value, order){
+			order = order + 1;
+			$.ajax({
+				type: 'POST',
+				url: '/mypage/representativeMark',
+				headers: {
+					"Content-Type": "application/json",
+					"X-HTTP-Method-Override": "POST"
+				},
+				data: JSON.stringify({
+					gotoNumber:value,
+					representedOrder:order
+				}),
+				dataType:'text',
+				success: function(){
+					console.log("representativeMark");
+				}
+			})
+		});
+	}
+	function addImages(){
+		addImageList.forEach(function(value, key){
+			var formData = new FormData();
+			formData.append("file", value);
+			
+			$.ajax({
+				url: '/imageUpload/'+loginUserNumber+'/'+key,
+				data: formData,
+				dataType:'text',
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				success: function(){
+					console.log("image")
+				}
+			});
+		});
+	}
 </script>
 </body>
 </html>

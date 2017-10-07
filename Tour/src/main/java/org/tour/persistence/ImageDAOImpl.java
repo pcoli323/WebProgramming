@@ -21,10 +21,29 @@ public class ImageDAOImpl implements ImageDAO{
 			System.out.println("error in ImageDAO");
 		}
 	}
+	
+	@Override
+	public Object getRealImage(int imageNumber) {
+		
+		return session.selectOne(namespace + ".getRealImage", imageNumber);
+	}
 
 	@Override
-	public Object get(String title) throws Exception {
+	public Object getThumImage(int imageNumber) {
 		
-		return session.selectOne(namespace + ".getImage", title);
+		return session.selectOne(namespace + ".getThumImage", imageNumber);
 	}
+	
+	@Override
+	public String getType(int imageNumber) {
+		
+		return session.selectOne(namespace + ".getType", imageNumber);
+	}
+/*
+	@Override
+	public void delete(int imageNumber) {
+		
+		session.delete(namespace + ".delete", imageNumber);
+	}
+	*/
 }
