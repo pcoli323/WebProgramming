@@ -80,4 +80,9 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		dao.representativeMark(data);
 	}
 	
+	@Override
+	public void delete(int CourseNumber) throws Exception {
+		
+		dao.delete(CourseNumber);
+	}
 }

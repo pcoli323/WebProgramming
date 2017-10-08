@@ -29,4 +29,6 @@ public interface CourseInfoDAO {
 	public void initialRepresented(int courseNumber) throws Exception;
 	
 	public void representativeMark(HashMap<String, Object> data) throws Exception;
+	
+	public void delete(int courseNumber) throws Exception;
 }

@@ -51,5 +51,10 @@ public class CourseInfoDTO {
 	}
 	public void setRepresentedOrder(int representedOrder) {
 		this.representedOrder = representedOrder;
+	public int getGotoOrder() {
+		return gotoOrder;
+	}
+	public void setGotoOrder(int gotoOrder) {
+		this.gotoOrder = gotoOrder;
 	}
 }

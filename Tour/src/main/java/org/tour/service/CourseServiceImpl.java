@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -42,11 +44,29 @@ public class CourseServiceImpl implements CourseService {
 
 		return dao.courseNumberRead(userNumber);
 	}
-
+	
+	@Override
+	public List<String> courseNameRead(int userNumber) throws Exception {
+		
+		return dao.courseNameRead(userNumber);
+		
+	}
+	
 	@Override
 	public void update(CourseVO vo) throws Exception {
 		
 		dao.update(vo);
+	}
+	
+	@Override
+	public int courseNumByName(String courseName) throws Exception {
+		
+		return dao.courseNumByName(courseName);
+	}
+	
+	@Override
+	public void delete(int courseNumber) throws Exception {
+		dao.delete(courseNumber);
 	}
 
 }

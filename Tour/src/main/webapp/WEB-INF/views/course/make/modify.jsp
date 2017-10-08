@@ -444,12 +444,25 @@ var realDateCount = 0;
 		}
 		document.getElementById("selectDate").innerHTML = stringOption;
     });
+	var limitCheck = [];
+	var limitCheckVar = 0;
+	for(var i=0; i<realDate.length; i++){
+		limitCheck[i] = 0;
+	}
 	var selectDateVar; // 날짜 선정 모달에서 선택한 날짜 value값
 	$(document).ready(function(){
 	    $(".selectDate").click(function(){
 			selectDateVar = this.value;
+			
+			for(var i=0; i<realDate.length; i++){
+				if(realDate[i] == selectDateVar)
+					limitCheckVar = i;
+			}
+			
 		}); 
 	});
+	
+	// 날짜 선택시 Title border처리
 	function inputTitleBorder(){
 		for(var i=0; i<jsonArr.length; i++){
 			if(jsonArr[i].border == 1){
@@ -468,11 +481,26 @@ var realDateCount = 0;
 			delete jsonArr[calBtnValue].order;
 			jsonArr[calBtnValue].init = 0;
 			jsonArr[calBtnValue].border = 0;
+
+			if(limitCheck[limitCheckVar] != 0)
+				limitCheck[limitCheckVar]--;
+			
 		}
+		if(limitCheck[limitCheckVar] == 5)
+			alert("일정이 빡빡하진 않나요?");
+		// 7개로 제한
+		if(limitCheck[limitCheckVar] == 7){
+			delete jsonArr[calBtnValue].order;
+			delete jsonArr[calBtnValue].gotoDate;
+			alert("피곤하실거예요~ 이 날의 일정은 여기까지");
+		}
+			
 		initSchedule();
-		if(selectDateVar != 0){
+		if(selectDateVar != 0 && limitCheck[limitCheckVar] < 7){
 			jsonArr[calBtnValue].border = 1;
 			jsonArr[calBtnValue].init = 1;
+			
+			limitCheck[limitCheckVar]++;
 		}
 		inputTitleBorder();
 	}
@@ -602,8 +630,9 @@ var realDateCount = 0;
 	    	    	data:jsonData,
 	    	    	contentType:"application/json; charset=utf-8",
 	    	    	success:function(){
+	    	    		var courseNumber = ${courseNumber } + 1;
 	        			alert("코스가 생성되었습니다.");
-	        			location.href="/mypage";
+	        			location.href="/mypage/" + courseNumber;
 	    			},
 	    			error:function(){
 	        			alert("실패");
@@ -611,7 +640,7 @@ var realDateCount = 0;
 	    		});
 			},
 			error:function(){
-    			alert("실패");
+    			alert("이미 생성된 코스이름입니다. 다시 입력해주세요.");
 			},
 		});
 	}

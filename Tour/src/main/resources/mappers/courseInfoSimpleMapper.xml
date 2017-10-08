@@ -9,5 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into tbl_courseInfoSimple (courseNumber, areaCode, sigunguCode, startDate, endDate)
 		values (#{courseNumber},#{areaCode},#{sigunguCode},#{startDate},#{endDate})
 	</insert>
+	<select id="delete">
+		delete
+		from tbl_courseInfoSimple
+		where courseNumber = #{courseNumber}
+	</select>
 	
 </mapper>
