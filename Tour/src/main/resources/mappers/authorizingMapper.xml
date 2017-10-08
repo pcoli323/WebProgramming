@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.tour.mapper.AuthorizingMapper">
+
+	<select id="exist" resultType="int">
+		select count(email)
+		from tbl_authorizing
+		where email = #{email}
+	</select>
+	
+	<insert id="add">
+		insert into tbl_authorizing (email,authCode)
+		values(#{email},#{authCode})
+	</insert>
+	
+	<update id="update">
+		update tbl_authorizing set authCode = #{authCode}
+		where email = #{email}
+	</update>
+	
+	<select id="check" resultType="int">
+		select count(email)
+		from tbl_authorizing
+		where (email = #{email} AND authCode = #{authCode})
+	</select>
+	
+	<delete id="delete">
+		delete
+		from tbl_authorizing
+		where email = #{email}
+	</delete>
+</mapper>

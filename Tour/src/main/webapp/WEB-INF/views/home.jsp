@@ -34,14 +34,22 @@
   #section44 {padding-top:120px;height:200px;color: #fff; background-color: #673ab7;}
   #section45 {padding-top:120px;height:300px;color: #fff; background-color: #ff9800;}
   
-  .modal {
+  #loginModal {
    position: absolute;
    top: 100px;
    right: 450px;
    bottom: auto;
    left: auto;
 	}
-
+	
+ #registerModal {
+   position: absolute;
+   top: 100px;
+   left: 350px;
+   bottom: auto;
+   right: auto;
+	}
+	
   </style>
 </head>
 <body data-spy="scroll" data-target=".navbar">
@@ -190,8 +198,8 @@
 	</div>
 </div>
 
-<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+	<!-- Modal 로그인 -->
+  <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -223,14 +231,73 @@
     </div>
   </div>
   
+  <!-- Modal - 회원가입 -->
+  <div class="modal fade" id="registerModal" role="dialog" >
+  	<div class="modal-dialog" style="height:500px; width:800px" >
+    	<!-- Modal content-->
+     	<div class="modal-content">
+        	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title" style="text-align:center;">회원가입</h4>
+        	</div>
+       		<div class="modal-body">
+        		<form class="form-horizontal">
+    				<div class="form-group">
+      					<label class="control-label col-sm-2">이메일:</label>
+      					<div class="col-sm-8">
+        					<input type="email" class="form-control" id="email" placeholder="이메일을 입력해주세요.">
+      					</div>
+    				</div>
+    				<div class="form-group">
+    					<button type="button" class="btn btn-default col-sm-2 col-sm-offset-2" id="authMail">인증메일보내기</button>
+      					<label class="control-label col-sm-2" for="auth">인증번호 </label>
+      					<div class="col-sm-4">
+        					<input type="text" class="form-control" id="auth" placeholder="인증번호를 입력해주세요." name="auth">
+      					</div>
+    				</div>
+    				<div class="form-group">
+      					<label class="control-label col-sm-2">비밀번호:</label>
+      					<div class="col-sm-8" >          
+        					<input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요.">
+      					</div>
+      					<label class="control-label col-sm-8 col-sm-offset-2" id="pwdC"></label>
+    				</div>
+    				<div class="form-group">
+      					<label class="control-label col-sm-2">비밀번호 확인:</label>
+      					<div class="col-sm-8">          
+        					<input type="password" class="form-control" id="pwd2" placeholder="다시한번 비밀번호를 입력해주세요.">
+      					</div>
+      					<label class="control-label col-sm-8 col-sm-offset-2" id="pwdC2"></label>
+    				</div>
+    				<div class="form-group">
+      					<label class="control-label col-sm-2">닉네임:</label>
+      					<div class="col-sm-8">
+        					<input type="text" class="form-control" id="name" placeholder="사용할 닉네임을 입력해주세요.">
+      					</div>
+      					<label class="control-label col-sm-8 col-sm-offset-2" id="nameC"></label>
+    				</div>
+  				</form>
+        	</div>
+        	<div class="modal-footer">
+        		<button type="button" class="btn btn-default" id="checkR">완료</button>
+        		<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+        	</div>
+      </div>
+    </div>
+  </div>
+  
 </body>
 <script>
+var checkpwd = false;
+var checkpwd2 = false;
+var checkname = false;
+
 $(document).ready(function(){
     $("#reg").click(function(){
-        //
+    	$("#registerModal").modal();    	
     });
     $("#login").click(function(){
-    	$("#myModal").modal();
+    	$("#loginModal").modal();
     });
     $("#mypage").click(function(){
         //
@@ -245,5 +312,134 @@ $(document).ready(function(){
     	location.href="/course/make/add1";
     });
 });
+
+$("#authMail").click(function(){
+	var arr = new Array();
+	var data = new Object();
+	data.email = document.getElementById("email").value;
+	arr.push(data);
+	var email = JSON.stringify(arr);
+	$.ajax({      
+		type:"POST",  
+		url:"/mail",
+		dataType:"json",
+		data:email,
+		contentType:"application/json; charset=utf-8",
+		success:function(msg){
+			if(msg=="0")
+				alert("이미 존재하는 이메일입니다.");
+			else if(msg=="1")
+				alert("인증번호를 보냈습니다. 메일을 확인해주세요.");
+		},
+	 	error:function(msg){
+	 		alert(msg);
+	 	}
+	});
+	
+});
+
+// 비밀번호 확인 1
+$("#pwd").focusout(function(){
+	var val = $(this).val(),
+	regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/;
+	
+	var item = document.getElementById("pwdC");
+	if(val=="" | val==null){
+		item.innerHTML = "";
+		checkpwd = false;
+	}
+	else if(!regex.test(val)){
+		item.style.color = "red";
+		item.innerHTML = "8자리 이상 16자리 이하, 영문자 + 숫자 혹은 특수 문자를 반드시 포함";
+		checkpwd = false;
+	}	
+	else{	
+		item.style.color = "green";
+		item.innerHTML = "사용 가능";
+		checkpwd = true;
+	}
+});
+// 비밀번호 확인 2
+$("#pwd2").focusout(function(){
+	var val = $(this).val();
+	var pwd = document.getElementById("pwd").value;
+
+	var item = document.getElementById("pwdC2");
+	if(val=="" | val==null){
+		item.innerHTML = "";
+		checkpwd2 = false;
+	}
+	else if(pwd==val){
+		item.style.color = "green";
+		item.innerHTML = "비밀번호 일치";
+		checkpwd2 = true;
+	}	
+	else{	
+		item.style.color = "red";
+		item.innerHTML = "비밀번호 불일치";
+		checkpwd2 = false;
+	}
+});
+// 닉네임 확인
+$("#name").focusout(function(){
+	var val = $(this).val(),
+	regex = /^[0-9a-zA-Z가-힣]{1,10}$/;
+
+	var item = document.getElementById("nameC");
+	if(val=="" | val==null){
+		item.innerHTML = "";
+		checkname = false;
+	}
+	else if(!regex.test(val)){
+		item.style.color = "red";
+		item.innerHTML = "최대 10자, 숫자,영문,한글 사용가능";
+		checkname = false;
+	}
+	else{
+		item.style.color = "green";
+		item.innerHTML = "사용 가능";
+		checkname = true;
+	}
+});
+
+$("#checkR").click(function(){
+	if(checkpwd==true && checkpwd2==true && checkname==true){
+		var arr = new Array();
+		var data = new Object();
+		data.email = document.getElementById("email").value;
+		data.authCode = document.getElementById("auth").value;
+		data.pwd = document.getElementById("pwd").value;
+		data.name = document.getElementById("name").value;
+		
+		arr.push(data);
+		var authdata = JSON.stringify(arr);
+		$.ajax({      
+			type:"POST",  
+			url:"/checkAuthCode",
+			dataType:"json",
+			data:authdata,
+			contentType:"application/json; charset=utf-8",
+			success:function(msg){
+				if(msg=="0"){
+					alert("인증번호를 확인해주세요.");
+				}
+				else if(msg=="1"){
+					alert("회원가입이 완료되었습니다.");
+					location.href="/";
+				}
+			},
+	 		error:function(msg){
+	 			alert(msg);
+	 		}
+		});
+		
+	}
+	else{
+		alert("다시 확인해주세요.");
+	}
+	
+	
+});
+
 </script>
 </html>

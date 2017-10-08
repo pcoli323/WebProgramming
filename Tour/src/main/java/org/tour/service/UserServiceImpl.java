@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
 		
 		return dao.read(userNumber);
 	}
+
+	@Override
+	public int exist(String email) throws Exception {
+		return dao.exist(email);
+	}
 }

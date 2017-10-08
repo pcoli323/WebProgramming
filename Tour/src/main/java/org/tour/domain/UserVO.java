@@ -11,6 +11,12 @@ public class UserVO {
 	private Date regDate;
 	private Date updateDate;
 	
+	public UserVO(String email, String pwd, String userName) {
+		this.email = email;
+		this.pwd = pwd;
+		this.userName = userName;
+	}
+	
 	public int getUserNumber() {
 		return userNumber;
 	}
