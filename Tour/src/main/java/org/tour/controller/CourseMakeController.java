@@ -141,10 +141,19 @@ public class CourseMakeController {
 		ResponseEntity<Integer> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			session.setAttribute("name", courseName);
 			
+			List<String> courseNames = courseService.courseNameRead(((UserVO)session.getAttribute("login")).getUserNumber());
+			for(int i=0; i<courseNames.size(); i++) {
+				if(courseNames.get(i).equals(courseName)) {
+					throw new Exception();
+				}
+			}
+			
+			session.setAttribute("name", courseName);
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+			
 		}catch(Exception e) {
+			System.out.println("오류");
 			e.printStackTrace();
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
@@ -226,7 +235,7 @@ public class CourseMakeController {
 							.setGotoSigunguCode(((Long) json.get("sigungucode")).intValue())
 							.setGotoTel((String)json.get("tel"))
 							.setGotoTitle((String)json.get("title"))
-							.setGotoDate(new SimpleDateFormat("yyyy/mm/dd").parse((String) json.get("gotoDate")))
+							.setGotoDate(new SimpleDateFormat("yyyy/MM/dd").parse((String) json.get("gotoDate")))
 							.setGotoOrder(((Long)json.get("order")).intValue())
 							;
 					if(json.get("mapx") instanceof Double) {
@@ -262,9 +271,12 @@ public class CourseMakeController {
 					e.printStackTrace();
 				}
 			}
-			
+
 			// 4. 세션에서 idList, list, name 삭제
 			removeAttributes(request);
+			
+			// session에 courseNumber 추가 -> myPage에서 코스보기 형식을 그런 식으로
+			session.setAttribute("courseNumber", courseNumber);
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {

@@ -17,5 +17,10 @@ public class CourseInfoSimpleServiceImpl implements CourseInfoSimpleService {
 		
 		dao.courseInfoSimpleAdd(vo);
 	}
+
+	@Override
+	public void delete(int courseNumber) throws Exception {
+		dao.delete(courseNumber);
+	}
 	
 }

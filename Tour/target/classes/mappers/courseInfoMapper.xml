@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by gotoDate asc
 	</select>
 	
-	<select id="readAccordingToDate" parameterType="hashmap" resultType="courseInfoVO">
+	<select id="readAccordingToDate" resultType="courseInfoVO">
 		select *
 		from tbl_courseInfo
 		where courseNumber = #{courseNumber} and gotoDate = #{gotoDate}
@@ -46,4 +46,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into tbl_courseInfo (courseNumber, gotoAddr1, gotoAddr2, gotoAreaCode, gotoContentID, gotoContentTypeID, gotoCreatedTime, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY, gotoModifiedTime, gotoReadCount, gotoSigunguCode, gotoTel, gotoTitle, gotoDate, gotoOrder)
 		values (#{courseNumber}, #{gotoAddr1}, #{gotoAddr2}, #{gotoAreaCode}, #{gotoContentID}, #{gotoContentTypeID}, #{gotoCreatedTime}, #{gotoImageReal}, #{gotoImageThum}, #{gotoLocationX}, #{gotoLocationY}, #{gotoModifiedTime}, #{gotoReadCount}, #{gotoSigunguCode}, #{gotoTel}, #{gotoTitle}, #{gotoDate}, #{gotoOrder})
 	</insert>
+	
+	<update id="changeImage">
+		update tbl_courseInfo
+		set gotoImageReal = #{gotoImageReal}, gotoImageThum = #{gotoImageThum}
+		where gotoNumber = #{gotoNumber}
+	</update>
+	<!-- 
+	<update id="deleteImage">
+		update tbl_courseInfo
+		set gotoImageReal = NULL, gotoImageThum = NULL
+		where gotoNumber = #{gotoNumber}
+	</update>
+	 -->
+	 
+	<update id="initialRepresented">
+		update tbl_courseInfo
+		set isRepresented = false, representedOrder = 0
+		where courseNumber = #{courseNumber}
+	</update>
+	
+	<update id="representativeMark">
+		update tbl_courseInfo
+		set isRepresented = true, representedOrder = #{representedOrder}
+		where gotoNumber = #{gotoNumber}
+	</update>
 </mapper>

@@ -44,7 +44,7 @@
     width:100%;
     }
     .representativeImageBig {
-    width: 420px; height:auto;
+    max-width: 300px; height:auto;
     }
 </style>
 <head>
@@ -197,10 +197,10 @@
 				}
 				else{
 					var gotoNumber = $(this).attr("id");
-				
+					
 					$.ajax({
 						type:'get',
-						url:'/course/view/getRealImage?gotoNumber=' + gotoNumber,
+						url:'/getGotoRealImage?gotoNumber=' + gotoNumber,
 						success:function(realImage){
 							imgSrc = realImage;
 							imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
@@ -220,8 +220,9 @@
 	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
 	function followCheck(){
+		var userNumber = ${courseVO.userNumber};
 		if(loginCheck == true){
-			if(loginUserNumber != ${courseVO.userNumber}){
+			if(loginUserNumber != userNumber){
 				$.ajax({
 					type:'post',
 					url:'/follow/check',

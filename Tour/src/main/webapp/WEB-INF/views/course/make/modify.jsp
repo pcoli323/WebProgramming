@@ -176,7 +176,8 @@ var realDateCount = 0;
 	</div>
 	
 	<div id="complete">
-		<button type="button" id="completeBtn" class="btn btn-default" style="padding-bottom:2px; height:30px;">완료</button>
+		<button type=button class="btn btn-default" id="cancel" style="height:30px;">취소</button>
+		<button type="button" id="completeBtn" class="btn btn-default" style="height:30px;">완료</button>
 	</div>
 	
 	<!-- Complete Modal -->
@@ -276,8 +277,7 @@ var realDateCount = 0;
 	}
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
-	<script>
-	
+	<script>	
 	// 일정을 다시 선택하는 지 여부 따지기 위해 설정. 나중에 delete시킴
 	for(var i=0; i<jsonArr.length; i++){
 		jsonArr[i].init = 0;
@@ -287,8 +287,8 @@ var realDateCount = 0;
 		jsonArr[i].border = 0;
 	}
 	
+	// ---------------------------------------------------------
 	initTitle();
-	
 	// 가고 싶은 곳 title 출력 문
 	function initTitle(){
 		var str = "";
@@ -302,11 +302,11 @@ var realDateCount = 0;
 		document.getElementById("gotoList").innerHTML = str;
 	}
 	
+	//input Title event 처리
 	$(document).on("mouseover",".inputTitle",function(){
 		var i = this.id;
 		markers[i].setIcon((pinSymbol("green")));
 	});
-	
 	$(document).on("mouseout",".inputTitle",function(){
 		var i = this.id;
 		markers[i].setIcon((pinSymbol("red")));
@@ -318,7 +318,7 @@ var realDateCount = 0;
     	delBtnValue = this.value;
         $("#delModal").modal();
 	});
-		// 가고 싶은 곳 title 삭제 처리
+	// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
         clearMarkers(Status);
@@ -330,7 +330,8 @@ var realDateCount = 0;
         initScheduleTable();
         orderRangeSchedule();
     }
-	
+
+	// ---------------------------------------------------------
 	// api데이터를 date로 변환
 	function DateInvert(pdate){
 		var date = pdate;
@@ -346,6 +347,19 @@ var realDateCount = 0;
 		var dateObj = new Date(Number(splitDate[0]), Number(splitDate[1])-1, Number(splitDate[2]));
 		
 		return dateObj;
+	}
+	// date 정렬
+	dateArrange();
+	function dateArrange(){
+		for(var i=1; i<dateJson.length; i++){
+			var small = DateInvert(dateJson[i-1].startDate);
+			var big = DateInvert(dateJson[i].startDate);
+			if(small.getTime() > big.getTime()){
+				var buf = dateJson[i-1];
+				dateJson[i-1] = dateJson[i];
+				dateJson[i] = buf;
+			}
+		}
 	}
 	
 	// 시작 날짜와 끝 날짜 계산(아예 완전히!!!!)
@@ -373,29 +387,19 @@ var realDateCount = 0;
 			var end = DateInvert(dateJson[i].endDate);
 			for(var j=0; j<scheduleBetweenDay; j++){
 				var date = StringDateInvert(str[j]);
-				if(i != 0){
+				if(i != 0)
 					var compareEnd = DateInvert(dateJson[i-1].endDate);
-					if(compareEnd.getTime() == date.getTime()){
-						scheduleDateTable += "";
-					}
-					else{
-						if(start <= date){
-							scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
-							realDate[realDateCount] = str[j];
-							realDateCount++;
-							if(date >= end){
-								break;
-							}
-						}
-					}
-				} else {
+				
+				if(i != 0 && compareEnd.getTime() == date.getTime())
+					scheduleDateTable += "";
+				
+				else {
 					if(start <= date){
 						scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
 						realDate[realDateCount] = str[j];
 						realDateCount++;
-						if(date >= end){
-							break;
-						}
+						if(date >= end)
+							break;	
 					}
 				}
 			}
@@ -408,7 +412,15 @@ var realDateCount = 0;
 	    calBtnValue = this.value;
 	    $("#calModal").modal();
 		for(var i=0; i<dateJson.length;i++){
-			if(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].sigunguCode == jsonArr[calBtnValue].sigungucode){
+			if((dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].sigunguCode == jsonArr[calBtnValue].sigungucode) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 1) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 2) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 3) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 4) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 5) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 6) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 7) || 
+					(dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].areaCode == 8)){
 				var strDate = dateJson[i].startDate;
 				var splitStrDate = strDate.split('/');
 				
@@ -420,7 +432,7 @@ var realDateCount = 0;
 				
 				var betweenDay =((endDateObj.getTime() - strDateObj.getTime())/1000/60/60/24)+1;
 					
-				var stringOption = "<option value=''>날짜를 선택하세요</option>";
+				var stringOption = "<option value='0'>날짜를 선택하세요</option>";
 				for(var optionDate=0; optionDate<betweenDay; optionDate++){
 					var dateObj = new Date(Number(splitStrDate[2]), Number(splitStrDate[0])-1, Number(splitStrDate[1]));
 					dateObj.setDate(dateObj.getDate()+optionDate);
@@ -432,16 +444,31 @@ var realDateCount = 0;
 		}
 		document.getElementById("selectDate").innerHTML = stringOption;
     });
+	var limitCheck = [];
+	var limitCheckVar = 0;
+	for(var i=0; i<realDate.length; i++){
+		limitCheck[i] = 0;
+	}
 	var selectDateVar; // 날짜 선정 모달에서 선택한 날짜 value값
 	$(document).ready(function(){
 	    $(".selectDate").click(function(){
 			selectDateVar = this.value;
+			
+			for(var i=0; i<realDate.length; i++){
+				if(realDate[i] == selectDateVar)
+					limitCheckVar = i;
+			}
+			
 		}); 
 	});
+	
+	// 날짜 선택시 Title border처리
 	function inputTitleBorder(){
 		for(var i=0; i<jsonArr.length; i++){
 			if(jsonArr[i].border == 1){
-				document.getElementsByClassName('inputTitle')[i].style.border = '2px solid #ccc';
+				document.getElementsByClassName('inputTitle')[i].style.border = "2px solid #ccc";
+			} else {
+				document.getElementsByClassName('inputTitle')[i].style.border = "";
 			}
 		}
 	}
@@ -454,11 +481,28 @@ var realDateCount = 0;
 			delete jsonArr[calBtnValue].order;
 			jsonArr[calBtnValue].init = 0;
 			jsonArr[calBtnValue].border = 0;
+
+			if(limitCheck[limitCheckVar] != 0)
+				limitCheck[limitCheckVar]--;
+			
 		}
+		if(limitCheck[limitCheckVar] == 5)
+			alert("일정이 빡빡하진 않나요?");
+		// 7개로 제한
+		if(limitCheck[limitCheckVar] == 7){
+			delete jsonArr[calBtnValue].order;
+			delete jsonArr[calBtnValue].gotoDate;
+			alert("피곤하실거예요~ 이 날의 일정은 여기까지");
+		}
+			
 		initSchedule();
-		jsonArr[calBtnValue].border = 1;
+		if(selectDateVar != 0 && limitCheck[limitCheckVar] < 7){
+			jsonArr[calBtnValue].border = 1;
+			jsonArr[calBtnValue].init = 1;
+			
+			limitCheck[limitCheckVar]++;
+		}
 		inputTitleBorder();
-		jsonArr[calBtnValue].init = 1;
 	}
 
 	function orderRangeSchedule(){
@@ -550,11 +594,21 @@ var realDateCount = 0;
 		}
 	}
 	// 완료 버튼 클릭시 코스 제목 모달창
-	$(document).on("focus","#completeBtn",function(){
-		orderTable();
-        $("#completeModal").modal();
+	$(document).on("click","#completeBtn",function(){
+		var nullCheck = 0;
+		for(var i=0; i<realDate.length; i++){
+			if(document.getElementById(realDate[i]).innerHTML){
+				console.log(document.getElementById(realDate[i]).innerHTML);
+				orderTable();
+		        $("#completeModal").modal();
+				break;
+			}
+			else
+				nullCheck++;
+		}
+		if(nullCheck==realDate.length)
+			alert("일정을 등록하여주세요.");
 	});
-	
 	function completeName(){
 		for(var i=0; i<jsonArr.length; i++){
 			delete jsonArr[i].init;
@@ -576,8 +630,9 @@ var realDateCount = 0;
 	    	    	data:jsonData,
 	    	    	contentType:"application/json; charset=utf-8",
 	    	    	success:function(){
+	    	    		var courseNumber = ${courseNumber } + 1;
 	        			alert("코스가 생성되었습니다.");
-	        			location.href="/mypage";
+	        			location.href="/mypage/" + courseNumber;
 	    			},
 	    			error:function(){
 	        			alert("실패");
@@ -585,12 +640,23 @@ var realDateCount = 0;
 	    		});
 			},
 			error:function(){
-    			alert("실패");
+    			alert("이미 생성된 코스이름입니다. 다시 입력해주세요.");
 			},
 		});
-		
-		
 	}
+	//취소 버튼 이벤트 처리
+	$("#cancel").click(function(){
+		$.ajax({      
+	     type:"GET",  
+	     url:"/course/make/cancel",
+	     success:function(){
+	     	location.href="/";
+	 	},
+			 error:function(){
+	  		location.href="/";
+			}
+		});
+	});
 	</script>
 </body>
 </html>

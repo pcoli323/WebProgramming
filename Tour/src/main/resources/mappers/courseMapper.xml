@@ -31,4 +31,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
+	<select id="courseNameRead" resultType="string">
+		select courseName
+		from tbl_course
+		where userNumber = #{userNumber}
+	</select>
+	<select id="courseNumByName" resultType="int">
+		select courseNumber
+		from tbl_course
+		where courseName = #{courseName}
+	</select>
+	<select id="delete">
+		delete
+		from tbl_course
+		where courseNumber = #{courseNumber}
+	</select>
 </mapper>

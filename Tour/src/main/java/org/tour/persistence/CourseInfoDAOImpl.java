@@ -60,4 +60,31 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		//int courseNumber, CourseInfoVO vo
 	}
 
+	@Override
+	public void changeImage(HashMap<String, Object> data) throws Exception {
+		
+		session.update(namespace + ".changeImage", data);
+	}
+	/*
+	@Override
+	public void deleteImage(int gotoNumber) throws Exception {
+
+		session.update(namespace + ".deleteImage", gotoNumber);
+	}
+	*/
+	@Override
+	public void initialRepresented(int courseNumber) throws Exception {
+		
+		session.update(namespace + ".initialRepresented", courseNumber);
+	}
+	
+	@Override
+	public void representativeMark(HashMap<String, Object> data) throws Exception {
+
+		session.update(namespace + ".representativeMark", data);
+	}
+	@Override
+	public void delete(int courseNumber) throws Exception {
+		session.delete(namespace + ".delete", courseNumber);
+	}
 }

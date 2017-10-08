@@ -44,5 +44,45 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		
 		dao.courseInfoAdd(vo);		
 	}
+
+	@Override
+	public void changeImage(int gotoNumber, int imageNumber) throws Exception {
+		
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("gotoNumber", gotoNumber);
+		String gotoImageReal = "/getRealImage?imageNumber=" + imageNumber;
+		String gotoImageThum = "/getThumImage?imageNumber=" + imageNumber;
+		data.put("gotoImageReal", gotoImageReal);
+		data.put("gotoImageThum", gotoImageThum);
+		
+		dao.changeImage(data);
+	}
+	/*
+	@Override
+	public void deleteImage(int gotoNumber) throws Exception {
+
+		dao.deleteImage(gotoNumber);
+	}
+	*/
+	@Override
+	public void initialRepresented(int courseNumber) throws Exception {
+
+		dao.initialRepresented(courseNumber);
+	}
 	
+	@Override
+	public void representativeMark(int gotoNumber, int representedOrder) throws Exception {
+		
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("gotoNumber", gotoNumber);
+		data.put("representedOrder", representedOrder);
+		
+		dao.representativeMark(data);
+	}
+	
+	@Override
+	public void delete(int CourseNumber) throws Exception {
+		
+		dao.delete(CourseNumber);
+	}
 }

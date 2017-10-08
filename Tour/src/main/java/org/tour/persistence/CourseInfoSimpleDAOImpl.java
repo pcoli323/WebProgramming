@@ -19,5 +19,10 @@ public class CourseInfoSimpleDAOImpl implements CourseInfoSimpleDAO {
 		
 		session.selectList(namespace + ".courseInfoSimpleAdd", vo);
 	}
+	
+	@Override
+	public void delete(int courseNumber) throws Exception {
+		session.delete(namespace + ".delete", courseNumber);
+	}
 
 }
