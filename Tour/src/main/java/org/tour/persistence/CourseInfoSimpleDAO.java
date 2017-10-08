@@ -6,4 +6,5 @@ public interface CourseInfoSimpleDAO {
 
 	public void courseInfoSimpleAdd(CourseInfoSimpleVO vo) throws Exception;
 	
+	public void delete(int courseNumber) throws Exception;
 }

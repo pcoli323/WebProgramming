@@ -7,6 +7,7 @@ public class CourseInfoDTO {
 	private String locationX;
 	private String locationY;
 	private String gotoImage;
+	private int gotoOrder;
 	
 	public int getGotoNumber() {
 		return gotoNumber;
@@ -37,5 +38,11 @@ public class CourseInfoDTO {
 	}
 	public void setGotoImage(String gotoImage) {
 		this.gotoImage = gotoImage;
+	}
+	public int getGotoOrder() {
+		return gotoOrder;
+	}
+	public void setGotoOrder(int gotoOrder) {
+		this.gotoOrder = gotoOrder;
 	}
 }

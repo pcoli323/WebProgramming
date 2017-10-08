@@ -46,6 +46,7 @@ public class PlanServiceImpl implements PlanService{
 				courseInfoDto.setGotoName(gotoList.get(j).getGotoTitle());
 				courseInfoDto.setLocationX(gotoList.get(j).getGotoLocationX());
 				courseInfoDto.setLocationY(gotoList.get(j).getGotoLocationY());
+				courseInfoDto.setGotoOrder(gotoList.get(j).getGotoOrder());
 				String gotoImage = gotoList.get(j).getGotoImageThum();
 				if(gotoImage == "" || gotoImage == null) {
 					gotoImage = gotoList.get(j).getGotoImageReal();

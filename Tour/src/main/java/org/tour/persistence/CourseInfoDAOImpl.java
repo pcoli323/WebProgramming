@@ -78,4 +78,8 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		session.update(namespace + ".representativeMark", data);
 	}
 
+	@Override
+	public void delete(int courseNumber) throws Exception {
+		session.delete(namespace + ".delete", courseNumber);
+	}
 }
