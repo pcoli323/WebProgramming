@@ -9,6 +9,7 @@ public class CourseInfoDTO {
 	private String gotoImage;
 	private boolean isRepresented;
 	private int representedOrder;
+	private int gotoOrder;
 	
 	public int getGotoNumber() {
 		return gotoNumber;
@@ -51,6 +52,7 @@ public class CourseInfoDTO {
 	}
 	public void setRepresentedOrder(int representedOrder) {
 		this.representedOrder = representedOrder;
+	}
 	public int getGotoOrder() {
 		return gotoOrder;
 	}

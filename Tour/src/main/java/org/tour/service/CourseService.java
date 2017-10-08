@@ -20,8 +20,6 @@ public interface CourseService {
 	
 	public List<String> courseNameRead(int userNumber) throws Exception;
 
-	public void update(CourseVO courseVO) throws Exception;
-
 	public int courseNumByName(String courseName) throws Exception;
 	
 	public void delete(int courseNumber) throws Exception;
