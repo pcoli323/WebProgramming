@@ -24,7 +24,9 @@ public interface CourseInfoDAO {
 
 	public void changeImage(HashMap<String, Object> data) throws Exception;
 	
-	public void deleteImage(int gotoNumber) throws Exception;
+	//public void deleteImage(int gotoNumber) throws Exception;
+	
+	public void initialRepresented(int courseNumber) throws Exception;
 	
 	public void representativeMark(HashMap<String, Object> data) throws Exception;
 }

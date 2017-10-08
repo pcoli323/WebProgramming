@@ -52,11 +52,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set gotoImageReal = #{gotoImageReal}, gotoImageThum = #{gotoImageThum}
 		where gotoNumber = #{gotoNumber}
 	</update>
-	
+	<!-- 
 	<update id="deleteImage">
 		update tbl_courseInfo
 		set gotoImageReal = NULL, gotoImageThum = NULL
 		where gotoNumber = #{gotoNumber}
+	</update>
+	 -->
+	 
+	<update id="initialRepresented">
+		update tbl_courseInfo
+		set isRepresented = false, representedOrder = 0
+		where courseNumber = #{courseNumber}
 	</update>
 	
 	<update id="representativeMark">

@@ -18,7 +18,9 @@ public interface CourseInfoService {
 	
 	public void changeImage(int gotoNumber, int imageNumber) throws Exception;
 	
-	public void deleteImage(int gotoNumber) throws Exception;
+	//public void deleteImage(int gotoNumber) throws Exception;
+	
+	public void initialRepresented(int courseNumber) throws Exception;
 	
 	public void representativeMark(int gotoNumber, int representedOrder) throws Exception;
 }

@@ -65,17 +65,22 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		
 		session.update(namespace + ".changeImage", data);
 	}
-
+	/*
 	@Override
 	public void deleteImage(int gotoNumber) throws Exception {
 
 		session.update(namespace + ".deleteImage", gotoNumber);
 	}
-
+	*/
+	@Override
+	public void initialRepresented(int courseNumber) throws Exception {
+		
+		session.update(namespace + ".initialRepresented", courseNumber);
+	}
+	
 	@Override
 	public void representativeMark(HashMap<String, Object> data) throws Exception {
 
 		session.update(namespace + ".representativeMark", data);
 	}
-
 }

@@ -78,5 +78,4 @@ public class CourseVO {
 	public void setReadCount(int readCount) {
 		this.readCount = readCount;
 	}
-	
 }
