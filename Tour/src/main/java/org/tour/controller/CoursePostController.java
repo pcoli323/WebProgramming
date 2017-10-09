@@ -42,7 +42,7 @@ public class CoursePostController {
 		
 		try {
 			HttpSession	session = request.getSession();
-			UserVO loginUser = new UserVO();;
+			UserVO loginUser = new UserVO();
 			if(session.getAttribute("login") == null) {
 				model.addAttribute("loginCheck", false);
 				loginUser.setUserNumber(-1);
