@@ -126,6 +126,9 @@
 				localmarker.setAnimation(null);
 			});
 	}
+	
+	var representatives = [];
+	var representativeIDs = [];
 </script>
 </head>
 <body>
@@ -161,12 +164,21 @@
         									<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i>
         								</div>
         								<div style="text-align:right">
-        									<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
+        									<c:choose>
+        										<c:when test="${gotoOne.isRepresented eq true}">
+        											<span class="glyphicon glyphicon-check representativeCheck active" id="check-${gotoID}-${gotoOne.gotoNumber}" style="color:#6495ED"></span>
+        											<script>
+        												var order = ${gotoOne.representedOrder};
+        												var gotoNumber = ${gotoOne.gotoNumber};
+        												representatives[order-1] = gotoNumber.toString();
+        												representativeIDs[order-1] = ${gotoID};
+        											</script>
+        										</c:when>
+        										<c:otherwise>
+        											<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
+        										</c:otherwise>
+        									</c:choose>
         									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style=""></span>
-        									<!-- 
-        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}-modify"
-        									data-toggle="popover" data-placement="top"></span>
-        									 -->
         								</div>
         								<br><br>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
@@ -198,7 +210,7 @@
         	</div>
         	
         	<div class="storyView">
-        		<textarea id="story" rows="9" cols="120" maxlength="1000" placeholder="1000자 내외" style="border:0px;resize:none;outline:none"></textarea>
+        		<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" style="border:0px;resize:none;outline:none">${courseVO.story}</textarea>
         	</div>
         			
         </div><!-- /courseView-body -->
@@ -228,6 +240,8 @@
 		else{
 			loginUserNumber = ${loginUser.userNumber};
 		}
+		
+		representativeList();
 	});
 	
 	// goto 마우스로 over되면 색 변하도록
@@ -261,8 +275,6 @@
 	});
 
 	// 대표코스 설정
-	var representatives = [];
-	var representativeIDs = [];
 	$('.representativeCheck').on("click", function(){
 		var checkCheck = $(this).hasClass("active");
 		
@@ -274,10 +286,8 @@
 				var idStr = $(this).attr('id').split('-');
 				var gotoNameID = idStr[1];
 				var gotoNumber = idStr[2];
-				console.log(gotoNameID + " : " + gotoNumber);
 				representativeIDs.push(gotoNameID);
 				representatives.push(gotoNumber);
-				console.log(representatives);
 				$(this).addClass("active");
 				$(this).attr("style", "color:#6495ED");
 				representativeList();
@@ -287,13 +297,10 @@
 			var idStr = $(this).attr('id').split('-');
 			var gotoNameID = idStr[1];
 			var gotoNumber = idStr[2];
-			console.log(gotoNameID + " : " + gotoNumber);
 			for(var i=0; i<representatives.length; i++){
 				if(representatives[i] == gotoNumber){
 					representatives.splice(i, 1);
 					representativeIDs.splice(i, 1);
-					console.log(representatives);
-					console.log(representativeIDs);
 					break;
 				}
 			}
@@ -307,7 +314,6 @@
 		for(var i=0; i<representatives.length; i++){
 			var id = representativeIDs[i];
 			var gotoName = $("#"+id).text();
-			console.log(gotoName);
 			str += "<div class='representativeListOne'>" + gotoName + "</div>";
 		}
 		$(".representativeList").html(str);
@@ -327,12 +333,12 @@
 		if(checkImage == 0){
 			isModify = false;
 			var url="/imageUpload";
-			window.open(url, "startpop", "width=600, height=400");
+			window.open(url, "startpop", "width=1000, height=500");
 		}
 		else{
 			isModify = true;
 			var url="/imageUpload";
-			window.open(url, "startpop", "width=600, height=400");
+			window.open(url, "startpop", "width=1000, height=500");
 			/*
 			$('[data-toggle="popover"]').popover({
 				html: true, 
@@ -362,15 +368,16 @@
 			alert("하나 이상의 대표코스를 정해주세요");
 		}
 		else{
-			// courseName, story (course를 변경) & representatives(courseInfo를 변경) json형태로 coursePostController에서 처리
-			// image는 imageController에서 처리
 			// success로 끝나면 게시된 거 보여주기
 			updateCourse(courseNumber, courseName, story);
-			representativeMark();
+			representativeMark(courseNumber);
 			addImages();
 		}
 	});
 	function updateCourse(courseNumber, courseName, story){
+		if(story == ""){
+			story = null;
+		}
 		$.ajax({
 			type: 'POST',
 			url: '/mypage/updateCourse',
@@ -389,25 +396,22 @@
 			}
 		});
 	}
-	function representativeMark(){
-		representatives.forEach(function(value, order){
-			order = order + 1;
-			$.ajax({
-				type: 'POST',
-				url: '/mypage/representativeMark',
-				headers: {
-					"Content-Type": "application/json",
-					"X-HTTP-Method-Override": "POST"
-				},
-				data: JSON.stringify({
-					gotoNumber:value,
-					representedOrder:order
-				}),
-				dataType:'text',
-				success: function(){
-					console.log("representativeMark");
-				}
-			})
+	function representativeMark(courseNumber){
+		$.ajax({
+			type: 'POST',
+			url: '/mypage/representativeMark',
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			data: JSON.stringify({
+				courseNumber:courseNumber,
+				representatives:representatives
+			}),
+			dataType:'text',
+			success: function(){
+				console.log("representativeMark");
+			}
 		});
 	}
 	function addImages(){

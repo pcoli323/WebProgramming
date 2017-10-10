@@ -182,5 +182,4 @@ public class CourseInfoVO {
 		this.gotoOrder = gotoOrder;
 		return this;
 	}
-	
 }

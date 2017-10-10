@@ -57,13 +57,19 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		
 		dao.changeImage(data);
 	}
-
+	/*
 	@Override
 	public void deleteImage(int gotoNumber) throws Exception {
 
 		dao.deleteImage(gotoNumber);
 	}
+	*/
+	@Override
+	public void initialRepresented(int courseNumber) throws Exception {
 
+		dao.initialRepresented(courseNumber);
+	}
+	
 	@Override
 	public void representativeMark(int gotoNumber, int representedOrder) throws Exception {
 		

@@ -220,8 +220,9 @@
 	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
 	function followCheck(){
+		var userNumber = ${courseVO.userNumber};
 		if(loginCheck == true){
-			if(loginUserNumber != ${courseVO.userNumber}){
+			if(loginUserNumber != userNumber){
 				$.ajax({
 					type:'post',
 					url:'/follow/check',

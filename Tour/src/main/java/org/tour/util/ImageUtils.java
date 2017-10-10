@@ -33,6 +33,7 @@ public class ImageUtils {
 		// 다시 byte[]로 만들어서 return하기
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(destImage, formatType, baos);
+		//gif는 thumnail로 쓰여지지 않는 거 같음 -> ImageIO.write에 formType에서 gif를 지원하지 않음
 		byte[] thumnailImage = baos.toByteArray();
 		
 		return thumnailImage;

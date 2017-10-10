@@ -16,9 +16,9 @@ public interface CourseService {
 	
 	public int courseNumberRead(int userNumber) throws Exception;
 	
+	public void update(CourseVO vo) throws Exception;
+	
 	public List<String> courseNameRead(int userNumber) throws Exception;
-
-	public void update(CourseVO courseVO) throws Exception;
 
 	public int courseNumByName(String courseName) throws Exception;
 	

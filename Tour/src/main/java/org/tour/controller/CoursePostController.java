@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class CoursePostController {
 		
 		try {
 			HttpSession	session = request.getSession();
-			UserVO loginUser = new UserVO();;
+			UserVO loginUser = new UserVO();
 			if(session.getAttribute("login") == null) {
 				model.addAttribute("loginCheck", false);
 				loginUser.setUserNumber(-1);
@@ -64,7 +65,6 @@ public class CoursePostController {
 			
 			CourseVO courseVO = courseService.read(courseNumber);
 			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);
-			
 			
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", courseNumber);
@@ -103,7 +103,12 @@ public class CoursePostController {
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject object = (JSONObject)parser.parse(representativeData);
-			courseInfoService.representativeMark(Integer.parseInt((String)object.get("gotoNumber")), (int)(long)object.get("representedOrder"));
+			int courseNumber = (int)(long)object.get("courseNumber");
+			courseInfoService.initialRepresented(courseNumber);
+			JSONArray representatives = (JSONArray)object.get("representatives");
+			for(int i = 0; i<representatives.size(); i++) {
+				courseInfoService.representativeMark(Integer.parseInt((String)representatives.get(i)), i+1);
+			}
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,9 @@
 package org.tour.service;
 
+import org.springframework.mail.SimpleMailMessage;
+
 public interface MailService {
-	public boolean send(String subject, String text, String from, String to, String filePath);
+	
+	public void send(SimpleMailMessage message);
+	
 }

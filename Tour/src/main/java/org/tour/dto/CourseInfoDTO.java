@@ -7,6 +7,8 @@ public class CourseInfoDTO {
 	private String locationX;
 	private String locationY;
 	private String gotoImage;
+	private boolean isRepresented;
+	private int representedOrder;
 	private int gotoOrder;
 	
 	public int getGotoNumber() {
@@ -38,6 +40,18 @@ public class CourseInfoDTO {
 	}
 	public void setGotoImage(String gotoImage) {
 		this.gotoImage = gotoImage;
+	}
+	public boolean getIsRepresented() {
+		return isRepresented;
+	}
+	public void setIsRepresented(boolean isRepresented) {
+		this.isRepresented = isRepresented;
+	}
+	public int getRepresentedOrder() {
+		return representedOrder;
+	}
+	public void setRepresentedOrder(int representedOrder) {
+		this.representedOrder = representedOrder;
 	}
 	public int getGotoOrder() {
 		return gotoOrder;
