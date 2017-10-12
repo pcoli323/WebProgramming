@@ -1,206 +1,39 @@
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <!-- Theme Made By www.w3schools.com - No Copyright -->
-  <title>Bootstrap Theme Company Page</title>
+  <title>WebsiteName</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
   body {
-      font: 400 15px Lato, sans-serif;
-      line-height: 1.8;
-      color: #818181;
+      position: relative; 
   }
-  h2 {
-      font-size: 24px;
-      text-transform: uppercase;
-      color: #303030;
-      font-weight: 600;
-      margin-bottom: 30px;
-  }
-  h4 {
-      font-size: 19px;
-      line-height: 1.375em;
-      color: #303030;
-      font-weight: 400;
-      margin-bottom: 30px;
-  }
-  .jumbotron {
-  	  background-color:#337ab7;
-      color: #fff;
-      padding: 100px 25px;
-      font-family: Montserrat, sans-serif;
-  }
-  .container-fluid {
-      padding: 60px 50px;
-  }
-  .bg-grey {
-      background-color: #f6f6f6;
-  }
-  .logo-small {
-      color: #337ab7;
-      font-size: 50px;
-  }
-  .logo {
-      color: #337ab7;
-      font-size: 200px;
-  }
-  .thumbnail {
-      padding: 0 0 15px 0;
-      border: none;
-      border-radius: 0;
-  }
-  .thumbnail img {
+  .affix {
+      top:0;
       width: 100%;
-      height: 100%;
-      margin-bottom: 10px;
-  }
-  .carousel-control.right, .carousel-control.left {
-      background-image: none;
-      color: #f4511e;
-  }
-  .carousel-indicators li {
-      border-color: #f4511e;
-  }
-  .carousel-indicators li.active {
-      background-color: #f4511e;
-  }
-  .item h4 {
-      font-size: 19px;
-      line-height: 1.375em;
-      font-weight: 400;
-      font-style: italic;
-      margin: 70px 0;
-  }
-  .item span {
-      font-style: normal;
-  }
-  .panel {
-      border: 1px solid #f4511e; 
-      border-radius:0 !important;
-      transition: box-shadow 0.5s;
-  }
-  .panel:hover {
-      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-  }
-  .panel-footer .btn:hover {
-      border: 1px solid #f4511e;
-      background-color: #fff !important;
-      color: #f4511e;
-  }
-  .panel-heading {
-      color: #fff !important;
-      background-color: #f4511e !important;
-      padding: 25px;
-      border-bottom: 1px solid transparent;
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-  }
-  .panel-footer {
-      background-color: white !important;
-  }
-  .panel-footer h3 {
-      font-size: 32px;
-  }
-  .panel-footer h4 {
-      color: #aaa;
-      font-size: 14px;
-  }
-  .panel-footer .btn {
-      margin: 15px 0;
-      background-color: #f4511e;
-      color: #fff;
+      z-index: 9999 !important;
   }
   .navbar {
-      margin-bottom: 0;
-      background-color: #337ab7;
-      z-index: 9999;
-      border: 0;
-      font-size: 12px !important;
-      line-height: 1.42857143 !important;
-      letter-spacing: 4px;
-      border-radius: 0;
-      font-family: Montserrat, sans-serif;
+      margin-bottom: 0px;
   }
-  .navbar li a, .navbar .navbar-brand {
-      color: #fff !important;
+  .affix ~ .container-fluid {
+     position: relative;
+     top: 70px;
   }
-  .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #337ab7 !important;
-      background-color: #fff !important;
-  }
-  .navbar-default .navbar-toggle {
-      border-color: transparent;
-      color: #fff !important;
-  }
-  footer .glyphicon {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #337ab7;
-  }
-  .slideanim {visibility:hidden;}
-  .slide {
-      animation-name: slide;
-      -webkit-animation-name: slide;
-      animation-duration: 1s;
-      -webkit-animation-duration: 1s;
-      visibility: visible;
-  }
-  @keyframes slide {
-    0% {
-      opacity: 0;
-      transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-  @-webkit-keyframes slide {
-    0% {
-      opacity: 0;
-      -webkit-transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      -webkit-transform: translateY(0%);
-    }
-  }
-  @media screen and (max-width: 768px) {
-    .col-sm-4 {
-      text-align: center;
-      margin: 25px 0;
-    }
-    .btn-lg {
-        width: 100%;
-        margin-bottom: 35px;
-    }
-  }
-  @media screen and (max-width: 480px) {
-    .logo {
-        font-size: 150px;
-    }
-  }
-  .image {
-    position: relative;
-    text-align: center;
-    color: white;
-  }
-  .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+  #section1 {padding-top:120px;height:850px;color: #fff; background-color: #1E88E5;}
+  #section2 {padding-top:120px;height:850px;color: #fff; background-color: #673ab7;}
+  #section3 {padding-top:120px;height:350px;color: #fff; background-color: #ff9800;}
+  #section41 {padding-top:120px;height:850px;color: #fff; background-color: #00bcd4;}
+  #section42 {padding-top:120px;height:850px;color: #fff; background-color: #009688;}
+  #section43 {padding-top:120px;height:850px;color: #fff; background-color: #1E88E5;}
+  #section44 {padding-top:120px;height:200px;color: #fff; background-color: #673ab7;}
+  #section45 {padding-top:120px;height:300px;color: #fff; background-color: #ff9800;}
+  
   #loginModal {
    position: absolute;
    top: 100px;
@@ -219,121 +52,162 @@
 	
   </style>
 </head>
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<body data-spy="scroll" data-target=".navbar">
 
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
+
+<nav class="navbar navbar-inverse" data-spy="affix" style="background-color:#000000; color:#FFFFFF">
+  <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#myPage">Logo</a>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-left">
-        <li><a href="#create">코스만들기</a></li>
-        <li><a href="#search">코스검색</a></li>
-        <li><a href="#popular">인기코스보기</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-      	<c:choose>
-  			<c:when test="${empty login}">
-    			<ul class="nav navbar-nav navbar-right">
-      				<li id="register"><a href="#">회원가입</a></li>
-        			<li id="login"><a href="#">로그인</a></li>
-    			</ul>
-  			</c:when>
-  			<c:otherwise>
-  				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">마이페이지</a></li>
-        			<li id="logout"><a href="#">로그아웃</a></li>
-    			</ul>
-  			</c:otherwise>
-		</c:choose>
-        
-      </ul>
+      <div class="collapse navbar-collapse" id="myNavbar">
+      <c:choose>
+  		<c:when test="${empty login}">
+    		<ul class="nav navbar-nav navbar-right">
+      			<li id="reg"><a href="#"><font size="2">회원가입</font></a></li>
+      			<li id="login"><a href="#"></span><font size="2">로그인</font></a></li>
+    		</ul>
+  		</c:when>
+  		<c:otherwise>
+  			<ul class="nav navbar-nav navbar-right">
+      			<li id="mypage"><a href="/mypage"> 마이페이지 </a></li>
+      			<li id="logout"><a href="#"> 로그아웃 </a></li>
+    		</ul>
+  		</c:otherwise>
+	</c:choose>
+      
+      </div>
+  </div>
+</nav>
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="70px" style="background-color:#FFFFFF; height:70px;top:50px;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" style="margin:0;padding:0;" href="#"><h2>WebsiteName</h2></a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav pull-right">
+          <li><a href="#section1"><h4>코스 만들기</h4></a></li>
+          <li><a href="#section2"><h4>코스 검색</h4></a></li>
+          <li><a href="#section3"><h4>추천 코스 보기</h4></a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="image">
-	<img src="/resources/Test/img/R2.jpg" width="100%">
-	<div class="centered">
-		<h1>Company</h1> 
-  		<p>자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
+
+
+<div class="container-fluid" style="padding:0px;">
+	<!-- Carousel -->
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    	<!-- Indicators -->
+    	<ol class="carousel-indicators">
+      		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      		<li data-target="#myCarousel" data-slide-to="1"></li>
+      		<li data-target="#myCarousel" data-slide-to="2"></li>
+   		</ol>
+    	<!-- Wrapper for slides -->
+    	<div class="carousel-inner">
+      		<div class="item active">
+        		<img src="/resources/Test/img/R1.jpg" alt="Los Angeles" style="width:100%;">
+        		<div class="carousel-caption">
+        			<h3>Los Angeles</h3>
+          			<p>LA is always so much fun!</p>
+        		</div>
+      		</div>
+      		<div class="item">
+        		<img src="/resources/Test/img/R2.jpg" alt="Chicago" style="width:100%;">
+        		<div class="carousel-caption">
+         			<h3>Chicago</h3>
+        			<p>Thank you, Chicago!</p>
+        		</div>
+      		</div>
+      		<div class="item">
+        		<img src="/resources/Test/img/R3.jpg" alt="New York" style="width:100%;">
+        		<div class="carousel-caption">
+        			<h3>New York</h3>
+          			<p>We love the Big Apple!</p>
+        		</div>
+      		</div>
+  		</div>
+		<!-- Left and right controls -->
+    	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      		<span class="glyphicon glyphicon-chevron-left"></span>
+      		<span class="sr-only">Previous</span>
+    	</a>
+    	<a class="right carousel-control" href="#myCarousel" data-slide="next">
+      		<span class="glyphicon glyphicon-chevron-right"></span>
+      		<span class="sr-only">Next</span>
+    	</a>
+  	</div> <!-- Carousel -->
+</div>
+
+    
+
+<div id="section1" class="container-fluid">
+	<div class="container">
+		<h1> 코스 만들기 </h1>
+		<p> 자신만의 코스를 만들어 보세요~ </p>
+		<button class="btn btn-default" id="courseMake"> 코스 만들기 </button>
+	</div>
+</div>
+<div id="section2" class="container-fluid">
+	<div class="container">
+		<h1> 코스 검색 </h1>
+		<p> 지역명, 아이디명으로 다른 사용자의 코스를 검색해보세요~ </p>
+		<button class="btn btn-default" id="courseView"> 코스 검색 </button>
+	</div>  
+</div>
+<div id="section3" class="container-fluid">
+ 	<div class="container">
+		<h1> 이달의 코스 </h1>
+	</div> 
+	</div>
+<div id="section41" class="container-fluid">
+ 	<div class="container">
+		<h1> 추천 코스  1 </h1>
+	</div> 
+</div>
+<div id="section42" class="container-fluid">
+   	<div class="container">
+		<h1> 추천 코스  2 </h1>
+	</div> 
+</div>
+<div id="section43" class="container-fluid">
+   	<div class="container">
+		<h1> 추천 코스 3 </h1>
+	</div></div>
+<div id="section44" class="container-fluid">
+   	<div class="container">
+		<button class="btn btn-default"> 더보기 </button>
+	</div>
+</div>
+<div id="section45" class="container-fluid">
+   	<div class="container">
+		<p>(Footer) API 제공 : 한국 관광공사</p>
 	</div>
 </div>
 
-<!-- Container (Create Section) -->
-<div id="create" class="container-fluid">
-  <div class="row">
-    <div class="col-sm-6 col-sm-offset-2">
-      <h2>코스 만들기</h2><br><br>
-      <h4>자신만의 여행지를 선택하여 코스를 만들어 보아요~</h4>
-      <p>지역과 여행지를 선택하고 날짜를 선택하면 끝!</p>
-      <br><button class="btn btn-default btn-lg">코스 만들러가기</button>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-flag logo"></span>
-    </div>
-  </div>
-</div>
-
-<!-- Container (Search Section) -->
-<div id="search" class="container-fluid bg-grey">
-  <div class="row">
-  	<div class="col-sm-4 col-sm-offset-2">
-      <span class="glyphicon glyphicon-search logo"></span>
-    </div>
-    <div class="col-sm-6">
-      <h2>코스 검색</h2><br><br>
-      <h4>다른 사람들이 만든 여행 코스를 검색해 보아요~</h4>
-      <p>지역,닉네임 등으로 검색!</p>
-      <br><button class="btn btn-default btn-lg">코스 검색하기</button>
-    </div>
-    
-  </div>
-</div>
-
-<!-- Container (Popular Section) -->
-<div id="popular" class="container-fluid text-center" style="background-color:#337ab7;">
-  <h2 style="color:#FFFFFF;">이달의 인기 코스</h2>
-</div>
-
-<!-- Top 1 -->
-<div id="top1" class="container-fluid text-center">
-	<h2>Top 1</h2>
-</div>
-<!-- Top 2 -->
-<div id="top2" class="container-fluid text-center bg-grey">
-	<h2>Top 2</h2>
-</div>
-<!-- Top 3 -->
-<div id="top3" class="container-fluid text-center">
-	<h2>Top 3</h2>
-</div>
-<!-- more -->
-<div id="more" class="container-fluid text-center bg-grey">
-	<button class="btn btn-default">더보기</button>
-</div>
-
-<footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <p>이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI">http://api.visitkorea.or.kr/main.do</a></p>
-</footer>
-
   <!-- Modal 로그인 -->
   <div class="modal fade" id="loginModal" role="dialog">
-    <div class="modal-dialog"> 
+    <div class="modal-dialog">
+    
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header" style="padding:35px 50px;">
           <h4><span class="glyphicon glyphicon-lock"></span> 로그인 </h4>
-        </div>     
+        </div>
+        
         <div class="modal-body" style="padding:40px 50px;">
           <form role="form" action="/login" method="post">
             <div class="form-group">
@@ -343,12 +217,14 @@
             <div class="form-group">
               <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호 </label>
               <input type="password" class="form-control" id="psw" placeholder="비밀번호를 입력해주세요" name="pwd">
-            </div>        
-            <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> 로그인 </button>
+            </div>
+            
+              <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> 로그인 </button>
           </form>
         </div>
+        
         <div class="modal-footer">
-          <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
+          <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
         </div>
       </div>
       
@@ -403,22 +279,28 @@
   				</form>
         	</div>
         	<div class="modal-footer">
-        		<button type="button" class="btn btn-default" id="checkRegister">완료</button>
+        		<button type="button" class="btn btn-default" id="checkR">완료</button>
         		<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
         	</div>
       </div>
     </div>
   </div>
-
+  
+</body>
 <script>
+var checkpwd = false;
+var checkpwd2 = false;
+var checkname = false;
+
 $(document).ready(function(){
-    $("#register").click(function(){
+    $("#reg").click(function(){
     	$("#registerModal").modal();    	
     });
     $("#login").click(function(){
     	$("#loginModal").modal();
     });
     $("#mypage").click(function(){
+        //
     });
     $("#logout").click(function(){
     	location.href="/logout";
@@ -431,11 +313,6 @@ $(document).ready(function(){
     });
 });
 
-var checkpwd = false;
-var checkpwd2 = false;
-var checkname = false;
-
-// 인증메일 보내기
 $("#authMail").click(function(){
 	if(document.getElementById("email").value!=""){
 		var arr = new Array();
@@ -456,7 +333,7 @@ $("#authMail").click(function(){
 					alert("인증번호를 보냈습니다. 메일을 확인해주세요.");
 			},
 		 	error:function(msg){
-		 		alert("이메일을 다시확인해주세요.");
+		 		alert(msg);
 		 	}
 		});
 	}
@@ -464,6 +341,7 @@ $("#authMail").click(function(){
 		alert("이메일을 입력해주세요.");
 	}
 });
+
 // 비밀번호 확인 1
 $("#pwd").focusout(function(){
 	var val = $(this).val(),
@@ -527,8 +405,8 @@ $("#name").focusout(function(){
 		checkname = true;
 	}
 });
-// 회원가입 확인
-$("#checkRegister").click(function(){
+
+$("#checkR").click(function(){
 	if(checkpwd==true && checkpwd2==true && checkname==true){
 		var arr = new Array();
 		var data = new Object();
@@ -563,44 +441,9 @@ $("#checkRegister").click(function(){
 	else{
 		alert("다시 확인해주세요.");
 	}
+	
+	
 });
+
 </script>
-<script>
-$(document).ready(function(){
-  // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-
-      // Store hash
-      var hash = this.hash;
-
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 900, function(){
-   
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
-    } // End if
-  });
-  
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
-
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
-</script>
-
-</body>
 </html>
