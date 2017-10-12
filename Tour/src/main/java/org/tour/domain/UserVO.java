@@ -1,5 +1,6 @@
 package org.tour.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserVO {
@@ -10,6 +11,23 @@ public class UserVO {
 	private String userName;
 	private Date regDate;
 	private Date updateDate;
+	
+	public UserVO() {
+		
+	}
+	public UserVO(String email, String pwd, String userName) {
+		this.email = email;
+		this.pwd = pwd;
+		this.userName = userName;
+	}
+	public UserVO(Integer userNumber, String email, String pwd, String userName, Timestamp regDate, Timestamp updateDate) {
+		this.userNumber = userNumber;
+		this.email = email;
+		this.pwd = pwd;
+		this.userName = userName;
+		this.regDate = regDate;
+		this.updateDate = updateDate;
+	}
 	
 	public int getUserNumber() {
 		return userNumber;

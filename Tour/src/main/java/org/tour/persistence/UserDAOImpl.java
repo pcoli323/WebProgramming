@@ -30,4 +30,9 @@ public class UserDAOImpl implements UserDAO {
 		
 		return session.selectOne(namespace + ".read", userNumber);
 	}
+
+	@Override
+	public int exist(String email) {
+		return session.selectOne(namespace + ".exist", email);
+	}
 }

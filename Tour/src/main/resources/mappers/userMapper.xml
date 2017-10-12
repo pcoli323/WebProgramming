@@ -20,4 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where userNumber = #{userNumber}
 	</select>
 
+	<select id="exist" resultType="int">
+		select count(userNumber)
+		from tbl_user
+		where email = #{email}
+	</select>
 </mapper>

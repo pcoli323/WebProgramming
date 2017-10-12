@@ -42,7 +42,7 @@ public class CoursePostController {
 		
 		try {
 			HttpSession	session = request.getSession();
-			UserVO loginUser = new UserVO();;
+			UserVO loginUser = new UserVO();
 			if(session.getAttribute("login") == null) {
 				model.addAttribute("loginCheck", false);
 				loginUser.setUserNumber(-1);
@@ -54,12 +54,14 @@ public class CoursePostController {
 				model.addAttribute("loginCheck", true);
 				loginUser = (UserVO) session.getAttribute("login");
 			}
+			/*
 			//test
 			loginUser.setUserNumber(1);
 			loginUser.setEmail("user00@aaa.com");
 			loginUser.setPwd("user00");
 			loginUser.setUserName("user00");
 			model.addAttribute("loginCheck", true);
+			*/
 			
 			CourseVO courseVO = courseService.read(courseNumber);
 			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);
