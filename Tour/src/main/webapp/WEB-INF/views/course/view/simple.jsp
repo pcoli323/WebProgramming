@@ -449,7 +449,7 @@
 	
 	$('#change').on("click", function(evt){
 		var url = "/course/view/detail?courseNumber=" + ${courseVO.courseNumber};
-		window.open(url, "startpop", "width=1030, height=700");
+		window.open(url, "startpop", "width=1030, height=800");
 	});
 	
 	$('#getCourse').on("click", function(){
