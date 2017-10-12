@@ -10,6 +10,8 @@ public class CourseInfoDTO {
 	private boolean isRepresented;
 	private int representedOrder;
 	private int gotoOrder;
+	private String tel;
+	private String address;
 	
 	public int getGotoNumber() {
 		return gotoNumber;
@@ -58,5 +60,17 @@ public class CourseInfoDTO {
 	}
 	public void setGotoOrder(int gotoOrder) {
 		this.gotoOrder = gotoOrder;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

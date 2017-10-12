@@ -54,6 +54,8 @@ public class PlanServiceImpl implements PlanService{
 				courseInfoDto.setGotoImage(gotoImage);
 				courseInfoDto.setIsRepresented(gotoList.get(j).getIsRepresented());
 				courseInfoDto.setRepresentedOrder(gotoList.get(j).getRepresentedOrder());
+				courseInfoDto.setTel(gotoList.get(j).getGotoTel());
+				courseInfoDto.setAddress(gotoList.get(j).getGotoAddr1());
 				courseInfoList.add(courseInfoDto);
 			}
 			String gotoDateForm = dateFormat.format(gotoDate);
