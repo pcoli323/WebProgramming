@@ -259,7 +259,7 @@
 </nav>
 
 <div class="image">
-	<img src="/resources/Test/img/R2.jpg" width="100%">
+	<img src="/resources/img/R22.jpg" width="100%">
 	<div class="centered">
 		<h1>Company</h1> 
   		<p>자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
@@ -273,7 +273,7 @@
       <h2>코스 만들기</h2><br><br>
       <h4>자신만의 여행지를 선택하여 코스를 만들어 보아요~</h4>
       <p>지역과 여행지를 선택하고 날짜를 선택하면 끝!</p>
-      <br><button class="btn btn-default btn-lg">코스 만들러가기</button>
+      <br><button class="btn btn-default btn-lg" id="courseMake">코스 만들러가기</button>
     </div>
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-flag logo"></span>
@@ -291,7 +291,7 @@
       <h2>코스 검색</h2><br><br>
       <h4>다른 사람들이 만든 여행 코스를 검색해 보아요~</h4>
       <p>지역,닉네임 등으로 검색!</p>
-      <br><button class="btn btn-default btn-lg">코스 검색하기</button>
+      <br><button class="btn btn-default btn-lg" id="courseSearch">코스 검색하기</button>
     </div>
     
   </div>
@@ -316,7 +316,7 @@
 </div>
 <!-- more -->
 <div id="more" class="container-fluid text-center bg-grey">
-	<button class="btn btn-default">더보기</button>
+	<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 </div>
 
 <footer class="container-fluid text-center">
@@ -423,11 +423,12 @@ $(document).ready(function(){
     $("#logout").click(function(){
     	location.href="/logout";
     });
-    $("#courseView").click(function(){
-    	location.href="/course/view/simple?courseNumber=1";
-    });
     $("#courseMake").click(function(){
     	location.href="/course/make/add1";
+    });
+    $("#courseSearch").click(function(){
+    });
+    $("#courseMore").click(function(){
     });
 });
 
