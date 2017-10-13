@@ -339,20 +339,6 @@
 			isModify = true;
 			var url="/imageUpload";
 			window.open(url, "startpop", "width=1000, height=500");
-			/*
-			$('[data-toggle="popover"]').popover({
-				html: true, 
-				content: function() {
-					return $('#imageControl').html();
-				},
-				$('.imageGotoNumber').html(gotoNumber);
-			});
-			var idStr = $(this).attr('id').split('-');
-			var gotoNumber = idStr[1];
-			
-			$('.imageGotoNumber').html(gotoNumber);
-			$('#imageControl').popover();
-			*/
 		}
 	});
 	

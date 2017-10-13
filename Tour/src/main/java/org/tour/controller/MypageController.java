@@ -85,6 +85,8 @@ public class MypageController {
 				loginUser = (UserVO) session.getAttribute("login");
 			}
 			
+			System.out.println(loginUser.getUserNumber());
+			
 			List<String> courseName = courseService.courseNameRead(loginUser.getUserNumber());			
 			
 			ArrayList<Integer> courseNumByName = new ArrayList<Integer>();

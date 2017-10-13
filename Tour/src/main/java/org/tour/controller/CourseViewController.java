@@ -84,8 +84,8 @@ public class CourseViewController {
 		
 		try {
 			LoginDTO loginDto = new LoginDTO();
-			loginDto.setEmail("user01@bbb.com");
-			loginDto.setPwd("user01");
+			loginDto.setEmail("user00@aaa.com");
+			loginDto.setPwd("user00");
 			UserVO loginUserCheck = userService.login(loginDto);
 			HttpSession	session = request.getSession();
 			session.setAttribute("login", loginUserCheck);

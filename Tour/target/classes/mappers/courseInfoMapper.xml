@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from tbl_courseInfo
 		where courseNumber = #{courseNumber} and gotoDate = #{gotoDate}
+		order by gotoOrder asc
 	</select>
 	
 	<select id="readAll" resultType="courseInfoVO">
