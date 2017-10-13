@@ -184,4 +184,19 @@ public class MypageController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value = "/mypage/modify/{courseNumber}", method = RequestMethod.POST)
+	public ResponseEntity<Integer> modify(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			//jsonArray에 집어넣고 add1으로 가면 됨... ㅋ키키키키ㅣㅣㅣ 하기 싫당~
+			
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }
