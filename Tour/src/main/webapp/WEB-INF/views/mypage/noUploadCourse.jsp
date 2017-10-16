@@ -6,66 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>마이페이지</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<style type="text/css">
+	<style>
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	html, body{overflow-x:hidden;}
 	body {
 		background-color:#F1F1F1;
 		font-family: "Lato", sans-serif;
-	}
-  .navbar {
-      margin-bottom: 0;
-      background-color: #337ab7;
-      z-index: 9999;
-      border: 0;
-      font-size: 12px !important;
-      line-height: 1.42857143 !important;
-      letter-spacing: 4px;
-      border-radius: 0;
-      font-family: Montserrat, sans-serif;
-  }
-  .navbar li a, .navbar .navbar-brand {
-      color: #fff !important;
-  }
-  .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #337ab7 !important;
-      background-color: #fff !important;
-  }
-  .navbar-default .navbar-toggle {
-      border-color: transparent;
-      color: #fff !important;
-  }
-
-	.sidenav {
-	    height: 100%;
-	    width: 250px;
-	    position: fixed;
-	    z-index: 1;
-	    top: 0;
-	    left: 0;
-	    background-color: #111;
-	    overflow-x: hidden;
-	    padding-top: 70px;
-	    margin-top:50px;
-	}
-
-	.sidenav a {
-	    padding: 6px 6px 6px 32px;
-	    text-decoration: none;
-	    font-size: 25px;
-	    color: #818181;
-		display: block;
-	}
-	
-	.sidenav a:hover {
-		color: #f1f1f1;
-	}
-	.hideview {
-		display: none;
 	}
 	/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 	.row.content {height: 450px}
@@ -297,56 +245,19 @@
 
 </head>
 <body>
+<!-- header -->
+<%@include file="../include/navbar.jsp" %>
 <script>
 var courseName = ${courseName };
 var courseNumByName = ${courseNumByName };
 </script>
-<nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="/">Logo</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-      	<c:choose>
-  			<c:when test="${empty login}">
-    			<ul class="nav navbar-nav navbar-right">
-      				<li id="register"><a href="#">회원가입</a></li>
-        			<li id="login"><a href="#">로그인</a></li>
-    			</ul>
-  			</c:when>
-  			<c:otherwise>
-  				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="/">${loginUser.userName}</a></li>
-        			<li id="logout"><a href="#">로그아웃</a></li>
-    			</ul>
-  			</c:otherwise>
-		</c:choose>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
 
-<div class="sidenav">
-	<a class="sidenavAd">코    스     관    리</a><br>
-	<ul>
-		<li class="hideview"><a href="#">게시 안 된 코스</a></li><br>
-		<li class="hideview"><a href="#">게시 된 코스</a></li><br>
-	</ul>
-	<a href="#">코    스     생    성</a><br><br><br><br>
-	<a href="#">팔  로  우   관  리</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<a href="#">개 인 정 보  수 정</a>
-</div>
+<!-- sidenav -->
+<%@include file="../include/sidenav.jsp" %>
 		
-<div class="container-fluid" style="padding-right:15%; padding-left:15%;">
+<div class="container-fluid" style="margin-top:-60px;">
 	<div class="row content">
-		<div class="mypageDiv col-sm-8 text-center"> 
+		<div class="mypageDiv col-sm-8"> 
 			<!-- My course -->
 			<div class="allView">
 				<div class="mycourse">
@@ -356,7 +267,7 @@ var courseNumByName = ${courseNumByName };
 						</select>
 					</form>
 				</div>
-<div class="courseView">
+	<div class="courseView">
 	
 		<div class="courseView-header">
 			<h2 class="courseName" style="text-align:center">
@@ -365,14 +276,6 @@ var courseNumByName = ${courseNumByName };
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
-        	<div class="courseMaker" style="text-align:left">
-        		<h4>
-        			<c:if test="${loginUser.userNumber ne userVO.userNumber}">
-        				<button type="button" class="symbolButton" id="follow"></button>
-        			</c:if>
-        			${userVO.userName}
-        		</h4>
-        	</div><!-- /courseMaker -->
         	
         	<div class="main" style="display:flex;margin-bottom:35px;">
        			<div class="planTables">
@@ -479,15 +382,6 @@ $(document).ready(function(){
 	following = ${userVO.userNumber};
 });
 
-$('.sidenavAd').mouseover(function(){
-	str = str + ";display:block;";
-	$('.hideview').attr("style", str);
-});
-$('.sidenavAd').mouseout(function(){
-	var str = $('.hideview').attr("style").split(';');
-	$('.hideview').attr("style", str[0]);
-});
-
 // map이 scroll 따라 다니도록
 $(window).scroll(function(){
 	var position = $(window).scrollTop();
@@ -588,7 +482,8 @@ $('.delete').on("click",function(){
 		url:'/mypage/delete/'+courseNumber,
 		headers: { "Content-Type": "application/json" },
 		success: function(result){
-			 location.href='/mypage/' + result;
+			alert("삭제되었습니다.");
+			location.href='/mypage/' + result;
 		}
     });
 })
@@ -606,6 +501,8 @@ $('.modify').on("click",function(){
 		}
     });
 })
-</script>
+</script>		
+<!-- footer -->
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

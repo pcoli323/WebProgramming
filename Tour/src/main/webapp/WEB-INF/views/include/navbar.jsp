@@ -72,7 +72,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">마이페이지</a></li>
+      				<li><a class="gotoNoUploadMypage">마이페이지</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
@@ -173,12 +173,23 @@ $("#register").click(function(){
 $("#login").click(function(){
 	$("#loginModal").modal();
 });
-$("#mypage").click(function(){
+//mypage click
+$('.gotoNoUploadMypage').on("click", function(){
+	$.ajax({
+    	type:'post',
+        url: '/mypageNum',
+        headers: {
+			"Content-Type": "application/json",
+			"X-HTTP-Method-Override": "POST"
+		},
+		success: function(result){
+			 location.href="/mypage/" + result;
+		}
+    });
 });
 $("#logout").click(function(){
 	location.href="/logout";
 });
-
 var checkpwd = false;
 var checkpwd2 = false;
 var checkname = false;

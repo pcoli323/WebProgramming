@@ -103,6 +103,9 @@ var realDate = [];
 var realDateCount = 0;
 </script>
 
+<!-- header -->
+<%@include file="../../include/navbar.jsp" %>
+
 <div class="container" style="padding:10px; border:2px solid #F5F5F5;">
 	<!-- 소개 -->
 	<div>
@@ -209,10 +212,10 @@ var realDateCount = 0;
 			zoom: 7,
 			center: mapcenter
 		});
-		pinColorRed()
+		//pinColorRed()
 		markerPosition();
 	}
-	var pinColor = [];
+//	var pinColor = [];
 	function pinSymbol(color) {
 		return {
 			path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
@@ -223,11 +226,39 @@ var realDateCount = 0;
 			scale: 1,
 		};
 	}
-	
-	function pinColorRed(){
-		for(var i=0; i<jsonArr.length; i++){
-			pinColor[i] = "red";
+
+	var bufPinColor = [];
+	var pinColor = ["red", "orange", "yellow", "green", "blue", "#2a365c", "purple", "pink", "#99ff99", "skyblue", "#ffb3ff", "#333300", "#339966", "#ff0066"];
+	//연보라 색 겹침
+	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
+	var pinColorCount = 0;
+	for(var i=1; i<jsonArr.length; i++){
+		if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
+				(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
+				(jsonArr[i-1].areacode != 2 && jsonArr[i].areacode != 2) && 
+				(jsonArr[i-1].areacode != 3 && jsonArr[i].areacode != 3) && 
+				(jsonArr[i-1].areacode != 4 && jsonArr[i].areacode != 4) &&
+				(jsonArr[i-1].areacode != 5 && jsonArr[i].areacode != 5) && 
+				(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
+				(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
+				(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
+			pinColorCount++;
+			jsonArr[i].pinColor = pinColor[pinColorCount];
+			jsonArr[i].titleColor = titleColor[pinColorCount];
+		} else {
+			jsonArr[i-1].pinColor = pinColor[pinColorCount];
+			jsonArr[i-1].titleColor = titleColor[pinColorCount];
+			jsonArr[i].pinColor = pinColor[pinColorCount];
+			jsonArr[i].titleColor = titleColor[pinColorCount];
 		}
+	}
+	if(jsonArr.length == 1){
+		jsonArr[0].pinColor = pinColor[0];
+		jsonArr[0].titleColor = titleColor[0];
+	}
+	
+	for(var i=0; i<jsonArr.length; i++){
+		bufPinColor[i] = jsonArr[i].pinColor;
 	}
 	
 	function markerPosition(){
@@ -237,7 +268,7 @@ var realDateCount = 0;
 				position: mapPositions,
 				map: map,
 				title: jsonArr[i].title,
-				icon: pinSymbol(pinColor[i]),
+				icon: pinSymbol(jsonArr[i].pinColor),
 			});
 			markers[i] = marker;
 			var address = jsonArr[i].address;
@@ -261,8 +292,9 @@ var realDateCount = 0;
 		}
 	}
 	
-	function clearMarkers(i) {
-		markers[i].setMap(null);
+	function clearMarkers() {
+		for(var i=0; i<jsonArr.length; i++)
+			markers[i].setMap(null);
 	}
 
 	function markerListener(localmarker, infowindow){    
@@ -293,7 +325,7 @@ var realDateCount = 0;
 	function initTitle(){
 		var str = "";
 		for(var i=0; i<jsonArr.length; i++){
-			var str1 = "<tr style='height:20px;'><td><input class='inputTitle' id=" + i + " value='" + jsonArr[i].title + "' style='height:23px; width:175px' border=none readonly ></td>";
+			var str1 = "<tr style='height:20px;'><td><input class='inputTitle' id=" + i + " value='" + jsonArr[i].title + "' style='height:23px; width:175px; background-color:" + jsonArr[i].titleColor + "' border=none readonly ></td>";
 			var str2 = "<td><button type='button' class='calBtn' value=" + i + "><span class='glyphicon glyphicon-calendar'></span></button></td>";
 			var str3 = "<td><button type='button' class='delBtn' value=" + i + "><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
 			var str4 = "<td style='height:20px;'></td></tr>";
@@ -305,11 +337,11 @@ var realDateCount = 0;
 	//input Title event 처리
 	$(document).on("mouseover",".inputTitle",function(){
 		var i = this.id;
-		markers[i].setIcon((pinSymbol("green")));
+		markers[i].setAnimation(google.maps.Animation.BOUNCE);
 	});
 	$(document).on("mouseout",".inputTitle",function(){
 		var i = this.id;
-		markers[i].setIcon((pinSymbol("red")));
+		markers[i].setAnimation(null);
 	});
 	
 	// 삭제 버튼 클릭시 삭제 모달창
@@ -321,7 +353,7 @@ var realDateCount = 0;
 	// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
-        clearMarkers(Status);
+        clearMarkers();
         jsonArr.splice(Status,1);
         markers.splice(Status,1);
 		orderTable();
@@ -329,6 +361,8 @@ var realDateCount = 0;
         inputTitleBorder();
         initScheduleTable();
         orderRangeSchedule();
+        bufPinColor.splice(Status,1);
+        markerPosition();
     }
 
 	// ---------------------------------------------------------
@@ -354,6 +388,7 @@ var realDateCount = 0;
 		for(var i=1; i<dateJson.length; i++){
 			var small = DateInvert(dateJson[i-1].startDate);
 			var big = DateInvert(dateJson[i].startDate);
+			
 			if(small.getTime() > big.getTime()){
 				var buf = dateJson[i-1];
 				dateJson[i-1] = dateJson[i];
@@ -379,7 +414,8 @@ var realDateCount = 0;
 	}
 	
 	// 일정 부분 날짜 출력("2017/09/26")
-	initScheduleTable();
+	/*
+		initScheduleTable();
 	function initScheduleTable(){
 		var scheduleDateTable = "";
 		for(var i=0; i<dateJson.length; i++){
@@ -406,10 +442,42 @@ var realDateCount = 0;
 		}
 		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 	}
+	*/
+	var insertBool=true;
+	initScheduleTable();
+	function initScheduleTable(){
+		for(var i=0; i<dateJson.length; i++){
+			var start = DateInvert(dateJson[i].startDate);
+			var end = DateInvert(dateJson[i].endDate);
+			for(var j=0; j<scheduleBetweenDay; j++){
+				var date = StringDateInvert(str[j]);
+
+				if(start.getTime() <= date.getTime() && date.getTime() <= end.getTime()){
+					for(var x=0; x<realDate.length; x++){
+						if(realDate[x] == str[j]){
+							insertBool=false;
+						}
+					}
+					if(insertBool == true){
+						realDate[realDateCount] = str[j];
+						realDateCount++;
+					}
+					insertBool = true;
+				}
+			}
+		}
+		var scheduleDateTable = "";
+		for(var i=0; i<realDate.length; i++){
+			scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + realDate[i] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + realDate[i] + "></table></div>";
+		}
+		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
+	}
 	// calendar 버튼 클릭 시 날짜 선정 모달 띄움
 	var calBtnValue;
+	var selectNot;
 	$(document).on("focus",".calBtn",function(){
 	    calBtnValue = this.value;
+	    selectNot = 1;
 	    $("#calModal").modal();
 		for(var i=0; i<dateJson.length;i++){
 			if((dateJson[i].areaCode == jsonArr[calBtnValue].areacode && dateJson[i].sigunguCode == jsonArr[calBtnValue].sigungucode) || 
@@ -449,17 +517,17 @@ var realDateCount = 0;
 	for(var i=0; i<realDate.length; i++){
 		limitCheck[i] = 0;
 	}
-	var selectDateVar; // 날짜 선정 모달에서 선택한 날짜 value값
+	var selectDateVar=0; // 날짜 선정 모달에서 선택한 날짜 value값
 	$(document).ready(function(){
 	    $(".selectDate").click(function(){
-			selectDateVar = this.value;
+			selectDateVar = this.value; // 날짜 선정 모달에서 선택한 날짜 value값
 			
 			for(var i=0; i<realDate.length; i++){
 				if(realDate[i] == selectDateVar)
 					limitCheckVar = i;
 			}
-			
-		}); 
+			selectNot = 0;
+		});
 	});
 	
 	// 날짜 선택시 Title border처리
@@ -472,37 +540,47 @@ var realDateCount = 0;
 			}
 		}
 	}
-	
 	// calendar modal 창에서 확인 누를 시 동작
 	function insertDate(){
-		jsonArr[calBtnValue].gotoDate = selectDateVar;
-		orderTable();
-		if(jsonArr[calBtnValue].init == 1){
-			delete jsonArr[calBtnValue].order;
-			jsonArr[calBtnValue].init = 0;
-			jsonArr[calBtnValue].border = 0;
+		if(selectNot != 1){
+			jsonArr[calBtnValue].gotoDate = selectDateVar;
+			orderTable();
+			if(jsonArr[calBtnValue].init == 1){
+				delete jsonArr[calBtnValue].order;
+				jsonArr[calBtnValue].init = 0;
+				jsonArr[calBtnValue].border = 0;
 
-			if(limitCheck[limitCheckVar] != 0)
-				limitCheck[limitCheckVar]--;
-			
+				jsonArr[calBtnValue].pinColor = bufPinColor[calBtnValue];
+				clearMarkers();
+				markerPosition();
+	
+				if(limitCheck[limitCheckVar] != 0)
+					limitCheck[limitCheckVar]--;
+				
+			}
+			if(limitCheck[limitCheckVar] == 5)
+				alert("일정이 빡빡하진 않나요?");
+			// 7개로 제한
+			if(limitCheck[limitCheckVar] == 7){
+				delete jsonArr[calBtnValue].order;
+				delete jsonArr[calBtnValue].gotoDate;
+				alert("피곤하실거예요~ 이 날의 일정은 여기까지");
+			}
+				
+			initSchedule();
+			if(selectDateVar != 0 && limitCheck[limitCheckVar] < 7){
+				console.log(selectDateVar);
+				jsonArr[calBtnValue].border = 1;
+				jsonArr[calBtnValue].init = 1;
+				
+				limitCheck[limitCheckVar]++;
+				
+				jsonArr[calBtnValue].pinColor = "gray";
+				clearMarkers();
+				markerPosition();
+			}
+			inputTitleBorder();
 		}
-		if(limitCheck[limitCheckVar] == 5)
-			alert("일정이 빡빡하진 않나요?");
-		// 7개로 제한
-		if(limitCheck[limitCheckVar] == 7){
-			delete jsonArr[calBtnValue].order;
-			delete jsonArr[calBtnValue].gotoDate;
-			alert("피곤하실거예요~ 이 날의 일정은 여기까지");
-		}
-			
-		initSchedule();
-		if(selectDateVar != 0 && limitCheck[limitCheckVar] < 7){
-			jsonArr[calBtnValue].border = 1;
-			jsonArr[calBtnValue].init = 1;
-			
-			limitCheck[limitCheckVar]++;
-		}
-		inputTitleBorder();
 	}
 
 	function orderRangeSchedule(){
@@ -514,7 +592,6 @@ var realDateCount = 0;
 				for(var x=0; x<jsonArr.length; x++){
 					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
 						if(jsonArr[x].order == j){
-							console.log(j);
 							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;' class='inputScheduleT' id=" + x + ">" + jsonArr[x].title + "</td>";
 							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
 							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
@@ -538,7 +615,6 @@ var realDateCount = 0;
 				for(var x=0; x<jsonArr.length; x++){
 					if(jsonArr[x].gotoDate == realDate[i]){ //jsonArr의 gotoDate와 realDate가 같을 때 order 순으로 배치
 						if(jsonArr[x].order == j){
-							console.log(j);
 							var str1 = "<tr><td style='text-align:left; width:95%; height:30px;' class='inputScheduleT' id=" + x + ">" + jsonArr[x].title + "</td>";
 							var str2 = "<td><button type='button' class='updown' onclick='moveUp(this)'><span class='glyphicon glyphicon-menu-up'></span></button>";
 							var str3 = "<button type='button' class='updown' onclick='moveDown(this)'><span class='glyphicon glyphicon-menu-down'></span></button></td></tr>";
@@ -598,7 +674,6 @@ var realDateCount = 0;
 		var nullCheck = 0;
 		for(var i=0; i<realDate.length; i++){
 			if(document.getElementById(realDate[i]).innerHTML){
-				console.log(document.getElementById(realDate[i]).innerHTML);
 				orderTable();
 		        $("#completeModal").modal();
 				break;
@@ -613,6 +688,8 @@ var realDateCount = 0;
 		for(var i=0; i<jsonArr.length; i++){
 			delete jsonArr[i].init;
 			delete jsonArr[i].border;
+			delete jsonArr[i].pinColor;
+			delete jsonArr[i].titleColor;
 		}
 		var courseName = document.getElementById("courseName").value;
 
@@ -630,9 +707,17 @@ var realDateCount = 0;
 	    	    	data:jsonData,
 	    	    	contentType:"application/json; charset=utf-8",
 	    	    	success:function(){
-	    	    		var courseNumber = ${courseNumber } + 1;
-	        			alert("코스가 생성되었습니다.");
-	        			location.href="/mypage/" + courseNumber;
+	    	    		$.ajax({
+	    	    	    	type:'post',
+	    	    	        url: '/mypageNum',
+	    	    	        headers: {
+	    	    				"Content-Type": "application/json",
+	    	    				"X-HTTP-Method-Override": "POST"
+	    	    			},
+	    	    			success: function(result){
+	    	    				 location.href="/mypage/" + result;
+	    	    			}
+	    	    	    });
 	    			},
 	    			error:function(){
 	        			alert("실패");
@@ -657,6 +742,8 @@ var realDateCount = 0;
 			}
 		});
 	});
-	</script>
+	</script>		
+	<!-- footer -->
+	<%@include file="../../include/footer.jsp" %>
 </body>
 </html>

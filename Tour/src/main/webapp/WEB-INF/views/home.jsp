@@ -301,6 +301,14 @@
       <h4>자신만의 여행지를 선택하여 코스를 만들어 보아요~</h4>
       <p>지역과 여행지를 선택하고 날짜를 선택하면 끝!</p>
       <br><button class="btn btn-default btn-lg" id="courseMake">코스 만들러가기</button>
+      <c:choose>
+  			<c:when test="${empty login}">
+    			<br><button class="btn btn-default btn-lg" id="courseMake" value="0">코스 만들러가기</button>
+  			</c:when>
+  			<c:otherwise>
+  				<br><button class="btn btn-default btn-lg" id="courseMake" value="1">코스 만들러가기</button>
+  			</c:otherwise>
+		</c:choose>
     </div>
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-flag logo"></span>
