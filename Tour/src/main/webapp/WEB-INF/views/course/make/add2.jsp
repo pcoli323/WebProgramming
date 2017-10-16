@@ -37,9 +37,10 @@
 }
 </style>
 <body>
-	<!-- header 1,2 -->
+	<!-- header -->
+	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add2 -->
-	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5; min-height:500px;">
 		<!-- 소개 -->
 		<div>
 			<h1>두 번째 단계 : 여행지 선택 단계입니다.</h1>
@@ -111,6 +112,7 @@
 		</div>
 	</div>
 	<!-- footer -->
+	<%@include file="../../include/footer.jsp" %>
 </body>
 
 <script>
