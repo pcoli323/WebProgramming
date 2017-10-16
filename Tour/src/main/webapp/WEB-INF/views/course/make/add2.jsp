@@ -19,6 +19,7 @@
 	color:#337ab7;
 	border:1px solid #337ab7;
 	padding-right:20px;
+	border-radius: 10px;
 }
 .selectedBox {
 	font-size:20px;
@@ -26,6 +27,7 @@
 	background-color:#337ab7;
 	border:1px solid #024782;
 	padding-right:20px;
+	border-radius: 10px;
 }
 #sbox input {
 	visibility:hidden;
@@ -50,7 +52,7 @@
 			<div class="row" style="padding:10px;">
 				<div class="col-sm-12">
 					<form id="sbox">
-						<label class="radio-inline box">
+						<label class="radio-inline selectedBox">
       						<input type="radio" name="optradio" value="0" checked="checked">전체
     					</label>
     					<label class="radio-inline box">
@@ -79,7 +81,7 @@
     					</label>
  					</form>
 				</div>
-				<div class="col-sm-4 col-sm-offset-8" style="margin-top:5px;">
+				<div class="col-sm-4 col-sm-offset-8" style="margin-top:10px;">
 					<form>
     					<label class="radio-inline">
       						<input type="radio" name="optradio" value="A">제목순
