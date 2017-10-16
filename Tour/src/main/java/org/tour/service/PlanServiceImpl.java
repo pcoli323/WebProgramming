@@ -47,11 +47,13 @@ public class PlanServiceImpl implements PlanService{
 				courseInfoDto.setLocationX(gotoList.get(j).getGotoLocationX());
 				courseInfoDto.setLocationY(gotoList.get(j).getGotoLocationY());
 				courseInfoDto.setGotoOrder(gotoList.get(j).getGotoOrder());
+				/*
 				String gotoImage = gotoList.get(j).getGotoImageThum();
 				if(gotoImage == "" || gotoImage == null) {
 					gotoImage = gotoList.get(j).getGotoImageReal();
 				}
-				courseInfoDto.setGotoImage(gotoImage);
+				*/
+				courseInfoDto.setGotoImage(gotoList.get(j).getGotoImageReal());
 				courseInfoDto.setIsRepresented(gotoList.get(j).getIsRepresented());
 				courseInfoDto.setRepresentedOrder(gotoList.get(j).getRepresentedOrder());
 				courseInfoDto.setTel(gotoList.get(j).getGotoTel());
