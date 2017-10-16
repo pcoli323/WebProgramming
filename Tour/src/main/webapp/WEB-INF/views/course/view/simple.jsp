@@ -35,16 +35,23 @@
     padding-right:40px;
     padding-left:40px;
     }
-    .mouseOverImage{
-    position:absolute;
-    top:430px;
-    z-index:1;
+    .mouseOverImageView{
+    height:300px;
     display:none;
     text-align:center;
-    width:100%;
+    background-color:black;
+    margin:auto;
     }
-    .representativeImageBig {
-    max-width: 300px; height:auto;
+    .mouseOverImageContent{
+    height:100%;
+    width:50%;
+    background-color:black;
+    display:inline-block;
+    }
+    .mouseOverImage{
+    max-width:100%;
+    height:auto;
+    max-height:100%;
     }
 </style>
 <head>
@@ -158,8 +165,10 @@
        	
 	</div><!-- /courseView -->
 	<!-- mouseOver시 보여지는 big 이미지-->
-	<div class="mouseOverImage" style="">
-	</div>
+	<div class="mouseOverImageView">
+		<div class="mouseOverImageContent">
+		</div><!-- /mouseOverImageContent -->
+	</div><!-- /mouseOverImageView -->
 </div><!-- /content -->
 
 <script>
@@ -191,9 +200,9 @@
 			if($(this).hasClass("noImage") == false){
 				if ($(this).hasClass("realImage") == true){
 					imgSrc = $(this).attr("src");
-					imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
-					$(".mouseOverImage").html(imgHtml);
-					$(".mouseOverImage").show();
+					imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
+					$(".mouseOverImageContent").html(imgHtml);
+					$(".mouseOverImageView").show();
 				}
 				else{
 					var gotoNumber = $(this).attr("id");
@@ -203,9 +212,9 @@
 						url:'/getGotoRealImage?gotoNumber=' + gotoNumber,
 						success:function(realImage){
 							imgSrc = realImage;
-							imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
-							$(".mouseOverImage").html(imgHtml);
-							$(".mouseOverImage").show();
+							imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
+							$(".mouseOverImageContent").html(imgHtml);
+							$(".mouseOverImageView").show();
 						}
 					});
 				}
@@ -213,7 +222,7 @@
 		});
 		$(".representativeImage").mouseout(function(){
 			if($(this).hasClass("noImage") == false){
-				$(".mouseOverImage").hide();
+				$(".mouseOverImageView").hide();
 			}
 		});
 	});

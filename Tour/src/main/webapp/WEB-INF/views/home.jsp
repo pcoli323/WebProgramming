@@ -247,7 +247,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">마이페이지</a></li>
+      				<li id="mypage"><a href="/mypage/80">마이페이지</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
