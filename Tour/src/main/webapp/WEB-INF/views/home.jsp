@@ -41,6 +41,9 @@
   .container-fluid {
       padding: 60px 50px;
   }
+  #pop .container-fluid {
+  	padding: 20px 50px;
+  }
   .bg-grey {
       background-color: #f6f6f6;
   }
@@ -233,9 +236,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
+      	<li><a href="#popular">인기코스보기</a></li>
         <li><a href="#create">코스만들기</a></li>
         <li><a href="#search">코스검색</a></li>
-        <li><a href="#popular">인기코스보기</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<c:choose>
@@ -259,10 +262,34 @@
 </nav>
 
 <div class="image">
-	<img src="/resources/img/R22.jpg" width="100%">
+	<img src="/resources/img/main.jpg" width="100%">
 	<div class="centered">
 		<h1>Company</h1> 
   		<p>자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
+	</div>
+</div>
+
+<!-- Container (Popular Section) -->
+<div id="pop">
+	<div id="popular" class="container-fluid text-center" style="background-color:#337ab7;"></div>
+	<div class="container-fluid text-center" style="background-color:#ffffff;">
+  		<h2 style="color:#337ab7;">이달의 인기 코스</h2>
+	</div>
+	<!-- Top 1 -->
+	<div id="top1" class="container-fluid text-center bg-grey">
+		<h2>Top 1</h2>
+	</div>
+	<!-- Top 2 -->
+	<div id="top2" class="container-fluid text-center">
+		<h2>Top 2</h2>
+	</div>
+	<!-- Top 3 -->
+	<div id="top3" class="container-fluid text-center bg-grey">
+		<h2>Top 3</h2>
+	</div>
+	<!-- more -->
+	<div id="more" class="container-fluid text-center">
+		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 	</div>
 </div>
 
@@ -295,28 +322,6 @@
     </div>
     
   </div>
-</div>
-
-<!-- Container (Popular Section) -->
-<div id="popular" class="container-fluid text-center" style="background-color:#337ab7;">
-  <h2 style="color:#FFFFFF;">이달의 인기 코스</h2>
-</div>
-
-<!-- Top 1 -->
-<div id="top1" class="container-fluid text-center">
-	<h2>Top 1</h2>
-</div>
-<!-- Top 2 -->
-<div id="top2" class="container-fluid text-center bg-grey">
-	<h2>Top 2</h2>
-</div>
-<!-- Top 3 -->
-<div id="top3" class="container-fluid text-center">
-	<h2>Top 3</h2>
-</div>
-<!-- more -->
-<div id="more" class="container-fluid text-center bg-grey">
-	<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 </div>
 
 <footer class="container-fluid text-center">

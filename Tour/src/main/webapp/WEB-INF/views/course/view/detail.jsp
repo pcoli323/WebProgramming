@@ -59,7 +59,7 @@
 	font-size:250%;
 	}
 	.infoContent{
-	padding-left:30px;
+	padding:30px;
 	display:inline-block;
 	width:60%;
 	}
@@ -82,20 +82,11 @@
 	width:100%;
 	height:82%;
 	background-color:black;
-	text-align:center;
-	vertical-align:middle;
 	}
 	.imageContent{
 	max-width:100%;
 	height:auto;
 	max-height:100%;
-	}
-	.noImageContent{
-	font-size:100%;
-	position:relative;
-	background-color:black;
-	color:white;
-	top:50%;
 	}
 	.info{
 	width:100%;
@@ -175,7 +166,6 @@
 				position: mapPositions,
 				map: map,
 				title:title,
-				animation:null
 			});
 			markers.push(marker);
 			if(image != ""){
@@ -188,18 +178,14 @@
 									content: contentString,
 									size: new google.maps.Size(200,100)});
 			infowindows.push(infowindow);
-			markerListener(marker, infowindow, id);
+			markerListener(marker, infowindow);
 			gotoNumberMapMarker.set(id, markerIndex);
 			markerIndex++;
 		}
 	}
-	function markerListener(localmarker, infowindow, id){    
+	function markerListener(localmarker, infowindow){    
 	      	google.maps.event.addListener(localmarker, 'click', function() {
-				//infowindow.open(map, localmarker);
-				for(var i=0; i<markers.length; i++){
-					markers[i].setAnimation(null);
-				}
-				showInfo(id);
+				infowindow.open(map, localmarker);
 				localmarker.setAnimation(google.maps.Animation.BOUNCE);
 				});
 	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
@@ -301,7 +287,7 @@
         				</div><!-- /mapView -->
         				
         				<div class="infoView">
-        					<div class="imageView">
+        					<div class="imageView" style="text-align:center;">
         					</div>
         					<div class="info">
         					</div>
@@ -537,46 +523,29 @@
 	$('.goto').on("click", function(){
 		var id = $(this).attr("id");
 		
-		showMap(id);
-		showInfo(id);
-	});
-	
-	// map의 정보 보여주기
-	function showMap(id){
+		for(var i=0; i<markers.length; i++){
+			markers[i].setAnimation(null);
+		}
+		// 위치정보가 있는지 여부
 		if(gotoNumberMapMarker.has(id) == true){
+			index = gotoNumberMapMarker.get(id);
 			//infowindows[index].open(map, markers[index]);
-			var index = gotoNumberMapMarker.get(id);
-			if(markers[index].getAnimation() == null){
-				for(var i=0; i<markers.length; i++){
-					if(i != index){
-						markers[i].setAnimation(null);
-					}
-				}
-				markers[index].setAnimation(google.maps.Animation.BOUNCE);
-				map.setCenter(markers[index].getPosition());
-				map.setZoom(10);
-				$('.mapInfo').hide();
-			}
+			markers[index].setAnimation(google.maps.Animation.BOUNCE);
+			map.setCenter(markers[index].getPosition());
+			map.setZoom(10);
+			$('.mapInfo').hide();
 		}
 		else{
-			for(var i=0; i<markers.length; i++){
-				markers[i].setAnimation(null);
-			}
 			$('.mapInfo').show();
 		}
-	}
-	// info 보여주기
-	function showInfo(id){
+		
+		// image가 있는지 여부
 		var image = images[id];
 		var str;
 		if(image != null && image != ""){	
 			str = "<image src='" + image + "' class='imageContent'>";
-			$('.imageView').html(str);
 		}
-		else{
-			str = "<div class='noImageContent'>사진이 없습니다</div>";
-			$('.imageView').html(str);
-		}
+		$('.imageView').html(str);
 		
 		// info
 		var info = [];
@@ -587,7 +556,7 @@
 		$('.info').html(str);
 		
 		$('.infoView').show();
-	}
+	});
 </script>
 
 <!-- symbol인 버튼 눌렀을 때 -->

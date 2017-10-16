@@ -62,6 +62,16 @@
     height:auto;
     max-height:100%;
     position: relative;
+    .mouseOverImage{
+    position:absolute;
+    top:430px;
+    z-index:1;
+    display:none;
+    text-align:center;
+    width:100%;
+    }
+    .representativeImageBig {
+    max-width: 300px; height:auto;
     }
 </style>
 <head>
@@ -175,10 +185,8 @@
        	
 	</div><!-- /courseView -->
 	<!-- mouseOver시 보여지는 big 이미지-->
-	<div class="mouseOverImageView">
-		<div class="mouseOverImageContent">
-		</div><!-- /mouseOverImageContent -->
-	</div><!-- /mouseOverImageView -->
+	<div class="mouseOverImage" style="">
+	</div>
 </div><!-- /content -->
 
 <script>
@@ -210,9 +218,9 @@
 			if($(this).hasClass("noImage") == false){
 				if ($(this).hasClass("realImage") == true){
 					imgSrc = $(this).attr("src");
-					imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
-					$(".mouseOverImageContent").html(imgHtml);
-					$(".mouseOverImageView").show();
+					imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
+					$(".mouseOverImage").html(imgHtml);
+					$(".mouseOverImage").show();
 				}
 				else{
 					var gotoNumber = $(this).attr("id");
@@ -222,9 +230,9 @@
 						url:'/getGotoRealImage?gotoNumber=' + gotoNumber,
 						success:function(realImage){
 							imgSrc = realImage;
-							imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
-							$(".mouseOverImageContent").html(imgHtml);
-							$(".mouseOverImageView").show();
+							imgHtml = "<img src=" + imgSrc + " class='representativeImageBig'>";
+							$(".mouseOverImage").html(imgHtml);
+							$(".mouseOverImage").show();
 						}
 					});
 				}
@@ -232,7 +240,7 @@
 		});
 		$(".representativeImage").mouseout(function(){
 			if($(this).hasClass("noImage") == false){
-				$(".mouseOverImageView").hide();
+				$(".mouseOverImage").hide();
 			}
 		});
 	});
