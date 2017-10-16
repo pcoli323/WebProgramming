@@ -42,7 +42,7 @@
       padding: 60px 50px;
   }
   #pop .container-fluid {
-  	padding: 20px 50px;
+  	padding: 25px 50px;
   }
   .bg-grey {
       background-color: #f6f6f6;
@@ -232,7 +232,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#myPage">Logo</a>
+      <a class="navbar-brand" style="padding:0px;" href="#myPage"><img src="/resources/img/ll.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
@@ -250,7 +250,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">마이페이지</a></li>
+      				<li id="mypage"><a href="#">${userVO.userName}</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
@@ -264,8 +264,8 @@
 <div class="image">
 	<img src="/resources/img/main.jpg" width="100%">
 	<div class="centered">
-		<h1>Company</h1> 
-  		<p>자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
+		<h1 style="font-size:3em; font-weight: bold;">내 마음에 꼭 드는 여행 코스! 맴콕!</h1> 
+  		<p style="font-size:2em; font-weight: bold;">자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
 	</div>
 </div>
 
