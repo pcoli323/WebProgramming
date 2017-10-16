@@ -31,20 +31,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
-	<select id="courseNameRead" resultType="string">
-		select courseName
-		from tbl_course
-		where userNumber = #{userNumber}
-	</select>
 	<select id="courseNoUploadNameRead" resultType="string">
 		select courseName
 		from tbl_course
-		where userNumber = #{userNumber} and isPosted = 0
+		where userNumber = #{userNumber} and isPosted = false
 	</select>
 	<select id="courseUploadNameRead" resultType="string">
 		select courseName
 		from tbl_course
-		where userNumber = #{userNumber} and isPosted = 1
+		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	<select id="courseNumByName" resultType="int">
 		select courseNumber
@@ -55,5 +50,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete
 		from tbl_course
 		where courseNumber = #{courseNumber}
+	</select>
+	<select id="simpleViewAll" resultType="CourseVO">
+		select *
+		from tbl_course
+		where userNumber = #{userNumber} and isPosted = true
 	</select>
 </mapper>

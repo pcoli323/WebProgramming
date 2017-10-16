@@ -46,9 +46,16 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public List<String> courseNameRead(int userNumber) throws Exception {
+	public List<String> courseNoUploadNameRead(int userNumber) throws Exception {
 		
-		return dao.courseNameRead(userNumber);
+		return dao.courseNoUploadNameRead(userNumber);
+		
+	}
+	
+	@Override
+	public List<String> courseUploadNameRead(int userNumber) throws Exception {
+		
+		return dao.courseUploadNameRead(userNumber);
 		
 	}
 	
@@ -67,6 +74,12 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void delete(int courseNumber) throws Exception {
 		dao.delete(courseNumber);
+	}
+	
+	@Override
+	public List<CourseVO> simpleViewAll(int userNumber) throws Exception {
+		
+		return dao.simpleViewAll(userNumber);
 	}
 
 }

@@ -12,8 +12,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 150px; margin-left: 76.5%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 50px; margin-left: 76.5%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 150px; right: 1%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 50px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
 	color:#337ab7;
@@ -37,9 +37,10 @@
 }
 </style>
 <body>
-	<!-- header 1,2 -->
+	<!-- header -->
+	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add2 -->
-	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5; min-height:500px;">
 		<!-- 소개 -->
 		<div>
 			<h1>두 번째 단계 : 여행지 선택 단계입니다.</h1>
@@ -111,6 +112,7 @@
 		</div>
 	</div>
 	<!-- footer -->
+	<%@include file="../../include/footer.jsp" %>
 </body>
 
 <script>

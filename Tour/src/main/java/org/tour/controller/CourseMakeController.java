@@ -148,8 +148,13 @@ public class CourseMakeController {
 					throw new Exception();
 				}
 			}
-			
+
+			int courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
 			session.setAttribute("name", courseName);
+
+			courseNumber++;
+			System.out.println(courseNumber);
+			session.setAttribute("courseNumber", courseNumber);
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 			
 		}catch(Exception e) {
@@ -251,6 +256,8 @@ public class CourseMakeController {
 						vo.setGotoLocationY((String)json.get("mapy"));
 					}
 					courseInfoService.courseInfoAdd(vo);
+					
+					System.out.println(vo.getIsNew());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -275,8 +282,6 @@ public class CourseMakeController {
 			// 4. 세션에서 idList, list, name 삭제
 			removeAttributes(request);
 			
-			// session에 courseNumber 추가 -> myPage에서 코스보기 형식을 그런 식으로
-			session.setAttribute("courseNumber", courseNumber);
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
