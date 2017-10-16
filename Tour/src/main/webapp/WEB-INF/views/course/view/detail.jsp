@@ -21,6 +21,7 @@
 	table td{
 	padding:20px;
 	}
+	
 	.courseView{
 	width:100%;
 	resize:none;
@@ -54,7 +55,7 @@
     border-bottom-right-radius: 10px 20px;
 	}
 	.goto{
-	font-family:'Nanum Pen Script', serif;
+	font-family:'Nanum Pen Script';
 	font-size:250%;
 	}
 	.infoContent{
@@ -71,7 +72,7 @@
 	width:100%;
 	}
 	.infoView{
-	height:400px;
+	height:350px;
 	width:100%;
 	display:none;
 	margin-top:10px;
@@ -99,7 +100,7 @@
 	.info{
 	width:100%;
 	height:18%;
-	padding:10px;
+	padding:5px 10px;
 	}
 	.symbolButton{
   	font-size: 14px;
@@ -167,7 +168,7 @@
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
 	
-	function makeMarker(locationX, locationY, image, title, tel, address, id){
+	function makeMarker(locationX, locationY, image, title, address, tel, id){
 		if(locationX != ""){
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
 			var marker = new google.maps.Marker({
@@ -211,7 +212,7 @@
 	var images = [];
 	var infos = new Map();
 	function fitFontSize(id, length){
-		var size = length - 12;
+		var size = length - 13;
 		fontSize = 250 - size*10;
 		$('#'+id).attr("style", "font-size:"+fontSize+"%;");
 	}
@@ -252,7 +253,9 @@
         							<td style="text-align:center">
         								<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         								<c:forEach var="gotoOne" items="${gotoList}">
-        								<div><span class="goto" id="${gotoID}">${gotoOne.gotoName}</span></div>
+        									<div style="margin:10px;">
+        										<span class="goto" id="${gotoID}">${gotoOne.gotoName}</span>
+        									</div>
         									<script>
         										var length = ${gotoOne.gotoName.length()};
         										var id = ${gotoID};
@@ -260,11 +263,11 @@
         											fitFontSize(id, length);
         										}
         										var image = "${gotoOne.gotoImage}";
+        										images.push(image);
         										var info = [];
         										info.push("${gotoOne.gotoName}");
         										info.push("${gotoOne.address}");
         										info.push("${gotoOne.tel}");
-        										images.push(image);
         										infos.set(id, info);
         									</script>
         									<c:set var="gotoID" value="${gotoID + 1}"></c:set>
@@ -286,7 +289,7 @@
         						<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         						<c:forEach var="gotoOne" items="${gotoList}">
         							<script>
-        								makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.tel}", "${gotoOne.address}", "${gotoID}");
+        								makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.address}", "${gotoOne.tel}", "${gotoID}");
         							</script>
         							<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         						</c:forEach>
@@ -377,6 +380,7 @@
 	var loginUserNumber;
 	var courseNumber;
 	var following;
+	
 	$(document).ready(function(){
 		// 변수 초기화
 		loginCheck = ${loginCheck};
@@ -396,7 +400,7 @@
 		console.log(infos);
 	});
 	
-	// map이 scroll 따라 다니도록
+	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
 		var position = $(window).scrollTop();
 		var maxPosition = $(".infoContent").height() - $(".move").height();
