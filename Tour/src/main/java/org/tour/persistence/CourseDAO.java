@@ -16,11 +16,15 @@ public interface CourseDAO {
 	
 	public int courseNumberRead(int userNumber) throws Exception;
 	
-	public List<String> courseNameRead(int userNumber) throws Exception;
+	public List<String> courseNoUploadNameRead(int userNumber) throws Exception;
+	
+	public List<String> courseUploadNameRead(int userNumber) throws Exception;
 	
 	public void update(CourseVO vo) throws Exception;
 
 	public int courseNumByName(String courseName) throws Exception;
 	
 	public void delete(int courseNumber) throws Exception;
+	
+	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
 }

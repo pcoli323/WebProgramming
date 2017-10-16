@@ -45,11 +45,16 @@ public class CourseDAOImpl implements CourseDAO {
 
 		return session.selectOne(namespace + ".courseNumberRead", userNumber);
 	}
+	@Override
+	public List<String> courseNoUploadNameRead(int userNumber) throws Exception {
+
+		return session.selectList(namespace + ".courseNoUploadNameRead", userNumber);
+	}
 	
 	@Override
-	public List<String> courseNameRead(int userNumber) throws Exception {
+	public List<String> courseUploadNameRead(int userNumber) throws Exception {
 
-		return session.selectList(namespace + ".courseNameRead", userNumber);
+		return session.selectList(namespace + ".courseUploadNameRead", userNumber);
 	}
 	
 	@Override
@@ -68,5 +73,11 @@ public class CourseDAOImpl implements CourseDAO {
 	public void delete(int courseNumber) throws Exception {
 		
 		session.delete(namespace + ".delete", courseNumber);
+	}
+	
+	@Override
+	public List<CourseVO> simpleViewAll(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".simpleViewAll", userNumber);
 	}
 }

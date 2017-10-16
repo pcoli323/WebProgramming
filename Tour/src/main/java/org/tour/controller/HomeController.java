@@ -52,14 +52,10 @@ public class HomeController {
 	public String login(LoginDTO dto, Model model) {
 		try {
 			UserVO vo = service.login(dto);
-			if(vo==null) {
-				model.addAttribute("loginResult", "0");
-			}		
-			else {
-				model.addAttribute("loginResult", "1");
-				model.addAttribute("userVO",vo);
-			}
-				
+			if(vo==null)
+				return "/login/loginFalse";
+			model.addAttribute("userVO",vo);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,4 +68,8 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/test", method = RequestMethod.GET)
+	public String home() {
+		return "test";
+	}
 }

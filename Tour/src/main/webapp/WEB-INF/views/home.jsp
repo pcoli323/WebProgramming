@@ -300,6 +300,7 @@
       <h2>코스 만들기</h2><br><br>
       <h4>자신만의 여행지를 선택하여 코스를 만들어 보아요~</h4>
       <p>지역과 여행지를 선택하고 날짜를 선택하면 끝!</p>
+      <br><button class="btn btn-default btn-lg" id="courseMake">코스 만들러가기</button>
       <c:choose>
   			<c:when test="${empty login}">
     			<br><button class="btn btn-default btn-lg" id="courseMake" value="0">코스 만들러가기</button>
@@ -424,11 +425,6 @@
 
 <script>
 $(document).ready(function(){
-	if('${loginResult}'=="0")
-		alert("로그인 실패! 아이디와 비밀번호를 확인해주세요.");
-	if('${loginResult}'=="1")
-		alert("로그인 성공!");
-	
     $("#register").click(function(){
     	$("#registerModal").modal();    	
     });
@@ -439,13 +435,9 @@ $(document).ready(function(){
     });
     $("#logout").click(function(){
     	location.href="/logout";
-    	alert("로그아웃되었습니다.");
     });
     $("#courseMake").click(function(){
-    	if(this.value=="0")
-    		alert("로그인을 해주세요.");
-    	else
-    		location.href="/course/make/add1";
+    	location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
     });

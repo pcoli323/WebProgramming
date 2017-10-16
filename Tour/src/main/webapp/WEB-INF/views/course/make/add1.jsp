@@ -18,7 +18,7 @@
 	<!-- header -->
 	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add1 -->
-	<div class="container" style="padding:10px; border:2px solid #F5F5F5; margin-top:20px;">
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5; margin-top:40px;">
 		<!-- 지역 선택 -->
 		<div>
 			<!-- 소개 -->
