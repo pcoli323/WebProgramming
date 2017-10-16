@@ -64,7 +64,7 @@
 	width:60%;
 	}
 	.mapView{
-	height:220px;
+	height:350px;
 	width:100%;
 	}
 	.mapContent{
@@ -148,7 +148,7 @@
 <script>
 	var map;
 	function initMap() {
-		var mapcenter = {lat: 35.6867229, lng: 127.9095155};
+		var mapcenter = {lat: 35.89999, lng: 127.9095155};
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 6,
 			center: mapcenter
@@ -389,8 +389,13 @@
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
 		var position = $(window).scrollTop();
-		var maxPosition = $(".infoContent").height() - $(".move").height();
-		if(position < maxPosition){
+		var maxPosition = $(".infoContent").height() - $(".move").height() + 150;
+		if(position <= 100){
+			position = 0;
+			$(".move").stop().animate({"top":position+"px"},1000);
+		}
+		else if(position > 150 && position < maxPosition){
+			position = position-150;
 			$(".move").stop().animate({"top":position+"px"},1000);
 		}
 	});

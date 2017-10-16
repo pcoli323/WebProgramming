@@ -12,11 +12,54 @@
 	.convert {
 	-webkit-transform: scaleY(-1);
 	}
+	.imageBody{
+	border:1px solid #d98cd9;
+	padding:10px;
+	display:flex;
+	height:400px;
+	}
+	.originalImage{
+	width:50%;
+	display:inline-block;
+	padding:10px;
+	}
+	.originalImageView{
+	width:390px;
+	height:300px;
+	text-align:center;
+	margin:auto;
+	}
+	.originalImageContent{
+	max-width:100%;
+	height:auto;
+	max-height:100%;
+	}
 	.fileDrop{
-	width: 60%;
-	height: auto;
-	min-height: 200px;
+	width:50%;
+	display:inline-block;
 	border: 1px dotted blue;
+	margin-left:20px;
+	padding:10px;
+	}
+	.imagePreview{
+	width:100%;
+	height:100%;
+	}
+	.preview{
+	max-width:300px;
+	height:auto;
+	padding:5px;
+	}
+	.previewImage{
+	width:390px;
+	height:300px;
+	background-color:black;
+	text-align:center;
+	}
+	.previewImageContent{
+	max-width:100%;
+	height:auto;
+	max-height:100%;
 	}
 	@keyframes arrow{
 	0% {top:0px;}
@@ -64,18 +107,20 @@
 		</div>
 	</div><!-- /imageHeader -->
 	
-	<div class="imageBody" style="border:1px solid #d98cd9;padding:10px;display:flex;">
-		<div class="originalImage" style="display:inline-block;padding:10px;vertical-align:middle;">
+	<div class="imageBody">
+		<div class="originalImage">
 		</div><!-- /originalImage -->
-		<div class="fileDrop" style="display:inline-block;margin-left:20px;">
+		<div class="fileDrop">
 			<div class="explain" style="margin:10px;">
 				<div style="display:inline-block;">사진을 여기에 놓아주세요.</div>
 				<span class="glyphicon glyphicon-arrow-down" style="animation:arrow 0.5s linear infinite alternate;"></span>
 			</div>
-			<div class="imagePreview" style="max-width:330px;margin:10px;">
+			<div class="imagePreview">
 				<button type="button" class="btn btn-default btn-xs pull-right" id="removeImageBtn" style="outline:0">
 					<i class="fa fa-fw fa-remove"></i></button>
-				<img class="preview" src="" style="max-width:300px;height:auto;padding:5px;">
+				<div class="previewImage">
+					<img class="previewImageContent" src="">
+				</div>
 			</div><!-- /imagePreview -->
 		</div><!-- /fileDrop -->
 	</div><!-- /imageBody -->
@@ -120,7 +165,8 @@
 					}
 					else{
 						str = "<div style='text-align:center;margin-bottom:10px;'><원본사진></div>"
-							+ "<img src='"+image+"' style='max-width:300px;'>";
+							+ "<div class='originalImageView'>"
+							+ "<img class='originalImageContent' src='"+image+"'></div>";
 					}
 					$('.originalImage').html(str);
 				}
@@ -161,7 +207,8 @@
 		}
 		else{
 			$('.explain').hide();
-			$('.preview').attr("src", URL.createObjectURL(file));
+			//$('.preview').attr("src", URL.createObjectURL(file));
+			$('.previewImageContent').attr("src", URL.createObjectURL(file));
 			$('.imagePreview').show();
 			isPreviewImage = true;
 		}

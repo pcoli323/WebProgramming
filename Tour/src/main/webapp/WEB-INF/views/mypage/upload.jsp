@@ -85,7 +85,7 @@
 	width:60%;
 	}
 	.mapView{
-	height:220px;
+	height:350px;
 	width:100%;
 	}
 	.mapContent{
@@ -231,7 +231,7 @@
 	
 		<div class="courseView-header" style="text-align:center;padding:20px">
 			<input id="courseName" type="text" maxlength="20" value="${courseVO.courseName}" 
-					data-toggle="tooltip" data-placement="top" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
+					data-toggle="tooltip" data-placement="bottom" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
@@ -364,11 +364,23 @@
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
 		var position = $(window).scrollTop();
-		var maxPosition = $(".infoContent").height() - $(".move").height();
-		if(position < maxPosition){
+		var maxPosition = $(".infoContent").height() - $(".move").height() + 150;
+		var representativeMaxPosition = $(".infoContent").height() - $(".representativeContent").height() - 250;
+		if(position <= 100){
+			position = 0;
 			$(".move").stop().animate({"top":position+"px"},1000);
 			$(".representativeContent").stop().animate({"top":position+"px"},1000);
-		}	
+		}
+		else if(position > 150 && position < maxPosition){
+			movePosition = position-150;
+			$(".move").stop().animate({"top":movePosition+"px"},1000);
+			if(position < representativeMaxPosition){
+				$(".representativeContent").stop().animate({"top":position+"px"},1000);
+			}
+		}
+		else if(position < representativeMaxPosition){
+			$(".representativeContent").stop().animate({"top":position+"px"},1000);
+		}
 	});
 	
 	// goto 마우스로 over되면 색 변하도록
