@@ -12,12 +12,30 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; right: 50%; top: 150px; margin-right: -750px; text-align:center; width: 150px; border:2px solid #4E7AC7;}
-.floating2 { position: fixed; right: 50%; bottom: 50px; margin-right: -750px; text-align:center; width: 150px;}
+.floating { position: fixed; top: 150px; margin-left: 76.5%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 50px; margin-left: 76.5%; text-align:center; width: 150px;}
+.box {
+	font-size:20px;
+	color:#337ab7;
+	border:1px solid #337ab7;
+	padding-right:20px;
+}
+.selectedBox {
+	font-size:20px;
+	color:#ffffff;
+	background-color:#337ab7;
+	border:1px solid #024782;
+	padding-right:20px;
+}
+#sbox input {
+	visibility:hidden;
+}
+#sbox li {
+	margin-right: 15px;
+}
 </style>
 <body>
 	<!-- header 1,2 -->
-	<div></div>
 	<!-- /course/make/add2 -->
 	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
 		<!-- 소개 -->
@@ -29,6 +47,55 @@
 		<div style="padding:10px; border:2px solid #F5F5F5;">
 			<!-- 지역 선택 (탭) -->
 			<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding:10px;"></ul>
+			<div class="row" style="padding:10px;">
+				<div class="col-sm-12">
+					<form id="sbox">
+						<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="0" checked="checked">전체
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="12">관광지
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="14">문화시설
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="15">축제/공연/행사
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="25">여행코스
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="28">레포츠
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="32">숙박
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="38">쇼핑
+    					</label>
+    					<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="39">음식
+    					</label>
+ 					</form>
+				</div>
+				<div class="col-sm-4 col-sm-offset-8" style="margin-top:5px;">
+					<form>
+    					<label class="radio-inline">
+      						<input type="radio" name="optradio" value="A">제목순
+    					</label>
+    					<label class="radio-inline">
+      						<input type="radio" name="optradio" value="B" checked="checked">조회순
+    					</label>
+    					<label class="radio-inline">
+      						<input type="radio" name="optradio" value="C">수정일순
+    					</label>
+    					<label class="radio-inline">
+      						<input type="radio" name="optradio" value="D">생성일순
+    					</label>
+ 					</form>
+				</div>
+			</div>
 			<!-- 여행지 선택 (버튼) -->
 			<div class="tab-content" id="checkboxes" style="padding:10px"></div>
 		</div>
@@ -42,13 +109,16 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<div></div>
 </body>
+
 <script>
 var jsonItems; // Ajax 호출 후 데이터를 저장하는 변수 (jsonArray)
 var selectedList = new Array(); // 선택한 여행지 정보 (jsonArray)
 var total;
 var presentPage;
+var contentType = "0";
+var orderOptions = "B";
+var nowTab = null;
 
 // 초기 화면 생성 부분
 $(document).ready(function(){
@@ -77,7 +147,11 @@ $(document).ready(function(){
 		var ok = false;
 		for(var j=0; j<jsonIDArr.length; j++){
 			var json2 = jsonIDArr[j];
-			if(json2.sigunguCode==0){
+			// 수정 : 추가한 여행지 처리 부분
+			if(json.areacode==null){
+				ok=true;break;
+			}
+			else if(json2.sigunguCode==0){
 				if(json.areacode==json2.areaCode){
 					ok=true;break;
 				}
@@ -95,13 +169,41 @@ $(document).ready(function(){
 	printList();
 });
 
-// 체크-버튼 이벤트 처리 부분
-$(document).on("click",".nav-link",function(){
-	var id = this.href.split("#")[1];
+// 정렬 옵션 선택 처리 부분
+$(document).on("change","input:radio",function(){
+	
+	var str = this.value;
+	
+	if(str=="A" || str=="B" || str=="C" ||str=="D"){
+		orderOptions = str;
+	}
+	else{
+		var check = document.getElementsByClassName("selectedBox");
+		if(check.length==1){
+			check[0].classList.add("box");
+			check[0].classList.remove("selectedBox");
+		}
+		this.parentElement.classList.remove("box");
+		this.parentElement.classList.add("selectedBox");
+		
+		contentType = str;
+	}
+	
+	if(nowTab!=null){
+		callAPI(nowTab);
+	}
+});
+
+
+// API 호출 부분
+function callAPI(id){
+	var codes = id.split("-");
 	
 	// ajax를 사용한 공공 API 호출 및 저장
-	var codes = id.split("-");
-	var url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?serviceKey="+'${serviceKey}'+"&MobileOS=ETC&MobileApp=Tour&arrange=B&areaCode=" + codes[0];
+	var url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?serviceKey="+'${serviceKey}'+"&MobileOS=ETC&MobileApp=Tour&areaCode=" + codes[0];
+	url += "&arrange="+orderOptions;
+	if(contentType!="0")
+		url += "&contentTypeId="+contentType;
 	if(codes[1]!="0")
 		url += "&sigunguCode="+codes[1];
 	url += "&_type=json";
@@ -118,6 +220,12 @@ $(document).on("click",".nav-link",function(){
             alert("다시 시도해주세요.\n" + "code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
     });
+}
+
+//체크-버튼 이벤트 처리 부분
+$(document).on("click",".nav-link",function(){
+	nowTab = this.href.split("#")[1];	
+	callAPI(nowTab);
 });
 
 // API 호출 후 화면 생성 부분
@@ -145,7 +253,7 @@ function saveAprint(data,id) {
 	
 	// 페이징
 	str += "<ul class='pagination'>";
-	var max = ((total/10)+1) - (((total/10)+1)%5);
+	var max = (((total/10)+1) - (((total/10)+1)%5));
 	var num;
 	for(var i=0; i<5; i++){
 		if((presentPage-1)%5==i){
@@ -184,9 +292,12 @@ function callpage(param){
 	// ajax를 사용한 공공 API 호출 및 저장
 	var id = param.id.split("_")[0];
 	var codes = id.split("-");
-	var url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?serviceKey="+'${serviceKey}'+"&MobileOS=ETC&MobileApp=Tour&arrange=B&areaCode=" + codes[0];
+	var url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?serviceKey="+'${serviceKey}'+"&MobileOS=ETC&MobileApp=Tour&&areaCode=" + codes[0];
 	if(codes[1]!="0")
 		url += "&sigunguCode="+codes[1];
+	if(contentType!="0")
+		url += "&contentTypeId="+contentType;
+	url += "&arrange="+orderOptions;
 	url += "&pageNo="+param.id.split("_")[1];
 	url += "&_type=json";
 	
@@ -246,15 +357,30 @@ function printList() {
 	var str=" <h4>선택한 여행지</h4> <hr style='margin:1px;border-top: 1px solid #F5F5F5;'>";
 	for(var i=0; i<selectedList.length; i++){
 		var selected = selectedList[i];
-		str += "<button type='button' class='close pull-right' aria-label='Close' id='X-"+selected.contentid+"'><span aria-hidden='true'>&times;</span></button>";
-		str += "<font size='1em'>" + selected.title + "</font>";
-		str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
+		if(selected.isNew==null || (selected.isNew!=null && selected.isNew==false)){
+			str += "<button type='button' class='close pull-right' aria-label='Close' id='X-"+selected.contentid+"'><span aria-hidden='true'>&times;</span></button>";
+			str += "<font size='1em'>" + selected.title + "</font>";
+			str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
+			console.log("isNew==false");
+		}
+	}
+	
+	// 수정 : 추가한 여행지 처리 부분
+	str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
+	str += "<h5>내가 추가한 여행지</h5> <hr style='margin:1px;border-top: 1px solid #F5F5F5;'>"
+	for(var i=0; i<selectedList.length; i++){
+		var selected = selectedList[i];
+		if(selected.isNew!=null && selected.isNew==true){
+			str += "<font size='1em'>" + selected.title + "</font>";
+			str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
+			console.log("isNew==true");
+		}
 	}
 	
 	document.getElementById("selected").innerHTML = str;
 }
 
-//다음 버튼 처리 이벤트
+// 다음 버튼 처리 이벤트
 $("#next").click(function(){  
 	if(selectedList.length==0){
 		alert("여행지를 선택해주세요.");

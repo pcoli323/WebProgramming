@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
 	<title>코스 생성중 - 1단계</title>
@@ -15,7 +16,6 @@
 </style>
 <body>
 	<!-- header 1,2 -->
-	<div></div>
 	<!-- /course/make/add1 -->
 	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
 		<!-- 지역 선택 -->
@@ -33,13 +33,21 @@
 				<div class="tab-content" id="checkboxes" style="padding:10px"></div>
 			</div>		
 		</div>	
-		<!-- 날짜 선택 -->
-		<div style="padding:10px;">
-			<!-- 소개 -->
-			<div id="dsIntro"></div>
-			<!-- 선택 -->
-			<div id="dsList" style="margin-top: 10px;"></div>		
-		</div>	
+		
+		<!-- 지도 및 날짜 선택 -->
+		<div class="container-fluid" style="padding:10px;">
+			<!-- 구글맵 -->
+			<div class="col-sm-6" id="map" style="height:500px;width:50%;"></div>
+		
+			<!-- 날짜 선택 -->
+			<div class="col-sm-6" style="padding:10px;">
+				<!-- 소개 -->
+				<div id="dsIntro"></div>
+				<!-- 선택 -->
+				<div id="dsList" style="margin-top: 10px;"></div>		
+			</div>
+		</div>
+			
 		<!-- 다음 단계 이동 -->
 		<div style="padding:10px; float:right">
 			<button type="button" class="btn btn-default puul-left" id="cancel">취소</button>
@@ -47,8 +55,8 @@
 		</div>
 	</div>		
 	<!-- footer -->
-	<div></div>
 </body>
+
 <script>
 var idList = new Array();		// 선택된 id 정보 저장 ("areaCode-sigunguCode-areaName-sigunguName-startDate-endDate" 형식의 String 배열)
 
@@ -123,8 +131,8 @@ function printDay(strs,id){
 	if(idList.length>0) $("#dsIntro").html("여행지의 날짜를 선택해주세요.");
 	var str2 ="";
 	var tagL = "<label>" + strs[2] + " " + strs[3] + "</label> ";
-	var tagSI = "여행 시작일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "S'>"
-	var tagEI = "여행 종료일 : <input class='datepicker' data-provide='datepicker' id='D" + id + "E'>"
+	var tagSI = "시작일 : <input class='datepicker' data-provide='datepicker' style='width:150px;' id='D" + id + "S'>"
+	var tagEI = "종료일 : <input class='datepicker' data-provide='datepicker' style='width:150px;' id='D" + id + "E'>"
 	str2 += tagL + tagSI + tagEI;
 	str2 += "<button type='button' class='close' aria-label='Close' id='D_"+id+"'><span aria-hidden='true'>&times;</span></button>";
 	var newD = document.createElement("div");
@@ -134,7 +142,7 @@ function printDay(strs,id){
 	document.getElementById('dsList').appendChild(newD);
 }
 
-//여행지 삭제 이벤트 처리
+// 여행지 삭제 이벤트 처리
 $(document).on("click","#dsList :button",function(){
 	for(var i=0; i<idList.length; i++){
 		if(this.id.split("_")[1]==idList[i]){
@@ -148,12 +156,12 @@ $(document).on("click","#dsList :button",function(){
 	}
 });
 
-//달력 이벤트 처리 부분
+// 달력 이벤트 처리 부분
 $(document).on("focus",".datepicker",function(){ 
 	$(".datepicker").datepicker();
 });
 
-//다음 버튼 처리 이벤트
+// 다음 버튼 처리 이벤트
 $("#next").click(function(){  
 	if(idList.length==0){
 		alert("지역을 선택해주세요.");
@@ -218,7 +226,7 @@ $("#next").click(function(){
 });
 
 
-//취소 버튼 이벤트 처리
+// 취소 버튼 이벤트 처리
 $("#cancel").click(function(){
 	$.ajax({      
      type:"GET",  
@@ -232,4 +240,19 @@ $("#cancel").click(function(){
 	});
 });
 </script>
+
+<script>
+	// 구글맵 생성
+  	var map;
+   	var markers = [];
+   	function initMap() {
+      	var mapcenter = {lat: 36.350527, lng: 128.122559};
+      	map = new google.maps.Map(document.getElementById('map'), {
+        	zoom: 7,
+        	center: mapcenter
+      	});
+   	}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
+
 </html>
