@@ -12,13 +12,14 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 150px; margin-left: 76.5%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 50px; margin-left: 76.5%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 150px; right: 1%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 50px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
 	color:#337ab7;
 	border:1px solid #337ab7;
 	padding-right:20px;
+	border-radius: 10px;
 }
 .selectedBox {
 	font-size:20px;
@@ -26,6 +27,7 @@
 	background-color:#337ab7;
 	border:1px solid #024782;
 	padding-right:20px;
+	border-radius: 10px;
 }
 #sbox input {
 	visibility:hidden;
@@ -35,9 +37,10 @@
 }
 </style>
 <body>
-	<!-- header 1,2 -->
+	<!-- header -->
+	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add2 -->
-	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5; min-height:500px;">
 		<!-- 소개 -->
 		<div>
 			<h1>두 번째 단계 : 여행지 선택 단계입니다.</h1>
@@ -50,7 +53,7 @@
 			<div class="row" style="padding:10px;">
 				<div class="col-sm-12">
 					<form id="sbox">
-						<label class="radio-inline box">
+						<label class="radio-inline selectedBox">
       						<input type="radio" name="optradio" value="0" checked="checked">전체
     					</label>
     					<label class="radio-inline box">
@@ -79,7 +82,7 @@
     					</label>
  					</form>
 				</div>
-				<div class="col-sm-4 col-sm-offset-8" style="margin-top:5px;">
+				<div class="col-sm-4 col-sm-offset-8" style="margin-top:10px;">
 					<form>
     					<label class="radio-inline">
       						<input type="radio" name="optradio" value="A">제목순
@@ -109,6 +112,7 @@
 		</div>
 	</div>
 	<!-- footer -->
+	<%@include file="../../include/footer.jsp" %>
 </body>
 
 <script>

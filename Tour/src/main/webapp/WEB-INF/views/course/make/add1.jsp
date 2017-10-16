@@ -15,9 +15,10 @@
 <style>
 </style>
 <body>
-	<!-- header 1,2 -->
+	<!-- header -->
+	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add1 -->
-	<div class="container" style="padding:10px; border:2px solid #F5F5F5;">
+	<div class="container" style="padding:10px; border:2px solid #F5F5F5; margin-top:40px;">
 		<!-- 지역 선택 -->
 		<div>
 			<!-- 소개 -->
@@ -55,6 +56,7 @@
 		</div>
 	</div>		
 	<!-- footer -->
+	<%@include file="../../include/footer.jsp" %>
 </body>
 
 <script>

@@ -6,11 +6,13 @@
 
 <html>
 <style type="text/css">
+	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	html, body{overflow-x:hidden;}
 	
 	table{
-	width:170px;
-	height:250px;
+	width:100%;
+	min-height:250px;
+	border-bottom-right-radius: 15px 25px;
 	}
 	table th{
 	padding:10px;
@@ -19,30 +21,107 @@
 	padding:20px;
 	}
 	
+	.content{
+	width:65%;
+	margin:0% 15% 0% 12%;
+	display:flex;
+	}
+	.representativeView{
+	display:inline-block;
+	width:150px;
+	padding-top:250px;
+	padding-bottom:400px;
+	margin-right:10px;
+	}
+	.representativeContent{
+	width: 150px;
+	border:2px solid #4E7AC7;
+	text-align:center;
+	position:relative;
+	}
+	.representativeListOne{
+	border-top:1px solid lightgray;
+	padding:5px 10px 5px 10px;
+	font-size:10px;
+	}
 	.courseView{
-	width:1010px;
-	resize:none;
-	padding:50px;
-	margin: auto;
+	display:inline-block;
+	width:100%;
+	padding-bottom:50px;
 	}
 	.planTables{
 	background-color:#F2F2F2;
 	padding:20px;
+	display:inline-block;
+	width:40%;
 	}
 	.planTable{
-	background-color:#F2F2F2;
-	width:20%;
-	display:inline-block;
-	margin:20px;
+	margin:20px 20px 50px 20px;
+    position: relative;
+    z-index: 0;
+	border:1px solid #E8E8E8;
+	border-bottom-right-radius: 100px 30px;
 	}
-	.popover{
-	display:;
-	padding:5px;
-	text-align:cente;
+	.planTable:after{
+	content: "";
+	position: absolute;
+    z-index: -1;
+    right: 1px;
+    bottom: 45px;
+    width: 90%;
+    height: 20%;
+    background: #F2F2F2;
+    box-shadow: 2px 50px 5px rgba(0, 0, 0, 0.40);
+    transform: matrix(1, 0.07, -0.1, 1, 0, 0);
+    border-bottom-right-radius: 10px 20px;
+	}
+	.goto{
+	font-family:'Nanum Pen Script';
+	font-size:250%;
+	}
+	.infoContent{
+	padding-left:30px;
+	display:inline-block;
+	width:60%;
 	}
 	.mapView{
-	margin:30px;
-	height:250px;
+	height:220px;
+	width:100%;
+	}
+	.mapContent{
+	height:90%;
+	width:100%;
+	}
+	.infoView{
+	height:350px;
+	width:100%;
+	display:none;
+	margin-top:10px;
+	border: 1px solid green;
+	}
+	.imageView{
+	width:100%;
+	height:82%;
+	background-color:black;
+	text-align:center;
+	vertical-align:middle;
+	}
+	.imageContent{
+	max-width:100%;
+	height:auto;
+	max-height:100%;
+	}
+	.noImageContent{
+	font-size:100%;
+	position:relative;
+	background-color:black;
+	color:white;
+	top:50%;
+	}
+	.info{
+	width:100%;
+	height:18%;
+	padding:5px 10px;
 	}
 	.storyView{
 	border:1px solid gold;
@@ -51,23 +130,13 @@
 	}
 	.representativeCheck{
 	color:LightGray;
-	}
-	.floating {
-	position: fixed;
-	right: 60%;
-	top: 150px;
-	margin-right:-750px;
-	text-align:center;
-	width: 150px;
-	border:2px solid #4E7AC7;
-	}
-	.representativeListOne{
-	border-top:1px solid lightgray;
-	padding:5px 10px 5px 10px;
-	font-size:10px;
+	font-size:150%;
+	top:25% !important;
 	}
 	.addImage{
 	color:LightGray;
+	font-size:150%;
+	top:25% !important;
 	}
 </style>
 
@@ -84,7 +153,7 @@
 	function initMap() {
 		var mapcenter = {lat: 37.3422186, lng: 127.92016209999997};
 		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 5,
+			zoom: 6,
 			center: mapcenter
 		});
 	}
@@ -92,13 +161,15 @@
 	var infowindows = [];
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
-	function makeMarker(locationX, locationY, image, title, gotoNumber){
+	
+	function makeMarker(locationX, locationY, image, title, address, tel, id){
 		if(locationX != ""){
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
 			var marker = new google.maps.Marker({
 				position: mapPositions,
 				map: map,
 				title:title,
+				animation:null
 			});
 			markers.push(marker);
 			if(image != ""){
@@ -112,14 +183,18 @@
 									content: contentString,
 									size: new google.maps.Size(200,100)});
 			infowindows.push(infowindow);
-			markerListener(marker, infowindow);
-			gotoNumberMapMarker.set(gotoNumber, markerIndex);
+			markerListener(marker, infowindow, id);
+			gotoNumberMapMarker.set(id, markerIndex);
 			markerIndex++;
 		}
 	}
-	function markerListener(localmarker, infowindow){    
+	function markerListener(localmarker, infowindow, id){    
 	      	google.maps.event.addListener(localmarker, 'click', function() {
-				infowindow.open(map, localmarker);
+				//infowindow.open(map, localmarker);
+	      		for(var i=0; i<markers.length; i++){
+					markers[i].setAnimation(null);
+				}
+				showInfo(id);
 				localmarker.setAnimation(google.maps.Animation.BOUNCE);
 				});
 	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
@@ -130,10 +205,28 @@
 	var representatives = [];
 	var representativeIDs = [];
 </script>
+<script>
+	//planTable의 글자크기 자동조절
+	var images = [];
+	var infos = new Map();
+	function fitFontSize(id, length){
+		var size = length - 13;
+		fontSize = 250 - size*10;
+		$('#'+id).attr("style", "font-size:"+fontSize+"%;");
+	}
+</script>
+
 </head>
 <body>
 
 <div class="content">
+	<div class="representativeView">
+		<div class="representativeContent"  data-toggle="tooltip" data-placement="top" title="다른 사람들에게 가장 먼저 보여주고 싶은 코스를 정해주세요">
+			<h5>대표코스</h5>
+			<div class="representativeList"></div>
+		</div><!-- /representativeContent -->
+	</div><!-- /representativeView -->
+	
 	<div class="courseView">
 	
 		<div class="courseView-header" style="text-align:center;padding:20px">
@@ -143,11 +236,12 @@
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:left">
-        		<h5>
+        		<h4>
         			${loginUser.userName}
-        		</h5>
+        		</h4>
         	</div><!-- /courseMaker -->
         	
+        	<div class="main" style="display:flex;margin-bottom:35px;">
        		<div class="planTables">
        			<c:set var="gotoID" value="0"></c:set>
         		<c:forEach var="date" items="${plan.keySet()}">
@@ -160,13 +254,28 @@
         						<td>
         							<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         							<c:forEach var="gotoOne" items="${gotoList}">
-        								<div style="text-align:left;float:left;">
-        									<i class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</i>
+        								<div style="display:flex;margin:10px 0px 10px 0px;">
+        								<div style="text-align:left;width:80%;display:inline-block;">
+        									<span class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</span>
         								</div>
-        								<div style="text-align:right">
+        								<script>
+        									var length = ${gotoOne.gotoName.length()};
+        									var id = ${gotoID};
+        									if(length>13){
+        										fitFontSize(id, length);
+        									}
+        									var image = "${gotoOne.gotoImage}";
+        									images.push(image);
+        									var info = [];
+        									info.push("${gotoOne.gotoName}");
+        									info.push("${gotoOne.address}");
+        									info.push("${gotoOne.tel}");
+        									infos.set(id, info);
+        								</script>
+        								<div style="text-align:right;width:20%;display:inline-block;">
         									<c:choose>
         										<c:when test="${gotoOne.isRepresented eq true}">
-        											<span class="glyphicon glyphicon-check representativeCheck active" id="check-${gotoID}-${gotoOne.gotoNumber}" style="color:#6495ED"></span>
+        											<span class="representativeCheck glyphicon glyphicon-check active" id="check-${gotoID}-${gotoOne.gotoNumber}" style="color:#6495ED"></span>
         											<script>
         												var order = ${gotoOne.representedOrder};
         												var gotoNumber = ${gotoOne.gotoNumber};
@@ -175,12 +284,12 @@
         											</script>
         										</c:when>
         										<c:otherwise>
-        											<span class="glyphicon glyphicon-check representativeCheck" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
+        											<span class="representativeCheck glyphicon glyphicon-check" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
         										</c:otherwise>
         									</c:choose>
-        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style=""></span>
+        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoID}-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style=""></span>
         								</div>
-        								<br><br>
+        								</div>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         							</c:forEach>
         						</td>
@@ -189,25 +298,37 @@
         			</div>
         		</c:forEach>
         	</div><!-- /planTable -->
-        	<!-- 
-        	<div class="popover fade top in" id="imageControl">
-        		<div class="imageGotoNumber" style="display:none"></div>
-        		<button type="button" class="btn btn-default btn-xs" id="modifyImageBtn">수정</button>
-				<button type="button" class="btn btn-default btn-xs" id="deleteImageBtn">삭제</button>
-        	</div>
-        	 -->
-        	<!-- 지도 -->
-        	<div class="mapView" id="map">
-        			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
-        			<c:forEach var="date" items="${plan.keySet()}">
-        				<c:set var="gotoList" value="${plan.get(date)}"></c:set>
-        				<c:forEach var="gotoOne" items="${gotoList}">
-        					<script>
-        						makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.gotoNumber}");
-        					</script>
+        	
+        	<div class="infoContent">
+        		<div class="move" style="position:relative;">
+        			<div class="mapView">
+        				<div class="mapContent" id="map">
+        				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
+        				<c:set var="gotoID" value="0"></c:set>
+        				<c:forEach var="date" items="${plan.keySet()}">
+        					<c:set var="gotoList" value="${plan.get(date)}"></c:set>
+        					<c:forEach var="gotoOne" items="${gotoList}">
+        						<script>
+        							makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.address}", "${gotoOne.tel}", "${gotoID}");
+        						</script>
+        						<c:set var="gotoID" value="${gotoID + 1}"></c:set>
+        					</c:forEach>
         				</c:forEach>
-        			</c:forEach>
-        	</div>
+        				</div>
+        				<div class="mapInfo" style="text-align:right;color:red;font-size:13px;display:none">
+        					위치정보가 없습니다.
+        				</div>
+        			</div><!-- /mapView -->
+        			
+        			<div class="infoView">
+        				<div class="imageView">
+        				</div>
+        				<div class="info">
+        				</div>
+        			</div><!-- /infoView -->
+        		</div><!-- move -->
+        	</div><!-- /infoContent -->
+        	</div><!-- /main -->
         	
         	<div class="storyView">
         		<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" style="border:0px;resize:none;outline:none">${courseVO.story}</textarea>
@@ -220,10 +341,6 @@
 		</div><!-- /courseView-footer -->
         
 	</div><!-- /courseView -->
-	<div class="floating" data-toggle="tooltip" data-placement="top" title="다른 사람들에게 가장 먼저 보여주고 싶은 코스를 정해주세요">
-		<h5>대표코스</h5>
-		<div class="representativeList"></div>
-	</div>
 </div><!-- /content -->
 
 <script>
@@ -244,49 +361,120 @@
 		representativeList();
 	});
 	
+	// info가 scroll 따라 다니도록
+	$(window).scroll(function(){
+		var position = $(window).scrollTop();
+		var maxPosition = $(".infoContent").height() - $(".move").height();
+		if(position < maxPosition){
+			$(".move").stop().animate({"top":position+"px"},1000);
+			$(".representativeContent").stop().animate({"top":position+"px"},1000);
+		}	
+	});
+	
 	// goto 마우스로 over되면 색 변하도록
 	$('.goto').mouseover(function(){
-		var index = $(this).attr("id");
+		var id = $(this).attr("id");
+		var str = $(this).attr("style");
 		
+		/*
 		if(index < markers.length){
 			$(this).attr("style", "background-color:#d9ff66;cursor:pointer");
 		}
 		else{
 			$(this).attr("style", "cursor:not-allowed");
 		}
+		*/
+		str = str + ";background-color:#d9ff66;cursor:pointer;";
+		$(this).attr("style", str);
 	});
 	$('.goto').mouseout(function(){
-		var index = $(this).attr("id");
+		var id = $(this).attr("id");
+		var str = $(this).attr("style").split(';');
 		
+		/*
 		if(index < markers.length){
 			$(this).attr("style", "");
 		}
+		*/
+		$(this).attr("style", str[0]);
 	});
 	
 	// goto 누르면 지도에 해당하는 marker에 대해 작동하도록
 	// markers[]
 	$('.goto').on("click", function(){
-		var index = $(this).attr("id");
+		var id = $(this).attr("id");
 		
+		/*
 		if(index < markers.length){
 			infowindows[index].open(map, markers[index]);
 			markers[index].setAnimation(google.maps.Animation.BOUNCE);
 		}
+		*/
+		showMap(id);
+		showInfo(id);
 	});
-
+	
+	// map의 정보 보여주기
+	function showMap(id){
+		if(gotoNumberMapMarker.has(id) == true){
+			//infowindows[index].open(map, markers[index]);
+			var index = gotoNumberMapMarker.get(id);
+			if(markers[index].getAnimation() == null){
+				for(var i=0; i<markers.length; i++){
+					if(i != index){
+						markers[i].setAnimation(null);
+					}
+				}
+				markers[index].setAnimation(google.maps.Animation.BOUNCE);
+				map.setCenter(markers[index].getPosition());
+				map.setZoom(10);
+				$('.mapInfo').hide();
+			}
+		}
+		else{
+			for(var i=0; i<markers.length; i++){
+				markers[i].setAnimation(null);
+			}
+			$('.mapInfo').show();
+		}
+	}
+	// info 보여주기
+	function showInfo(id){
+		var image = images[id];
+		var str;
+		if(image != null && image != ""){	
+			str = "<image src='" + image + "' class='imageContent'>";
+			$('.imageView').html(str);
+		}
+		else{
+			str = "<div class='noImageContent'>사진이 없습니다</div>";
+			$('.imageView').html(str);
+		}
+		
+		// info
+		var info = [];
+		info = infos.get(Number(id));
+		str = "<div style='font-size:15px;'>"+info[0]+"</div>"
+			+ "<div style='font-size:13px;'>주소 : "+info[1]+"</div>"
+			+ "<div style='font-size:13px;'>전화번호 : "+info[2]+"</div>";
+		$('.info').html(str);
+		
+		$('.infoView').show();
+	}
+	
 	// 대표코스 설정
 	$('.representativeCheck').on("click", function(){
 		var checkCheck = $(this).hasClass("active");
+		var idStr = $(this).attr('id').split('-');
+		var gotoID = idStr[1];
+		var gotoNumber = idStr[2];
 		
 		if(checkCheck == 0){
-			if(representatives.length == 4){
+			if(representatives.length == 6){
 				alert("대표코스는 최대 6개까지 입니다.")
 			}
 			else{
-				var idStr = $(this).attr('id').split('-');
-				var gotoNameID = idStr[1];
-				var gotoNumber = idStr[2];
-				representativeIDs.push(gotoNameID);
+				representativeIDs.push(gotoID);
 				representatives.push(gotoNumber);
 				$(this).addClass("active");
 				$(this).attr("style", "color:#6495ED");
@@ -294,9 +482,6 @@
 			}
 		}
 		else{
-			var idStr = $(this).attr('id').split('-');
-			var gotoNameID = idStr[1];
-			var gotoNumber = idStr[2];
 			for(var i=0; i<representatives.length; i++){
 				if(representatives[i] == gotoNumber){
 					representatives.splice(i, 1);
@@ -327,8 +512,9 @@
 	$('.addImage').on("click", function(){
 		var checkImage = $(this).hasClass("active");
 		var idStr = $(this).attr('id').split('-');
-		gotoNumber = idStr[1];
-		gotoName = idStr[2];
+		gotoID = idStr[1];
+		gotoNumber = idStr[2];
+		gotoName = idStr[3];
 		
 		if(checkImage == 0){
 			isModify = false;
