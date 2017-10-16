@@ -6,8 +6,14 @@
 
 <html>
 <style>
-	html, body{overflow:hidden;}
+	@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	
+	.content{
+	position:relative;
+	width:65%;
+	margin:auto;
+	}
 	.courseView{
 	padding:50px;
 	padding-bottom:0px;
@@ -30,11 +36,32 @@
     border-radius: 50%;
     }
     .representativeImageTable {
-    padding-top:10px;
-    padding-bottom:10px;
-    padding-right:40px;
-    padding-left:40px;
+    padding:5px 5px 10px 10px;
+    font-family:'Nanum Pen Script';
+    font-size:150%;
+    width:15%;
+    word-break: break-all;
+    text-align:center;
     }
+    .mouseOverImageView{
+    height:300px;
+    text-align:center;
+    background-color:black;
+    margin:auto;
+    display:none;
+    }
+    .mouseOverImageContent{
+    height:100%;
+    width:50%;
+    background-color:black;
+    display:inline-block;
+    vertical-align:middle;
+    }
+    .mouseOverImage{
+    max-width:100%;
+    height:auto;
+    max-height:100%;
+    position: relative;
     .mouseOverImage{
     position:absolute;
     top:430px;
@@ -58,17 +85,17 @@
 </head>
 <body>
 
-<div class="content" style="position:relative">
+<div class="content">
 	<div class="courseView">
 
 		<div class="courseView-header">
-			<h2 class="courseName" style="text-align:center">
+			<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
 				${courseVO.courseName}
 			</h2>
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
-        	<div class="courseMaker" style="text-align:left">
+        	<div class="courseMaker" style="text-align:left;font-family:'Jeju Gothic';">
         		<h5>
         			<button type="button" class="symbolButton" id="follow"></button>
 					${userVO.userName}
@@ -76,7 +103,7 @@
         	</div>
         	<div class="representatives" style="text-align:center">
         		<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
-        		<table style="display:inline-block">
+        		<table style="display:inline-block;">
         			<tr>
         				<c:forEach items="${representatives}" var="representative" varStatus="status">
         					<c:if test="${status.index % 2 == 0}">
@@ -91,8 +118,8 @@
         											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
         										</c:when>
         										<c:otherwise>
-        											<div class="representativeImage noImage" style="background-color:lightGray">
-        											이미지가 없습니다
+        											<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
+        												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
         											</div>
         										</c:otherwise>
         									</c:choose>
@@ -123,8 +150,8 @@
         											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
         										</c:when>
         										<c:otherwise>
-        											<div class="representativeImage noImage" style="background-color:lightGray;vertical-align: middle;text-align: center;display:table-cell;">
-        												<div style="display:inline-block;position:relative;font-size:10px">사진이<br>없습니다</div>
+        											<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
+        												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
         											</div>
         										</c:otherwise>
         									</c:choose>
