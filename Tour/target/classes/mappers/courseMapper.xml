@@ -36,7 +36,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
-<<<<<<< HEAD
 	<select id="courseNoUploadNameRead" resultType="string">
 		select courseName
 		from tbl_course
@@ -47,8 +46,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber} and isPosted = 1
 	</select>
-=======
->>>>>>> a2bd2bb023445d961d21426d1c7b4ab802130dd8
 	<select id="courseNumByName" resultType="int">
 		select courseNumber
 		from tbl_course
