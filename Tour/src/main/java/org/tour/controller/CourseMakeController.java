@@ -141,7 +141,7 @@ public class CourseMakeController {
 		try {
 			HttpSession session = request.getSession();
 			
-			List<String> courseNames = courseService.courseNameRead(((UserVO)session.getAttribute("login")).getUserNumber());
+			List<String> courseNames = courseService.allCourseName(((UserVO)session.getAttribute("login")).getUserNumber());
 			for(int i=0; i<courseNames.size(); i++) {
 				if(courseNames.get(i).equals(courseName)) {
 					throw new Exception();

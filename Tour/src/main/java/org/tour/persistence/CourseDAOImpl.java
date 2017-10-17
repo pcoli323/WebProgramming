@@ -45,28 +45,35 @@ public class CourseDAOImpl implements CourseDAO {
 
 		return session.selectOne(namespace + ".courseNumberRead", userNumber);
 	}
+	
 	@Override
-	public List<String> courseNoUploadNameRead(int userNumber) throws Exception {
-
-		return session.selectList(namespace + ".courseNoUploadNameRead", userNumber);
+	public List<String> allCourseName(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".allCourseName", userNumber);
 	}
 	
 	@Override
-	public List<String> courseUploadNameRead(int userNumber) throws Exception {
+	public String courseReadName(int courseNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".courseReadName", courseNumber);
+	}
 
-		return session.selectList(namespace + ".courseUploadNameRead", userNumber);
+	@Override
+	public List<Integer> noUploadCourseNumber(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".noUploadCourseNumber", userNumber);
+	}
+
+	@Override
+	public List<Integer> uploadCourseNumber(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".uploadCourseNumber", userNumber);
 	}
 	
 	@Override
 	public void update(CourseVO vo) throws Exception {
 		
 		session.update(namespace + ".update", vo);
-	}
-	
-	@Override
-	public int courseNumByName(String courseName) throws Exception {
-		
-		return session.selectOne(namespace + ".courseNumByName", courseName);
 	}
 	
 	@Override
