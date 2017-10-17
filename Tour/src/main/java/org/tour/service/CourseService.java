@@ -18,17 +18,17 @@ public interface CourseService {
 	
 	public void update(CourseVO vo) throws Exception;
 	
-	public List<String> courseNameRead(int userNumber) throws Exception;
+	public List<String> allCourseName(int userNumber) throws Exception;
 	
-	public List<String> courseNoUploadNameRead(int userNumber) throws Exception;
+	public String courseReadName(int courseNumber) throws Exception;
 	
-	public List<String> courseUploadNameRead(int userNumber) throws Exception;
-
-	public int courseNumByName(String courseName) throws Exception;
+	public List<Integer> noUploadCourseNumber(int userNumber) throws Exception;
+	
+	public List<Integer> uploadCourseNumber(int userNumber) throws Exception;
 	
 	public void delete(int courseNumber) throws Exception;
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
 
-	public List<String> courseNameRead(int userNumber);
+
 }

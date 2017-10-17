@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class MypageController {
 	private CourseInfoSimpleService courseInfoSimpleService;
 	
 	
+	//mypage view 넘어갈때 최대 값 주기
 	@RequestMapping(value="/mypageNum", method = RequestMethod.POST)
 	public ResponseEntity<Integer> mypageNum(HttpServletRequest request, Model model){
 		
@@ -98,6 +100,7 @@ public class MypageController {
 		return entity;
 	}
 	
+	// 업로드 되지 않은 view 처리
 	@RequestMapping(value = "/mypage/{courseNumber}", method = RequestMethod.GET)
 	public String numMypage(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber, Model model) {
 		try {
@@ -121,19 +124,20 @@ public class MypageController {
 			CourseVO courseVO = courseService.read(courseNumber);
 			UserVO userVO = userService.read(courseVO.getUserNumber());
 			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);
-			List<String> courseName = courseService.courseNameRead(courseVO.getUserNumber());			
 			
-			ArrayList<Integer> courseNumByName = new ArrayList<Integer>();
-			System.out.println(courseName.size());
-			for(int i=0; i<courseName.size(); i++) {
-				int test = courseService.courseNumByName(courseName.get(i));
-				courseName.set(i, "'" + courseName.get(i) + "'");
-				courseNumByName.add(i, test);
+			//이름으로 불러오는 것들을 courseNumber로 불러오는 것으로 변경
+			List<Integer> noUploadCourseNumber = courseService.noUploadCourseNumber(courseVO.getUserNumber());
+			
+			ArrayList<String> courseNameByNum = new ArrayList<String>();
+			for(int i=0; i<noUploadCourseNumber.size(); i++) {
+				String test = courseService.courseReadName(noUploadCourseNumber.get(i));
+				test = "'" + test + "'";
+				courseNameByNum.add(i, test);
 			}
 			System.out.println(plan);
 
-			session.setAttribute("courseNumByName", courseNumByName);
-			model.addAttribute("courseName", courseName);
+			session.setAttribute("courseNumByName", noUploadCourseNumber);
+			model.addAttribute("courseName", courseNameByNum);
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", courseNumber);
 			model.addAttribute("courseVO", courseVO);
@@ -193,6 +197,7 @@ public class MypageController {
 		return entity;
 	}
 	
+	// 업로드 된 뷰 관리
 	@RequestMapping(value="/uploadMypage", method = RequestMethod.GET)
 	public String uploadMypage(HttpServletRequest request, Model model) {
 		try {
@@ -214,74 +219,34 @@ public class MypageController {
 			
 			System.out.println(loginUser.getUserNumber());
 			
-			List<String> courseUploadName = courseService.courseUploadNameRead(loginUser.getUserNumber());			
+			List<Integer> uploadCourseNumber = courseService.uploadCourseNumber(loginUser.getUserNumber());
+			List<CourseVO> simpleViewAll = courseService.simpleViewAll(loginUser.getUserNumber());
+			UserVO userVO = userService.read(loginUser.getUserNumber());
 			
-			ArrayList<Integer> courseUploadNumByName = new ArrayList<Integer>();
-			System.out.println(courseUploadName.size());
-			for(int i=0; i<courseUploadName.size(); i++) {
-				System.out.println("오류 찾기~ for문 진입");
-				int test = courseService.courseNumByName(courseUploadName.get(i));
-				courseUploadName.set(i, "'" + courseUploadName.get(i) + "'");
-				courseUploadNumByName.add(i, test);
+			Map<String, List<CourseInfoVO>> representatives = new HashMap<String, List<CourseInfoVO>>();
+			
+			ArrayList<String> courseNameByNum = new ArrayList<String>();
+			for(int i=0; i<uploadCourseNumber.size(); i++) {
+				String test = courseService.courseReadName(uploadCourseNumber.get(i));
+				test = "'" + test + "'";
+				courseNameByNum.add(i, test);
+			}
+			
+			for(int i=0; i<uploadCourseNumber.size(); i++) {
+				representatives.put(courseNameByNum.get(i), courseInfoService.representatives(uploadCourseNumber.get(i)));
 			}
 
-			session.setAttribute("courseNumByName", courseUploadNumByName);
-			model.addAttribute("courseName", courseUploadName);
+			model.addAttribute("courseName", courseNameByNum);
 			model.addAttribute("loginUser", loginUser);
+			model.addAttribute("courseNumber", uploadCourseNumber);
+			model.addAttribute("courseVO", simpleViewAll);
+			model.addAttribute("userVO", userVO);
+			model.addAttribute("representatives", representatives);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "mypage/mypage";
-	}
-	
-	@RequestMapping(value = "/uploadMypage/{courseNumber}", method = RequestMethod.GET)
-	public String uploadNumMypage(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber, Model model) {
-		try {
-			
-			HttpSession	session = request.getSession();
-			
-			UserVO loginUser = new UserVO();
-			if(session.getAttribute("login") == null) {
-				model.addAttribute("loginCheck", false);
-				loginUser.setUserNumber(-1);
-				loginUser.setEmail(null);
-				loginUser.setPwd(null);
-				loginUser.setUserName(null);
-			}
-			else {
-//				System.out.println("login완료");
-				model.addAttribute("loginCheck", true);
-				loginUser = (UserVO) session.getAttribute("login");
-			}
-			
-			CourseVO courseVO = courseService.read(courseNumber);
-			UserVO userVO = userService.read(courseVO.getUserNumber());
-			Map<String, List<CourseInfoDTO>> plan = planService.gotoListAccordingToDate(courseNumber);			
-			List<String> courseUploadName = courseService.courseUploadNameRead(courseVO.getUserNumber());			
-			
-			ArrayList<Integer> courseUploadNumByName = new ArrayList<Integer>();
-			System.out.println(courseUploadName.size());
-			for(int i=0; i<courseUploadName.size(); i++) {
-				int test = courseService.courseNumByName(courseUploadName.get(i));
-				courseUploadName.set(i, "'" + courseUploadName.get(i) + "'");
-				courseUploadNumByName.add(i, test);
-			}
-			System.out.println(plan);
-
-			session.setAttribute("courseNumByName", courseUploadNumByName);
-			model.addAttribute("courseName", courseUploadName);
-			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("courseNumber", courseNumber);
-			model.addAttribute("courseVO", courseVO);
-			model.addAttribute("userVO", userVO);
-			model.addAttribute("plan", plan);
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "mypage/uploadNumMypage";
+		return "mypage/uploadCourse";
 	}
 }

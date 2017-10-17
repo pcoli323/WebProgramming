@@ -26,38 +26,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into tbl_course (courseName, userNumber)
 		values(#{courseName}, #{userNumber})
 	</insert>
-	
 	<select id="courseNumberRead" resultType="int">
 		select max(courseNumber)
+		from tbl_course
+		where userNumber = #{userNumber}
+	</select>
+	<select id="allCourseName" resultType="string">
+		select courseName
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
 	<select id="courseReadName" resultType="string">
 		select courseName
 		from tbl_course
-		where userNumber = #{userNumber}
-	</select>
-	
-	<update id="update">
-		update tbl_course
-		set courseName = #{courseName}, story = #{story}, isPosted = true
 		where courseNumber = #{courseNumber}
-	</update>
-	
-	<select id="courseNoUploadNameRead" resultType="string">
-		select courseName
+	</select>
+	<select id="noUploadCourseNumber" resultType="int">
+		select courseNumber
 		from tbl_course
 		where userNumber = #{userNumber} and isPosted = false
 	</select>
-	<select id="courseUploadNameRead" resultType="string">
-		select courseName
-		from tbl_course
-		where userNumber = #{userNumber} and isPosted = true
-	</select>
-	<select id="courseNumByName" resultType="int">
+	<select id="uploadCourseNumber" resultType="int">
 		select courseNumber
 		from tbl_course
-		where courseName = #{courseName}
+		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	<select id="delete">
 		delete

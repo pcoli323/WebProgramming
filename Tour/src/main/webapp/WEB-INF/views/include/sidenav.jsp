@@ -11,7 +11,7 @@
 	
 	<style>
 	.sidenav {
-	    height: 900px;
+	    height: 100%;
 	    width: 300px;
 	    background-color: #111;
 	    padding-top: 70px;
@@ -37,7 +37,7 @@
 	<a class="sidenavAd">코    스     관    리</a><br>
 	<ul>
 		<li class="hideview" style="display:none;"><a class="gotoNoUploadMypage">게시 안 된 코스</a></li><br>
-		<li class="hideview" style="display:none;"><a href="#">게시 된 코스</a></li><br>
+		<li class="hideview" style="display:none;"><a href="/uploadMypage">게시 된 코스</a></li><br>
 	</ul>
 	<a href="#">코    스     생    성</a><br><br><br><br>
 	<a href="#">팔  로  우   관  리</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

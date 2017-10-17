@@ -46,35 +46,33 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<String> courseNameRead(int userNumber) throws Exception {
+	public List<String> allCourseName(int userNumber) throws Exception {
 		
-		return dao.courseNoUploadNameRead(userNumber);
+		return dao.allCourseName(userNumber);
 	}
-	
+
 	@Override
-	public List<String> courseNoUploadNameRead(int userNumber) throws Exception {
+	public String courseReadName(int courseNumber) throws Exception {
 		
-		return dao.courseNoUploadNameRead(userNumber);
-		
+		return dao.courseReadName(courseNumber);
 	}
-	
+
 	@Override
-	public List<String> courseUploadNameRead(int userNumber) throws Exception {
+	public List<Integer> noUploadCourseNumber(int userNumber) throws Exception {
 		
-		return dao.courseUploadNameRead(userNumber);
+		return dao.noUploadCourseNumber(userNumber);
+	}
+
+	@Override
+	public List<Integer> uploadCourseNumber(int userNumber) throws Exception {
 		
+		return dao.uploadCourseNumber(userNumber);
 	}
 	
 	@Override
 	public void update(CourseVO vo) throws Exception {
 		
 		dao.update(vo);
-	}
-	
-	@Override
-	public int courseNumByName(String courseName) throws Exception {
-		
-		return dao.courseNumByName(courseName);
 	}
 	
 	@Override
@@ -86,12 +84,6 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception {
 		
 		return dao.simpleViewAll(userNumber);
-	}
-
-	@Override
-	public List<String> courseNameRead(int userNumber) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
