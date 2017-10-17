@@ -47,13 +47,7 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 		
 		return session.selectList(namespace + ".readAll", courseNumber);
 	}
-
-	@Override
-	public void add(CourseInfoVO vo) throws Exception {
-		
-		session.insert(namespace + ".add", vo);
-	}
-
+	
 	@Override
 	public void courseInfoAdd(CourseInfoVO vo) throws Exception {
 		session.insert(namespace + ".courseInfoAdd", vo);

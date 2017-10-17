@@ -6,6 +6,7 @@
 
 <html>
 <style type="text/css">
+	@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	html, body{overflow-x:hidden;}
 	
@@ -158,7 +159,6 @@
 		});
 	}
 	var markers = [];
-	var infowindows = [];
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
 	
@@ -179,34 +179,25 @@
 			} else{
 				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title +"</div>";
 			}
-			var infowindow = new google.maps.InfoWindow({
-									content: contentString,
-									size: new google.maps.Size(200,100)});
-			infowindows.push(infowindow);
-			markerListener(marker, infowindow, id);
+			markerListener(marker, id);
 			gotoNumberMapMarker.set(id, markerIndex);
 			markerIndex++;
 		}
 	}
-	function markerListener(localmarker, infowindow, id){    
-	      	google.maps.event.addListener(localmarker, 'click', function() {
-				//infowindow.open(map, localmarker);
-	      		for(var i=0; i<markers.length; i++){
-					markers[i].setAnimation(null);
-				}
-				showInfo(id);
-				localmarker.setAnimation(google.maps.Animation.BOUNCE);
-				});
-	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
-				localmarker.setAnimation(null);
-			});
+	function markerListener(localmarker, id){
+		google.maps.event.addListener(localmarker, 'click', function() {
+			for(var i=0; i<markers.length; i++){
+				markers[i].setAnimation(null);
+			}
+			showInfo(id);
+			localmarker.setAnimation(google.maps.Animation.BOUNCE);
+		});
 	}
-	
-	var representatives = [];
-	var representativeIDs = [];
 </script>
 <script>
 	//planTable의 글자크기 자동조절
+	var representatives = [];
+	var representativeIDs = [];
 	var images = [];
 	var infos = new Map();
 	function fitFontSize(id, length){
@@ -231,11 +222,11 @@
 	
 		<div class="courseView-header" style="text-align:center;padding:20px">
 			<input id="courseName" type="text" maxlength="20" value="${courseVO.courseName}" 
-					data-toggle="tooltip" data-placement="bottom" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px">
+					data-toggle="tooltip" data-placement="bottom" title="200자 내외" style="text-align:center;padding:10px 20px;font-size:24px;font-family:'Jeju Gothic';">
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
-        	<div class="courseMaker" style="text-align:left">
+        	<div class="courseMaker" style="text-align:left;font-family:'Jeju Gothic';">
         		<h4>
         			${loginUser.userName}
         		</h4>
@@ -346,6 +337,7 @@
 <script>
 	var loginCheck;
 	var loginUserNumber;
+	var changeImages = [];
 	
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip();
@@ -359,6 +351,10 @@
 		}
 		
 		representativeList();
+		
+		for(var i=0; i<images.length; i++){
+			changeImages[i] = -1;
+		}
 	});
 	
 	// info가 scroll 따라 다니도록
@@ -388,14 +384,6 @@
 		var id = $(this).attr("id");
 		var str = $(this).attr("style");
 		
-		/*
-		if(index < markers.length){
-			$(this).attr("style", "background-color:#d9ff66;cursor:pointer");
-		}
-		else{
-			$(this).attr("style", "cursor:not-allowed");
-		}
-		*/
 		str = str + ";background-color:#d9ff66;cursor:pointer;";
 		$(this).attr("style", str);
 	});
@@ -403,33 +391,21 @@
 		var id = $(this).attr("id");
 		var str = $(this).attr("style").split(';');
 		
-		/*
-		if(index < markers.length){
-			$(this).attr("style", "");
-		}
-		*/
 		$(this).attr("style", str[0]);
 	});
 	
 	// goto 누르면 지도에 해당하는 marker에 대해 작동하도록
-	// markers[]
 	$('.goto').on("click", function(){
 		var id = $(this).attr("id");
 		
-		/*
-		if(index < markers.length){
-			infowindows[index].open(map, markers[index]);
-			markers[index].setAnimation(google.maps.Animation.BOUNCE);
-		}
-		*/
 		showMap(id);
+		console.log(changeImages);
 		showInfo(id);
 	});
 	
 	// map의 정보 보여주기
 	function showMap(id){
 		if(gotoNumberMapMarker.has(id) == true){
-			//infowindows[index].open(map, markers[index]);
 			var index = gotoNumberMapMarker.get(id);
 			if(markers[index].getAnimation() == null){
 				for(var i=0; i<markers.length; i++){
@@ -452,8 +428,19 @@
 	}
 	// info 보여주기
 	function showInfo(id){
-		var image = images[id];
+		var image;
 		var str;
+		
+		// image가 바뀌었는지 여부
+		if(changeImages[id] == -1){
+			image = images[id];
+		}
+		else{
+			var gotoNumber = changeImages[id];
+			image = URL.createObjectURL(addImageList.get(gotoNumber));
+		}
+		
+		// image가 있는지 여부에 따라 다른 이미지 놓기
 		if(image != null && image != ""){	
 			str = "<image src='" + image + "' class='imageContent'>";
 			$('.imageView').html(str);
@@ -517,6 +504,7 @@
 	}
 	
 	// image 추가하기
+	var gotoID;
 	var gotoNumber;
 	var gotoName;
 	var isModify;
@@ -530,14 +518,12 @@
 		
 		if(checkImage == 0){
 			isModify = false;
-			var url="/imageUpload";
-			window.open(url, "startpop", "width=1000, height=500");
 		}
 		else{
 			isModify = true;
-			var url="/imageUpload";
-			window.open(url, "startpop", "width=1000, height=500");
 		}
+		var url="/imageUpload";
+		window.open(url, "startpop", "width=1160, height=512");
 	});
 	
 	//게시

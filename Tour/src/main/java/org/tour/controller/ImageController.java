@@ -67,7 +67,7 @@ public class ImageController {
 		
 		return "/mypage/imageUpload";
 	}
-	
+		
 	@ResponseBody
 	@RequestMapping(value = "/imageUpload/{userNumber}/{gotoNumber}", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public ResponseEntity<String> imageUpload(@PathVariable("userNumber") int userNumber, @PathVariable("gotoNumber") int gotoNumber,

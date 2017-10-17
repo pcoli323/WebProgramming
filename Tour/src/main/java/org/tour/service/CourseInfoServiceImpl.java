@@ -34,12 +34,6 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
-	public void add(CourseInfoVO vo) throws Exception {
-
-		dao.add(vo);
-	}
-
-	@Override
 	public void courseInfoAdd(CourseInfoVO vo) throws Exception {
 		
 		dao.courseInfoAdd(vo);		

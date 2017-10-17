@@ -14,6 +14,7 @@
 	width:65%;
 	margin:auto;
 	}
+	
 	.courseView{
 	padding:50px;
 	padding-bottom:0px;
@@ -45,17 +46,16 @@
     }
     .mouseOverImageView{
     height:300px;
+    display:none;
     text-align:center;
     background-color:black;
     margin:auto;
-    display:none;
     }
     .mouseOverImageContent{
     height:100%;
     width:50%;
     background-color:black;
     display:inline-block;
-    vertical-align:middle;
     }
     .mouseOverImage{
     max-width:100%;
@@ -355,7 +355,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("follow!!");
 							followToggle("follow");
 						}
 					}
@@ -377,7 +376,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("no follow!!");
 							followToggle("non-follow");
 						}
 					}
@@ -422,7 +420,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("like!!");
 							likeToggle("active");
 							likeNumber();
 						}
@@ -445,7 +442,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("no like!!");
 							likeToggle("non-active");
 							likeNumber();
 						}
@@ -496,7 +492,7 @@
 				success:function(result){
 					console.log("result:" + result);
 					if(result == 'SUCCESS'){
-						alert("get course!!");
+						alert("mypage에서 확인하실 수 있습니다.");
 					}
 				}
 			});

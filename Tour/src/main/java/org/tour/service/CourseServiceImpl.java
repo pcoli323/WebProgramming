@@ -88,4 +88,10 @@ public class CourseServiceImpl implements CourseService {
 		return dao.simpleViewAll(userNumber);
 	}
 
+	@Override
+	public List<String> courseNameRead(int userNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
