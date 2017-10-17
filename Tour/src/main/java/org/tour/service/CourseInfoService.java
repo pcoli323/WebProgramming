@@ -25,4 +25,5 @@ public interface CourseInfoService {
 	public void representativeMark(int gotoNumber, int representedOrder) throws Exception;
 	
 	public void delete(int CourseNumber) throws Exception;
+
 }

@@ -44,6 +44,12 @@ public class CourseServiceImpl implements CourseService {
 
 		return dao.courseNumberRead(userNumber);
 	}
+
+	@Override
+	public List<String> courseNameRead(int userNumber) throws Exception {
+		
+		return dao.courseNoUploadNameRead(userNumber);
+	}
 	
 	@Override
 	public List<String> courseNoUploadNameRead(int userNumber) throws Exception {
