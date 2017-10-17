@@ -207,17 +207,13 @@
   }
   #loginModal {
    position: absolute;
-   top: 100px;
-   right: 450px;
+   top: 20%;
    bottom: auto;
-   left: auto;
 	}	
  #registerModal {
    position: absolute;
-   top: 100px;
-   left: 350px;
+   top: 20%;
    bottom: auto;
-   right: auto;
 	}
   </style>
 </head>
