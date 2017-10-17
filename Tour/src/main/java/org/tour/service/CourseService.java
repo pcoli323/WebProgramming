@@ -30,5 +30,4 @@ public interface CourseService {
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
 
-
 }
