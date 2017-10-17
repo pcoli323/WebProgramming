@@ -103,6 +103,14 @@ $(document).ready(function(){
 		printDay(str.split("-"),str);
 		document.getElementById(str).checked = true;
 		document.getElementById(str).parentElement.classList.add('active');
+		
+		var date = new Date(json.startDate);
+		var parsedDate = date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+		json.startDate = parsedDate;
+		date = new Date(json.endDate);
+		parsedDate = date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+		json.endDate = parsedDate;
+			
 		document.getElementById("D"+str+"S").value=json.startDate;
 		document.getElementById("D"+str+"E").value=json.endDate;
 	}
