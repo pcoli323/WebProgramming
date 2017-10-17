@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.tour.domain.CourseInfoVO;
 import org.tour.domain.CourseVO;
 import org.tour.domain.UserVO;
-import org.tour.dto.LoginDTO;
 import org.tour.dto.CourseInfoDTO;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
 import org.tour.service.PlanService;
-//import org.tour.service.GotoService;
 import org.tour.service.UserService;
 
 @Controller
@@ -83,14 +81,16 @@ public class CourseViewController {
 	public void readDetail(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
 		
 		try {
+			/*
 			LoginDTO loginDto = new LoginDTO();
 			loginDto.setEmail("user00@aaa.com");
 			loginDto.setPwd("user00");
 			UserVO loginUserCheck = userService.login(loginDto);
 			HttpSession	session = request.getSession();
 			session.setAttribute("login", loginUserCheck);
+			*/
 			
-			//HttpSession	session = request.getSession();
+			HttpSession	session = request.getSession();
 			UserVO loginUser = new UserVO();;
 			if(session.getAttribute("login") == null) {
 				model.addAttribute("loginCheck", false);

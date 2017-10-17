@@ -18,6 +18,8 @@ public interface CourseService {
 	
 	public void update(CourseVO vo) throws Exception;
 	
+	public List<String> courseNameRead(int userNumber) throws Exception;
+	
 	public List<String> courseNoUploadNameRead(int userNumber) throws Exception;
 	
 	public List<String> courseUploadNameRead(int userNumber) throws Exception;
@@ -27,4 +29,6 @@ public interface CourseService {
 	public void delete(int courseNumber) throws Exception;
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
+
+	public List<String> courseNameRead(int userNumber);
 }

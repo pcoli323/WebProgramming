@@ -16,23 +16,16 @@
 	border:1px solid #d98cd9;
 	padding:10px;
 	display:flex;
-	height:400px;
+	height:360px;
 	}
 	.originalImage{
 	width:50%;
 	display:inline-block;
 	padding:10px;
 	}
-	.originalImageView{
-	width:390px;
-	height:300px;
+	.originalImageInfo{
 	text-align:center;
-	margin:auto;
-	}
-	.originalImageContent{
-	max-width:100%;
-	height:auto;
-	max-height:100%;
+    height:8%;
 	}
 	.fileDrop{
 	width:50%;
@@ -41,22 +34,21 @@
 	margin-left:20px;
 	padding:10px;
 	}
-	.imagePreview{
+	.explain{
+	margin:10px;
+	display:none;
+	}
+	.previewImage{
 	width:100%;
 	height:100%;
 	}
-	.preview{
-	max-width:300px;
-	height:auto;
-	padding:5px;
-	}
-	.previewImage{
-	width:390px;
-	height:300px;
-	background-color:black;
+	.imageView{
+	width:500px;
+	height:285px;
 	text-align:center;
+	margin:auto;
 	}
-	.previewImageContent{
+	.imageContent{
 	max-width:100%;
 	height:auto;
 	max-height:100%;
@@ -111,15 +103,15 @@
 		<div class="originalImage">
 		</div><!-- /originalImage -->
 		<div class="fileDrop">
-			<div class="explain" style="margin:10px;">
+			<div class="explain">
 				<div style="display:inline-block;">사진을 여기에 놓아주세요.</div>
 				<span class="glyphicon glyphicon-arrow-down" style="animation:arrow 0.5s linear infinite alternate;"></span>
 			</div>
-			<div class="imagePreview">
+			<div class="previewImage">
 				<button type="button" class="btn btn-default btn-xs pull-right" id="removeImageBtn" style="outline:0">
 					<i class="fa fa-fw fa-remove"></i></button>
-				<div class="previewImage">
-					<img class="previewImageContent" src="">
+				<div class="imageView" id="imagePreview">
+					<img class="imageContent" id="previewImageContent" src="">
 				</div>
 			</div><!-- /imagePreview -->
 		</div><!-- /fileDrop -->
@@ -133,45 +125,42 @@
 
 <script>
 	var isPreviewImage;
+	var gotoID;
 	var gotoNumber;
 	var gotoName;
 	var isModify;
 	
 	$(document).ready(function(){
 		isPreviewImage = false;
+		gotoID = opener.gotoID;
 		gotoNumber = opener.gotoNumber;
 		gotoName = opener.gotoName;
 		isModify = opener.isModify;
-		console.log(gotoNumber);
+		console.log(gotoID);
 		
-		$('.imagePreview').hide();
-		
+		if(isModify == false){
+			$('.explain').show();
+			$('.previewImage').hide();
+		}
 		if(isModify == true){
-			$('.preview').attr("src",  URL.createObjectURL(opener.addImageList.get(gotoNumber)));
-			$('.imagePreview').show();
+			$('.explain').hide();
+			$('#previewImageContent').attr("src",  URL.createObjectURL(opener.addImageList.get(gotoNumber)));
+			$('.previewImage').show();
 			isPreviewImage = true;
 		}
-		else{
-			$.ajax({
-				type: 'GET',
-				url: '/getGotoRealImage?gotoNumber='+gotoNumber,
-				success: function(image){
-					var str;
-					console.log(image);
-					if(image == ""){
-						str = "<div style='text-align:center;margin-bottom:10px;'><원본사진></div>"
-							+ "<div style='width:300px;height:250px;background-color:lightGray;vertical-align:middle;text-align:center;display:table-cell;'>"
-								+ "<div style='font-size:small;'>사진이<br>없습니다.</div></div>";
-					}
-					else{
-						str = "<div style='text-align:center;margin-bottom:10px;'><원본사진></div>"
-							+ "<div class='originalImageView'>"
-							+ "<img class='originalImageContent' src='"+image+"'></div>";
-					}
-					$('.originalImage').html(str);
-				}
-			});
+		var originalImage = opener.images[gotoID];
+		console.log("originalImage : " + originalImage);
+		if(originalImage == ""){
+			str = "<div class='originalImageInfo'><원본사진></div>"
+				+ "<div style='width:100%;height:92%;background-color:lightGray;text-align:center;'>"
+					+ "<div style='font-size:small;position:relative;top:43%;'>사진이<br>없습니다.</div></div>";
 		}
+		else{
+			str = "<div class='originalImageInfo'><원본사진></div>"
+				+ "<div class='imageView' id='originalImageView'>"
+				+ "<img class='imageContent' id='originalImageContent' src='"+originalImage+"'></div>";
+		}
+		$('.originalImage').html(str);
 	});
 	
 </script>
@@ -207,9 +196,8 @@
 		}
 		else{
 			$('.explain').hide();
-			//$('.preview').attr("src", URL.createObjectURL(file));
-			$('.previewImageContent').attr("src", URL.createObjectURL(file));
-			$('.imagePreview').show();
+			$('#previewImageContent').attr("src", URL.createObjectURL(file));
+			$('.previewImage').show();
 			isPreviewImage = true;
 		}
 		
@@ -217,8 +205,8 @@
 	
 	$('#removeImageBtn').on("click", function(){
 		console.log("removeImageBtn 누름");
-		$('.preview').attr("src", '');
-		$('.imagePreview').hide();
+		$('#previewImageContent').attr("src", '');
+		$('.previewImage').hide();
 		$('.explain').show();
 		file = null;
 		isPreviewImage = false;
@@ -246,31 +234,20 @@
 	
 	function registerImage(){
 		opener.addImageList.set(gotoNumber, file);
-		var id = "picture-" + gotoNumber + "-" + gotoName;
+		var id = "picture-" + gotoID + "-" + gotoNumber + "-" + gotoName;
 		var element = opener.document.getElementById(id);
 		element.classList.add("active");
 		element.style.color = "#6495ED";
-		if(opener.gotoNumberMapMarker.has(gotoNumber) == true){
-			var str = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + URL.createObjectURL(file) 
-						+ "></div><div style='float:right; padding: 10px;'>" + gotoName +"</div>";
-			var infowindowsIndex = opener.gotoNumberMapMarker.get(gotoNumber);
-			opener.infowindows[infowindowsIndex].setContent(str);
-		}
-		console.log(opener.addImageList);
+		opener.changeImages[gotoID] = gotoNumber;
 	}
 	
 	function removeImage(){
 		opener.addImageList.delete(gotoNumber);
-		var id = "picture-" + gotoNumber + "-" + gotoName;
+		var id = "picture-" + gotoID + "-" + gotoNumber + "-" + gotoName;
 		var element = opener.document.getElementById(id);
 		element.classList.remove("active");
 		element.style.color = "LightGray";
-		if(opener.gotoNumberMapMarker.has(gotoNumber) == true){
-			var str = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + gotoName + "</div>";
-			var infowindowsIndex = opener.gotoNumberMapMarker.get(gotoNumber);
-			opener.infowindows[infowindowsIndex].setContent(str);
-		}
-		console.log(opener.addImageList);
+		opener.changeImages[gotoID] = -1;
 		/*
 		$.ajax({
 			type: 'DELETE',
