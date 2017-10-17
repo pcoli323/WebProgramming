@@ -29,7 +29,7 @@
   	text-align: center;
   	vertical-align: middle;
   	border: 1px solid transparent;
-  	background-color:#ffffff;
+  	background-color: rgba(0,0,0,0);
   	outline:0
 	}
 	.symbol{
@@ -69,6 +69,9 @@
     max-height:100%;
     position: relative;
     }
+	.bg-grey {
+		background-color: #f6f6f6;
+	}
 </style>
 </head>
 <body>
@@ -83,6 +86,7 @@ var courseNumByName = ${courseNumber };
 <%@include file="../include/sidenav.jsp" %>
 
 <div class="content">
+
 	<c:set var="courseNumberCount" value="0"></c:set>
 	<c:forEach items="${representatives}" var="Allrepresentative">
         
@@ -167,7 +171,7 @@ var courseNumByName = ${courseNumber };
 	<div class="courseView-footer" style="text-align:right">
 		<button type="button" class="symbolButton like" id="${courseNumberCount }">
 			<span class="glyphicon symbol like_symbol" id="like_symbol" style="color:#ff0000"></span>
-			<small class="likeNum" id="likeNum[${courseNumberCount }]"></small>
+			<small class="likeNum"></small>
 		</button>
 		<button type="button" class="symbolButton reply" id="${courseNumberCount }" style="cursor:default">
 			<span class="glyphicon glyphicon-comment symbol"></span>
@@ -217,6 +221,10 @@ var courseNumByName = ${courseNumber };
 		for(var i=0; i<courseNumByName.length; i++){
 			var courseNumber = courseNumByName[i];
 			following = ${userVO.userNumber};
+			// 배경 회색 처리
+			if(i%2 == 0) {
+				document.getElementsByClassName('courseView')[i].className = 'courseView bg-grey';
+			}
 			// view 초기화
 			likeCheck(courseNumber);
 			likeNumber(courseNumber);
@@ -266,10 +274,11 @@ var courseNumByName = ${courseNumber };
 		});
 	});
 	
-	function checkCount(courseNumber){
-		var count;
-		for(var i=0; i<courseNumByName.length; i++){
-			if(courseNumber == courseNumByName[i]){
+	// 코스 인덱스 찾기
+	function courseCount(courseNumber) {
+		var count = 0;
+		for(var i=0; i<courseNumByName.length; i++) {
+			if(courseNumber == courseNumByName[i]) {
 				count = i;
 				break;
 			}
@@ -284,9 +293,9 @@ var courseNumByName = ${courseNumber };
 			url:'/like/count/'+courseNumber,
 			headers: { "Content-Type": "application/json" },
 			success:function(result){
-				var count = checkCount(courseNumber);
-				var className = '.likeNum[' + count + ']';
-				$(className).html(result);
+				var count = courseCount(courseNumber);
+				document.getElementsByClassName('likeNum')[count].innerHTML = result;
+//				$('.likeNum').html(result);
 			}
 		});
 	}
@@ -309,11 +318,11 @@ var courseNumByName = ${courseNumber };
 					console.log("result:" + result);
 					if(result == 0){
 						// 사용자가 좋아요를 누르지 않은 상태
-						likeToggle("non-active");
+						likeToggle("non-active", courseNumber);
 					}
 					else if(result == 1){
 						// 사용자가 좋아요를 누른 상태
-						likeToggle("ative");
+						likeToggle("ative", courseNumber);
 					}
 					else{
 						console.log("check user number in like");
@@ -322,7 +331,7 @@ var courseNumByName = ${courseNumber };
 			});
 		}
 		else{
-			likeToggle("non-active");
+			likeToggle("non-active", courseNumber);
 		}
 	}
 	
@@ -333,7 +342,9 @@ var courseNumByName = ${courseNumber };
 			url:'/replise/count/'+courseNumber,
 			headers: { "Content-Type": "application/json" },
 			success:function(result){
-				$('.replyNum').html(result);
+				var count = courseCount(courseNumber);
+				document.getElementsByClassName('replyNum')[count].innerHTML = result;
+//				$('.replyNum').html(result);
 			}
 		});
 	}
@@ -364,7 +375,7 @@ var courseNumByName = ${courseNumber };
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							alert("like!!");
-							likeToggle("active");
+							likeToggle("active", courseNumber);
 							likeNumber(courseNumber);
 						}
 					}
@@ -387,7 +398,7 @@ var courseNumByName = ${courseNumber };
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							alert("no like!!");
-							likeToggle("non-active");
+							likeToggle("non-active", courseNumber);
 							likeNumber(courseNumber);
 						}
 					}
@@ -395,15 +406,27 @@ var courseNumByName = ${courseNumber };
 			}
 		}
 	});
-	function likeToggle(status){
+	function likeToggle(status, courseNumber){
+		
+		var count = courseCount(courseNumber);
+		/*
+		<button type="button" class="symbolButton like" id="${courseNumberCount }">
+			<span class="glyphicon symbol like_symbol" id="like_symbol" style="color:#ff0000"></span>
+			<small class="likeNum"></small>
+		</button>
+		*/
 		// status는 원하는 상태
 		if(status == "non-active"){
-			$('.like').removeClass("active");
-			$('.like_symbol').removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
+			document.getElementsByClassName('like')[count].className = 'symbolButton like';
+			document.getElementsByClassName('like_symbol')[count].className = 'glyphicon symbol like_symbol glyphicon-heart-empty';
+//			$('.like').removeClass("active");
+//			$('.like_symbol').removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
 		}
 		else{
-			$('.like').addClass("active");
-			$('.like_symbol').removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
+			document.getElementsByClassName('like')[count].className = 'symbolButton like active';
+			document.getElementsByClassName('like_symbol')[count].className = 'glyphicon symbol like_symbol glyphicon-heart';
+//			$('.like').addClass("active");
+//			$('.like_symbol').removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
 		}
 	}
 	
