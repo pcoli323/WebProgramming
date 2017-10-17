@@ -10,9 +10,14 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/tourdb?useSSL=false"></property>
+		<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/tourdb?characterEncoding=UTF8"></property>
 		<property name="username" value="tour"></property>
 		<property name="password" value="tour"></property>
+		<!--
+		<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/pcoli323?characterEncoding=UTF8"></property>
+		<property name="username" value="pcoli323"></property>
+		<property name="password" value="secpwdmemcox3cc"></property>
+		 -->
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
