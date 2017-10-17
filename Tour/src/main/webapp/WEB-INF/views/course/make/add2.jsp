@@ -118,6 +118,7 @@
 <script>
 var jsonItems; // Ajax 호출 후 데이터를 저장하는 변수 (jsonArray)
 var selectedList = new Array(); // 선택한 여행지 정보 (jsonArray)
+var selectedListUser = new Array(); // 사용자가 추가한 여행지 정보 (jsonArray)
 var total;
 var presentPage;
 var contentType = "0";
@@ -147,28 +148,59 @@ $(document).ready(function(){
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
 	for(var i=0; i<jsona.length; i++){
+		var data = new Object();
 		var json = jsona[i];
-		var ok = false;
-		for(var j=0; j<jsonIDArr.length; j++){
-			var json2 = jsonIDArr[j];
-			// 수정 : 추가한 여행지 처리 부분
-			if(json.areacode==null){
-				ok=true;break;
-			}
-			else if(json2.sigunguCode==0){
-				if(json.areacode==json2.areaCode){
-					ok=true;break;
-				}
-			}
-			else{
-				if(json.areacode==json2.areaCode&&json.sigungucode==json2.sigunguCode){
-					ok=true;break;
-				}
-			}
-		}
-		if(ok==true){
-			selectedList.push(json);
-		}
+		
+		data.addr1 = json.gotoAddr1;
+		data.addr2 = json.gotoAddr2;
+		data.areacode = json.gotoAreaCode;
+		data.contentid = json.gotoContentID;
+		data.contenttypeid = json.gotoContentTypeID;
+		data.createdtime = json.gotoCreatedTime;
+		data.firstimage = json.gotoImageReal;
+		data.firstimage2 = json.gotoImageThum;
+		data.mapx = json.gotoLocationX;
+		data.mapy = json.gotoLocationY;
+		data.modifiedtime = json.gotoModifiedTime;
+		data.readcount = json.gotoReadCount;
+		data.tel = json.gotoTel;
+		data.title = json.gotoTitle;
+		data.sigungucode = json.gotoSigunguCode;
+		data.isNew = json.isNew;
+		
+		var date = new Date(json.gotoDate);
+		var parsedDate = date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+		data.date = parsedDate;
+		
+		selectedList.push(data);
+	}
+	
+	var jsonu = JSON.parse('${listU}');
+	for(var i=0; i<jsonu.length; i++){
+		var json = jsonu[i];
+		
+		data.addr1 = json.gotoAddr1;
+		data.addr2 = json.gotoAddr2;
+		data.areacode = json.gotoAreaCode;
+		data.contentid = json.gotoContentID;
+		data.contenttypeid = json.gotoContentTypeID;
+		data.createdtime = json.gotoCreatedTime;
+		data.firstimage = json.gotoImageReal;
+		data.firstimage2 = json.gotoImageThum;
+		data.mapx = json.gotoLocationX;
+		data.mapy = json.gotoLocationY;
+		data.modifiedtime = json.gotoModifiedTime;
+		data.readcount = json.gotoReadCount;
+		data.tel = json.gotoTel;
+		data.title = json.gotoTitle;
+		data.sigungucode = json.gotoSigunguCode;
+		data.isNew = json.isNew;
+		
+		var date = new Date(json.gotoDate);
+		var parsedDate = date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+		data.date = parsedDate;
+		
+		selectedListUser.push(json);
 	}
 	printList();
 });
@@ -365,19 +397,17 @@ function printList() {
 			str += "<button type='button' class='close pull-right' aria-label='Close' id='X-"+selected.contentid+"'><span aria-hidden='true'>&times;</span></button>";
 			str += "<font size='1em'>" + selected.title + "</font>";
 			str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
-			console.log("isNew==false");
 		}
 	}
 	
 	// 수정 : 추가한 여행지 처리 부분
-	str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
-	str += "<h5>내가 추가한 여행지</h5> <hr style='margin:1px;border-top: 1px solid #F5F5F5;'>"
-	for(var i=0; i<selectedList.length; i++){
-		var selected = selectedList[i];
-		if(selected.isNew!=null && selected.isNew==true){
+	if(selectedListUser.length!=0){
+		str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
+		str += "<h5>내가 추가한 여행지</h5> <hr style='margin:1px;border-top: 1px solid #F5F5F5;'>"
+		for(var i=0; i<selectedListUser.length; i++){
+			var selected = selectedListUser[i];
 			str += "<font size='1em'>" + selected.title + "</font>";
 			str += "<hr style='margin:1px; border-top: 1px solid #F5F5F5;'>";
-			console.log("isNew==true");
 		}
 	}
 	
@@ -390,6 +420,9 @@ $("#next").click(function(){
 		alert("여행지를 선택해주세요.");
 	}	
 	else {
+		for(var i=0; i<selectedListUser.length; i++){
+			selectedList.push(selectedListUser[i]);
+		}
 		var jsonData = JSON.stringify(selectedList);
 		
 		$.ajax({      
@@ -422,4 +455,5 @@ $("#cancel").click(function(){
   	});
 });
 </script>
+
 </html>
