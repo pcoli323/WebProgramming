@@ -6,18 +6,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.tour.mapper.FollowMapper">
 
 	<insert id="add">
-		insert into tbl_follow (following, followed)
+		insert into tbl_Follow (following, followed)
 		values (#{following}, #{followed})
 	</insert>
 	
 	<select id="check" resultType="int">
 		select count(followed)
-		from tbl_follow
+		from tbl_Follow
 		where following = #{following} and followed = #{followed}
 	</select>
 	
 	<delete id="delete">
-		delete from tbl_follow
+		delete from tbl_Follow
 		where following = #{following} and followed = #{followed}
 	</delete>
 	
