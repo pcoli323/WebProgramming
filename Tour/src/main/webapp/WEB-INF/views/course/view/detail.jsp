@@ -8,6 +8,7 @@
 <html>
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+	@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	html, body{overflow-x:hidden;}
 	
 	table{
@@ -88,6 +89,13 @@
 	height:auto;
 	max-height:100%;
 	}
+	.noImageContent{
+	font-size:100%;
+	position:relative;
+	background-color:black;
+	color:white;
+	top:50%;
+	}
 	.info{
 	width:100%;
 	height:18%;
@@ -155,7 +163,6 @@
 		});
 	}
 	var markers = [];
-	var infowindows = [];
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
 	
@@ -166,6 +173,7 @@
 				position: mapPositions,
 				map: map,
 				title:title,
+				animation:null
 			});
 			markers.push(marker);
 			if(image != ""){
@@ -174,23 +182,19 @@
 			
 			} else
 				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title + "<br>" + address + "<br>" + tel + "</div>";
-			var infowindow = new google.maps.InfoWindow({
-									content: contentString,
-									size: new google.maps.Size(200,100)});
-			infowindows.push(infowindow);
-			markerListener(marker, infowindow);
+			markerListener(marker, id);
 			gotoNumberMapMarker.set(id, markerIndex);
 			markerIndex++;
 		}
 	}
-	function markerListener(localmarker, infowindow){    
-	      	google.maps.event.addListener(localmarker, 'click', function() {
-				infowindow.open(map, localmarker);
-				localmarker.setAnimation(google.maps.Animation.BOUNCE);
-				});
-	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
-				localmarker.setAnimation(null);
-			});
+	function markerListener(localmarker, id){
+		google.maps.event.addListener(localmarker, 'click', function() {
+			for(var i=0; i<markers.length; i++){
+				markers[i].setAnimation(null);
+			}
+			showInfo(id);
+			localmarker.setAnimation(google.maps.Animation.BOUNCE);
+		});
 	}
 </script>
 <script>
@@ -211,13 +215,13 @@
 	<div class="courseView">
 	
 		<div class="courseView-header">
-			<h2 class="courseName" style="text-align:center">
+			<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
 				${courseVO.courseName}
 			</h2>
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
-        	<div class="courseMaker" style="text-align:left">
+        	<div class="courseMaker" style="text-align:left;font-family:'Jeju Gothic';">
         		<h4>
         			<c:if test="${loginUser.userNumber ne userVO.userNumber}">
         				<button type="button" class="symbolButton" id="follow"></button>
@@ -499,27 +503,13 @@
 		var id = $(this).attr("id");
 		var str = $(this).attr("style");
 		
-		/*
-		if(gotoNumberMapMarker.has(id) == true){
-			str = str + ";background-color:#d9ff66;cursor:pointer;";
-			$(this).attr("style", str);
-		}
-		else{
-			str = str + ";cursor:not-allowed;"
-			$(this).attr("style", str);
-		}
-		*/
 		str = str + ";background-color:#d9ff66;cursor:pointer;";
 		$(this).attr("style", str);
 	});
 	$('.goto').mouseout(function(){
 		var id = $(this).attr("id");
 		var str = $(this).attr("style").split(';');
-		/*
-		if(gotoNumberMapMarker.has(id) == true){
-			$(this).attr("style", str[0]);
-		}
-		*/
+		
 		$(this).attr("style", str[0]);
 	});
 	
@@ -528,29 +518,45 @@
 	$('.goto').on("click", function(){
 		var id = $(this).attr("id");
 		
-		for(var i=0; i<markers.length; i++){
-			markers[i].setAnimation(null);
-		}
-		// 위치정보가 있는지 여부
+		showMap(id);
+		showInfo(id);
+	});
+	
+	// map의 정보 보여주기
+	function showMap(id){
 		if(gotoNumberMapMarker.has(id) == true){
-			index = gotoNumberMapMarker.get(id);
-			//infowindows[index].open(map, markers[index]);
-			markers[index].setAnimation(google.maps.Animation.BOUNCE);
-			map.setCenter(markers[index].getPosition());
-			map.setZoom(10);
-			$('.mapInfo').hide();
+			var index = gotoNumberMapMarker.get(id);
+			if(markers[index].getAnimation() == null){
+				for(var i=0; i<markers.length; i++){
+					if(i != index){
+						markers[i].setAnimation(null);
+					}
+				}
+				markers[index].setAnimation(google.maps.Animation.BOUNCE);
+				map.setCenter(markers[index].getPosition());
+				map.setZoom(10);
+				$('.mapInfo').hide();
+			}
 		}
 		else{
+			for(var i=0; i<markers.length; i++){
+				markers[i].setAnimation(null);
+			}
 			$('.mapInfo').show();
 		}
-		
-		// image가 있는지 여부
+	}
+	// info 보여주기
+	function showInfo(id){
 		var image = images[id];
 		var str;
 		if(image != null && image != ""){	
 			str = "<image src='" + image + "' class='imageContent'>";
+			$('.imageView').html(str);
 		}
-		$('.imageView').html(str);
+		else{
+			str = "<div class='noImageContent'>사진이 없습니다</div>";
+			$('.imageView').html(str);
+		}
 		
 		// info
 		var info = [];
@@ -561,7 +567,7 @@
 		$('.info').html(str);
 		
 		$('.infoView').show();
-	});
+	}
 </script>
 
 <!-- symbol인 버튼 눌렀을 때 -->
@@ -588,7 +594,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("follow!!");
 							followToggle("follow");
 						}
 					}
@@ -610,7 +615,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("no follow!!");
 							followToggle("non-follow");
 						}
 					}
@@ -655,7 +659,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("like!!");
 							likeToggle("active");
 							likeNumber();
 						}
@@ -678,7 +681,6 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("no like!!");
 							likeToggle("non-active");
 							likeNumber();
 						}
@@ -724,7 +726,7 @@
 				success:function(result){
 					console.log("result:" + result);
 					if(result == 'SUCCESS'){
-						alert("get course!!");
+						alert("mypage에서 확인하실 수 있습니다.");
 					}
 				}
 			});

@@ -38,7 +38,7 @@ public class GetCourseController {
 			for(int i = 0; i<courseInfoList.size(); i++) {
 				CourseInfoVO courseInfoVO = courseInfoList.get(i);
 				courseInfoVO.setCourseNumber(newCourseNumber);
-				courseInfoService.add(courseInfoVO);
+				courseInfoService.courseInfoAdd(courseInfoVO);
 			}
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
