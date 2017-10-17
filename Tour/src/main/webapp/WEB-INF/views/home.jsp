@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en">
+
 <head>
-  <!-- Theme Made By www.w3schools.com - No Copyright -->
-  <title>Bootstrap Theme Company Page</title>
+  <title>MemCox</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -210,8 +211,7 @@
    right: 450px;
    bottom: auto;
    left: auto;
-	}
-	
+	}	
  #registerModal {
    position: absolute;
    top: 100px;
@@ -219,11 +219,12 @@
    bottom: auto;
    right: auto;
 	}
-	
   </style>
 </head>
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<!-- Navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -232,7 +233,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="#myPage"><img src="/resources/img/ll.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="#home"><img src="/resources/img/logo.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
@@ -250,7 +251,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">${userVO.userName}</a></li>
+      				<li id="mypage"><a href="#">${login.userName}</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
@@ -261,6 +262,7 @@
   </div>
 </nav>
 
+<!-- Container (Introduction Section) -->
 <div class="image">
 	<img src="/resources/img/main.jpg" width="100%">
 	<div class="centered">
@@ -300,7 +302,6 @@
       <h2>코스 만들기</h2><br><br>
       <h4>자신만의 여행지를 선택하여 코스를 만들어 보아요~</h4>
       <p>지역과 여행지를 선택하고 날짜를 선택하면 끝!</p>
-      <br><button class="btn btn-default btn-lg" id="courseMake">코스 만들러가기</button>
       <c:choose>
   			<c:when test="${empty login}">
     			<br><button class="btn btn-default btn-lg" id="courseMake" value="0">코스 만들러가기</button>
@@ -332,21 +333,24 @@
   </div>
 </div>
 
+<!-- Footer -->
 <footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
+  <a href="#home" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
   <p>이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI">http://api.visitkorea.or.kr/main.do</a></p>
 </footer>
 
+<!-- Modals -->
   <!-- Modal 로그인 -->
   <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog"> 
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header" style="padding:35px 50px;">
-          <h4><span class="glyphicon glyphicon-lock"></span> 로그인 </h4>
-        </div>     
+      	<div class="modal-header">
+          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          	<h4 class="modal-title" style="text-align:center;">로그인</h4>
+        </div>  
         <div class="modal-body" style="padding:40px 50px;">
           <form role="form" action="/login" method="post">
             <div class="form-group">
@@ -423,6 +427,8 @@
     </div>
   </div>
 
+</body>
+
 <script>
 $(document).ready(function(){
     $("#register").click(function(){
@@ -434,14 +440,18 @@ $(document).ready(function(){
     $("#mypage").click(function(){
     });
     $("#logout").click(function(){
+    	alert("로그아웃되었습니다.");
     	location.href="/logout";
     });
+    $("#courseMore").click(function(){
+    });
     $("#courseMake").click(function(){
-    	location.href="/course/make/add1";
+    	if(this.value=="0")
+    		alert("로그인을 해주세요.");
+    	else
+    		location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
-    });
-    $("#courseMore").click(function(){
     });
 });
 
@@ -457,6 +467,7 @@ $("#authMail").click(function(){
 		data.email = document.getElementById("email").value;
 		arr.push(data);
 		var email = JSON.stringify(arr);
+		alert("잠시만 기다려주세요...");
 		$.ajax({      
 			type:"POST",  
 			url:"/mail",
@@ -578,11 +589,10 @@ $("#checkRegister").click(function(){
 		alert("다시 확인해주세요.");
 	}
 });
-</script>
-<script>
+
 $(document).ready(function(){
   // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+  $(".navbar a, footer a[href='#home']").on('click', function(event) {
     // Make sure this.hash has a value before overriding default behavior
     if (this.hash !== "") {
       // Prevent default anchor click behavior
@@ -616,5 +626,4 @@ $(document).ready(function(){
 })
 </script>
 
-</body>
 </html>

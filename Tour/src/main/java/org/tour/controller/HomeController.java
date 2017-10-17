@@ -1,11 +1,11 @@
 package org.tour.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,18 +49,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public String login(LoginDTO dto, Model model) {
+	public String login(LoginDTO dto, Model model) throws IOException {
 		try {
 			UserVO vo = service.login(dto);
-			if(vo==null) {
-				model.addAttribute("loginResult", "0");
-			}		
-			else {
-				model.addAttribute("loginResult", "1");
+			if(vo!=null)
 				model.addAttribute("userVO",vo);
-			}
-			model.addAttribute("userVO",vo);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,8 +61,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout(LoginDTO dto, Model model) {
-		
+	public String logout() {
 		return "home";
 	}
 	

@@ -59,7 +59,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="#"><img src="/resources/img/ll.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="#"><img src="/resources/img/logo.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -87,8 +87,9 @@
     <div class="modal-dialog"> 
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header" style="padding:35px 50px;">
-          <h4><span class="glyphicon glyphicon-lock"></span> 로그인 </h4>
+        <div class="modal-header">
+          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          	<h4 class="modal-title" style="text-align:center;">로그인</h4>
         </div>     
         <div class="modal-body" style="padding:40px 50px;">
           <form role="form" action="/login" method="post">
@@ -173,6 +174,7 @@ $("#register").click(function(){
 $("#login").click(function(){
 	$("#loginModal").modal();
 });
+
 //mypage click
 $('.gotoNoUploadMypage').on("click", function(){
 	$.ajax({
