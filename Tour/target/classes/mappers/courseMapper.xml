@@ -7,58 +7,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="read" resultType="CourseVO">
 		select *
-		from tbl_course
+		from tbl_Course
 		where courseNumber = #{courseNumber}
 	</select>
 	
 	<insert id="add">
-		insert into tbl_course (courseName, userNumber, isGotten)
+		insert into tbl_Course (courseName, userNumber, isGotten)
 		values(#{courseName}, #{userNumber}, #{isGotten})
 	</insert>
 	
 	<select id="newCourseNumber" resultType="int">
 		select max(courseNumber)
-		from tbl_course
+		from tbl_Course
 		where userNumber = #{userNumber}
 	</select>
 	
 	<insert id="courseAdd">
-		insert into tbl_course (courseName, userNumber)
+		insert into tbl_Course (courseName, userNumber)
 		values(#{courseName}, #{userNumber})
 	</insert>
 	<select id="courseNumberRead" resultType="int">
 		select max(courseNumber)
-		from tbl_course
+		from tbl_Course
 		where userNumber = #{userNumber}
 	</select>
-	<select id="courseReadName" resultType="string">
+	<select id="allCourseName" resultType="string">
 		select courseName
-		from tbl_course
+		from tbl_Course
 		where userNumber = #{userNumber}
 	</select>
 	<select id="courseNoUploadNameRead" resultType="string">
+	<select id="courseReadName" resultType="string">
 		select courseName
-		from tbl_course
+		from tbl_Course
+		where courseNumber = #{courseNumber}
+	</select>
+	<select id="noUploadCourseNumber" resultType="int">
+		select courseNumber
+		from tbl_Course
 		where userNumber = #{userNumber} and isPosted = false
 	</select>
-	<select id="courseUploadNameRead" resultType="string">
-		select courseName
-		from tbl_course
-		where userNumber = #{userNumber} and isPosted = true
-	</select>
-	<select id="courseNumByName" resultType="int">
+	<select id="uploadCourseNumber" resultType="int">
 		select courseNumber
-		from tbl_course
-		where courseName = #{courseName}
+		from tbl_Course
+		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	<select id="delete">
 		delete
-		from tbl_course
+		from tbl_Course
 		where courseNumber = #{courseNumber}
 	</select>
 	<select id="simpleViewAll" resultType="CourseVO">
 		select *
-		from tbl_course
+		from tbl_Course
 		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	

@@ -76,13 +76,12 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
-		//System.out.println(jsonarray);
+		System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
 	public void add2(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		session.setAttribute("serviceKey", "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D");
+		model.addAttribute("serviceKey", "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D");
 	}
 	
 	@RequestMapping(value = "/course/make/add2/save", method = RequestMethod.POST)
@@ -94,7 +93,7 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("list", jsonarray);
-		//System.out.println(jsonarray);
+		System.out.println(jsonarray);
 	}
 		
 	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)
@@ -142,7 +141,7 @@ public class CourseMakeController {
 		try {
 			HttpSession session = request.getSession();
 			
-			List<String> courseNames = courseService.courseNameRead(((UserVO)session.getAttribute("login")).getUserNumber());
+			List<String> courseNames = courseService.allCourseName(((UserVO)session.getAttribute("login")).getUserNumber());
 			for(int i=0; i<courseNames.size(); i++) {
 				if(courseNames.get(i).equals(courseName)) {
 					throw new Exception();
@@ -306,6 +305,9 @@ public class CourseMakeController {
 		}
 		if(session.getAttribute("list")!=null) {
 			session.removeAttribute("list");
+		}
+		if(session.getAttribute("listU")!=null) {
+			session.removeAttribute("listU");
 		}
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");

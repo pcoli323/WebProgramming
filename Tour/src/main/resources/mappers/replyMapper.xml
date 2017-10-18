@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="list" resultType="ReplyVO">
 		select *
-		from tbl_reply
+		from tbl_Reply
 		where courseNumber = #{courseNumber}
 		order by replyNumber desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
@@ -15,21 +15,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="count" resultType="int">
 		select count(courseNumber)
-		from tbl_reply
+		from tbl_Reply
 		where courseNumber = #{courseNumber}
 	</select>
 	
 	<insert id="create">
-		insert into tbl_reply (courseNumber, reply, replyer)
+		insert into tbl_Reply (courseNumber, reply, replyer)
 		values (#{courseNumber}, #{reply}, #{replyer})
 	</insert>
 	
 	<update id="update">
-		update tbl_reply set reply = #{reply}, updateDate = now()
+		update tbl_Reply set reply = #{reply}, updateDate = now()
 		where replyNumber = #{replyNumber}
 	</update>
 	
 	<delete id="delete">
-		delete from tbl_reply where replyNumber = #{replyNumer}
+		delete from tbl_Reply where replyNumber = #{replyNumer}
 	</delete>
 </mapper>

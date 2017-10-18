@@ -7,50 +7,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="representatives" resultType="courseInfoVO">
 		select *
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber} and isRepresented = true
 		order by representedOrder asc
 	</select>
 	
 	<select id="getRealImage" resultType="string">
 		select gotoImageReal
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where gotoNumber = #{gotoNumber}
 	</select>
 	
 	<select id="dates" resultType="date">
 		select distinct gotoDate
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber}
 		order by gotoDate asc
 	</select>
 	
 	<select id="readAccordingToDate" resultType="courseInfoVO">
 		select *
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber} and gotoDate = #{gotoDate}
 		order by gotoOrder asc
 	</select>
 	
 	<select id="readAll" resultType="courseInfoVO">
 		select *
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber}
 	</select>
 	
 	<select id="delete">
 		delete
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber}
 	</select>
 	
 	<insert id="courseInfoAdd">
-		insert into tbl_courseInfo (courseNumber, gotoAddr1, gotoAddr2, gotoAreaCode, gotoContentID, gotoContentTypeID, gotoCreatedTime, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY, gotoModifiedTime, gotoReadCount, gotoSigunguCode, gotoTel, gotoTitle, gotoDate, gotoOrder)
+		insert into tbl_CourseInfo (courseNumber, gotoAddr1, gotoAddr2, gotoAreaCode, gotoContentID, gotoContentTypeID, gotoCreatedTime, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY, gotoModifiedTime, gotoReadCount, gotoSigunguCode, gotoTel, gotoTitle, gotoDate, gotoOrder)
 		values (#{courseNumber}, #{gotoAddr1}, #{gotoAddr2}, #{gotoAreaCode}, #{gotoContentID}, #{gotoContentTypeID}, #{gotoCreatedTime}, #{gotoImageReal}, #{gotoImageThum}, #{gotoLocationX}, #{gotoLocationY}, #{gotoModifiedTime}, #{gotoReadCount}, #{gotoSigunguCode}, #{gotoTel}, #{gotoTitle}, #{gotoDate}, #{gotoOrder})
 	</insert>
 	
 	<update id="changeImage">
-		update tbl_courseInfo
+		update tbl_CourseInfo
 		set gotoImageReal = #{gotoImageReal}, gotoImageThum = #{gotoImageThum}
 		where gotoNumber = #{gotoNumber}
 	</update>
@@ -63,13 +63,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 -->
 	 
 	<update id="initialRepresented">
-		update tbl_courseInfo
+		update tbl_CourseInfo
 		set isRepresented = false, representedOrder = 0
 		where courseNumber = #{courseNumber}
 	</update>
 	
 	<update id="representativeMark">
-		update tbl_courseInfo
+		update tbl_CourseInfo
 		set isRepresented = true, representedOrder = #{representedOrder}
 		where gotoNumber = #{gotoNumber}
 	</update>

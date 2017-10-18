@@ -6,24 +6,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.tour.mapper.LikeMapper">
 
 	<insert id="add">
-		insert into tbl_like (courseNumber, userNumber)
+		insert into tbl_Like (courseNumber, userNumber)
 		values (#{courseNumber}, #{userNumber})
 	</insert>
 	
 	<select id="count" resultType="int">
 		select count(userNumber)
-		from tbl_like
+		from tbl_Like
 		where courseNumber = #{courseNumber}
 	</select>
 	
 	<select id="check" resultType="int">
 		select count(userNumber)
-		from tbl_like
+		from tbl_Like
 		where courseNumber = #{courseNumber} and userNumber = #{userNumber}
 	</select>
 	
 	<delete id="delete">
-		delete from tbl_like
+		delete from tbl_Like
 		where courseNumber = #{courseNumber} and userNumber = #{userNumber}
 	</delete>
 </mapper>

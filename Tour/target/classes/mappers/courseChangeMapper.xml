@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.tour.mapper.CourseChangeMapper">
+	<select id="courseid" resultType="org.tour.dto.CourseIDDTO">
+	<![CDATA[
+	select *
+	from tbl_CourseInfoSimple
+	where tbl_CourseInfoSimple.courseNumber = #{courseNumber}
+	]]>
+	</select>
+	<select id="courses" resultType="org.tour.domain.CourseInfoVO">
+	<![CDATA[
+	select *
+	from tbl_CourseInfo
+	where courseNumber = #{courseNumber}
+	]]>
+	</select>
+</mapper>

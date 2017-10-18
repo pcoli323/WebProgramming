@@ -7,29 +7,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="exist" resultType="int">
 		select count(email)
-		from tbl_authorizing
+		from tbl_Authorizing
 		where email = #{email}
 	</select>
 	
 	<insert id="add">
-		insert into tbl_authorizing (email,authCode)
+		insert into tbl_Authorizing (email,authCode)
 		values(#{email},#{authCode})
 	</insert>
 	
 	<update id="update">
-		update tbl_authorizing set authCode = #{authCode}
+		update tbl_Authorizing set authCode = #{authCode}
 		where email = #{email}
 	</update>
 	
 	<select id="check" resultType="int">
 		select count(email)
-		from tbl_authorizing
+		from tbl_Authorizing
 		where (email = #{email} AND authCode = #{authCode})
 	</select>
 	
 	<delete id="delete">
 		delete
-		from tbl_authorizing
+		from tbl_Authorizing
 		where email = #{email}
 	</delete>
 </mapper>

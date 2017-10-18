@@ -35,6 +35,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			if(session.getAttribute("list")!=null) {
 				session.removeAttribute("list");
 			}
+			if(session.getAttribute("listU")!=null) {
+				session.removeAttribute("listU");
+			}
 			if(session.getAttribute("name")!=null) {
 				session.removeAttribute("name");
 			}
