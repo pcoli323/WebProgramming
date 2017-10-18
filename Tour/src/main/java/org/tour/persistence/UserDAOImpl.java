@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -34,5 +36,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int exist(String email) {
 		return session.selectOne(namespace + ".exist", email);
+	}
+
+	@Override
+	public List<Integer> search(String keyword) throws Exception {
+		
+		return session.selectList(namespace + ".search", keyword);
 	}
 }

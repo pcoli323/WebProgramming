@@ -28,5 +28,11 @@ public class AreaDAOImpl implements AreaDAO {
 		
 		return session.selectList(namespace + ".selectAll");
 	}
+
+	@Override
+	public List<Integer> search(String keyword) throws Exception {
+		
+		return session.selectList(namespace + ".search", keyword);
+	}
 	
 }

@@ -73,4 +73,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set isRepresented = true, representedOrder = #{representedOrder}
 		where gotoNumber = #{gotoNumber}
 	</update>
+	
+	<select id="searchAccordingToAreaCode" resultType="int">
+		select distinct(courseNumber)
+		from tbl_courseInfo
+		where gotoAreaCode = #{areaCode}
+	</select>
+	
+	<select id="searchAccordingToAreaAndSigunguCode" resultType="int">
+		select distinct(courseNumber)
+		from tbl_courseInfo
+		where gotoAreaCode = #{areaCode} and gotoSigunguCode = #{sigunguCode}
+	</select>
 </mapper>

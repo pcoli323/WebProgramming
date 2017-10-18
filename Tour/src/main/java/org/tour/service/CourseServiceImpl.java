@@ -89,9 +89,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<String> courseNameRead(int userNumber) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
+		
+		return dao.searchAccordingToUserNumber(userNumber);
 	}
-
 }

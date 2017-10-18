@@ -29,6 +29,6 @@ public interface CourseService {
 	public void delete(int courseNumber) throws Exception;
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
-
-	public List<String> courseNameRead(int userNumber);
+	
+	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
 }

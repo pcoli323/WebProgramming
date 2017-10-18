@@ -80,4 +80,10 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return session.selectList(namespace + ".simpleViewAll", userNumber);
 	}
+
+	@Override
+	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".searchAccordingToUserNumber", userNumber);
+	}
 }

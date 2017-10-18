@@ -9,4 +9,5 @@ public interface AreaDAO {
 	public void add(AreaVO vo) throws Exception;
 	public List<AreaVO> selectAll() throws Exception;
 	
+	public List<Integer> search(String keyword) throws Exception;
 }

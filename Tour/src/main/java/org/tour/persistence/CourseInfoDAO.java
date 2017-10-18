@@ -3,6 +3,7 @@ package org.tour.persistence;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.tour.domain.CourseInfoVO;
 
@@ -29,4 +30,8 @@ public interface CourseInfoDAO {
 	public void representativeMark(HashMap<String, Object> data) throws Exception;
 	
 	public void delete(int courseNumber) throws Exception;
+	
+	public List<Integer> searchAccordingToAreaCode(int areaCode) throws Exception;
+	
+	public List<Integer> searchAccordingToAreaAndSigunguCode (Map<String, Integer> areaAndSigunguCode) throws Exception;
 }

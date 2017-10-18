@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -32,5 +34,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int exist(String email) throws Exception {
 		return dao.exist(email);
+	}
+
+	@Override
+	public List<Integer> search(String keyword) throws Exception {
+		
+		return dao.search(keyword);
 	}
 }

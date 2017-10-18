@@ -1,6 +1,7 @@
 package org.tour.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.tour.domain.CourseInfoVO;
 
@@ -23,5 +24,8 @@ public interface CourseInfoService {
 	public void representativeMark(int gotoNumber, int representedOrder) throws Exception;
 	
 	public void delete(int CourseNumber) throws Exception;
-
+	
+	public List<Integer> searchAccordingToAreaCode(int areaCode) throws Exception;
+	
+	public List<Integer> searchAccordingToAreaAndSigunguCode(Map<String, Integer> areaAndSigunguCode) throws Exception;
 }
