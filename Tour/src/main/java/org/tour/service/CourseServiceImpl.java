@@ -86,4 +86,9 @@ public class CourseServiceImpl implements CourseService {
 		return dao.simpleViewAll(userNumber);
 	}
 
+	@Override
+	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
+		
+		return dao.searchAccordingToUserNumber(userNumber);
+	}
 }

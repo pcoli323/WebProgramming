@@ -1,6 +1,7 @@
 package org.tour.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,12 @@ public class SigunguServiceImpl implements SigunguService {
 	public List<SigunguVO> selectAll() throws Exception {
 
 		return dao.selectAll();
+	}
+
+	@Override
+	public List<Map<String, Integer>> search(String keyword) throws Exception {
+		
+		return dao.search(keyword);
 	}
 	
 }

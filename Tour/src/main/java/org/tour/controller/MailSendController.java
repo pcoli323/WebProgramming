@@ -88,7 +88,7 @@ public class MailSendController {
 				// 이메일 보내기	
 				SimpleMailMessage message = new SimpleMailMessage();
 				message.setTo(em);
-				message.setSubject("WebSiteName 인증 메일");
+				message.setSubject("Memcox 인증 메일");
 				message.setText("인증 코드 : "+joinCode);		
 				mailSender.send(message);
 				

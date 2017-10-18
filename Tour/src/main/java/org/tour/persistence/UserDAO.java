@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
+import java.util.List;
+
 import org.tour.domain.UserVO;
 import org.tour.dto.LoginDTO;
 
@@ -12,4 +14,6 @@ public interface UserDAO {
 	public UserVO read(int userNumber) throws Exception;
 
 	public int exist(String email);
+	
+	public List<Integer> search(String keyword) throws Exception;
 }

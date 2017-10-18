@@ -14,7 +14,6 @@
 	width:65%;
 	margin:auto;
 	}
-	
 	.courseView{
 	padding:50px;
 	padding-bottom:0px;

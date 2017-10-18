@@ -20,4 +20,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	order by areaCode asc, sigunguCode asc
 	]]>
 	</select>
+	
+	<select id="search" resultType="map">
+		select areaCode, sigunguCode
+		from tbl_sigungu
+		where sigunguName like CONCAT(#{keyword}, '%')
+	</select>
 </mapper>

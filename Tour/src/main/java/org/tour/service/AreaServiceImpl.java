@@ -27,5 +27,11 @@ public class AreaServiceImpl implements AreaService {
 		return dao.selectAll();
 		
 	}
+
+	@Override
+	public List<Integer> search(String keyword) throws Exception {
+		
+		return dao.search(keyword);
+	}
 	
 }

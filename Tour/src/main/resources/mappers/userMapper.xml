@@ -25,4 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_User
 		where email = #{email}
 	</select>
+	
+	<select id="search" resultType="int">
+		select userNumber
+		from tbl_user
+		where userName like CONCAT('%', #{keyword}, '%')
+	</select>
 </mapper>
