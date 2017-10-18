@@ -72,6 +72,11 @@
 	.bg-grey {
 		background-color: #f6f6f6;
 	}
+	#lastImageView {
+		height:120px;
+		text-align:center;
+		color:gray;
+	}
 </style>
 </head>
 <body>
@@ -195,15 +200,15 @@ var courseNumByName = ${courseNumber };
 				
 <c:set var="courseNumberCount" value="${courseNumberCount + 1}"></c:set>
 </c:forEach>
-				
+
+<div id="lastImageView">
+<br><br><br><br><p>End</p>
+</div>
+
 </div>
 <!-- footer -->
 <%@include file="../include/footer.jsp" %>
 
-<script>
-
-
-</script>
 <script>
 	var loginCheck;
 	var loginUserNumber;

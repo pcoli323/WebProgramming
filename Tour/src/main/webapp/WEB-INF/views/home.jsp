@@ -247,7 +247,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li id="mypage"><a href="#">${login.userName}</a></li>
+      				<li id="mypage"><a href=""  class="gotoNoUploadMypage">${login.userName}</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
@@ -433,8 +433,6 @@ $(document).ready(function(){
     $("#login").click(function(){
     	$("#loginModal").modal();
     });
-    $("#mypage").click(function(){
-    });
     $("#logout").click(function(){
     	alert("로그아웃되었습니다.");
     	location.href="/logout";
@@ -448,6 +446,21 @@ $(document).ready(function(){
     		location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
+    });
+});
+
+//mypage click
+$('.gotoNoUploadMypage').on("click", function(){
+	$.ajax({
+    	type:'post',
+        url: '/mypageNum',
+        headers: {
+			"Content-Type": "application/json",
+			"X-HTTP-Method-Override": "POST"
+		},
+		success: function(result){
+			 location.href="/mypage/" + result;
+		}
     });
 });
 

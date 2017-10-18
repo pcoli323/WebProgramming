@@ -59,7 +59,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="#"><img src="/resources/img/logo.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -72,7 +72,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li><a class="gotoNoUploadMypage">마이페이지</a></li>
+      				<li><a href=""  class="gotoNoUploadMypage">마이페이지</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>

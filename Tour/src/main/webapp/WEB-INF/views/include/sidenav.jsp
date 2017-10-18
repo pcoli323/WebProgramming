@@ -36,7 +36,7 @@
 <div class="sidenav">
 	<a class="sidenavAd">코    스     관    리</a><br>
 	<ul>
-		<li class="hideview" style="display:none;"><a class="gotoNoUploadMypage">게시 안 된 코스</a></li><br>
+		<li class="hideview" style="display:none;"><a href="" class="gotoNoUploadMypage">게시 안 된 코스</a></li><br>
 		<li class="hideview" style="display:none;"><a href="/uploadMypage">게시 된 코스</a></li><br>
 	</ul>
 	<a href="#">코    스     생    성</a><br><br><br><br>
