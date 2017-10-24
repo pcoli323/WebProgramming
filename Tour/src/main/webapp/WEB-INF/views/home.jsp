@@ -427,6 +427,8 @@
 
 <script>
 $(document).ready(function(){
+	if('${loginCheck}'==1)
+		alert("로그인되었습니다.");
     $("#register").click(function(){
     	$("#registerModal").modal();    	
     });
