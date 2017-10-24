@@ -67,4 +67,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_course
 		where userNumber = #{userNumber}
 	</select>
+	
+	<select id="noUploadCourseNumberRead" resultType="int">
+		select max(courseNumber)
+		from tbl_Course
+		where userNumber = #{userNumber} and isPosted = false
+	</select>
 </mapper>

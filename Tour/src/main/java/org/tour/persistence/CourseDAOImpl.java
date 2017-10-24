@@ -100,4 +100,10 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		session.selectOne(namespace + ".deletePost", vo);
 	}
+	
+	@Override	
+	public int noUploadCourseNumberRead(int userNumber) throws Exception {
+		
+		return session.selectOne(namespace + ".noUploadCourseNumberRead", userNumber);
+	}
 }

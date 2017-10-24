@@ -90,7 +90,7 @@ public class MypageController {
 				loginUser = (UserVO) session.getAttribute("login");
 			}
 			
-			int maxCourseNum = courseService.courseNumberRead(loginUser.getUserNumber());
+			int maxCourseNum = courseService.noUploadCourseNumberRead(loginUser.getUserNumber());
 			
 			entity = new ResponseEntity<Integer>(maxCourseNum, HttpStatus.OK);
 		}catch(Exception e) {

@@ -98,4 +98,9 @@ public class CourseServiceImpl implements CourseService {
 		
 		dao.deletePost(vo);
 	}
+	
+	@Override
+	public int noUploadCourseNumberRead(int userNumber) throws Exception {
+		return dao.noUploadCourseNumberRead(userNumber);
+	}
 }

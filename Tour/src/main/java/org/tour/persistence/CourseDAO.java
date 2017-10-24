@@ -34,4 +34,6 @@ public interface CourseDAO {
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
 	
 	public void deletePost(CourseVO vo) throws Exception;
+	
+	public int noUploadCourseNumberRead(int userNumber) throws Exception;
 }
