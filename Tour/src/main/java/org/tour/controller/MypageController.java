@@ -151,6 +151,12 @@ public class MypageController {
 		return "mypage/noUploadCourse";
 	}
 	
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String mypage(HttpServletRequest request, Model model) {
+		
+		return "mypage/noneView";
+	}
+	
 	@RequestMapping(value = "/mypage/delete/{courseNumber}", method = RequestMethod.POST)
 	public ResponseEntity<Integer> remove(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber){
 		
@@ -248,5 +254,31 @@ public class MypageController {
 		}
 		
 		return "mypage/uploadCourse";
+	}
+
+	
+	@RequestMapping(value = "/uploadMypage/delete/{courseNumber}", method = RequestMethod.POST)
+	public ResponseEntity<Integer> uploadDelete(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			CourseVO courseVO = new CourseVO();
+			courseVO.setStory(null);
+			courseVO.setPosted(false);
+			
+			CourseInfoVO courseInfoVO = new CourseInfoVO();
+			courseInfoVO.setIsRepresented(false);
+			courseInfoVO.setRepresentedOrder(0);
+			
+			courseService.deletePost(courseVO);
+			
+			
+			
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }

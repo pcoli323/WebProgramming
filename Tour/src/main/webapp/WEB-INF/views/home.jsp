@@ -461,7 +461,11 @@ $('.gotoNoUploadMypage').on("click", function(){
 			"X-HTTP-Method-Override": "POST"
 		},
 		success: function(result){
+			if(result == null){
+				location.href="/mypage";
+			} else {
 			 location.href="/mypage/" + result;
+			}
 		}
     });
 });

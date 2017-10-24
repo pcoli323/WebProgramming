@@ -11,19 +11,22 @@
 	
 	<style>
 	.sidenav {
-	    height: 100%;
-	    width: 300px;
-	    background-color: #111;
-	    padding-top: 70px;
-	    float:left;
-	    margin-top: -30px;
+		height: 100%;
+	    width: 270px;
+	    position: fixed;
+	    z-index: 1;
+	    top: 0;
+	    left: 0;
+	    background-color: #FFFFFF;
+	    overflow-x: hidden;
+	    padding-top: 90px;
 	}
 
 	.sidenav a {
 	    padding: 6px 6px 6px 32px;
 	    text-decoration: none;
 	    font-size: 25px;
-	    color: #818181;
+	    color: #337ab7;
 		display: block;
 	}
 	
@@ -39,7 +42,7 @@
 		<li class="hideview" style="display:none;"><a href="" class="gotoNoUploadMypage">게시 안 된 코스</a></li><br>
 		<li class="hideview" style="display:none;"><a href="/uploadMypage">게시 된 코스</a></li><br>
 	</ul>
-	<a href="#">코    스     생    성</a><br><br><br><br>
+	<a href="/course/make/add1">코    스     생    성</a><br><br><br><br>
 	<a href="#">팔  로  우   관  리</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<a href="#">개 인 정 보  수 정</a>
 </div>
@@ -55,7 +58,11 @@ $('.gotoNoUploadMypage').on("click", function(){
 			"X-HTTP-Method-Override": "POST"
 		},
 		success: function(result){
+			if(result == null){
+				location.href="/mypage";
+			} else {
 			 location.href="/mypage/" + result;
+			}
 		}
     });
 });
