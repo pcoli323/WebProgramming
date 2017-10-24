@@ -105,6 +105,9 @@ public class MypageController {
 	public String numMypage(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber, Model model) {
 		try {
 			
+			if(courseNumber == -1) {
+				return "mypage/noneView";
+			}
 			HttpSession	session = request.getSession();
 			
 			UserVO loginUser = new UserVO();
@@ -149,12 +152,6 @@ public class MypageController {
 		}
 		
 		return "mypage/noUploadCourse";
-	}
-	
-	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage(HttpServletRequest request, Model model) {
-		
-		return "mypage/noneView";
 	}
 	
 	@RequestMapping(value = "/mypage/delete/{courseNumber}", method = RequestMethod.POST)
