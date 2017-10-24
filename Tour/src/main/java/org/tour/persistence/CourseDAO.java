@@ -35,5 +35,5 @@ public interface CourseDAO {
 	
 	public void deletePost(CourseVO vo) throws Exception;
 	
-	public int noUploadCourseNumberRead(int userNumber) throws Exception;
+	public Integer noUploadCourseNumberRead(int userNumber) throws Exception;
 }

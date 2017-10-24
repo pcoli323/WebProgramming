@@ -100,7 +100,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public int noUploadCourseNumberRead(int userNumber) throws Exception {
+	public Integer noUploadCourseNumberRead(int userNumber) throws Exception {
 		return dao.noUploadCourseNumberRead(userNumber);
 	}
 }

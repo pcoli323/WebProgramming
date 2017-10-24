@@ -102,7 +102,7 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 	
 	@Override	
-	public int noUploadCourseNumberRead(int userNumber) throws Exception {
+	public Integer noUploadCourseNumberRead(int userNumber) throws Exception {
 		
 		Integer courseNumber = session.selectOne(namespace + ".noUploadCourseNumberRead", userNumber);
 		if(courseNumber == null) {
