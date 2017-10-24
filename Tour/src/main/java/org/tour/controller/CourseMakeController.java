@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -141,19 +142,16 @@ public class CourseMakeController {
 		try {
 			HttpSession session = request.getSession();
 			
-			List<String> courseNames = courseService.allCourseName(((UserVO)session.getAttribute("login")).getUserNumber());
-			for(int i=0; i<courseNames.size(); i++) {
-				if(courseNames.get(i).equals(courseName)) {
-					throw new Exception();
-				}
-			}
+			HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
+			courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
+			courseNameCompare.put("courseName", courseName);
+			String compareResult = courseService.allCourseName(courseNameCompare);
+			
+			if(compareResult != null)
+				throw new Exception();
 
-			int courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
 			session.setAttribute("name", courseName);
 
-			courseNumber++;
-			System.out.println(courseNumber);
-			session.setAttribute("courseNumber", courseNumber);
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 			
 		}catch(Exception e) {

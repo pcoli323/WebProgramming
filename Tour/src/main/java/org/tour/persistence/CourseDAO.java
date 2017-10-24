@@ -1,5 +1,6 @@
 package org.tour.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.tour.domain.CourseVO;
@@ -16,7 +17,7 @@ public interface CourseDAO {
 	
 	public int courseNumberRead(int userNumber) throws Exception;
 	
-	public List<String> allCourseName(int userNumber) throws Exception;
+	public String allCourseName(HashMap<String, Object> courseNameCompare) throws Exception;
 	
 	public String courseReadName(int courseNumber) throws Exception;
 	
@@ -31,4 +32,6 @@ public interface CourseDAO {
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
 	
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
+	
+	public void deletePost(CourseVO vo) throws Exception;
 }

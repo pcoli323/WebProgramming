@@ -1,5 +1,6 @@
 package org.tour.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,9 +47,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<String> allCourseName(int userNumber) throws Exception {
+	public String allCourseName(HashMap<String, Object> courseNameCompare) throws Exception {
 		
-		return dao.allCourseName(userNumber);
+		return dao.allCourseName(courseNameCompare);
 	}
 
 	@Override
@@ -90,5 +91,11 @@ public class CourseServiceImpl implements CourseService {
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
 		
 		return dao.searchAccordingToUserNumber(userNumber);
+	}
+	
+	@Override
+	public void deletePost(CourseVO vo) throws Exception {
+		
+		dao.deletePost(vo);
 	}
 }
