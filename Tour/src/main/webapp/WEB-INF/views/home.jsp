@@ -461,7 +461,7 @@ $('.gotoNoUploadMypage').on("click", function(){
 			"X-HTTP-Method-Override": "POST"
 		},
 		success: function(result){
-			if(result == null){
+			if(result == -1){
 				location.href="/mypage";
 			} else {
 			 location.href="/mypage/" + result;
