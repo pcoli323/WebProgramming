@@ -18,11 +18,13 @@
 	.content{
 	position:relative;
 	width:65%;
-	margin:auto;
+	margin-left:320px;
 	}
 	.courseView{
 	padding:50px;
 	padding-bottom:0px;
+	margin-top: 15px;
+	background-color: #FFFFFF;
 	}
 	.symbolButton{
   	font-size: 14px;
@@ -77,9 +79,13 @@
 		text-align:center;
 		color:gray;
 	}
+	.btn {
+		height:35px;
+		margin-top:-50px;
+	}
 </style>
 </head>
-<body>
+<body class="bg-grey">
 <script>
 var courseNameArr= ${courseName };
 var courseNumByName = ${courseNumber };
@@ -96,18 +102,15 @@ var courseNumByName = ${courseNumber };
 	<c:forEach items="${representatives}" var="Allrepresentative">
         
 	<div class="courseView">
-		<div class="courseView-header">
+		<div class="courseView-header" style="text-align:right;">
+			<button type=button class="btn btn-default modify">게시 수정</button>
+			<button type=button class="btn btn-default delete">게시 취소</button>
 			<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
 				${courseVO[courseNumberCount].courseName}
 			</h2>
 		</div><!-- /courseView-header -->
     
 	<div class="courseView-body">
-		<div class="courseMaker" style="text-align:left;font-family:'Jeju Gothic';">
-			<h5>
-				${userVO.userName}
-			</h5>
-		</div>
 		<div class="representatives" style="text-align:center">
 			<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
 				<table style="display:inline-block;">
@@ -226,10 +229,6 @@ var courseNumByName = ${courseNumber };
 		for(var i=0; i<courseNumByName.length; i++){
 			var courseNumber = courseNumByName[i];
 			following = ${userVO.userNumber};
-			// 배경 회색 처리
-			if(i%2 == 0) {
-				document.getElementsByClassName('courseView')[i].className = 'courseView bg-grey';
-			}
 			// view 초기화
 			likeCheck(courseNumber);
 			likeNumber(courseNumber);
@@ -379,7 +378,6 @@ var courseNumByName = ${courseNumber };
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("like!!");
 							likeToggle("active", courseNumber);
 							likeNumber(courseNumber);
 						}
@@ -402,7 +400,6 @@ var courseNumByName = ${courseNumber };
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							alert("no like!!");
 							likeToggle("non-active", courseNumber);
 							likeNumber(courseNumber);
 						}
@@ -472,6 +469,22 @@ var courseNumByName = ${courseNumber };
 				}
 			});
 		}
+	});
+
+	// 게시 수정 버튼 누를 시
+	$('.modify').on("click", function(){
+	});
+	
+	// 게시 삭제 버튼 누를 시
+	$('.delete').on("click", fuction(){
+		$.ajax({
+			type:'post',
+			url:'/uploadMypage/delete/'+courseNumber,
+			headers: { "Content-Type": "application/json" },
+			success:function(result){
+				location.reload();
+			}
+		});
 	});
 </script>
 </body>
