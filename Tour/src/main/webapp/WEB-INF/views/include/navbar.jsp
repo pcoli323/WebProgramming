@@ -62,6 +62,11 @@
       <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-left">
+      	<li id="popular"><a href="#">인기코스보기</a></li>
+        <li id="create"><a href="#">코스만들기</a></li>
+        <li id="search"><a href="#">코스검색</a></li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
       	<c:choose>
   			<c:when test="${empty login}">
@@ -72,7 +77,7 @@
   			</c:when>
   			<c:otherwise>
   				<ul class="nav navbar-nav navbar-right">
-      				<li><a href=""  class="gotoNoUploadMypage">마이페이지</a></li>
+      				<li id="mypage"><a href="#">${login.userName}</a></li>
         			<li id="logout"><a href="#">로그아웃</a></li>
     			</ul>
   			</c:otherwise>
@@ -173,6 +178,15 @@ $("#register").click(function(){
 });
 $("#login").click(function(){
 	$("#loginModal").modal();
+});
+$("#popular").click(function(){
+	location.href="/";    	
+});
+$("#create").click(function(){
+	location.href="/course/make/add1";
+});
+$("#search").click(function(){
+	location.href="/";   	
 });
 
 //mypage click

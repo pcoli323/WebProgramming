@@ -53,11 +53,11 @@
 			<div class="row" style="padding:10px;">
 				<div class="col-sm-12">
 					<form id="sbox">
-						<label class="radio-inline selectedBox">
-      						<input type="radio" name="optradio" value="0" checked="checked">전체
+						<label class="radio-inline box">
+      						<input type="radio" name="optradio" value="0">전체
     					</label>
-    					<label class="radio-inline box">
-      						<input type="radio" name="optradio" value="12">관광지
+    					<label class="radio-inline selectedBox">
+      						<input type="radio" name="optradio" value="12" checked="checked">관광지
     					</label>
     					<label class="radio-inline box">
       						<input type="radio" name="optradio" value="14">문화시설
@@ -121,7 +121,7 @@ var selectedList = new Array(); // 선택한 여행지 정보 (jsonArray)
 var selectedListUser = new Array(); // 사용자가 추가한 여행지 정보 (jsonArray)
 var total;
 var presentPage;
-var contentType = "0";
+var contentType = "12";
 var orderOptions = "B";
 var nowTab = null;
 
@@ -144,6 +144,10 @@ $(document).ready(function(){
 		str += "<div class='tab-pane' id='" + json.areaCode + "-" + json.sigunguCode + "' role='tabpanel'></div>";
 	}
 	document.getElementById("checkboxes").innerHTML = str;
+
+	var initId = jsonIDArr[0].areaCode + "-" + jsonIDArr[0].sigunguCode;	
+	callAPI(initId);
+	$('.nav-tabs a:first').tab('show');
 	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
