@@ -19,68 +19,46 @@
 	    left: 0;
 	    background-color: #FFFFFF;
 	    overflow-x: hidden;
-	    padding-top: 90px;
+	    padding-top: 250px;
+	    padding-left: 40px;
 	}
 
 	.sidenav a {
 	    padding: 6px 6px 6px 32px;
 	    text-decoration: none;
-	    font-size: 25px;
+	    font-size: 18px;
 	    color: #337ab7;
 		display: block;
 	}
 	
 	.sidenav a:hover {
 		color: #f1f1f1;
+		background-color: #337ab7;
+	}
+	
+	.hideview {
+	    text-decoration: none;
+	    font-size: 10px;
+	    color: #337ab7;
+		display: block;
 	}
 	</style>
 </head>
 
 <div class="sidenav">
-	<a class="sidenavAd">코    스     관    리</a><br>
+	<a>코    스     관    리</a><br>
 	<ul>
-		<li class="hideview" style="display:none;"><a href="" class="gotoNoUploadMypage">게시 안 된 코스</a></li><br>
-		<li class="hideview" style="display:none;"><a href="/uploadMypage">게시 된 코스</a></li><br>
+		<li class="hideview"><a href="#" class="gotoNoUploadMypage">게시 전 코스</a></li><br>
+		<li class="hideview"><a href="/uploadMypage">게시 된 코스</a></li><br>
 	</ul>
-	<a href="/course/make/add1">코    스     생    성</a><br><br><br><br>
-	<a href="#">팔  로  우   관  리</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<a href="#">개 인 정 보  수 정</a>
+	<a href="#">팔  로  우   관  리</a><br>
+	<a href="#">개 인 정 보  관 리</a>
 </div>
 
 
 <script>
 $('.gotoNoUploadMypage').on("click", function(){
-	$.ajax({
-    	type:'post',
-        url: '/mypageNum',
-        headers: {
-			"Content-Type": "application/json",
-			"X-HTTP-Method-Override": "POST"
-		},
-		success: function(result){
-	 		location.href="/mypage/" + result;
-		}
-    });
-});
-$('.sidenavAd').on("click", function(){
-	var str = "";
-	if($('.hideview').attr("style")=="display:none;"){
-		str = "display:block;";
-		$('.hideview').attr("style", str);
-	} else {
-		str = "display:none;";
-		$('.hideview').attr("style", str);
-	}
-});
-$('.sidenavAd').mouseover(function(){
-	var str = $(this).attr("style");
-	
-	str = str + ";cursor:pointer;";
-	$(this).attr("style", str);
-});
-$('.sidenavAd').mouseout(function(){
-	
-	$(this).attr("style", "");
+    location.href="/mypage/0";
 });
 </script>
 </html>

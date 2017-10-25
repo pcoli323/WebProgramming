@@ -12,18 +12,10 @@
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	html, body{overflow-x:hidden;}
 	body {
-		background-color:#F1F1F1;
 		font-family: "Lato", sans-serif;
 	}
 	/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 	.row.content {height: 450px}
-    
-	/* Set black background color, white text and some padding */
-	footer {
-		background-color: #555;
-		color: white;
-		padding: 15px;
-	}
     
 	/* On small screens, set height to 'auto' for sidenav and grid */
 	
@@ -36,8 +28,10 @@
 	.mypageDiv {
 		padding-top:10px;
 		background-color:#FFFFFF;
+		padding-left:350px;
 		width:1100px;
-		margin-left:120px;
+		margin-top:20px;
+		margin-left:400px;
 	}
 	.selectCourseName {
 		width:200px;
@@ -60,10 +54,11 @@
 	width:100%;
 	resize:none;
 	padding:50px;
+	padding-top:0px;
 	margin:auto;
 	}
 	.planTables{
-	background-color:#F2F2F2;
+	background-color:white;
 	padding:20px;
 	display:inline-block;
 	width:40%;
@@ -176,6 +171,20 @@
 	padding-right:20px;
 	display:none;
 	}
+	.bg-grey {
+		background-color: #f6f6f6;
+	}
+	.header {
+		padding-top:5px;
+		padding-bottom:5px;
+		border-bottom:1px solid #337ab7;
+	}
+	.allView {
+		padding-top:30px;
+	}
+	.courseView-header {
+		margin-bottom:50px;
+	}
 	</style>
 	
 	<!-- map처리 -->
@@ -188,20 +197,36 @@
 			center: mapcenter
 		});
 	}
+
+	function pinSymbol(color) {
+		return {
+			path: google.maps.SymbolPath.CIRCLE,
+			fillColor: color,
+			fillOpacity: 1,
+			strokeColor: color,
+			strokeWeight: 1,
+			scale: 5,
+		};
+	}
 	var markers = [];
 	var infowindows = [];
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
+	var flightPlanCoordinates = [];
+	var polyLineCount = 0;
 	
 	function makeMarker(locationX, locationY, image, title, tel, address, id){
 		if(locationX != ""){
+			
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
 			var marker = new google.maps.Marker({
 				position: mapPositions,
 				map: map,
 				title:title,
+				icon:pinSymbol("red"),
 				animation:null
 			});
+			
 			markers.push(marker);
 			if(image != ""){
 				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + image 
@@ -216,20 +241,32 @@
 			markerListener(marker, infowindow, id);
 			gotoNumberMapMarker.set(id, markerIndex);
 			markerIndex++;
+			
+			flightPlanCoordinates[polyLineCount] = new google.maps.LatLng(locationY, locationX);
+			polyLineCount++;
+			
+			var flightPath = new google.maps.Polyline({
+				path: flightPlanCoordinates,
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+			flightPath.setMap(map);
 		}
 	}
 	function markerListener(localmarker, infowindow, id){    
-	      	google.maps.event.addListener(localmarker, 'click', function() {
-				//infowindow.open(map, localmarker);
-				for(var i=0; i<markers.length; i++){
-					markers[i].setAnimation(null);
-				}
-				showInfo(id);
-				localmarker.setAnimation(google.maps.Animation.BOUNCE);
-				});
-	      	google.maps.event.addListener(infowindow, 'closeclick', function(){
-				localmarker.setAnimation(null);
-			});
+		google.maps.event.addListener(localmarker, 'click', function() {
+			//infowindow.open(map, localmarker);
+			for(var i=0; i<markers.length; i++){
+				markers[i].setAnimation(null);
+			}
+			showInfo(id);
+			localmarker.setAnimation(google.maps.Animation.BOUNCE);
+		});
+		google.maps.event.addListener(infowindow, 'closeclick', function(){
+			localmarker.setAnimation(null);
+		});
 	}
 </script>
 <script>
@@ -244,7 +281,7 @@
 </script>
 
 </head>
-<body>
+<body class="bg-grey">
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
 <script>
@@ -255,113 +292,112 @@ var courseNumByName = ${courseNumByName };
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
 		
-<div class="container-fluid" style="margin-top:-60px;">
-	<div class="row content">
-		<div class="mypageDiv col-sm-8"> 
-			<!-- My course -->
-			<div class="allView">
-				<div class="mycourse">
-					<form>
-						<select class="selectCourseName" id="selectCourseName">
-						
-						</select>
-					</form>
-				</div>
-	<div class="courseView">
-	
-		<div class="courseView-header">
-			<h2 class="courseName" style="text-align:center">
-				${courseVO.courseName}
-			</h2>
-		</div><!-- /courseView-header -->
-        
-        <div class="courseView-body">
-        	
-        	<div class="main" style="display:flex;margin-bottom:35px;">
-       			<div class="planTables">
-       				<c:set var="gotoID" value="0"></c:set>
-        			<c:forEach var="date" items="${plan.keySet()}">
-        				<div class="planTable">
-        					<table style="background-color:#ffff99">
-        						<tr class="dtaeField" >
-        							<th style="text-align:center;height:30px;background-color:#ffff80">${date}</th>
-        						</tr>
-        						<tr class="gotoField">
-        							<td style="text-align:center">
-        								<c:set var="gotoList" value="${plan.get(date)}"></c:set>
+<div class="container-fluid mypageDiv">
+	<div class="header">
+		<h1>코 스 관 리</h1>
+		<p>게시 전 코스</p>
+	</div>
+	<!-- My course -->
+	<div class="allView">
+		<div class="mycourse">
+			<form>
+				<select class="selectCourseName" id="selectCourseName">
+				
+				</select>
+			</form>
+		</div>
+		<div class="courseView">
+			<div class="courseView-header">
+			
+				<h2 class="courseName" style="text-align:center">
+					${courseVO.courseName}
+				</h2>
+			</div><!-- /courseView-header -->
+	        
+	        <div class="courseView-body">
+	        
+	        	<div class="main" style="display:flex;margin-bottom:35px;">
+	       			<div class="planTables">
+	       				<c:set var="gotoID" value="0"></c:set>
+	        			<c:forEach var="date" items="${plan.keySet()}">
+	        				<div class="planTable">
+	        					<table style="background-color:#ffff99">
+	        						<tr class="dtaeField" >
+	        							<th style="text-align:center;height:30px;background-color:#ffff80">${date}</th>
+	        						</tr>
+	        						<tr class="gotoField">
+	        							<td style="text-align:center">
+	        								<c:set var="gotoList" value="${plan.get(date)}"></c:set>
+        									<c:forEach var="gotoOne" items="${gotoList}">
+	        									<div><span class="goto" id="${gotoID}">${gotoOne.gotoName}</span></div>
+	        									<script>
+	        										var length = ${gotoOne.gotoName.length()};
+	        										var id = ${gotoID};
+	        										if(length>13){
+	        											fitFontSize(id, length);
+	        										}
+	        										var image = "${gotoOne.gotoImage}";
+	        										var info = [];
+	        										info.push("${gotoOne.gotoName}");
+	        										info.push("${gotoOne.address}");
+	        										info.push("${gotoOne.tel}");
+	        										images.push(image);
+	        										infos.set(id, info);
+	        									</script>
+        										<c:set var="gotoID" value="${gotoID + 1}"></c:set>
+        									</c:forEach>
+        								</td>
+        							</tr>
+        						</table>
+        					</div>
+        				</c:forEach>
+        			</div><!-- /planTable -->
+        		
+	        		<div class="infoContent">
+	        			<div class="move" style="position:relative;">
+	        				<div class="mapView">
+	        					<div class="mapContent" id="map">
+	        					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
+	        					<c:set var="gotoID" value="0"></c:set>
+	        					<c:forEach var="date" items="${plan.keySet()}">
+	        						<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         								<c:forEach var="gotoOne" items="${gotoList}">
-        								<div><span class="goto" id="${gotoID}">${gotoOne.gotoName}</span></div>
         									<script>
-        										var length = ${gotoOne.gotoName.length()};
-        										var id = ${gotoID};
-        										if(length>13){
-        											fitFontSize(id, length);
-        										}
-        										var image = "${gotoOne.gotoImage}";
-        										var info = [];
-        										info.push("${gotoOne.gotoName}");
-        										info.push("${gotoOne.address}");
-        										info.push("${gotoOne.tel}");
-        										images.push(image);
-        										infos.set(id, info);
+        										makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.tel}", "${gotoOne.address}", "${gotoID}");
         									</script>
         									<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         								</c:forEach>
-        							</td>
-        						</tr>
-        					</table>
-        				</div>
-        			</c:forEach>
-        		</div><!-- /planTable -->
-        		
-        		<div class="infoContent">
-        			<div class="move" style="position:relative;">
-        				<div class="mapView">
-        					<div class="mapContent" id="map">
-        					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap"></script>
-        					<c:set var="gotoID" value="0"></c:set>
-        					<c:forEach var="date" items="${plan.keySet()}">
-        						<c:set var="gotoList" value="${plan.get(date)}"></c:set>
-        						<c:forEach var="gotoOne" items="${gotoList}">
-        							<script>
-        								makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.tel}", "${gotoOne.address}", "${gotoID}");
-        							</script>
-        							<c:set var="gotoID" value="${gotoID + 1}"></c:set>
-        						</c:forEach>
-        					</c:forEach>
-        					</div>
-        					<div class="mapInfo" style="text-align:right;color:red;font-size:13px;display:none">
-        						위치정보가 없습니다.
-        					</div>
-        				</div><!-- /mapView -->
+        							</c:forEach>
+        						</div>
+        						<div class="mapInfo" style="text-align:right;color:red;font-size:13px;display:none">
+        							위치정보가 없습니다.
+        						</div>
+        					</div><!-- /mapView -->
         				
-        				<div class="infoView">
-        					<div class="imageView">
-        					</div>
-        					<div class="info">
-        					</div>
-        				</div><!-- /infoView -->
-        			</div><!-- move -->
-        		</div><!-- /infoContent -->
-        	</div><!-- /main -->
-        	
-        	
-        			<c:if test="${courseVO.story ne null}">
-        				<div class="story" style="margin-bottom:10px;">
-        					${courseVO.story}
-						</div>
-					</c:if>
+        					<div class="infoView">
+        						<div class="imageView">
+        						</div>
+        						<div class="info">
+        						</div>
+        					</div><!-- /infoView -->
+        				</div><!-- move -->
+        			</div><!-- /infoContent -->
+				</div><!-- /main -->
+
+        		<c:if test="${courseVO.story ne null}">
+        			<div class="story" style="margin-bottom:10px;">
+        				${courseVO.story}
+					</div>
+				</c:if>
         			
-					</div><!-- /courseView-body -->
+			</div><!-- /courseView-body -->
         
-			        <div class="courseView-footer" style="text-align:right; clear:left">
-			        	<button type="button" class="btn btn-default modify">수정</button>
-						<button type="button" class="btn btn-default delete">삭제</button>
-						<button type="button" class="btn btn-default post">게시</button>
-					</div><!-- /courseView-footer -->
-				</div><!-- /courseView -->
-			</div>
-		</div>
+			<div class="courseView-footer" style="text-align:right; clear:left">
+				<button type="button" class="btn btn-default modify">수정</button>
+				<button type="button" class="btn btn-default delete">삭제</button>
+				<button type="button" class="btn btn-default post">게시</button>
+			</div><!-- /courseView-footer -->
+		</div><!-- /courseView -->
 	</div>
 </div>
 <script>
@@ -411,12 +447,14 @@ $('.goto').mouseover(function(){
 	
 	str = str + ";background-color:#d9ff66;cursor:pointer;";
 	$(this).attr("style", str);
+	markers[id].setIcon((pinSymbol("green")));
 });
 $('.goto').mouseout(function(){
 	var id = $(this).attr("id");
 	var str = $(this).attr("style").split(';');
 	
 	$(this).attr("style", str[0]);
+	markers[id].setIcon((pinSymbol("red")));
 });
 
 // goto 누르면 지도에 해당하는 marker에 대해 작동하도록

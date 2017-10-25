@@ -176,18 +176,8 @@ $("#login").click(function(){
 });
 
 //mypage click
-$('.gotoNoUploadMypage').on("click", function(){
-	$.ajax({
-    	type:'post',
-        url: '/mypageNum',
-        headers: {
-			"Content-Type": "application/json",
-			"X-HTTP-Method-Override": "POST"
-		},
-		success: function(result){
-			 location.href="/mypage/" + result;
-		}
-    });
+$("#mypage").click(function(){
+	location.href="/mypage/0";
 });
 $("#logout").click(function(){
 	location.href="/logout";

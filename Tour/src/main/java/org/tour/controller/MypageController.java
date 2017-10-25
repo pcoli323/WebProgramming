@@ -69,40 +69,29 @@ public class MypageController {
 	
 	
 	//mypage view 넘어갈때 최대 값 주기
-	@RequestMapping(value="/mypageNum", method = RequestMethod.POST)
-	public ResponseEntity<Integer> mypageNum(HttpServletRequest request, Model model){
-		
-		ResponseEntity<Integer> entity = null;
+	public int mypageNum(HttpServletRequest request){
+		int maxCourseNum = 0;
 		try {
 			
 			HttpSession	session = request.getSession();
 			
-			UserVO loginUser = new UserVO();
-			if(session.getAttribute("login") == null) {
-				model.addAttribute("loginCheck", false);
-				loginUser.setUserNumber(-1);
-				loginUser.setEmail(null);
-				loginUser.setPwd(null);
-				loginUser.setUserName(null);
-			}
-			else {
-				model.addAttribute("loginCheck", true);
-				loginUser = (UserVO) session.getAttribute("login");
-			}
+			UserVO loginUser = (UserVO) session.getAttribute("login");
 			
-			int maxCourseNum = courseService.noUploadCourseNumberRead(loginUser.getUserNumber());
+			maxCourseNum = courseService.noUploadCourseNumberRead(loginUser.getUserNumber());
 			
-			entity = new ResponseEntity<Integer>(maxCourseNum, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
-			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
-		return entity;
+		
+		return maxCourseNum;
 	}
 	
 	// 업로드 되지 않은 view 처리
 	@RequestMapping(value = "/mypage/{courseNumber}", method = RequestMethod.GET)
 	public String numMypage(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber, Model model) {
+		if(courseNumber==0) {
+			courseNumber = mypageNum(request);
+		}
 		try {
 			
 			if(courseNumber == -1) {
