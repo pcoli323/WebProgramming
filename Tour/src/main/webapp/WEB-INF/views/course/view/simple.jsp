@@ -66,9 +66,7 @@
     }
 </style>
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 </head>
@@ -425,6 +423,8 @@
 	}
 	
 	$(document).on("click", '.like', function(){
+		console.log(loginUserNumber);
+		console.log(loginCheck);
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
