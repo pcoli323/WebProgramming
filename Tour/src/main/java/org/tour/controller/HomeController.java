@@ -68,7 +68,7 @@ public class HomeController {
 			UserVO vo = service.login(dto);
 			if(vo!=null) {
 				model.addAttribute("userVO",vo);
-				model.addAttribute("loginCheck","1");
+				model.addAttribute("loginSuccess","1");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

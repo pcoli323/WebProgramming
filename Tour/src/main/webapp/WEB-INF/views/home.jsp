@@ -273,18 +273,7 @@
 	<div class="container-fluid text-center" style="background-color:#ffffff;">
   		<h2 style="color:#337ab7;">이달의 인기 코스</h2>
 	</div>
-	<!-- Top 1 -->
-	<div id="top1" class="container-fluid text-center bg-grey">
-		<h2>Top 1</h2>
-	</div>
-	<!-- Top 2 -->
-	<div id="top2" class="container-fluid text-center">
-		<h2>Top 2</h2>
-	</div>
-	<!-- Top 3 -->
-	<div id="top3" class="container-fluid text-center bg-grey">
-		<h2>Top 3</h2>
-	</div>
+	<div class="top3"></div>
 	<!-- more -->
 	<div id="more" class="container-fluid text-center">
 		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
@@ -426,8 +415,11 @@
 </body>
 
 <script>
+var loginCheck = null;
+var loginUserNumber = null;
+
 $(document).ready(function(){
-	if('${loginCheck}'==1)
+	if('${loginSuccess}'==1)
 		alert("로그인되었습니다.");
     $("#register").click(function(){
     	$("#registerModal").modal();    	
@@ -452,6 +444,11 @@ $(document).ready(function(){
     $("#mypage").click(function(){
     	location.href="/mypage/0";
     });
+    
+    var oar = new Array();
+    oar.push(25);
+    oar.push(26);
+    simpleView(oar, "false", "top3");
 });
 
 
@@ -625,5 +622,7 @@ $(document).ready(function(){
   });
 })
 </script>
+
+<%@include file="./course/view/simple.jsp" %>
 
 </html>
