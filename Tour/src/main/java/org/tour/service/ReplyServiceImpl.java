@@ -51,4 +51,10 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		dao.delete(replyNumber);
 	}
+	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		dao.deletePost(courseNumber);
+	}
 }

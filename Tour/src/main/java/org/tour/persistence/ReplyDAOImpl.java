@@ -54,4 +54,9 @@ public class ReplyDAOImpl implements ReplyDAO {
 		session.delete(namespace + ".delete", replyNumber);
 	}
 	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		session.delete(namespace + ".deletePost", courseNumber);
+	}
 }

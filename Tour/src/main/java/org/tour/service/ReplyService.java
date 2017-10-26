@@ -17,4 +17,6 @@ public interface ReplyService {
 	public void modify(ReplyVO vo) throws Exception;
 	
 	public void delete(int replyNumber) throws Exception;
+	
+	public void deletePost(int courseNumber) throws Exception;
 }
