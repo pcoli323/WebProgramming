@@ -31,5 +31,4 @@ public class FollowDAOImpl implements FollowDAO {
 		
 		session.delete(namespace + ".delete", vo);
 	}
-	
 }

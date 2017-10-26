@@ -9,10 +9,12 @@
 	@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	
-	.content{
+	.viewContent{
 	position:relative;
-	width:65%;
-	margin:auto;
+	width:100%;
+	margin-top:20px;
+	border: 1px solid #ff9900;
+	background-color: peachpuff;
 	}
 	.courseView{
 	padding:50px;
@@ -23,7 +25,7 @@
   	text-align: center;
   	vertical-align: middle;
   	border: 1px solid transparent;
-  	background-color:#ffffff;
+  	background-color:rgba(0,0,0,0);
   	outline:0
 	}
 	.symbol{
@@ -64,183 +66,204 @@
     }
 </style>
 <head>
-	<meta charset="UTF-8">
-	<title>courseView Simple</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 </head>
 <body>
+<!-- simpleView를 부르는 함수 -->
+<script>
+	function simpleView(courseList, mypage, position){
+		$.ajax({
+			type:'post',
+			url:'/course/view/simple_2',
+			headers:{
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "POST"
+			},
+			dataType:'text',
+			data: JSON.stringify({
+				list:courseList
+			}),
+			success:function(data){
+				var list = JSON.parse(data);
+				var templateData = {list:list, mypage:mypage};
+				
+				var source = $("#template").html();
+				var template = Handlebars.compile(source);
+				$(position).html(template(templateData));
+				console.log(templateData);
+				console.log(list.length);
+				console.log(list);
+				for(var i=0; i<list.length; i++){
+					var courseNumber = list[i].courseNumber;
+					var following = list[i].userNumber;
+					// view 초기화
+					followCheck(courseNumber, following);
+					likeCheck(courseNumber);
+					likeNumber(courseNumber);
+					replyNumber(courseNumber);
+				}
+			}
+		});
+	}
+</script>
 
-<div class="content">
+<script id="template" type="tex/x-handlerbars-template">
+{{#each list}}
+<div class="viewContent">
 	<div class="courseView">
-
+		{{#if ../mypage}}
+			<div class="uploadButton" style="text-align:right;">
+				<button type=button class="btn btn-default modify" id="modify-{{courseNumber}}">게시 수정</button>
+				<button type=button class="btn btn-default delete">게시 취소</button>
+			</div><!-- /uploadButton -->
+		{{/if}}
 		<div class="courseView-header">
-			<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
-				${courseVO.courseName}
+			<h2 class="courseName" id="name-{{courseNumber}}" style="text-align:center;font-family:'Jeju Gothic';">
+				{{courseName}}
 			</h2>
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
         	<div class="courseMaker" style="text-align:left;font-family:'Jeju Gothic';">
         		<h5>
-        			<button type="button" class="symbolButton" id="follow"></button>
-					${userVO.userName}
+					{{#followButton userNumber courseNumber}}
+        			{{/followButton}}
+        			{{userName}}
         		</h5>
         	</div>
         	<div class="representatives" style="text-align:center">
-        		<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
-        		<table style="display:inline-block;">
-        			<tr>
-        				<c:forEach items="${representatives}" var="representative" varStatus="status">
-        					<c:if test="${status.index % 2 == 0}">
-        						<td class="representativeImageTable">
-        							<c:choose>
-        								<c:when test="${representative.gotoImageThum ne null}">
-        									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        								</c:when>
-        								<c:otherwise>
-        									<c:choose>
-        										<c:when test="${representative.gotoImageReal ne null}">
-        											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        										</c:when>
-        										<c:otherwise>
-        											<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
-        												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
-        											</div>
-        										</c:otherwise>
-        									</c:choose>
-        								</c:otherwise>
-        							</c:choose>
-        							${representative.gotoTitle}
-        						</td>
-        					</c:if>
-        					<c:if test="${status.index % 2 != 0}">
-        						<td class="representativeImageTable"></td>
-        					</c:if>
-        				</c:forEach>
-        			</tr>
-        			<tr>
-        				<c:forEach items="${representatives}" var="representative" varStatus="status">
-        					<c:if test="${status.index % 2 == 0}">
-        						<td class="representativeImageTable"></td>
-        					</c:if>
-        					<c:if test="${status.index % 2 != 0}">
-        						<td class="representativeImageTable">
-        							<c:choose>
-        								<c:when test="${representative.gotoImageThum ne null}">
-        									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}"><br>
-        								</c:when>
-        								<c:otherwise>
-        									<c:choose>
-        										<c:when test="${representative.gotoImageReal ne null}">
-        											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}"><br>
-        										</c:when>
-        										<c:otherwise>
-        											<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
-        												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
-        											</div>
-        										</c:otherwise>
-        									</c:choose>
-        								</c:otherwise>
-        							</c:choose>
-        							${representative.gotoTitle}
-        						</td>
-        					</c:if>
-        				</c:forEach>
-        			</tr>
-        		</table>
+				{{representativeList representatives courseNumber}}
         	</div><!-- /representatives -->
        	</div><!-- /courseView-body -->
        	
         <div class="courseView-footer" style="text-align:right">
-			<button type="button" class="symbolButton" id="like">
-				<span class="glyphicon symbol" id="like_symbol" style="color:#ff0000"></span>
-				<small class="likeNum"></small>
+			<button type="button" class="symbolButton like" id="like-{{courseNumber}}">
+				<span class="glyphicon symbol" id="like_symbol-{{courseNumber}}" style="color:#ff0000"></span>
+				<small id="likeNum-{{courseNumber}}"></small>
 			</button>
-			<button type="button" class="symbolButton" id="reply" style="cursor:default">
+			<button type="button" class="symbolButton reply" id="reply-{{courseNumber}}" style="cursor:default">
 				<span class="glyphicon glyphicon-comment symbol"></span>
-				<small class="replyNum"></small>
+				<small id="replyNum-{{courseNumber}}"></small>
 			</button>
-			<button type="button" class="symbolButton" id="change">
+			<button type="button" class="symbolButton change" id="change-{{courseNumber}}">
 				<span class="glyphicon glyphicon-search symbol"></span>
 			</button>
-			<button type="button" class="symbolButton" id="getCourse">
+			<button type="button" class="symbolButton getCourse" id="getCourse-{{courseNumber}}">
 				<span class="glyphicon glyphicon-share-alt symbol"></span>
 			</button>
         </div><!-- /courseView-footer -->
        	
 	</div><!-- /courseView -->
 	<!-- mouseOver시 보여지는 big 이미지-->
-	<div class="mouseOverImageView">
-		<div class="mouseOverImageContent">
+	<div class="mouseOverImageView" id="mouseOverImageView-{{courseNumber}}">
+		<div class="mouseOverImageContent" id="mouseOverImageContent-{{courseNumber}}">
 		</div><!-- /mouseOverImageContent -->
 	</div><!-- /mouseOverImageView -->
 </div><!-- /content -->
-
+{{/each}}
+</script>
+<!-- Handlebars Helper -->
 <script>
-	var loginCheck;
-	var loginUserNumber;
-	var courseNumber;
-	var following;
-	$(document).ready(function(){
-		// 변수 초기화
-		loginCheck = ${loginCheck};
-		if(loginCheck == false){
-			loginUserNumber = null;
-		}
-		else{
-			loginUserNumber = ${loginUser.userNumber};
-		}
-		courseNumber = ${courseVO.courseNumber};
-		following = ${userVO.userNumber};
-		// view 초기화
-		followCheck();
-		likeCheck();
-		likeNumber();
-		replyNumber();
-		// 마우스 올렸을 때 이미지 띄우기
-		$(".representativeImage").mouseover(function(event){
-			var imgSrc = "";
-			var imgHtml;
-			
-			if($(this).hasClass("noImage") == false){
-				if ($(this).hasClass("realImage") == true){
-					imgSrc = $(this).attr("src");
-					imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
-					$(".mouseOverImageContent").html(imgHtml);
-					$(".mouseOverImageView").show();
+	Handlebars.registerHelper("representativeList", function(representatives, courseNumber){
+		var str = '';
+		str += "<table style='display:inline-block;'><tr>";
+		for(var i=0; i<representatives.length; i++){
+			var representative = representatives[i];
+			str += "<td class='representativeImageTable'>";
+			if(i%2 == 0){
+				if(representative.gotoImageThum != null){
+					str += "<img src='"+representative.gotoImageThum+"' class='representativeImage thumImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
+				}
+				else if(representative.gotoImageReal != null){
+					str += "<img src='"+representative.gotoImageReal+"' class='representativeImage realImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
 				}
 				else{
-					var gotoNumber = $(this).attr("id");
-					
-					$.ajax({
-						type:'get',
-						url:'/getGotoRealImage?gotoNumber=' + gotoNumber,
-						success:function(realImage){
-							imgSrc = realImage;
-							imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
-							$(".mouseOverImageContent").html(imgHtml);
-							$(".mouseOverImageView").show();
-						}
-					});
+					str += "<div class='representativeImage noImage' style='background-color:lightGray;text-align:center;margin:auto;'>"
+							+ "<div style='position:relative;font-size:80%;top:26%;'>사진이<br>없습니다</div></div>";
 				}
+				str += representative.gotoTitle;
 			}
-		});
-		$(".representativeImage").mouseout(function(){
-			if($(this).hasClass("noImage") == false){
-				$(".mouseOverImageView").hide();
+			str += "</td>";
+		}
+		str += "</tr><tr>";
+		for(var i=0; i<representatives.length; i++){
+			var representative = representatives[i];
+			str += "<td class='representativeImageTable'>";
+			if(i%2 != 0){
+				if(representative.gotoImageThum != null){
+					str += "<img src='"+representative.gotoImageThum+"' class='representativeImage thumImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
+				}
+				else if(representative.gotoImageReal != null){
+					str += "<img src='"+representative.gotoImageReal+"' class='representativeImage realImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
+				}
+				else{
+					str += "<div class='representativeImage noImage' style='background-color:lightGray;text-align:center;margin:auto;'>"
+							+ "<div style='position:relative;font-size:80%;top:26%;'>사진이<br>없습니다</div></div>";
+				}
+				str += representative.gotoTitle;
 			}
-		});
+			str += "</td>";
+		}
+		str += "</tr></table>";
+		
+		return new Handlebars.SafeString(str);
+	});
+	Handlebars.registerHelper("followButton", function(courseMaker, courseNumber){
+		var str = '';
+		if(courseMaker != loginUserNumber){
+			str += "<button type='button' class='symbolButton follow' id='follow-"+courseMaker+"-"+courseNumber+"'></button>";
+		}
+		return new Handlebars.SafeString(str);
+	});
+</script>
+<script>
+	// 대표이미지 크게 보기
+	$(document).on("mouseover", '.representativeImage', function(){
+		var imgSrc = "";
+		var imgHtml;
+		
+		if($(this).hasClass("noImage") == false){
+			var idStr = $(this).attr('id').split('-');
+			var courseNumber = idStr[2];
+			
+			if ($(this).hasClass("realImage") == true){
+				imgSrc = $(this).attr("src");
+				imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
+				$("#mouseOverImageContent-"+courseNumber).html(imgHtml);
+				$("#mouseOverImageView-"+courseNumber).show();
+			}
+			else{
+				var gotoNumber = idStr[1];
+				
+				$.ajax({
+					type:'get',
+					url:'/getGotoRealImage?gotoNumber=' + gotoNumber,
+					success:function(realImage){
+						imgSrc = realImage;
+						imgHtml = "<img src=" + imgSrc + " class='mouseOverImage'>";
+						$("#mouseOverImageContent-"+courseNumber).html(imgHtml);
+						$("#mouseOverImageView-"+courseNumber).show();
+					}
+				});
+			}
+		}
+	});
+	$(document).on("mouseout", '.representativeImage', function(){
+		if($(this).hasClass("noImage") == false){
+			var idStr = $(this).attr('id').split('-');
+			var courseNumber = idStr[2];
+			$("#mouseOverImageView-"+courseNumber).hide();
+		}
 	});
 	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
-	function followCheck(){
-		var userNumber = ${courseVO.userNumber};
+	function followCheck(courseNumber, following){
 		if(loginCheck == true){
-			if(loginUserNumber != userNumber){
+			if(loginUserNumber != following){
 				$.ajax({
 					type:'post',
 					url:'/follow/check',
@@ -257,33 +280,33 @@
 						console.log("result:" + result);
 						if(result == 0){
 							// 사용자가 팔로우를 하지 않은 상태
-							followToggle("non-follow");
+							followToggle("non-follow", following, courseNumber);
 						}
 						else{
-							followToggle("follow");
+							followToggle("follow", following, courseNumber);
 						}
 					}
 				});
 			}
 		}
 		else{
-			followToggle("non-follow");
+			followToggle("non-follow", following, courseNumber);
 		}
 	}
 	
 	// like 수
-	function likeNumber(){
+	function likeNumber(courseNumber){
 		$.ajax({
 			type:'get',
 			url:'/like/count/'+courseNumber,
 			headers: { "Content-Type": "application/json" },
 			success:function(result){
-				$('.likeNum').html(result);
+				$('#likeNum-'+courseNumber).html(result);
 			}
 		});
 	}
 	// courseView를 보는 사용자가 종아요를 누른 사용자인가?
-	function likeCheck(){
+	function likeCheck(courseNumber){
 		if(loginCheck == true){
 			$.ajax({
 				type:'post',
@@ -301,11 +324,11 @@
 					console.log("result:" + result);
 					if(result == 0){
 						// 사용자가 좋아요를 누르지 않은 상태
-						likeToggle("non-active");
+						likeToggle("non-active", courseNumber);
 					}
 					else if(result == 1){
 						// 사용자가 좋아요를 누른 상태
-						likeToggle("ative");
+						likeToggle("ative", courseNumber);
 					}
 					else{
 						console.log("check user number in like");
@@ -314,30 +337,34 @@
 			});
 		}
 		else{
-			likeToggle("non-active");
+			likeToggle("non-active", courseNumber);
 		}
 	}
 	
 	// reply 수
-	function replyNumber(){
+	function replyNumber(courseNumber){
 		$.ajax({
 			type:'get',
 			url:'/replise/count/'+courseNumber,
 			headers: { "Content-Type": "application/json" },
 			success:function(result){
-				$('.replyNum').html(result);
+				$('#replyNum-'+courseNumber).html(result);
 			}
 		});
 	}
 </script>
 <!-- symbol인 버튼 눌렀을 때 -->
 <script>
-	$('#follow').on("click", function(){
+	$(document).on("click", '.follow', function(){
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
+			var idStr = $(this).attr('id').split('-');
+			var following = idStr[1];
+			var courseNumber = idStr[2];
 			var checkFollow = $(this).hasClass("active");
+			
 			if(checkFollow == 0){
 				$.ajax({
 					type:'post',
@@ -354,7 +381,7 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							followToggle("follow");
+							followToggle("follow", following, courseNumber);
 						}
 					}
 				});
@@ -375,34 +402,37 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							followToggle("non-follow");
+							followToggle("non-follow", following, courseNumber);
 						}
 					}
 				});
 			}
 		}
 	});
-	function followToggle(status){
+	function followToggle(status, following, courseNumber){
 		// status는 원하는 상태
 		var str = "";
 		if(status == "non-follow"){
 			str = "<i class='material-icons' style='color:#d21a0b'>person_add</i>";
-			$('#follow').removeClass("active");
-			$('#follow').html(str);
+			$('#follow-'+following+'-'+courseNumber).removeClass("active");
+			$('#follow-'+following+'-'+courseNumber).html(str);
 		}
 		else{
 			str = "<i class='material-icons' style='color:#d21a0b'>people</i>";
-			$('#follow').addClass("active");
-			$('#follow').html(str);
+			$('#follow-'+following+'-'+courseNumber).addClass("active");
+			$('#follow-'+following+'-'+courseNumber).html(str);
 		}
 	}
 	
-	$('#like').on("click", function(){
+	$(document).on("click", '.like', function(){
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
+			var idStr = $(this).attr('id').split('-');
+			var courseNumber = idStr[1];
 			var checkLike = $(this).hasClass("active");
+			
 			if(checkLike == 0){
 				$.ajax({
 					type:'post',
@@ -419,8 +449,8 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							likeToggle("active");
-							likeNumber();
+							likeToggle("active", courseNumber);
+							likeNumber(courseNumber);
 						}
 					}
 				});
@@ -441,37 +471,44 @@
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
-							likeToggle("non-active");
-							likeNumber();
+							likeToggle("non-active", courseNumber);
+							likeNumber(courseNumber);
 						}
 					}
 				});
 			}
 		}
 	});
-	function likeToggle(status){
+	
+	function likeToggle(status, courseNumber){
 		// status는 원하는 상태
 		if(status == "non-active"){
-			$('#like').removeClass("active");
-			$('#like_symbol').removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
+			$('#like-'+courseNumber).removeClass("active");
+			$('#like_symbol-'+courseNumber).removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
 		}
 		else{
-			$('#like').addClass("active");
-			$('#like_symbol').removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
+			$('#like-'+courseNumber).addClass("active");
+			$('#like_symbol-'+courseNumber).removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
 		}
 	}
 	
-	$('#change').on("click", function(evt){
-		var url = "/course/view/detail?courseNumber=" + ${courseVO.courseNumber};
+	$(document).on("click", '.change', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		
+		var url = "/course/view/detail?courseNumber=" + courseNumber;
 		window.open(url, "startpop", "width=1030, height=800");
 	});
 	
-	$('#getCourse').on("click", function(){
+	$(document).on("click", '.getCourse', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			var courseName = "${courseVO.courseName}";
+			var courseName = $('#name-'+courseNumber).text();
 			var isGotten = true;
 			
 			$.ajax({
@@ -496,6 +533,14 @@
 				}
 			});
 		}
+	});
+	
+	// mypage에서 사용하는 게시를 위한 버튼
+	$(document).on("click", '.modify', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		
+		location.href = "/mypage/upload?courseNumber="+courseNumber;
 	});
 </script>
 

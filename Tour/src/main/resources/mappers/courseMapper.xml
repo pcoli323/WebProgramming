@@ -65,6 +65,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="searchAccordingToUserNumber" resultType="int">
 		select distinct(courseNumber)
 		from tbl_course
-		where userNumber = #{userNumber}
+		where userNumber = #{userNumber} and isPosted = true
 	</select>
 </mapper>

@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tour.domain.UserVO;
 import org.tour.service.AreaService;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
@@ -34,8 +38,28 @@ public class MainController {
 	private CourseService courseService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String search() throws Exception{
+	public String search(HttpServletRequest request, Model model) throws Exception{
 		
+		try {
+			HttpSession	session = request.getSession();
+			UserVO loginUser = new UserVO();;
+			if(session.getAttribute("login") == null) {
+				model.addAttribute("loginCheck", false);
+				loginUser.setUserNumber(-1);
+				loginUser.setEmail(null);
+				loginUser.setPwd(null);
+				loginUser.setUserName(null);
+			}
+			else {
+				model.addAttribute("loginCheck", true);
+				loginUser = (UserVO) session.getAttribute("login");
+			}
+			model.addAttribute("loginUser", loginUser);
+			
+		}catch(Exception e) {
+			System.out.println("SearchMain");
+			e.printStackTrace();
+		}
 		return "/main/search";
 	}
 	
@@ -44,8 +68,6 @@ public class MainController {
 		
 		ResponseEntity<List<Integer>> entity = null;
 		List<Integer> result = new ArrayList<Integer>();
-		//System.out.println(searchType);
-		//System.out.println(keyword);
 		try {
 			if(searchType.equals("region") == true) {
 				result = searchRegion(keyword);
@@ -62,7 +84,9 @@ public class MainController {
 			}
 			
 			entity = new ResponseEntity<List<Integer>>(result, HttpStatus.OK);
+			
 		}catch(Exception e) {
+			System.out.println("search");
 			e.printStackTrace();
 			entity = new ResponseEntity<List<Integer>>(HttpStatus.BAD_REQUEST);
 		}

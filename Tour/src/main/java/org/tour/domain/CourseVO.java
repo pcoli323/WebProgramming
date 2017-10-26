@@ -11,7 +11,6 @@ public class CourseVO {
 	private Date updateDate;
 	private boolean isPosted;
 	private boolean isGotten;
-	private int likeNumber;
 	private String story;
 	private int readCount;
 	
@@ -59,12 +58,6 @@ public class CourseVO {
 	}
 	public void setGotten(boolean isGotten) {
 		this.isGotten = isGotten;
-	}
-	public int getLike() {
-		return likeNumber;
-	}
-	public void setLike(int like) {
-		this.likeNumber = like;
 	}
 	public String getStory() {
 		return story;

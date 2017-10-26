@@ -6,17 +6,23 @@
 
 <html>
 <style type="text/css">
+	body{
+	height:100%;
+	background-color:lavenderblush !important;
+	}
 	.content{
 	position:relative;
 	width:65%;
+	height:100%;
 	margin:auto;
+	margin-top:30px;
 	}
 	.searchView{
 	width:100%;
 	height:150px;
 	border:1px solid #ff9900;
-    margin-top:30px;
     padding:20px;
+	background-color:white;
     }
     .chooseSearchType{
     height:20%;
@@ -47,8 +53,8 @@
     background-color:#ff9900 !important;
     border-top-left-radius:0px !important;
     border-bottom-left-radius:0px !important;
-    color:white;
-    outline:0;
+    color:white !important;
+    outline:0 !important;
     }
 </style>
 
@@ -80,7 +86,7 @@
 		<!-- 검색하기 -->
 		<div class="searchKeyword">
 			<div class="inputKeyword">
-				<input type="text" name="keyword" id="keywordInput" class="input">
+				<input type="text" name="keyword" id="keywordInput" class="input" autofocus="autofocus">
 			</div>
 			<div class="searchButtonField">
 				<button class="btn searchButton">
@@ -89,7 +95,29 @@
 			</div>
 		</div><!-- /searchKeyword -->
 	</div><!-- /searchView -->
+	<div class="searchResult">
+	</div>
 </div><!-- /content -->
+
+<script>
+	var loginCheck;
+	var loginUserNumber;
+	$(document).ready(function(){
+		// 변수 초기화
+		loginCheck = ${loginCheck};
+		if(loginCheck == false){
+			loginUserNumber = null;
+		}
+		else{
+			loginUserNumber = ${loginUser.userNumber};
+		}
+		$("#keywordInput").keyup(function(event) {
+		    if (event.keyCode === 13) {
+		        $(".searchButton").click();
+		    }
+		});
+	});
+</script>
 
 <script>
 	$('.searchButton').on("click", function(){
@@ -102,10 +130,19 @@
 			url:'/search/keyword?searchType='+searchType+"&keyword="+keyword,
 			success:function(result){
 				console.log(result);
+				if(result.length != 0){
+					var mypage = false;
+					var position = ".searchResult";
+					simpleView(result, mypage, position);
+				}
+				else{
+					var str = "<div style='padding:20px;font-size:150%;'>검색 결과가 없습니다.</div>";
+					$('.searchResult').html(str);
+				}
 			}
 		});
 	});
 </script>
-
+<%@include file="../course/view/simple.jsp" %>
 </body>
 </html>
