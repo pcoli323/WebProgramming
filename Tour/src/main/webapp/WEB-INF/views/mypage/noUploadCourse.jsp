@@ -435,9 +435,9 @@ for(var i=0; i<courseName.length; i++){
 document.getElementById("selectCourseName").innerHTML = str;
 
 $(document).on("change",".selectCourseName",function(){
-	var courseNumber = document.getElementById('selectCourseName').value;
-	document.getElementById('selectCourseName').select = courseNumber;
-    location.href="/mypage/" + courseNumber;
+	var changeCourseNumber = document.getElementById('selectCourseName').value;
+	document.getElementById('selectCourseName').select = changeCourseNumber;
+    location.href="/mypage/" + changeCourseNumber;
 });
 
 // goto 마우스로 over되면 색 변하도록
@@ -529,15 +529,20 @@ $('.delete').on("click",function(){
 $('.modify').on("click",function(){
 	$.ajax({
     	type:'post',
-        url: '/mypage/modify/${courseNumber }',
+        url: '/mypage/modify/' + courseNumber,
         headers: {
 			"Content-Type": "application/json",
 			"X-HTTP-Method-Override": "POST"
 		},
 		success: function(result){
-			 location.href="/course/make/add1";
+			location.href='/course/make/add1';
 		}
     });
+})
+
+$('.post').on("click",function(){
+
+	location.href = "/mypage/upload?courseNumber="+courseNumber;
 })
 </script>		
 <!-- footer -->

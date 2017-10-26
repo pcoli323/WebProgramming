@@ -43,4 +43,9 @@ public class LikeServiceImpl implements LikeService {
 		return dao.getTop3();
 	}
 	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		dao.deletePost(courseNumber);
+	}
 }

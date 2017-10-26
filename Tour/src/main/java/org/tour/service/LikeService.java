@@ -15,4 +15,6 @@ public interface LikeService {
 	public void delete(LikeVO vo) throws Exception;
 
 	public List<Integer> getTop3() throws Exception;
+	
+	public void deletePost(int courseNumber) throws Exception;
 }

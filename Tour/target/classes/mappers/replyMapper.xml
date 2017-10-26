@@ -32,4 +32,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete">
 		delete from tbl_Reply where replyNumber = #{replyNumer}
 	</delete>
+	
+	<delete id="deletePost">
+		delete from tbl_Reply
+		where courseNumber = #{courseNumber}
+	</delete>
 </mapper>

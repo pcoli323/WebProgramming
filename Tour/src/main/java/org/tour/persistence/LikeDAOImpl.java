@@ -45,4 +45,9 @@ public class LikeDAOImpl implements LikeDAO {
 		return session.selectList(namespace + ".top3");
 	}
 	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		session.delete(namespace + ".deletePost", courseNumber);
+	}
 }
