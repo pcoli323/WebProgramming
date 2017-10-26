@@ -83,6 +83,17 @@
 		height:35px;
 		margin-top:-50px;
 	}
+	.header {
+		border-bottom:1px solid #337ab7;
+	}
+	.headerContent {
+		background-color:#FFFFFF;
+		padding:10px 30px 10px 30px;
+	}
+
+	.mypageDiv {
+		width:1200px;
+	}
 </style>
 </head>
 <body class="bg-grey">
@@ -96,117 +107,124 @@ var courseNumByName = ${courseNumber };
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
 
-<div class="content">
-
+<div class="container-fluid mypageDiv">
+	<div class="headerContent">
+		<div class="header">
+			<h1>코 스 관 리</h1>
+			<p>게시 된 코스</p>
+		</div>
+	</div>
+	
 	<c:set var="courseNumberCount" value="0"></c:set>
 	<c:forEach items="${representatives}" var="Allrepresentative">
-        
-	<div class="courseView">
-		<div class="courseView-header" style="text-align:right;">
-			<button type=button class="btn btn-default modify">게시 수정</button>
-			<button type=button class="btn btn-default delete">게시 취소</button>
-			<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
-				${courseVO[courseNumberCount].courseName}
-			</h2>
-		</div><!-- /courseView-header -->
-    
-	<div class="courseView-body">
-		<div class="representatives" style="text-align:center">
-			<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
-				<table style="display:inline-block;">
-					<tr>
-						<c:forEach items="${Allrepresentative.value}" var="representative" varStatus="status">
-							<c:if test="${status.index % 2 == 0}">
-								<td class="representativeImageTable">
-									<c:choose>
-										<c:when test="${representative.gotoImageThum ne null}">
-											<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
-										</c:when>
-									<c:otherwise>
-										<c:choose>
-			    							<c:when test="${representative.gotoImageReal ne null}">
-			    								<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
-			    							</c:when>
-			    							<c:otherwise>
-			        							<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
-			        								<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
-			        							</div>
-			        						</c:otherwise>
-			        					</c:choose>
-			        				</c:otherwise>
-	        					</c:choose>
-	        					${representative.gotoTitle}
-	        				</td>
-	        			</c:if>
-						<c:if test="${status.index % 2 != 0}">
-       						<td class="representativeImageTable"></td>
-       					</c:if>
-					</c:forEach>
-       			</tr>
-       			<tr>
-	   				<c:forEach items="${Allrepresentative.value}" var="representative" varStatus="status">
-	  					<c:if test="${status.index % 2 == 0}">
-	   						<td class="representativeImageTable"></td>
-	  					</c:if>
-	   					<c:if test="${status.index % 2 != 0}">
-	   						<td class="representativeImageTable">
-	   							<c:choose>
-	   								<c:when test="${representative.gotoImageThum ne null}">
-	   									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
-	   								</c:when>
-	   								<c:otherwise>
-	   									<c:choose>
-	   										<c:when test="${representative.gotoImageReal ne null}">
-	   											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
-	   										</c:when>
+	        
+		<div class="courseView">
+		
+			<div class="courseView-header" style="text-align:right;">
+				<button type=button class="btn btn-default modify">게시 수정</button>
+				<button type=button class="btn btn-default delete">게시 취소</button>
+				<h2 class="courseName" style="text-align:center;font-family:'Jeju Gothic';">
+					${courseVO[courseNumberCount].courseName}
+				</h2>
+			</div><!-- /courseView-header -->
+	    
+			<div class="courseView-body">
+				<div class="representatives" style="text-align:center">
+					<!-- <div id="showImage" style="position:absolute; left:10px"></div> -->
+						<table style="display:inline-block;">
+							<tr>
+								<c:forEach items="${Allrepresentative.value}" var="representative" varStatus="status">
+									<c:if test="${status.index % 2 == 0}">
+										<td class="representativeImageTable">
+											<c:choose>
+												<c:when test="${representative.gotoImageThum ne null}">
+													<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
+												</c:when>
 											<c:otherwise>
-	    										<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
-      												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
-       											</div>
-       										</c:otherwise>
-       									</c:choose>
-       								</c:otherwise>
-       							</c:choose>
-       							${representative.gotoTitle}
-       						</td>
-       					</c:if>
-       				</c:forEach>
-       			</tr>
-			</table>
-		</div><!-- /representatives -->
-	</div><!-- /courseView-body -->
-     	
-	<div class="courseView-footer" style="text-align:right">
-		<button type="button" class="symbolButton like" id="${courseNumberCount }">
-			<span class="glyphicon symbol like_symbol" id="like_symbol" style="color:#ff0000"></span>
-			<small class="likeNum"></small>
-		</button>
-		<button type="button" class="symbolButton reply" id="${courseNumberCount }" style="cursor:default">
-			<span class="glyphicon glyphicon-comment symbol"></span>
-			<small class="replyNum"></small>
-		</button>
-		<button type="button" class="symbolButton change" id="${courseNumberCount }">
-			<span class="glyphicon glyphicon-search symbol"></span>
-		</button>
-		<button type="button" class="symbolButton getCourse" id="${courseNumberCount }">
-			<span class="glyphicon glyphicon-share-alt symbol"></span>
-		</button>
-	</div><!-- /courseView-footer -->
-	       	
-</div><!-- /courseView -->
-
-<!-- mouseOver시 보여지는 big 이미지-->
-<div id="mouseOverImageView" class="${courseNumberCount}">
-	<div class="${courseNumberCount}">
-	</div><!-- /mouseOverImageContent -->
-</div><!-- /mouseOverImageView -->
-				
-<c:set var="courseNumberCount" value="${courseNumberCount + 1}"></c:set>
-</c:forEach>
-
-<div id="lastImageView">
-<br><br><br><br><p>End</p>
-</div>
+												<c:choose>
+					    							<c:when test="${representative.gotoImageReal ne null}">
+					    								<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
+					    							</c:when>
+					    							<c:otherwise>
+					        							<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
+					        								<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
+					        							</div>
+					        						</c:otherwise>
+					        					</c:choose>
+					        				</c:otherwise>
+			        					</c:choose>
+			        					${representative.gotoTitle}
+			        				</td>
+			        			</c:if>
+								<c:if test="${status.index % 2 != 0}">
+		       						<td class="representativeImageTable"></td>
+		       					</c:if>
+							</c:forEach>
+		       			</tr>
+		       			<tr>
+			   				<c:forEach items="${Allrepresentative.value}" var="representative" varStatus="status">
+			  					<c:if test="${status.index % 2 == 0}">
+			   						<td class="representativeImageTable"></td>
+			  					</c:if>
+			   					<c:if test="${status.index % 2 != 0}">
+			   						<td class="representativeImageTable">
+			   							<c:choose>
+			   								<c:when test="${representative.gotoImageThum ne null}">
+			   									<img src="${representative.gotoImageThum}" class="representativeImage thumImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
+			   								</c:when>
+			   								<c:otherwise>
+			   									<c:choose>
+			   										<c:when test="${representative.gotoImageReal ne null}">
+			   											<img src="${representative.gotoImageReal}" class="representativeImage realImage" id="${representative.gotoNumber}+${courseNumberCount}"><br>
+			   										</c:when>
+													<c:otherwise>
+			    										<div class="representativeImage noImage" style="background-color:lightGray;text-align:center;margin:auto;">
+		      												<div style="position:relative;font-size:80%;top:26%;">사진이<br>없습니다</div>
+		       											</div>
+		       										</c:otherwise>
+		       									</c:choose>
+		       								</c:otherwise>
+		       							</c:choose>
+		       							${representative.gotoTitle}
+		       						</td>
+		       					</c:if>
+		       				</c:forEach>
+		       			</tr>
+					</table>
+				</div><!-- /representatives -->
+			</div><!-- /courseView-body -->
+		     	
+			<div class="courseView-footer" style="text-align:right">
+				<button type="button" class="symbolButton like" id="${courseNumberCount }">
+					<span class="glyphicon symbol like_symbol" id="like_symbol" style="color:#ff0000"></span>
+					<small class="likeNum"></small>
+				</button>
+				<button type="button" class="symbolButton reply" id="${courseNumberCount }" style="cursor:default">
+					<span class="glyphicon glyphicon-comment symbol"></span>
+					<small class="replyNum"></small>
+				</button>
+				<button type="button" class="symbolButton change" id="${courseNumberCount }">
+					<span class="glyphicon glyphicon-search symbol"></span>
+				</button>
+				<button type="button" class="symbolButton getCourse" id="${courseNumberCount }">
+					<span class="glyphicon glyphicon-share-alt symbol"></span>
+				</button>
+			</div><!-- /courseView-footer -->
+			       	
+		</div><!-- /courseView -->
+		
+		<!-- mouseOver시 보여지는 big 이미지-->
+		<div id="mouseOverImageView" class="${courseNumberCount}">
+			<div class="${courseNumberCount}">
+			</div><!-- /mouseOverImageContent -->
+		</div><!-- /mouseOverImageView -->
+						
+		<c:set var="courseNumberCount" value="${courseNumberCount + 1}"></c:set>
+	</c:forEach>
+	
+	<div id="lastImageView">
+		<br><br><br><br><p>End</p>
+	</div>
 
 </div>
 <!-- footer -->

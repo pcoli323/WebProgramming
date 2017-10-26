@@ -92,6 +92,27 @@
     	float:right;
     	padding: 10px;
     }
+    #delModal {
+	   position: fixed;
+	   top: 100px;
+	   right: 450px;
+	   bottom: auto;
+	   left: auto;
+   }
+    #calModal {
+	   position: fixed;
+	   top: 100px;
+	   right: 450px;
+	   bottom: auto;
+	   left: auto;
+   }
+   #completeModal {
+	   position: fixed;
+	   top: 200px;
+	   right: auto;
+	   bottom: auto;
+	   left: 800px;
+   }
 	</style>
 </head>
 <body>
@@ -206,6 +227,8 @@ var realDateCount = 0;
 	// google map 생성 부분
 	var map;
 	var markers = [];
+	var flightPlanCoordinates = [];
+	var polyLineCount = 0;
 	function initMap() {
 		var mapcenter = {lat: 36.350527, lng: 128.122559};
 		map = new google.maps.Map(document.getElementById('map'), {
@@ -214,6 +237,16 @@ var realDateCount = 0;
 		});
 		//pinColorRed()
 		markerPosition();
+		
+		var flightPath = new google.maps.Polyline({
+			path: flightPlanCoordinates,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
+		});
+		console.log(flightPlanCoordinates);
+		flightPath.setMap(map);
 	}
 //	var pinColor = [];
 	function pinSymbol(color) {
@@ -242,9 +275,17 @@ var realDateCount = 0;
 				(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
 				(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
 				(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
-			pinColorCount++;
-			jsonArr[i].pinColor = pinColor[pinColorCount];
-			jsonArr[i].titleColor = titleColor[pinColorCount];
+			if(i==1){
+				jsonArr[i-1].pinColor = pinColor[pinColorCount];
+				jsonArr[i-1].titleColor = titleColor[pinColorCount];
+				pinColorCount++;
+				jsonArr[i].pinColor = pinColor[pinColorCount];
+				jsonArr[i].titleColor = titleColor[pinColorCount];
+			} else{
+				pinColorCount++;
+				jsonArr[i].pinColor = pinColor[pinColorCount];
+				jsonArr[i].titleColor = titleColor[pinColorCount];
+			}
 		} else {
 			jsonArr[i-1].pinColor = pinColor[pinColorCount];
 			jsonArr[i-1].titleColor = titleColor[pinColorCount];
@@ -307,6 +348,7 @@ var realDateCount = 0;
 			localmarker.setAnimation(null);
        	});
 	}
+	
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdkQ3O7ZOpSt2RjwxkSVzgF1NGSHyqkuM&callback=initMap" async defer></script>
 	<script>	
@@ -356,6 +398,7 @@ var realDateCount = 0;
         clearMarkers();
         jsonArr.splice(Status,1);
         markers.splice(Status,1);
+        flightPlanCoordinates.splice(Status,1);// 그 일치하는 jsonArr부분 삭제 필요
 		orderTable();
         initTitle();
         inputTitleBorder();
@@ -414,35 +457,6 @@ var realDateCount = 0;
 	}
 	
 	// 일정 부분 날짜 출력("2017/09/26")
-	/*
-		initScheduleTable();
-	function initScheduleTable(){
-		var scheduleDateTable = "";
-		for(var i=0; i<dateJson.length; i++){
-			var start = DateInvert(dateJson[i].startDate);
-			var end = DateInvert(dateJson[i].endDate);
-			for(var j=0; j<scheduleBetweenDay; j++){
-				var date = StringDateInvert(str[j]);
-				if(i != 0)
-					var compareEnd = DateInvert(dateJson[i-1].endDate);
-				
-				if(i != 0 && compareEnd.getTime() == date.getTime())
-					scheduleDateTable += "";
-				
-				else {
-					if(start <= date){
-						scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + str[j] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + str[j] + "></table></div>";
-						realDate[realDateCount] = str[j];
-						realDateCount++;
-						if(date >= end)
-							break;	
-					}
-				}
-			}
-		}
-		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
-	}
-	*/
 	var insertBool=true;
 	initScheduleTable();
 	function initScheduleTable(){
@@ -578,6 +592,7 @@ var realDateCount = 0;
 				jsonArr[calBtnValue].pinColor = "gray";
 				clearMarkers();
 				markerPosition();
+				orderPolyLine();
 			}
 			inputTitleBorder();
 		}
@@ -651,10 +666,12 @@ var realDateCount = 0;
 	function moveUp(el){
 		var $tr = $(el).parent().parent(); // 클릭한 버튼이 속한 tr 요소
 		$tr.prev().before($tr); // 현재 tr 의 이전 tr 앞에 선택한 tr 넣기
+		orderTable();
 	}
 	function moveDown(el){
 		var $tr = $(el).parent().parent(); // 클릭한 버튼이 속한 tr 요소
 		$tr.next().after($tr); // 현재 tr 의 다음 tr 뒤에 선택한 tr 넣기
+		orderTable();
 	}
 	function orderTable(){
 		for(var i=0; i<realDate.length; i++){
@@ -668,6 +685,21 @@ var realDateCount = 0;
 				}
 			}
 		}
+		orderPolyLine();
+	}
+	function orderPolyLine(){
+		for(var z=0; z<realDate.length; z++){ //date count
+			for(var i=0; i<jsonArr.length; i++){ // order count
+				for(var j=0; j<jsonArr.length; j++){ // jsonArr count
+					if(jsonArr[j].order != null && jsonArr[j].order == i && jsonArr[j].gotoDate == realDate[z]){
+						flightPlanCoordinates[polyLineCount] = new google.maps.LatLng(jsonArr[j].mapy, jsonArr[j].mapx);
+						polyLineCount++;
+						break;
+					}
+				}
+			}
+		}
+		initMap();
 	}
 	// 완료 버튼 클릭시 코스 제목 모달창
 	$(document).on("click","#completeBtn",function(){
@@ -707,17 +739,8 @@ var realDateCount = 0;
 	    	    	data:jsonData,
 	    	    	contentType:"application/json; charset=utf-8",
 	    	    	success:function(){
-	    	    		$.ajax({
-	    	    	    	type:'post',
-	    	    	        url: '/mypageNum',
-	    	    	        headers: {
-	    	    				"Content-Type": "application/json",
-	    	    				"X-HTTP-Method-Override": "POST"
-	    	    			},
-	    	    			success: function(result){
-	    	    				 location.href="/mypage/" + result;
-	    	    			}
-	    	    	    });
+	    	    		alert("코스가 생성되었습니다.");
+	    				 location.href="/mypage/0";
 	    			},
 	    			error:function(){
 	        			alert("실패");

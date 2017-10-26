@@ -1,5 +1,6 @@
 package org.tour.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,9 +48,9 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 	
 	@Override
-	public List<String> allCourseName(int userNumber) throws Exception {
+	public String allCourseName(HashMap<String, Object> courseNameCompare) throws Exception {
 		
-		return session.selectList(namespace + ".allCourseName", userNumber);
+		return session.selectOne(namespace + ".allCourseName", courseNameCompare);
 	}
 	
 	@Override
@@ -92,5 +93,22 @@ public class CourseDAOImpl implements CourseDAO {
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
 		
 		return session.selectList(namespace + ".searchAccordingToUserNumber", userNumber);
+	}
+	
+	@Override
+	public void deletePost(CourseVO vo) throws Exception {
+		
+		session.selectOne(namespace + ".deletePost", vo);
+	}
+	
+	@Override	
+	public Integer noUploadCourseNumberRead(int userNumber) throws Exception {
+		
+		Integer courseNumber = session.selectOne(namespace + ".noUploadCourseNumberRead", userNumber);
+		if(courseNumber == null) {
+			courseNumber = -1;
+		}
+		return courseNumber;
+		
 	}
 }

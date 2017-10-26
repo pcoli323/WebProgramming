@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="allCourseName" resultType="string">
 		select courseName
 		from tbl_Course
-		where userNumber = #{userNumber}
+		where userNumber = #{userNumber} and courseName = #{courseName }
 	</select>
 	<select id="courseReadName" resultType="string">
 		select courseName
@@ -66,5 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select distinct(courseNumber)
 		from tbl_course
 		where userNumber = #{userNumber} and isPosted = true
+	</select>
+	
+	<select id="noUploadCourseNumberRead" resultType="int">
+		select max(courseNumber)
+		from tbl_Course
+		where userNumber = #{userNumber} and isPosted = false
 	</select>
 </mapper>
