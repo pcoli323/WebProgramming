@@ -211,10 +211,20 @@ public class MypageController {
 					break;
 				}
 			}
-			for(int j=0; j<sigunguList.size(); j++) {
-				if(sigunguList.get(j).getAreaCode()==courseIdList.get(i).getAreaCode() && sigunguList.get(j).getSigunguCode()==courseIdList.get(i).getSigunguCode()) {
-					courseIdList.get(i).setSigunguName(sigunguList.get(j).getSigunguName());
-					break;
+			if(courseIdList.get(i).getAreaCode()==1 ||
+					courseIdList.get(i).getAreaCode()==2 ||
+					courseIdList.get(i).getAreaCode()==3 ||					
+					courseIdList.get(i).getAreaCode()==4 ||
+					courseIdList.get(i).getAreaCode()==5 ||
+					courseIdList.get(i).getAreaCode()==6 ||
+					courseIdList.get(i).getAreaCode()==7)
+				courseIdList.get(i).setSigunguName("ÀüÃ¼");
+			else {
+				for(int j=0; j<sigunguList.size(); j++) {
+					if(sigunguList.get(j).getAreaCode()==courseIdList.get(i).getAreaCode() && sigunguList.get(j).getSigunguCode()==courseIdList.get(i).getSigunguCode()) {
+						courseIdList.get(i).setSigunguName(sigunguList.get(j).getSigunguName());
+						break;
+					}
 				}
 			}
 		}
@@ -222,7 +232,7 @@ public class MypageController {
 		session.setAttribute("idList", gson.toJson(courseIdList));
 		
 		// list, listU parsing
-		List<CourseInfoVO> coursesList = courseChangeService.getCoursesList(23);
+		List<CourseInfoVO> coursesList = courseChangeService.getCoursesList(courseNumber);
 		List<CourseInfoVO> list = new LinkedList<CourseInfoVO>();
 		List<CourseInfoVO> listU = new LinkedList<CourseInfoVO>();
 		
