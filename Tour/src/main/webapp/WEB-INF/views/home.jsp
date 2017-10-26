@@ -415,12 +415,15 @@
 </body>
 
 <script>
-var loginCheck = null;
+var loginCheck = false;
 var loginUserNumber = null;
 
 $(document).ready(function(){
-	if('${loginSuccess}'==1)
-		alert("로그인되었습니다.");
+	if('${loginSuccess}'==1){
+		loginCheck = true;
+		alert("로그인되었습니다.");		
+	}
+		
     $("#register").click(function(){
     	$("#registerModal").modal();    	
     });
@@ -446,9 +449,17 @@ $(document).ready(function(){
     });
     
     var oar = new Array();
-    oar.push(25);
-    oar.push(26);
-    simpleView(oar, "false", "top3");
+    $.ajax({      
+		type:"POST",  
+		url:"/call",
+		contentType:"application/json; charset=utf-8",
+		success:function(msg){
+			for(var i=0; i<msg.length; i++)
+				oar.push(msg[i]);
+		    simpleView(oar, false, "top3");
+		}
+	});
+    
 });
 
 
