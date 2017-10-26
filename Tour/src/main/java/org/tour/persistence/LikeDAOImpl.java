@@ -38,4 +38,9 @@ public class LikeDAOImpl implements LikeDAO {
 		session.delete(namespace + ".delete", vo);
 	}
 	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		session.delete(namespace + ".deletePost", courseNumber);
+	}
 }

@@ -112,11 +112,11 @@
 <script id="template" type="tex/x-handlerbars-template">
 {{#each list}}
 <div class="viewContent">
-	<div class="courseView">
+	<div class="courseView" style="margin-bottom:10px;">
 		{{#if ../mypage}}
-			<div class="uploadButton" style="text-align:right;">
+			<div class="uploadButton" style="text-align:right; margin-top:-30px;">
 				<button type=button class="btn btn-default modify" id="modify-{{courseNumber}}">게시 수정</button>
-				<button type=button class="btn btn-default delete">게시 취소</button>
+				<button type=button class="btn btn-default deletePost" id="deletePost-{{courseNumber}}">게시 취소</button>
 			</div><!-- /uploadButton -->
 		{{/if}}
 		<div class="courseView-header">
@@ -541,6 +541,22 @@
 		var courseNumber = idStr[1];
 		
 		location.href = "/mypage/upload?courseNumber="+courseNumber;
+	});
+	$(document).on("click", '.deletePost', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		
+		$.ajax({
+			type:'post',
+			url:'/uploadMypage/delete/' + courseNumber,
+			headers: {
+				"Content-Type": "application/json",
+				"X-HTTP-Method-Override": "post"
+			},
+			success:function(result){
+				location.href = "/uploadMypage";
+			}
+		});
 	});
 </script>
 

@@ -47,6 +47,8 @@ import org.tour.service.CourseService;
 import org.tour.service.PlanService;
 import org.tour.service.SigunguService;
 import org.tour.service.UserService;
+import org.tour.service.LikeService;
+import org.tour.service.ReplyService;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -66,6 +68,11 @@ public class MypageController {
 	private PlanService planService;
 	@Inject
 	private CourseInfoSimpleService courseInfoSimpleService;
+	@Inject
+	private LikeService likeService;
+	@Inject
+	private ReplyService replyService;
+	
 	
 	
 	//mypage view 넘어갈때 최대 값 주기
@@ -228,6 +235,7 @@ public class MypageController {
 				representatives.put(courseNameByNum.get(i), courseInfoService.representatives(uploadCourseNumber.get(i)));
 			}
 
+			System.out.println(uploadCourseNumber);
 			model.addAttribute("courseName", courseNameByNum);
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", uploadCourseNumber);
@@ -248,16 +256,11 @@ public class MypageController {
 		
 		ResponseEntity<Integer> entity = null;
 		try {
-			CourseVO courseVO = new CourseVO();
-			courseVO.setStory(null);
-			courseVO.setPosted(false);
 			
-			CourseInfoVO courseInfoVO = new CourseInfoVO();
-			courseInfoVO.setIsRepresented(false);
-			courseInfoVO.setRepresentedOrder(0);
-			
-			courseService.deletePost(courseVO);
-			
+			courseService.deletePost(courseNumber);
+			courseInfoService.initialRepresented(courseNumber);
+			likeService.deletePost(courseNumber);
+			replyService.deletePost(courseNumber);
 			
 			
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);

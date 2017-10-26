@@ -94,9 +94,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
-	public void deletePost(CourseVO vo) throws Exception {
+	public void deletePost(int courseNumber) throws Exception {
 		
-		dao.deletePost(vo);
+		dao.deletePost(courseNumber);
 	}
 	
 	@Override

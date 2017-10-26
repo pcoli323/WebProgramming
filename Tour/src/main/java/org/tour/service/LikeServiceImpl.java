@@ -36,4 +36,9 @@ public class LikeServiceImpl implements LikeService {
 		dao.delete(vo);
 	}
 	
+	@Override
+	public void deletePost(int courseNumber) throws Exception {
+		
+		dao.deletePost(courseNumber);
+	}
 }

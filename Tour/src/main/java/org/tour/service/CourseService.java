@@ -33,7 +33,7 @@ public interface CourseService {
 
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
 	
-	public void deletePost(CourseVO vo) throws Exception;
+	public void deletePost(int courseNumber) throws Exception;
 	
 	public Integer noUploadCourseNumberRead(int userNumber) throws Exception;
 }

@@ -73,4 +73,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_Course
 		where userNumber = #{userNumber} and isPosted = false
 	</select>
+	
+	<update id="deletePost">
+		update tbl_Course
+		set story = null, isPosted = false
+		where courseNumber = #{courseNumber}
+	</update>
 </mapper>
