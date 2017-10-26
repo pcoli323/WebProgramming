@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,15 +33,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tour.domain.AreaVO;
 import org.tour.domain.CourseInfoSimpleVO;
 import org.tour.domain.CourseInfoVO;
 import org.tour.domain.CourseVO;
+import org.tour.domain.SigunguVO;
 import org.tour.domain.UserVO;
 import org.tour.dto.AreaDTO;
+import org.tour.dto.CourseIDDTO;
 import org.tour.dto.CourseInfoDTO;
 import org.tour.dto.LoginDTO;
 import org.tour.dto.SelectedAreaDTO;
 import org.tour.service.AreaService;
+import org.tour.service.CourseChangeService;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseInfoSimpleService;
 import org.tour.service.CourseService;
@@ -72,7 +77,12 @@ public class MypageController {
 	private LikeService likeService;
 	@Inject
 	private ReplyService replyService;
-	
+	@Inject
+	private CourseChangeService courseChangeService;
+	@Inject
+	private AreaService areaService;
+	@Inject
+	private SigunguService sigunguService;
 	
 	
 	//mypage view 넘어갈때 최대 값 주기
@@ -183,18 +193,58 @@ public class MypageController {
 	
 	@RequestMapping(value = "/mypage/modify/{courseNumber}", method = RequestMethod.POST)
 	public ResponseEntity<Integer> modify(HttpServletRequest request, @PathVariable("courseNumber") int courseNumber){
-		
+
 		ResponseEntity<Integer> entity = null;
+		
 		try {
-			//jsonArray에 집어넣고 add1으로 가면 됨... ㅋ키키키키ㅣㅣㅣ 하기 싫당~
-			
-			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
-		}catch(Exception e) {
+		HttpSession session = request.getSession();
+		
+		// idList Parsing
+		List<CourseIDDTO> courseIdList = courseChangeService.getCourseIDList(courseNumber);
+		List<AreaVO> areaList = areaService.selectAll();
+		List<SigunguVO> sigunguList = sigunguService.selectAll();
+		
+		for(int i=0; i<courseIdList.size(); i++) {
+			for(int j=0; j<areaList.size(); j++) {
+				if(areaList.get(j).getAreaCode()==courseIdList.get(i).getAreaCode()) {
+					courseIdList.get(i).setAreaName(areaList.get(j).getAreaName());
+					break;
+				}
+			}
+			for(int j=0; j<sigunguList.size(); j++) {
+				if(sigunguList.get(j).getAreaCode()==courseIdList.get(i).getAreaCode() && sigunguList.get(j).getSigunguCode()==courseIdList.get(i).getSigunguCode()) {
+					courseIdList.get(i).setSigunguName(sigunguList.get(j).getSigunguName());
+					break;
+				}
+			}
+		}
+		Gson gson = new Gson();
+		session.setAttribute("idList", gson.toJson(courseIdList));
+		
+		// list, listU parsing
+		List<CourseInfoVO> coursesList = courseChangeService.getCoursesList(23);
+		List<CourseInfoVO> list = new LinkedList<CourseInfoVO>();
+		List<CourseInfoVO> listU = new LinkedList<CourseInfoVO>();
+		
+		for(int i=0; i<coursesList.size(); i++) {
+			if(coursesList.get(i).getIsNew()) {
+				listU.add(coursesList.get(i));
+			}
+			else {
+				list.add(coursesList.get(i));
+			}
+		}
+		session.setAttribute("list", gson.toJson(list));
+		session.setAttribute("listU", gson.toJson(listU));
+		System.out.println(gson.toJson(list));
+		entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
+	
 	
 	// 업로드 된 뷰 관리
 	@RequestMapping(value="/uploadMypage", method = RequestMethod.GET)
