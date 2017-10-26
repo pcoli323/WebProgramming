@@ -145,9 +145,6 @@ $(document).ready(function(){
 	}
 	document.getElementById("checkboxes").innerHTML = str;
 
-	var initId = jsonIDArr[0].areaCode + "-" + jsonIDArr[0].sigunguCode;	
-	callAPI(initId);
-	$('.nav-tabs a:first').tab('show');
 	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
