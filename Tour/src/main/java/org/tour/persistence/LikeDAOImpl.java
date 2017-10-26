@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +38,11 @@ public class LikeDAOImpl implements LikeDAO {
 	public void delete(LikeVO vo) throws Exception {
 
 		session.delete(namespace + ".delete", vo);
+	}
+
+	@Override
+	public List<Integer> getTop3() throws Exception {
+		return session.selectList(namespace + ".top3");
 	}
 	
 }
