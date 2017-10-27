@@ -246,6 +246,7 @@ public class MypageController {
 		}
 		session.setAttribute("list", gson.toJson(list));
 		session.setAttribute("listU", gson.toJson(listU));
+
 		
 		List<CourseVO> courseInfo = new LinkedList<CourseVO>();
 		courseInfo.add(courseService.read(courseNumber));
@@ -257,6 +258,11 @@ public class MypageController {
 		System.out.println(session.getAttribute("listU"));
 		System.out.println(session.getAttribute("courseInfo"));
 		
+
+		System.out.println(gson.toJson(list));
+		
+		//session에 수정 중인 변수 집어넣기
+		session.setAttribute("modify", 1);
 		entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -271,6 +277,9 @@ public class MypageController {
 	public String uploadMypage(HttpServletRequest request, Model model) {
 		try {
 			HttpSession	session = request.getSession();
+			
+			// noUploadMypage session 값 삭제
+			removeAttributes(request);
 			
 			UserVO loginUser = new UserVO();
 			if(session.getAttribute("login") == null) {
@@ -339,5 +348,17 @@ public class MypageController {
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	
+	public void removeAttributes(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("userVO") != null) {
+			session.removeAttribute("userVO");
+		}
+		if(session.getAttribute("noUploadCourseNumber") != null) {
+			session.removeAttribute("noUploadCourseNumber");
+		}
 	}
 }
