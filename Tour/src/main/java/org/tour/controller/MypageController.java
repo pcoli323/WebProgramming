@@ -246,7 +246,17 @@ public class MypageController {
 		}
 		session.setAttribute("list", gson.toJson(list));
 		session.setAttribute("listU", gson.toJson(listU));
-		System.out.println(gson.toJson(list));
+		
+		List<CourseVO> courseInfo = new LinkedList<CourseVO>();
+		courseInfo.add(courseService.read(courseNumber));
+		session.setAttribute("courseInfo", gson.toJson(courseInfo));
+		
+		
+		System.out.println(session.getAttribute("idList"));
+		System.out.println(session.getAttribute("list"));
+		System.out.println(session.getAttribute("listU"));
+		System.out.println(session.getAttribute("courseInfo"));
+		
 		entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
