@@ -132,9 +132,11 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
-	public String modify(Locale locale, Model model) {
+	public String modify(Locale locale, Model model, HttpServletRequest request) {
+		
 		return "course/make/modify";
 	}
+	
 	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
 	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
 		
@@ -288,6 +290,12 @@ public class CourseMakeController {
 		return entity;		
 	}
 	
+	@RequestMapping(value = "/course/make/addNewArea/popup/", method = RequestMethod.GET)
+	public String popup(HttpServletRequest request, Model model) throws ParseException {
+		//course new
+		return "course/make/popNewArea";
+	}
+	
 	@RequestMapping(value = "/course/make/cancel", method = RequestMethod.GET)
 	public void cancel(HttpServletRequest request) throws ParseException {
 		
@@ -309,6 +317,9 @@ public class CourseMakeController {
 		}
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");
+		}
+		if(session.getAttribute("modify")!=null) {
+			session.removeAttribute("modify");
 		}
 	}	
 }
