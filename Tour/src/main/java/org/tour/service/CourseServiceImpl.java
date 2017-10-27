@@ -103,4 +103,11 @@ public class CourseServiceImpl implements CourseService {
 	public Integer noUploadCourseNumberRead(int userNumber) throws Exception {
 		return dao.noUploadCourseNumberRead(userNumber);
 	}
+
+	@Override
+	public void modifyInModify(CourseVO vo) throws Exception {
+
+		dao.modifyInModify(vo);
+		
+	}
 }

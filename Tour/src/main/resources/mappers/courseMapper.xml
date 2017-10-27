@@ -79,4 +79,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set story = null, isPosted = false
 		where courseNumber = #{courseNumber}
 	</update>
+	
+	<update id="modifyInModify">
+		update tbl_Course
+		set courseName = #{courseName}, updateDate = now()
+		where courseNumber = #{courseNumber}
+	</update>
 </mapper>

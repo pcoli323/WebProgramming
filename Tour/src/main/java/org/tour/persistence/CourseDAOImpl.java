@@ -111,4 +111,11 @@ public class CourseDAOImpl implements CourseDAO {
 		return courseNumber;
 		
 	}
+
+	@Override
+	public void modifyInModify(CourseVO vo) throws Exception {
+		
+		session.update(namespace + ".modifyInModify", vo);
+		
+	}
 }

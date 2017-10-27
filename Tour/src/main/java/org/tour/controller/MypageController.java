@@ -246,6 +246,19 @@ public class MypageController {
 		}
 		session.setAttribute("list", gson.toJson(list));
 		session.setAttribute("listU", gson.toJson(listU));
+
+		
+		List<CourseVO> courseInfo = new LinkedList<CourseVO>();
+		courseInfo.add(courseService.read(courseNumber));
+		session.setAttribute("courseInfo", gson.toJson(courseInfo));
+		
+		
+		System.out.println(session.getAttribute("idList"));
+		System.out.println(session.getAttribute("list"));
+		System.out.println(session.getAttribute("listU"));
+		System.out.println(session.getAttribute("courseInfo"));
+		
+
 		System.out.println(gson.toJson(list));
 		
 		//session에 수정 중인 변수 집어넣기

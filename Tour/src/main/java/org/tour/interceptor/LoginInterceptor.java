@@ -41,6 +41,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			if(session.getAttribute("name")!=null) {
 				session.removeAttribute("name");
 			}
+			if(session.getAttribute("courseInfo")!=null) {
+				session.removeAttribute("courseInfo");
+			}
 		}
 		return super.preHandle(request, response, handler);
 	}
