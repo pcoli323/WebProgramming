@@ -23,7 +23,10 @@ public class FollowController {
 		
 		ResponseEntity<String> entity = null;
 		try {
-			service.add(vo);
+			int check = service.check(vo);
+			if(check == 0) {
+				service.add(vo);
+			}
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -50,7 +53,10 @@ public class FollowController {
 		
 		ResponseEntity<String> entity = null;
 		try {
-			service.delete(vo);
+			int check = service.check(vo);
+			if(check != 0) {
+				service.delete(vo);
+			}
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();

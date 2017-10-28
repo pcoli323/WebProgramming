@@ -2,6 +2,7 @@ package org.tour.persistence;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -88,7 +89,13 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return session.selectList(namespace + ".simpleViewAll", userNumber);
 	}
-
+	
+	@Override
+	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode)throws Exception {
+		
+		return session.selectList(namespace + ".searchAccordingToAreaAndSigunguCode", areaAndSigunguCode);
+	}
+	
 	@Override
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
 		

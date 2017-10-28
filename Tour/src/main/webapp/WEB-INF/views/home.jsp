@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
+ <style>
   body {
       font: 400 15px Lato, sans-serif;
       line-height: 1.8;
@@ -415,7 +415,7 @@
 </body>
 
 <script>
-var loginCheck = null;
+var loginCheck = false;
 var loginUserNumber = null;
 
 $(document).ready(function(){
@@ -446,9 +446,9 @@ $(document).ready(function(){
     });
     
     var oar = new Array();
-    oar.push(25);
-    oar.push(26);
-    simpleView(oar, "false", "top3");
+    oar.push(1);
+    oar.push(2);
+    simpleView(oar, false, ".top3");
 });
 
 

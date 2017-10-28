@@ -204,12 +204,15 @@
 	function fitFontSize(id, length){
 		var size = length - 13;
 		fontSize = 250 - size*10;
-		$('#'+id).attr("style", "font-size:"+fontSize+"%;");
+		var str = $('#'+id).attr("style");
+		str += ";font-size:"+fontSize+"%";
+		$('#'+id).attr("style", str);
 	}
 </script>
 
 </head>
-<body onUnload="reloadSimple()">
+<!-- <body onUnload="reloadSimple()">  -->
+<body>
 
 <div class="content">
 	<div class="courseView">
@@ -244,7 +247,7 @@
         								<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         								<c:forEach var="gotoOne" items="${gotoList}">
         									<div style="margin:10px;">
-        										<span class="goto" id="${gotoID}">${gotoOne.gotoName}</span>
+        										<span class="goto" id="${gotoID}" style="color:${gotoOne.color}">${gotoOne.gotoName}</span>
         									</div>
         									<script>
         										var length = ${gotoOne.gotoName.length()};
@@ -303,7 +306,7 @@
         	
         	<c:if test="${courseVO.story ne null}">
         		<div class="story" style="margin-bottom:10px;">
-        			${courseVO.story}
+        			<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" disabled="disabled" style="border:0px;resize:none;outline:none;background-color:white">${courseVO.story}</textarea>
         		</div>
         	</c:if>
         			
@@ -385,8 +388,8 @@
 		// view 초기화
 		followCheck();
 		likeCheck();
-		likeNumber();
-		replyNumber();
+		likeCount();
+		replyCount();
 		console.log(infos);
 	});
 	
@@ -440,7 +443,7 @@
 	}
 	
 	// like 수
-	function likeNumber(){
+	function likeCount(){
 		$.ajax({
 			type:'get',
 			url:'/like/count/'+courseNumber,
@@ -487,7 +490,7 @@
 	}
 	
 	// reply 수
-	function replyNumber(){
+	function replyCount(){
 		$.ajax({
 			type:'get',
 			url:'/replise/count/'+courseNumber,
@@ -510,7 +513,12 @@
 		var id = $(this).attr("id");
 		var str = $(this).attr("style").split(';');
 		
-		$(this).attr("style", str[0]);
+		if(str.length > 4){
+			$(this).attr("style", str[0]+';'+str[1]);
+		}
+		else{
+			$(this).attr("style", str[0]);
+		}
 	});
 	
 	// goto 누르면 지도에 해당하는 marker에 대해 작동하도록
@@ -595,6 +603,8 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("follow");
+							// simpleView에서도 처리
+							opener.followToggle("follow", following, courseNumber);
 						}
 					}
 				});
@@ -616,6 +626,8 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("non-follow");
+							// simpleView에서도 처리
+							opener.followToggle("non-follow", following, courseNumber);
 						}
 					}
 				});
@@ -660,7 +672,10 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("active");
-							likeNumber();
+							likeCount();
+							//simpleView에서도 처리
+							opener.likeToggle("active", courseNumber);
+							opener.likeCount(courseNumber);
 						}
 					}
 				});
@@ -682,7 +697,10 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("non-active");
-							likeNumber();
+							likeCount();
+							//simpleView에서도 처리
+							opener.likeToggle("non-active", courseNumber);
+							opener.likeCount(courseNumber);
 						}
 					}
 				});
@@ -823,8 +841,7 @@
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			var replyObj = $("#newReply");
-			var reply = replyObj.val();
+			var reply = $("#newReply").val();
 			
 			$.ajax({
 				type:'post',
@@ -844,8 +861,9 @@
 						alert("등록 되었습니다.");
 						replyPage = 1;
 						getList(replyPage);
-						replyerObj.val("");
-						replyObj.val("");
+						$("#newReply").val("");
+						replyCount();
+						opener.replyCount(courseNumber);
 					}
 				}
 			});
@@ -879,6 +897,8 @@
 				if(result == 'SUCCESS'){
 					alert("수정 되었습니다.");
 					getList(replyPage);
+					replyCount();
+					opener.replyCount(courseNumber);
 				}
 			}
 		});
@@ -901,6 +921,8 @@
 				if(result == 'SUCCESS'){
 					alert("삭제 되었습니다.");
 					getList(replyPage);
+					replyCount();
+					opener.replyCount(courseNumber);
 				}
 			}
 		});

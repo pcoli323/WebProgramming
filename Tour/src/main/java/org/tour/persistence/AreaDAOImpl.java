@@ -1,6 +1,7 @@
 package org.tour.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,11 +29,10 @@ public class AreaDAOImpl implements AreaDAO {
 		
 		return session.selectList(namespace + ".selectAll");
 	}
-
+	
 	@Override
-	public List<Integer> search(String keyword) throws Exception {
+	public List<Map<String, Integer>> search(String keyword) throws Exception {
 		
 		return session.selectList(namespace + ".search", keyword);
 	}
-	
 }

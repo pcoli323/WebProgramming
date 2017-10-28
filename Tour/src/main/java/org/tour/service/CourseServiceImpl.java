@@ -2,6 +2,7 @@ package org.tour.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -86,7 +87,13 @@ public class CourseServiceImpl implements CourseService {
 		
 		return dao.simpleViewAll(userNumber);
 	}
-
+	
+	@Override
+	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode)throws Exception {
+		
+		return dao.searchAccordingToAreaAndSigunguCode(areaAndSigunguCode);
+	}
+	
 	@Override
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception {
 		
