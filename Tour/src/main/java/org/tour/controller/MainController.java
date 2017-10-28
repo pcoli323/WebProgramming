@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tour.domain.UserVO;
 import org.tour.service.AreaService;
-import org.tour.service.CourseInfoService;
 import org.tour.service.CourseService;
 import org.tour.service.SigunguService;
 import org.tour.service.UserService;
@@ -30,8 +29,6 @@ public class MainController {
 	private AreaService areaService;
 	@Inject
 	private SigunguService sigunguService;
-	@Inject
-	private CourseInfoService courseInfoService;
 	@Inject
 	private UserService userService;
 	@Inject
@@ -78,10 +75,7 @@ public class MainController {
 			else {
 				System.out.println("오류!");
 			}
-			
-			for(int i=0; i<result.size(); i++) {
-				System.out.println(result.get(i));
-			}
+			System.out.println(result.toString());
 			
 			entity = new ResponseEntity<List<Integer>>(result, HttpStatus.OK);
 			
@@ -95,19 +89,18 @@ public class MainController {
 	private List<Integer> searchRegion(String keyword){
 		List<Integer> result = new ArrayList<Integer>();
 		try {
-			// 서울, 광역시 6개, 세종 검색
-			List<Integer> areaCodes = areaService.search(keyword);
-			for(int i=0; i<areaCodes.size(); i++) {
-				int areaCode = areaCodes.get(i);
-				result.addAll(courseInfoService.searchAccordingToAreaCode(areaCode));
+			// 서울, 광역시, 세종
+			List<Map<String, Integer>> areaAndSigunguCodes = areaService.search(keyword);
+			// 시군구
+			if(areaAndSigunguCodes.size() == 0 || areaAndSigunguCodes.get(0).get("areaCode") == 5) {
+				areaAndSigunguCodes.addAll(sigunguService.search(keyword));
 			}
-			
-			// 시, 군 검색
-			List<Map<String, Integer>> areaAndSigunguCodes = sigunguService.search(keyword);
 			for(int i=0; i<areaAndSigunguCodes.size(); i++) {
-				Map<String, Integer> areaAndSigunguCode = areaAndSigunguCodes.get(i);
-				//System.out.println("areaCode : " + areaAndSigunguCode.get("areaCode") + " sigunguCode : " + areaAndSigunguCode.get("sigunguCode"));
-				result.addAll(courseInfoService.searchAccordingToAreaAndSigunguCode(areaAndSigunguCode));
+				System.out.println("area : " + areaAndSigunguCodes.get(i).get("areaCode") + " sigungu : " + areaAndSigunguCodes.get(i).get("sigunguCode"));
+			}
+			// courseNumber로 읽기
+			if(areaAndSigunguCodes.size() != 0) {
+				result.addAll(courseService.searchAccordingToAreaAndSigunguCode(areaAndSigunguCodes));
 			}
 		}catch(Exception e) {
 			System.out.println("searchRegionError");

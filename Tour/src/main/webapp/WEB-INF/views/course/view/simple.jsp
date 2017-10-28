@@ -66,11 +66,10 @@
     }
 </style>
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <!-- simpleView를 부르는 함수 -->
@@ -103,8 +102,8 @@
 					// view 초기화
 					followCheck(courseNumber, following);
 					likeCheck(courseNumber);
-					likeNumber(courseNumber);
-					replyNumber(courseNumber);
+					likeCount(courseNumber);
+					replyCount(courseNumber);
 				}
 			}
 		});
@@ -122,9 +121,7 @@
 			</div><!-- /uploadButton -->
 		{{/if}}
 		<div class="courseView-header">
-			<h2 class="courseName" id="name-{{courseNumber}}" style="text-align:center;font-family:'Jeju Gothic';">
-				{{courseName}}
-			</h2>
+			<h2 class="courseName" id="name-{{courseNumber}}" style="text-align:center;font-family:'Jeju Gothic';">{{courseName}}</h2>
 		</div><!-- /courseView-header -->
         
         <div class="courseView-body">
@@ -160,6 +157,8 @@
 	</div><!-- /courseView -->
 	<!-- mouseOver시 보여지는 big 이미지-->
 	<div class="mouseOverImageView" id="mouseOverImageView-{{courseNumber}}">
+		<button type="button" class="btn btn-default btn-xs pull-right removeImageBtn" id="removeImageBtn-{{courseNumber}}" style="outline:0">
+			<i class="fa fa-fw fa-remove"></i></button>
 		<div class="mouseOverImageContent" id="mouseOverImageContent-{{courseNumber}}">
 		</div><!-- /mouseOverImageContent -->
 	</div><!-- /mouseOverImageView -->
@@ -223,6 +222,21 @@
 <script>
 	// 대표이미지 크게 보기
 	$(document).on("mouseover", '.representativeImage', function(){
+		if($(this).hasClass("noImage") == false){
+			var str = $(this).attr("style");
+			
+			str = str + ";cursor:pointer;";
+			$(this).attr("style", str);
+		}
+	});
+	$(document).on("mouseout", '.representativeImage', function(){
+		if($(this).hasClass("noImage") == false){
+			var str = $(this).attr("style").split(';');
+			
+			$(this).attr("style", str[0]);
+		}
+	});
+	$(document).on("click", '.representativeImage', function(){
 		var imgSrc = "";
 		var imgHtml;
 		
@@ -252,12 +266,10 @@
 			}
 		}
 	});
-	$(document).on("mouseout", '.representativeImage', function(){
-		if($(this).hasClass("noImage") == false){
-			var idStr = $(this).attr('id').split('-');
-			var courseNumber = idStr[2];
-			$("#mouseOverImageView-"+courseNumber).hide();
-		}
+	$(document).on("click", '.removeImageBtn', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		$("#mouseOverImageView-"+courseNumber).hide();
 	});
 	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
@@ -295,7 +307,7 @@
 	}
 	
 	// like 수
-	function likeNumber(courseNumber){
+	function likeCount(courseNumber){
 		$.ajax({
 			type:'get',
 			url:'/like/count/'+courseNumber,
@@ -342,7 +354,7 @@
 	}
 	
 	// reply 수
-	function replyNumber(courseNumber){
+	function replyCount(courseNumber){
 		$.ajax({
 			type:'get',
 			url:'/replise/count/'+courseNumber,
@@ -425,6 +437,8 @@
 	}
 	
 	$(document).on("click", '.like', function(){
+		console.log(loginUserNumber);
+		console.log(loginCheck);
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
@@ -450,7 +464,7 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("active", courseNumber);
-							likeNumber(courseNumber);
+							likeCount(courseNumber);
 						}
 					}
 				});
@@ -472,7 +486,7 @@
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("non-active", courseNumber);
-							likeNumber(courseNumber);
+							likeCount(courseNumber);
 						}
 					}
 				});

@@ -31,7 +31,5 @@ public interface CourseInfoDAO {
 	
 	public void delete(int courseNumber) throws Exception;
 	
-	public List<Integer> searchAccordingToAreaCode(int areaCode) throws Exception;
-	
-	public List<Integer> searchAccordingToAreaAndSigunguCode (Map<String, Integer> areaAndSigunguCode) throws Exception;
+	public List<Map<String, Integer>> regionList(int courseNumber) throws Exception;
 }

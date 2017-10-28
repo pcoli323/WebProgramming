@@ -8,7 +8,6 @@
 <style type="text/css">
 	body{
 	height:100%;
-	background-color:lavenderblush !important;
 	}
 	.content{
 	position:relative;
@@ -61,13 +60,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>search</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <%@include file="../include/navbar.jsp" %>
-
 <body>
 <div class="content">
 	<div class="searchView">
@@ -97,11 +97,18 @@
 	</div><!-- /searchView -->
 	<div class="searchResult">
 	</div>
+	<div class='text-center'>
+		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+	</div>
 </div><!-- /content -->
 
 <script>
 	var loginCheck;
 	var loginUserNumber;
+	var searchResult = [];
+	var dataNumPerPage = 2;
+	var pageNum = 2;
+	
 	$(document).ready(function(){
 		// 변수 초기화
 		loginCheck = ${loginCheck};
@@ -130,19 +137,87 @@
 			url:'/search/keyword?searchType='+searchType+"&keyword="+keyword,
 			success:function(result){
 				console.log(result);
+				searchResult = result;
 				if(result.length != 0){
-					var mypage = false;
-					var position = ".searchResult";
-					simpleView(result, mypage, position);
+					searchResult = result;
+					printResult(1);
+					$('.pagination').show();
 				}
 				else{
 					var str = "<div style='padding:20px;font-size:150%;'>검색 결과가 없습니다.</div>";
 					$('.searchResult').html(str);
+					$('.pagination').hide();
 				}
 			}
 		});
 	});
+	// 결과 paging하여 보여주기
+	function printResult(page){
+		var endIndex = page * dataNumPerPage - 1;
+		var startIndex = endIndex - dataNumPerPage + 1;
+		
+		if(endIndex >= searchResult.length){
+			endIndex = searchResult.length - 1;
+		}
+		
+		// 결과 코스
+		var result = searchResult.slice(startIndex, endIndex + 1);
+		var mypage = false;
+		var position = ".searchResult";
+		simpleView(result, mypage, position);
+		
+		// paging
+		var pageMaker = makePageMaker(page);
+		printPaging(page, pageMaker);
+	}
+	// paging을 위한 pageMaker
+	function makePageMaker(page){
+		var pageMaker = new Map();
+		var realEndPage = Math.ceil(searchResult.length/dataNumPerPage);
+		
+		var endPage = Math.ceil(page/pageNum) * pageNum;
+		var startPage = endPage - pageNum + 1;
+		
+		if(endPage > realEndPage){
+			endPage = realEndPage;
+		}
+		var prev = startPage == 1 ? false : true;
+		var next = endPage == realEndPage ? false : true;
+		
+		pageMaker.set("startPage", startPage);
+		pageMaker.set("endPage", endPage);
+		pageMaker.set("prev", prev);
+		pageMaker.set("next", next);
+		
+		return pageMaker;
+	}
+	// paging 출력
+	function printPaging(page, pageMaker){
+		var str = "";
+		
+		if(pageMaker.get("prev")){
+			str += "<li><a href='"+(pageMaker.get("startPage")-1)+"'> << </a></li>";
+		}
+		
+		for(var i=pageMaker.get("startPage"); i<=pageMaker.get("endPage"); i++){
+			var strClass = page == i?'class=active':'';
+			str += "<li "+strClass+"><a href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(pageMaker.get("next")){
+			str += "<li><a href='"+(pageMaker.get("endPage")+1)+"'> >> </a></li>";
+		}
+		$('.pagination').html(str);
+	}
+	// paging 클릭
+	$(".pagination").on("click", "li a", function(event){
+		
+		event.preventDefault();
+		page = $(this).attr("href");
+		printResult(page);
+	});
 </script>
 <%@include file="../course/view/simple.jsp" %>
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

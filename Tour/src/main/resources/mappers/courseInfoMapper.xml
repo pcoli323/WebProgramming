@@ -74,15 +74,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where gotoNumber = #{gotoNumber}
 	</update>
 	
-	<select id="searchAccordingToAreaCode" resultType="int">
-		select distinct(courseNumber)
+	<select id="regionList" resultType="map">
+		select distinct gotoAreaCode as areaCode, gotoSigunguCode as sigunguCode
 		from tbl_courseInfo
-		where gotoAreaCode = #{areaCode}
-	</select>
-	
-	<select id="searchAccordingToAreaAndSigunguCode" resultType="int">
-		select distinct(courseNumber)
-		from tbl_courseInfo
-		where gotoAreaCode = #{areaCode} and gotoSigunguCode = #{sigunguCode}
+		where courseNumber = #{courseNumber}
 	</select>
 </mapper>

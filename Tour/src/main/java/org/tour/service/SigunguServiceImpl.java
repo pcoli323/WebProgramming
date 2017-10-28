@@ -27,7 +27,7 @@ public class SigunguServiceImpl implements SigunguService {
 
 		return dao.selectAll();
 	}
-
+	
 	@Override
 	public List<Map<String, Integer>> search(String keyword) throws Exception {
 		

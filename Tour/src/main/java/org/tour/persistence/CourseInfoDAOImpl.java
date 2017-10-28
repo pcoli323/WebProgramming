@@ -84,14 +84,8 @@ public class CourseInfoDAOImpl implements CourseInfoDAO {
 	}
 
 	@Override
-	public List<Integer> searchAccordingToAreaCode(int areaCode) throws Exception {
+	public List<Map<String, Integer>> regionList(int courseNumber) throws Exception {
 		
-		return session.selectList(namespace + ".searchAccordingToAreaCode", areaCode);
-	}
-
-	@Override
-	public List<Integer> searchAccordingToAreaAndSigunguCode(Map<String, Integer> areaAndSigunguCode) throws Exception {
-		
-		return session.selectList(namespace + ".searchAccordingToAreaAndSigunguCode", areaAndSigunguCode);
+		return session.selectList(namespace + ".regionList", courseNumber);
 	}
 }

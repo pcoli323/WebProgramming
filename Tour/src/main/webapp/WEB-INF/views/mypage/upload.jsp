@@ -148,7 +148,10 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
 <!-- map처리 -->
+<script>
+</script>
 <script>
 	var map;
 	function initMap() {
@@ -175,7 +178,7 @@
 			if(image != ""){
 				var contentString = "<div style='float:left;'><img style='width:150px; height:100px;' src=" + image 
 										+ "></div><div style='float:right; padding: 10px;'>" + title +"</div>";
-			
+				
 			} else{
 				var contentString = "<div style='float:left;'></div><div style='float:right; padding: 10px;'>" + title +"</div>";
 			}
@@ -203,14 +206,15 @@
 	function fitFontSize(id, length){
 		var size = length - 13;
 		fontSize = 250 - size*10;
-		$('#'+id).attr("style", "font-size:"+fontSize+"%;");
+		var str = $('#'+id).attr("style");
+		str += ";font-size:"+fontSize+"%";
+		$('#'+id).attr("style", str);
 	}
 </script>
-
 </head>
 
+<%@include file="../include/navbar.jsp" %>
 <body>
-
 <div class="content">
 	<div class="representativeView">
 		<div class="representativeContent"  data-toggle="tooltip" data-placement="top" title="다른 사람들에게 가장 먼저 보여주고 싶은 코스를 정해주세요">
@@ -248,7 +252,7 @@
         							<c:forEach var="gotoOne" items="${gotoList}">
         								<div style="display:flex;margin:10px 0px 10px 0px;">
         								<div style="text-align:left;width:80%;display:inline-block;">
-        									<span class="goto" id="${gotoID}" style="">${gotoOne.gotoName}</span>
+        									<span class="goto" id="${gotoID}" style="color:${gotoOne.color}">${gotoOne.gotoName}</span>
         								</div>
         								<script>
         									var length = ${gotoOne.gotoName.length()};
@@ -392,7 +396,12 @@
 		var id = $(this).attr("id");
 		var str = $(this).attr("style").split(';');
 		
-		$(this).attr("style", str[0]);
+		if(str.length > 4){
+			$(this).attr("style", str[0]+';'+str[1]);
+		}
+		else{
+			$(this).attr("style", str[0]);
+		}
 	});
 	
 	// goto 누르면 지도에 해당하는 marker에 대해 작동하도록
@@ -400,7 +409,6 @@
 		var id = $(this).attr("id");
 		
 		showMap(id);
-		console.log(changeImages);
 		showInfo(id);
 	});
 	
@@ -543,6 +551,7 @@
 			updateCourse(courseNumber, courseName, story);
 			representativeMark(courseNumber);
 			addImages();
+			location.href = "/uploadMypage";
 		}
 	});
 	function updateCourse(courseNumber, courseName, story){
@@ -604,5 +613,6 @@
 		});
 	}
 </script>
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

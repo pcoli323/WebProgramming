@@ -29,11 +29,11 @@ public class SigunguDAOImpl implements SigunguDAO {
 		
 		return session.selectList(namespace + ".selectAll");
 	}
-
+	
 	@Override
 	public List<Map<String, Integer>> search(String keyword) throws Exception {
 		
 		return session.selectList(namespace + ".search", keyword);
 	}
-	
+
 }

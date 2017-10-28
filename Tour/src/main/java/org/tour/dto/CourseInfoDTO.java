@@ -12,6 +12,7 @@ public class CourseInfoDTO {
 	private int gotoOrder;
 	private String tel;
 	private String address;
+	private String color;
 	
 	public int getGotoNumber() {
 		return gotoNumber;
@@ -72,5 +73,11 @@ public class CourseInfoDTO {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

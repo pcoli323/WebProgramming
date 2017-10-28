@@ -1,6 +1,7 @@
 package org.tour.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,7 +30,7 @@ public class AreaServiceImpl implements AreaService {
 	}
 
 	@Override
-	public List<Integer> search(String keyword) throws Exception {
+	public List<Map<String, Integer>> search(String keyword) throws Exception {
 		
 		return dao.search(keyword);
 	}

@@ -2,6 +2,7 @@ package org.tour.persistence;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.tour.domain.CourseVO;
 
@@ -30,7 +31,9 @@ public interface CourseDAO {
 	public void delete(int courseNumber) throws Exception;
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
-
+	
+	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode) throws Exception;
+	
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
 	
 	public void deletePost(int courseNumber) throws Exception;
