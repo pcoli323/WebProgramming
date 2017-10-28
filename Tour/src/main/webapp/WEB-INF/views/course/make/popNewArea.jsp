@@ -112,9 +112,8 @@ function showLatLng() {
 
 <script>
 var dateJson = JSON.parse('${idList}');
-
 $(document).ready(function(){
-	var areaNameStr = "<option value='0'> 시 / 도 </option>";
+	var areaNameStr = "<option value='-1'> 시 / 도 </option>";
 	for(var i=0; i<dateJson.length; i++){
 		areaNameStr += "<option value=" + dateJson[i].areaCode + ">" + dateJson[i].areaName + "</option>";
 	}
@@ -123,7 +122,7 @@ $(document).ready(function(){
 
 $(document).on("click","#areaCode",function(){
 	areaSelected = this.value;
-	var sigunguNameStr = "<option value='0'>시 / 군 / 구</option>";
+	var sigunguNameStr = "<option value='-1'>시 / 군 / 구</option>";
 	for(var i=0; i<dateJson.length; i++){
 		if(areaSelected == dateJson[i].areaCode){
 			sigunguNameStr += "<option value=" + dateJson[i].sigunguCode + ">" + dateJson[i].sigunguName + "</option>";
@@ -133,30 +132,44 @@ $(document).on("click","#areaCode",function(){
 });
 
 $(document).on("click",".registBtn",function(){
-	var arr = new Object();
-	arr.addr1 = document.getElementById('address').value;
-	arr.addr2 = "";
-	arr.areacode = Number(document.getElementById('areaCode').value);
-	arr.contentid = Number(0);
-	arr.contenttypeid = Number(0);
-	arr.createdtime = Number(0);
-	arr.firstimage = "";
-	arr.firstimage2 = "";
-	arr.modifiedtime = Number(0);
-	arr.readcount = Number(0);
-	arr.sigungucode = Number(document.getElementById('sigunguCode').value);
-	arr.tel = document.getElementById('number').value;
-	arr.title = document.getElementById('title').value;
-	arr.mapx = String(markers[(markerCount-1)].getPosition().lng());
-	arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
-	opener.jsonArr.push(arr);
-	opener.initTitle();
-	opener.inputTitleBorder();
-	opener.initScheduleTable();
-	opener.orderRangeSchedule();
-	opener.markerPosition();
-	opener.color();
-	self.close();
+	// 필수 정보 입력
+	if(document.getElementById('title').value == ""){
+		alert("장소이름을 입력해주세요");
+	} else if(Number(document.getElementById('areaCode').value) == -1){
+		alert("시/도를 선택해주세요.");
+	} else if(Number(document.getElementById('sigunguCode').value) == -1){
+		alert("시/군/구를 선택해주세요.")
+	} else {
+		// modify에 list 값 추가
+		var arr = new Object();
+		arr.addr1 = document.getElementById('address').value;
+		arr.addr2 = "";
+		arr.areacode = Number(document.getElementById('areaCode').value);
+		arr.contentid = Number(0);
+		arr.contenttypeid = Number(0);
+		arr.createdtime = Number(0);
+		arr.firstimage = "";
+		arr.firstimage2 = "";
+		arr.modifiedtime = Number(0);
+		arr.readcount = Number(0);
+		arr.sigungucode = Number(document.getElementById('sigunguCode').value);
+		arr.tel = document.getElementById('number').value;
+		arr.title = document.getElementById('title').value;
+		arr.mapx = String(markers[(markerCount-1)].getPosition().lng());
+		arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
+		opener.jsonArr.push(arr);
+		
+		// modify 함수 재 실행
+		opener.initTitle();
+		opener.inputTitleBorder();
+		opener.initScheduleTable();
+		opener.orderRangeSchedule();
+		opener.markerPosition();
+		opener.color();
+		
+		// 창 닫기
+		self.close();
+	}
 });
 
 $(document).on("click",".cancelBtn",function(){
