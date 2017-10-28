@@ -394,10 +394,31 @@ var courseNumByName = ${courseNumByName };
         
 			<div class="courseView-footer" style="text-align:right; clear:left">
 				<button type="button" class="btn btn-default modify">수정</button>
-				<button type="button" class="btn btn-default delete">삭제</button>
+				<button type="button" class="btn btn-default deleteModal">삭제</button>
 				<button type="button" class="btn btn-default post">게시</button>
 			</div><!-- /courseView-footer -->
 		</div><!-- /courseView -->
+	</div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="delModal" role="dialog">
+	<div class="modal-dialog" style="width:300px;">
+  
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="height:50px;">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">확인창</h4>
+			</div>
+			<div class="modal-body" style="height:45px;">
+				<p>정말 삭제하시겠습니까?</p>
+			</div>
+			<div class="modal-footer" style="height:60px;">
+				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px;">네</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px;">아니오</button>
+			</div>
+		</div>
+    
 	</div>
 </div>
 <script>
@@ -477,7 +498,7 @@ function showMap(id){
 					markers[i].setAnimation(null);
 				}
 			}
-			markers[index].setAnimation(google.maps.Animation.BOUNCE);
+//			markers[index].setAnimation(google.maps.Animation.BOUNCE);
 			map.setCenter(markers[index].getPosition());
 			map.setZoom(10);
 			$('.mapInfo').hide();
@@ -514,6 +535,10 @@ function showInfo(id){
 	$('.infoView').show();
 }
 
+$('.deleteModal').on("click", function(){
+    $("#delModal").modal();
+});
+
 $('.delete').on("click",function(){
 	$.ajax({
 		type:'POST',
@@ -524,7 +549,7 @@ $('.delete').on("click",function(){
 			location.href='/mypage/' + result;
 		}
     });
-})
+});
 
 $('.modify').on("click",function(){
 	$.ajax({
@@ -538,12 +563,12 @@ $('.modify').on("click",function(){
 			location.href='/course/make/add1';
 		}
     });
-})
+});
 
 $('.post').on("click",function(){
 
 	location.href = "/mypage/upload?courseNumber="+courseNumber;
-})
+});
 </script>		
 <!-- footer -->
 <%@include file="../include/footer.jsp" %>

@@ -108,6 +108,28 @@ function showLatLng() {
 	
 	document.getElementById('latlng').innerHTML = latlng;
 }
+
+function color(arr){
+	var jsonArr = opener.jsonArr;
+	for(var i=0; i<jsonArr.length; i++){
+		var last = jsonArr.length-1;
+		var areacode = Number(document.getElementById('areaCode').value);
+		var sigungucode = Number(document.getElementById('sigunguCode').value);
+		if((jsonArr[i].areacode == areacode && jsonArr[i].sigungucode == sigungucode) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 1) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 2) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 3) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 4) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 5) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 6) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 7) ||
+				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 8) ){
+			arr.pinColor = jsonArr[i].pinColor;
+			arr.titleColor = jsonArr[i].titleColor;
+		}
+	}
+	return arr;
+}
 </script>
 
 <script>
@@ -157,15 +179,17 @@ $(document).on("click",".registBtn",function(){
 		arr.title = document.getElementById('title').value;
 		arr.mapx = String(markers[(markerCount-1)].getPosition().lng());
 		arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
+		arr = color(arr);
 		opener.jsonArr.push(arr);
 		
 		// modify 함수 재 실행
+		opener.color();
 		opener.initTitle();
 		opener.inputTitleBorder();
 		opener.initScheduleTable();
 		opener.orderRangeSchedule();
 		opener.markerPosition();
-		opener.color();
+		opener.initMap();
 		
 		// 창 닫기
 		self.close();

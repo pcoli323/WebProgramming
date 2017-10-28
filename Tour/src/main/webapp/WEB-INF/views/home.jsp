@@ -449,12 +449,10 @@ $(document).ready(function(){
     });
     
     var oar = new Array();
-<<<<<<< HEAD
     oar.push(1);
     oar.push(2);
     simpleView(oar, false, ".top3");
-=======
-    $.ajax({      
+    $.ajax({
 		type:"POST",  
 		url:"/call",
 		contentType:"application/json; charset=utf-8",
@@ -465,7 +463,6 @@ $(document).ready(function(){
 		}
 	});
     
->>>>>>> c4d24c17d66005d3db74356cfa16b711080077f7
 });
 
 
