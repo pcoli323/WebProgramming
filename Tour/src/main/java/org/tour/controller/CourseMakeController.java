@@ -132,9 +132,11 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
-	public String modify(Locale locale, Model model) {
+	public String modify(Locale locale, Model model, HttpServletRequest request) {
+		
 		return "course/make/modify";
 	}
+	
 	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
 	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
 		
@@ -204,20 +206,40 @@ public class CourseMakeController {
 			// name : courseName
 			
 			// 1. tbl_Course에 코스 추가
-			try {
-				//courseService.courseAdd(new CourseVO().setCourseName("TestCourseName").setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
-				courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			int courseNumber = -1;
 			try {
-				courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
+				if(session.getAttribute("courseInfo")!=null) {
+					// Update tbl_Course
+					JSONParser parsers = new JSONParser();
+					Object objs = parsers.parse( (String) session.getAttribute("courseInfo") );
+					JSONArray jsonarrays = (JSONArray)objs;
+					JSONObject json = (JSONObject)jsonarrays.get(0);
+					
+					CourseVO vo = new CourseVO();
+					vo.setCourseNumber(((Long) json.get("courseNumber")).intValue());
+					vo.setCourseName((String)session.getAttribute("name"));
+					courseService.modifyInModify(vo);
+					
+					
+					courseNumber = ((Long) json.get("courseNumber")).intValue();				
+				}
+				else {
+					courseService.courseAdd(new CourseVO().setCourseName((String)session.getAttribute("name")).setUserNumber(((UserVO)session.getAttribute("login")).getUserNumber()));		
+					courseNumber = courseService.courseNumberRead(((UserVO)session.getAttribute("login")).getUserNumber());
+				}		
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-			// 2. tbl_CourseInfo에 코스정보 추가
+			
+			// 2. delete values in tables
+			// Delete rows in tbl_CourseInfo
+			courseInfoService.delete(courseNumber);
+			// Delete rows in tbl_CourseInfoSimple
+			courseInfoSimpleService.delete(courseNumber);
+			
+			
+			// 3. tbl_CourseInfo에 코스정보 추가
 			JSONArray data = (JSONArray) session.getAttribute("list");
 			for(int i=0; i<data.size(); i++) {
 				JSONObject json = (JSONObject) data.get(i);
@@ -260,7 +282,7 @@ public class CourseMakeController {
 				}
 			}
 			
-			// 3. tbl_CourseInfoSimple에 코스정보2 추가
+			// 4. tbl_CourseInfoSimple에 코스정보2 추가
 			data = (JSONArray) session.getAttribute("idList");
 			for(int i=0; i<data.size(); i++) {
 				JSONObject json = (JSONObject) data.get(i);
@@ -275,8 +297,9 @@ public class CourseMakeController {
 					e.printStackTrace();
 				}
 			}
-
-			// 4. 세션에서 idList, list, name 삭제
+			 
+			
+			// 4. 세션 값 삭제
 			removeAttributes(request);
 			
 			
@@ -286,6 +309,12 @@ public class CourseMakeController {
 			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;		
+	}
+	
+	@RequestMapping(value = "/course/make/addNewArea/popup/", method = RequestMethod.GET)
+	public String popup(HttpServletRequest request, Model model) throws ParseException {
+		//course new
+		return "course/make/popNewArea";
 	}
 	
 	@RequestMapping(value = "/course/make/cancel", method = RequestMethod.GET)
@@ -309,6 +338,12 @@ public class CourseMakeController {
 		}
 		if(session.getAttribute("name")!=null) {
 			session.removeAttribute("name");
+		}
+		if(session.getAttribute("modify")!=null) {
+			session.removeAttribute("modify");
+		}
+		if(session.getAttribute("courseInfo")!=null) {
+			session.removeAttribute("courseInfo");
 		}
 	}	
 }

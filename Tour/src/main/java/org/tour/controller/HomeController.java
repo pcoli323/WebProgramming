@@ -3,6 +3,7 @@ package org.tour.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,20 +13,28 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.tour.domain.AreaVO;
 import org.tour.domain.CourseInfoVO;
+import org.tour.domain.LikeVO;
 import org.tour.domain.SigunguVO;
 import org.tour.domain.UserVO;
 import org.tour.dto.CourseIDDTO;
 import org.tour.dto.LoginDTO;
 import org.tour.service.AreaService;
 import org.tour.service.CourseChangeService;
+import org.tour.service.LikeService;
 import org.tour.service.SigunguService;
 import org.tour.service.UserService;
 
@@ -38,6 +47,9 @@ public class HomeController {
 	
 	@Inject
 	private UserService service;
+	
+	@Inject
+	private LikeService likeService;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -81,7 +93,21 @@ public class HomeController {
 		return "home";
 	}
 	
-	
+	@RequestMapping(value = "/call", method = RequestMethod.POST)
+	public ResponseEntity<List<Integer>> call(){
+		
+		ResponseEntity<List<Integer>> entity = null;
+		try {
+
+			List<Integer> top3List = likeService.getTop3();
+			System.out.println(top3List);
+			entity = new ResponseEntity<List<Integer>>(top3List, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<Integer>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 	
 	
 	

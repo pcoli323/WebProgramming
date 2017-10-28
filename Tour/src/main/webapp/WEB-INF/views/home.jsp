@@ -229,7 +229,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="#home"><img src="/resources/img/logo.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
@@ -419,8 +419,11 @@ var loginCheck = false;
 var loginUserNumber = null;
 
 $(document).ready(function(){
-	if('${loginSuccess}'==1)
-		alert("로그인되었습니다.");
+	if('${loginSuccess}'==1){
+		loginCheck = true;
+		alert("로그인되었습니다.");		
+	}
+		
     $("#register").click(function(){
     	$("#registerModal").modal();    	
     });
@@ -446,9 +449,23 @@ $(document).ready(function(){
     });
     
     var oar = new Array();
+<<<<<<< HEAD
     oar.push(1);
     oar.push(2);
     simpleView(oar, false, ".top3");
+=======
+    $.ajax({      
+		type:"POST",  
+		url:"/call",
+		contentType:"application/json; charset=utf-8",
+		success:function(msg){
+			for(var i=0; i<msg.length; i++)
+				oar.push(msg[i]);
+		    simpleView(oar, false, "top3");
+		}
+	});
+    
+>>>>>>> c4d24c17d66005d3db74356cfa16b711080077f7
 });
 
 

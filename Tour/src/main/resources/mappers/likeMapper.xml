@@ -27,8 +27,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where courseNumber = #{courseNumber} and userNumber = #{userNumber}
 	</delete>
 	
+	<select id="top3" resultType="Integer">
+	<![CDATA[
+	select courseNumber
+	from (
+		select courseNumber, count(*) as likeNum
+		from tbl_Like
+		group by courseNumber
+		) tmp
+	order by tmp.likeNum desc
+	limit 3
+	]]>
+	</select>
+	
+	<select id="search" resultType="int">
+		select areaCode
+		from tbl_area
+		where areaName like CONCAT(#{keyword}, '%')
+	</select>
+
 	<delete id="deletePost">
 		delete from tbl_Like
 		where courseNumber = #{courseNumber}
 	</delete>
+
 </mapper>

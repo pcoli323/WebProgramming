@@ -200,8 +200,9 @@ var realDateCount = 0;
 	</div>
 	
 	<div id="complete">
-		<button type=button class="btn btn-default" id="cancel" style="height:30px;">취소</button>
+		<button type='button' class="btn btn-default" id="cancel" style="height:30px;">취소</button>
 		<button type="button" id="completeBtn" class="btn btn-default" style="height:30px;">완료</button>
+		<button type="button" id="addNewArea" class="btn btn-default" style="height:30px;">새로운 지역 추가</button>
 	</div>
 	
 	<!-- Complete Modal -->
@@ -265,41 +266,44 @@ var realDateCount = 0;
 	//연보라 색 겹침
 	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
 	var pinColorCount = 0;
-	for(var i=1; i<jsonArr.length; i++){
-		if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
-				(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
-				(jsonArr[i-1].areacode != 2 && jsonArr[i].areacode != 2) && 
-				(jsonArr[i-1].areacode != 3 && jsonArr[i].areacode != 3) && 
-				(jsonArr[i-1].areacode != 4 && jsonArr[i].areacode != 4) &&
-				(jsonArr[i-1].areacode != 5 && jsonArr[i].areacode != 5) && 
-				(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
-				(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
-				(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
-			if(i==1){
+	color();
+	function color(){
+		for(var i=1; i<jsonArr.length; i++){
+			if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
+					(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
+					(jsonArr[i-1].areacode != 2 && jsonArr[i].areacode != 2) && 
+					(jsonArr[i-1].areacode != 3 && jsonArr[i].areacode != 3) && 
+					(jsonArr[i-1].areacode != 4 && jsonArr[i].areacode != 4) &&
+					(jsonArr[i-1].areacode != 5 && jsonArr[i].areacode != 5) && 
+					(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
+					(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
+					(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
+				if(i==1){
+					jsonArr[i-1].pinColor = pinColor[pinColorCount];
+					jsonArr[i-1].titleColor = titleColor[pinColorCount];
+					pinColorCount++;
+					jsonArr[i].pinColor = pinColor[pinColorCount];
+					jsonArr[i].titleColor = titleColor[pinColorCount];
+				} else{
+					pinColorCount++;
+					jsonArr[i].pinColor = pinColor[pinColorCount];
+					jsonArr[i].titleColor = titleColor[pinColorCount];
+				}
+			} else {
 				jsonArr[i-1].pinColor = pinColor[pinColorCount];
 				jsonArr[i-1].titleColor = titleColor[pinColorCount];
-				pinColorCount++;
-				jsonArr[i].pinColor = pinColor[pinColorCount];
-				jsonArr[i].titleColor = titleColor[pinColorCount];
-			} else{
-				pinColorCount++;
 				jsonArr[i].pinColor = pinColor[pinColorCount];
 				jsonArr[i].titleColor = titleColor[pinColorCount];
 			}
-		} else {
-			jsonArr[i-1].pinColor = pinColor[pinColorCount];
-			jsonArr[i-1].titleColor = titleColor[pinColorCount];
-			jsonArr[i].pinColor = pinColor[pinColorCount];
-			jsonArr[i].titleColor = titleColor[pinColorCount];
 		}
-	}
-	if(jsonArr.length == 1){
-		jsonArr[0].pinColor = pinColor[0];
-		jsonArr[0].titleColor = titleColor[0];
-	}
-	
-	for(var i=0; i<jsonArr.length; i++){
-		bufPinColor[i] = jsonArr[i].pinColor;
+		if(jsonArr.length == 1){
+			jsonArr[0].pinColor = pinColor[0];
+			jsonArr[0].titleColor = titleColor[0];
+		}
+		
+		for(var i=0; i<jsonArr.length; i++){
+			bufPinColor[i] = jsonArr[i].pinColor;
+		}
 	}
 	
 	function markerPosition(){
@@ -752,6 +756,11 @@ var realDateCount = 0;
 			},
 		});
 	}
+	//취소 버튼 이벤트 처리
+	$("#addNewArea").click(function(){
+		var url = "/course/make/addNewArea/popup/";
+		window.open(url, "startpop", "width=800, height=800");
+	});
 	//취소 버튼 이벤트 처리
 	$("#cancel").click(function(){
 		$.ajax({      

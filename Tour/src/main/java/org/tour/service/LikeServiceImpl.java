@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -34,6 +36,11 @@ public class LikeServiceImpl implements LikeService {
 	public void delete(LikeVO vo) throws Exception {
 		
 		dao.delete(vo);
+	}
+
+	@Override
+	public List<Integer> getTop3() throws Exception {
+		return dao.getTop3();
 	}
 	
 	@Override
