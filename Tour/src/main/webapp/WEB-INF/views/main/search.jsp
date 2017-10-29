@@ -119,7 +119,7 @@
 			loginUserNumber = ${loginUser.userNumber};
 		}
 		$("#keywordInput").keyup(function(event) {
-		    if (event.keyCode === 13) {
+		    if (event.keyCode == 13) {
 		        $(".searchButton").click();
 		    }
 		});

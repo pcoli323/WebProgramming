@@ -96,6 +96,33 @@ public class ImageController {
 		
 		return entity;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/imageUpload/{userNumber}", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public ResponseEntity<String> imageUpload(@PathVariable("userNumber") int userNumber, MultipartFile file) throws Exception{
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			ImageVO imageVO = new ImageVO();
+			byte[] realFile = file.getBytes();
+			String[] formatType = file.getContentType().split("/");
+			byte[] thumFile = ImageUtils.makeThumnail(realFile, formatType[1]);
+			
+			imageVO.setUserNumber(userNumber);
+			imageVO.setRealfile(realFile);
+			imageVO.setThumfile(thumFile);
+			imageVO.setType(formatType[1]);
+			imageService.insertImage(imageVO);
+			System.out.println(imageVO.getImageNumber());
+			entity = new ResponseEntity<String>(String.valueOf(imageVO.getImageNumber()), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	/*
 	@RequestMapping(value = "/imageDelete/{gotoNumber}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> imageDelete(@PathVariable("gotoNumber") int gotoNumber, @RequestBody String deleteImage) throws Exception{

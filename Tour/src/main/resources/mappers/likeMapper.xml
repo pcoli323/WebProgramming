@@ -39,12 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	limit 3
 	]]>
 	</select>
-	
-	<select id="search" resultType="int">
-		select areaCode
-		from tbl_area
-		where areaName like CONCAT(#{keyword}, '%')
-	</select>
 
 	<delete id="deletePost">
 		delete from tbl_Like

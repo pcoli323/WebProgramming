@@ -554,6 +554,8 @@ var realDateCount = 0;
 		limitCheck[i] = 0;
 	}
 	var selectDateVar=0; // 날짜 선정 모달에서 선택한 날짜 value값
+	var loginUserNumber = 2;
+	
 	$(document).ready(function(){
 	    $(".selectDate").click(function(){
 			selectDateVar = this.value; // 날짜 선정 모달에서 선택한 날짜 value값
@@ -786,20 +788,43 @@ var realDateCount = 0;
 			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
 	    	success:function(){
-	    		var jsonData = JSON.stringify(jsonArr);
-	    		$.ajax({      
-	    	    	type:"POST",  
-	    	    	url:"/course/make/modify/save",
-	    	    	dataType:"json",
-	    	    	data:jsonData,
-	    	    	contentType:"application/json; charset=utf-8",
-	    	    	success:function(){
-	    	    		alert("코스가 생성되었습니다.");
-	    				 location.href="/mypage/0";
-	    			},
-	    			error:function(){
-	        			alert("실패");
-	    			},
+	    		var imageCount = 0;
+	    		// image 추가하여 image에 대한 정보 넣어주기
+	    		addImageList.forEach(function(value, key){
+	    			var formData = new FormData();
+	    			formData.append("file", value);
+	    			
+	    			$.ajax({
+	    				url: '/imageUpload/'+loginUserNumber,
+	    				data: formData,
+	    				dataType:'text',
+	    				processData: false,
+	    				contentType: false,
+	    				type: 'POST',
+	    				success: function(imageNumber){
+	    					console.log(imageNumber);
+	    					jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
+	    					jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
+	    					imageCount++;
+	    		    		if(imageCount == addImageList.size){
+	    		    			var jsonData = JSON.stringify(jsonArr);
+	    		    			$.ajax({      
+	    		    	    		type:"POST",  
+	    		    	    		url:"/course/make/modify/save",
+	    		    	    		dataType:"json",
+	    		    	    		data:jsonData,
+	    		    	    		contentType:"application/json; charset=utf-8",
+	    		    	    		success:function(){
+	    		    	    			alert("코스가 생성되었습니다.");
+	    		    					location.href="/mypage/0";
+	    		    				},
+	    		    				error:function(){
+	    		        				alert("실패");
+	    		    				},
+	    		    			});
+	    		    		}
+	    				}
+	    			});
 	    		});
 			},
 			error:function(){
@@ -807,11 +832,15 @@ var realDateCount = 0;
 			},
 		});
 	}
+	
 	//취소 버튼 이벤트 처리
 	$("#addNewArea").click(function(){
 		var url = "/course/make/addNewArea/popup/";
 		window.open(url, "startpop", "width=800, height=800");
 	});
+	// image 처리를 위한 변수
+	var addImageList = new Map();
+	
 	//취소 버튼 이벤트 처리
 	$("#cancel").click(function(){
 		$.ajax({      

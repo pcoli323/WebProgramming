@@ -22,8 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="search" resultType="map">
-		select tbl_area.areaCode, sigunguCode
-		from tbl_area join tbl_sigungu
-		where tbl_area.areaCode = tbl_sigungu.areaCode and areaName like CONCAT(#{keyword}, '%')
+		select tbl_Area.areaCode, sigunguCode
+		from tbl_Area join tbl_Sigungu
+		where tbl_Area.areaCode = tbl_Sigungu.areaCode and areaName like CONCAT(#{keyword}, '%')
 	</select>
 </mapper>
