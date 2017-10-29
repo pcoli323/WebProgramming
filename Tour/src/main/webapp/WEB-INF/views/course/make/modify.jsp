@@ -113,6 +113,11 @@
 	   bottom: auto;
 	   left: 800px;
    }
+   #colorIndex {
+	   position: fixed;
+	   top: 100px;
+	   right: 150px;
+   }
 	</style>
 </head>
 <body>
@@ -224,6 +229,7 @@ var realDateCount = 0;
 		</div>
 	</div>
 </div>
+<div id="colorIndex"></div>
 	<script>
 	// google map 생성 부분
 	var map;
@@ -239,15 +245,6 @@ var realDateCount = 0;
 		//pinColorRed()
 		markerPosition();
 		
-		var flightPath = new google.maps.Polyline({
-			path: flightPlanCoordinates,
-			geodesic: true,
-			strokeColor: '#FF0000',
-			strokeOpacity: 1.0,
-			strokeWeight: 2
-		});
-		console.log(flightPlanCoordinates);
-		flightPath.setMap(map);
 	}
 //	var pinColor = [];
 	function pinSymbol(color) {
@@ -266,41 +263,61 @@ var realDateCount = 0;
 	//연보라 색 겹침
 	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
 	var pinColorCount = 0;
-	color();
-	function color(){
-		for(var i=1; i<jsonArr.length; i++){
-			if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
-					(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
-					(jsonArr[i-1].areacode != 2 && jsonArr[i].areacode != 2) && 
-					(jsonArr[i-1].areacode != 3 && jsonArr[i].areacode != 3) && 
-					(jsonArr[i-1].areacode != 4 && jsonArr[i].areacode != 4) &&
-					(jsonArr[i-1].areacode != 5 && jsonArr[i].areacode != 5) && 
-					(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
-					(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
-					(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
-				if(i==1){
-					jsonArr[i-1].pinColor = pinColor[pinColorCount];
-					jsonArr[i-1].titleColor = titleColor[pinColorCount];
-					pinColorCount++;
-					jsonArr[i].pinColor = pinColor[pinColorCount];
-					jsonArr[i].titleColor = titleColor[pinColorCount];
-				} else{
-					pinColorCount++;
-					jsonArr[i].pinColor = pinColor[pinColorCount];
-					jsonArr[i].titleColor = titleColor[pinColorCount];
-				}
-			} else {
+	for(var i=1; i<jsonArr.length; i++){
+		if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
+				(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
+				(jsonArr[i-1].areacode != 2 && jsonArr[i].areacode != 2) && 
+				(jsonArr[i-1].areacode != 3 && jsonArr[i].areacode != 3) && 
+				(jsonArr[i-1].areacode != 4 && jsonArr[i].areacode != 4) &&
+				(jsonArr[i-1].areacode != 5 && jsonArr[i].areacode != 5) && 
+				(jsonArr[i-1].areacode != 6 && jsonArr[i].areacode != 6) &&
+				(jsonArr[i-1].areacode != 7 && jsonArr[i].areacode != 7) && 
+				(jsonArr[i-1].areacode != 8 && jsonArr[i].areacode != 8)))){
+			if(i==1){
 				jsonArr[i-1].pinColor = pinColor[pinColorCount];
 				jsonArr[i-1].titleColor = titleColor[pinColorCount];
+				pinColorCount++;
+				jsonArr[i].pinColor = pinColor[pinColorCount];
+				jsonArr[i].titleColor = titleColor[pinColorCount];
+			} else{
+				pinColorCount++;
 				jsonArr[i].pinColor = pinColor[pinColorCount];
 				jsonArr[i].titleColor = titleColor[pinColorCount];
 			}
+		} else {
+			jsonArr[i-1].pinColor = pinColor[pinColorCount];
+			jsonArr[i-1].titleColor = titleColor[pinColorCount];
+			jsonArr[i].pinColor = pinColor[pinColorCount];
+			jsonArr[i].titleColor = titleColor[pinColorCount];
 		}
-		if(jsonArr.length == 1){
-			jsonArr[0].pinColor = pinColor[0];
-			jsonArr[0].titleColor = titleColor[0];
+	}
+	if(jsonArr.length == 1){
+		jsonArr[0].pinColor = pinColor[0];
+		jsonArr[0].titleColor = titleColor[0];
+	}
+	
+	var colorIndexStr = "";
+	for(var i=0; i<dateJson.length; i++) {
+		for(var j=0; j<jsonArr.length; j++) {
+			if((dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].sigunguCode == jsonArr[j].sigungucode) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 1) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 2) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 3) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 4) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 5) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 6) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 7) ||
+					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 8)) {
+				dateJson[i].color = jsonArr[j].pinColor;
+				colorIndexStr += "<p>" + dateJson[i].areaName + " " + dateJson[i].sigunguName + "</p><form><input style='background-color:" + jsonArr[j].titleColor + ";' border=none></form>";
+				break;
+			}
 		}
-		
+	}
+	document.getElementById('colorIndex').innerHTML = colorIndexStr;
+	
+	color();
+	function color(){
 		for(var i=0; i<jsonArr.length; i++){
 			bufPinColor[i] = jsonArr[i].pinColor;
 		}
@@ -569,6 +586,7 @@ var realDateCount = 0;
 				jsonArr[calBtnValue].border = 0;
 
 				jsonArr[calBtnValue].pinColor = bufPinColor[calBtnValue];
+				console.log("bufPinColor : " + bufPinColor);
 				clearMarkers();
 				markerPosition();
 	
@@ -596,7 +614,6 @@ var realDateCount = 0;
 				jsonArr[calBtnValue].pinColor = "gray";
 				clearMarkers();
 				markerPosition();
-				orderPolyLine();
 			}
 			inputTitleBorder();
 		}
@@ -689,21 +706,40 @@ var realDateCount = 0;
 				}
 			}
 		}
+		console.log("orderTable");
 		orderPolyLine();
 	}
 	function orderPolyLine(){
+		initMap();
+		flightPlanCoordinates = [];
+		polyLineCount = 0;   
 		for(var z=0; z<realDate.length; z++){ //date count
 			for(var i=0; i<jsonArr.length; i++){ // order count
 				for(var j=0; j<jsonArr.length; j++){ // jsonArr count
 					if(jsonArr[j].order != null && jsonArr[j].order == i && jsonArr[j].gotoDate == realDate[z]){
 						flightPlanCoordinates[polyLineCount] = new google.maps.LatLng(jsonArr[j].mapy, jsonArr[j].mapx);
 						polyLineCount++;
+						console.log("flightPlanCoordinates : " + flightPlanCoordinates);
+						console.log("polyLineCount : " + polyLineCount);
 						break;
 					}
 				}
 			}
+			var flightPath = new google.maps.Polyline({
+				path: flightPlanCoordinates,
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+			flightPath.setMap(map);
+
+			flightPlanCoordinates = [];
+			polyLineCount = 0;   
 		}
-		initMap();
+	}
+	function deleteLine(){
+		flightPath.setMap(null);
 	}
 	// 완료 버튼 클릭시 코스 제목 모달창
 	$(document).on("click","#completeBtn",function(){

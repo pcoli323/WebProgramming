@@ -151,6 +151,7 @@ function showLatLng() {
 	document.getElementById('latlng').innerHTML = latlng;
 }
 
+<<<<<<< HEAD
 // image추가
 	$(".fileDrop").on("dragenter dragover", function(event){
 		event.preventDefault();
@@ -198,6 +199,8 @@ function showLatLng() {
 		file = null;
 		isPreviewImage = false;
 	});
+=======
+>>>>>>> df57ed02a0e6e14a9c792060d32d3d12492a6982
 </script>
 
 <script>
