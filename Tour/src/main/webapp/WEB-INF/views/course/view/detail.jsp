@@ -162,18 +162,46 @@
 			center: mapcenter
 		});
 	}
+	
 	var markers = [];
 	var markerIndex = 0;
 	var gotoNumberMapMarker = new Map();
+	var pathArray = [];
+	var pathArrayIndex = 0;
 	
-	function makeMarker(locationX, locationY, image, title, address, tel, id){
+	function pinSymbol(color) {
+		return {
+			path: google.maps.SymbolPath.CIRCLE,
+			fillColor: color,
+			fillOpacity: 1,
+			strokeColor: color,
+			strokeWeight: 2,
+			scale: 4,
+		};
+	}
+	function makePath(){
+		var flightPath = new google.maps.Polyline({
+			path: pathArray,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
+		});
+		flightPath.setMap(map);
+		
+		pathArray = [];
+		pathArrayIndex = 0;
+	}
+	function makeMarker(locationX, locationY, image, title, address, tel, id, color){
 		if(locationX != ""){
 			var mapPositions = new google.maps.LatLng(locationY, locationX);
+			pathArray[pathArrayIndex++] = mapPositions; // map에서 경로 연결
 			var marker = new google.maps.Marker({
 				position: mapPositions,
 				map: map,
 				title:title,
-				animation:null
+				animation:null,
+				icon:pinSymbol(color)
 			});
 			markers.push(marker);
 			if(image != ""){
@@ -193,7 +221,7 @@
 				markers[i].setAnimation(null);
 			}
 			showInfo(id);
-			localmarker.setAnimation(google.maps.Animation.BOUNCE);
+			//localmarker.setAnimation(google.maps.Animation.BOUNCE);
 		});
 	}
 </script>
@@ -282,10 +310,13 @@
         						<c:set var="gotoList" value="${plan.get(date)}"></c:set>
         						<c:forEach var="gotoOne" items="${gotoList}">
         							<script>
-        								makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.address}", "${gotoOne.tel}", "${gotoID}");
+        								makeMarker("${gotoOne.locationX}", "${gotoOne.locationY}", "${gotoOne.gotoImage}", "${gotoOne.gotoName}", "${gotoOne.address}", "${gotoOne.tel}", "${gotoID}", "${gotoOne.color}");
         							</script>
         							<c:set var="gotoID" value="${gotoID + 1}"></c:set>
         						</c:forEach>
+        						<script>
+        							makePath();
+        						</script>
         					</c:forEach>
         					</div>
         					<div class="mapInfo" style="text-align:right;color:red;font-size:13px;display:none">
@@ -309,7 +340,7 @@
         			<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" disabled="disabled" style="border:0px;resize:none;outline:none;background-color:white">${courseVO.story}</textarea>
         		</div>
         	</c:if>
-        			
+        	
         </div><!-- /courseView-body -->
         		
         <div class="courseView-footer" style="text-align:right; clear:left">
@@ -392,7 +423,6 @@
 		replyCount();
 		console.log(infos);
 	});
-	
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
 		var position = $(window).scrollTop();

@@ -33,7 +33,8 @@
 	color:#000000;
 	}
 	.representativeImage {
-    width: 100px; height: 100px;
+    width: 140px;
+    height: 140px;
     object-fit: cover;
     border-radius: 50%;
     }

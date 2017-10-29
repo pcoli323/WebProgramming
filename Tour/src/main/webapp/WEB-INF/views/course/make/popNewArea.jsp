@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title>새로운 여행지 추가</title>
 	<style>
 	.popContainer {
@@ -14,9 +15,8 @@
 		display: flex;
 	}
 	.addImage {
-		width: 500px;
-		height: auto;
-		float: left;
+		padding:20px;
+		height: 360px;
 	}
 	.info {
 		padding: 10px;
@@ -32,6 +32,35 @@
 		height: 630px;
 		width: 70%;
 		float: left;
+	}
+	.fileDrop{
+	border: 1px dotted blue;
+	margin-left:20px;
+	padding:10px;
+	height:100%;
+	}
+	.explain{
+	margin:10px;
+	}
+	.previewImage{
+	width:100%;
+	height:100%;
+	display:none;
+	}
+	.imageView{
+	width:500px;
+	height:285px;
+	text-align:center;
+	margin:auto;
+	}
+	.imageContent{
+	max-width:100%;
+	height:auto;
+	max-height:100%;
+	}
+	@keyframes arrow{
+	0% {top:0px;}
+	100% {top:5px;}
 	}
 	</style>
 </head>
@@ -53,6 +82,19 @@
 	</div>
 	<div class="addImage">
 		<!-- sue~ -->
+		<div class="fileDrop">
+			<div class="explain">
+				<div style="display:inline-block;">사진을 여기에 놓아주세요.</div>
+				<span class="glyphicon glyphicon-arrow-down" style="animation:arrow 0.5s linear infinite alternate;"></span>
+			</div>
+			<div class="previewImage">
+				<button type="button" class="btn btn-default btn-xs pull-right" id="removeImageBtn" style="outline:0">
+					<i class="fa fa-fw fa-remove"></i></button>
+				<div class="imageView" id="imagePreview">
+					<img class="imageContent" id="previewImageContent" src="">
+				</div>
+			</div><!-- /imagePreview -->
+		</div><!-- /fileDrop -->
 	</div>
 	<div class="button">
 		<button type=button class="btn btn-default registBtn" data-dismiss="modal" style="height:35px;">등록</button>
@@ -109,6 +151,53 @@ function showLatLng() {
 	document.getElementById('latlng').innerHTML = latlng;
 }
 
+// image추가
+	$(".fileDrop").on("dragenter dragover", function(event){
+		event.preventDefault();
+	});
+	var file = null;
+	$(".fileDrop").on("drop", function(event){
+		event.preventDefault();
+		
+		var imageFileType = ["jpg", "jpeg", "png", "gif"];
+		var files = event.originalEvent.dataTransfer.files;
+		file = files[0];
+		console.log(file);
+		console.log(file.size);
+		var fileType = file.type.split('/');
+		
+		var fileTest = false;
+		if(fileType[0] == "image"){
+			for(var i=0; i<imageFileType.length; i++){
+				if(fileType[1].toLowerCase() == imageFileType[i]){
+					fileTest = true;
+				}
+			}
+		}
+		
+		if(fileTest == false){
+			alert("JPG/JPEG, PNG, GIF 형식만 가능합니다.");
+		}
+		else if(file.size > 10485760){
+			alert("최대파일크기 : 10MB");
+		}
+		else{
+			$('.explain').hide();
+			$('#previewImageContent').attr("src", URL.createObjectURL(file));
+			$('.previewImage').show();
+			isPreviewImage = true;
+		}
+		
+	});
+	
+	$('#removeImageBtn').on("click", function(){
+		console.log("removeImageBtn 누름");
+		$('#previewImageContent').attr("src", '');
+		$('.previewImage').hide();
+		$('.explain').show();
+		file = null;
+		isPreviewImage = false;
+	});
 function color(arr){
 	var jsonArr = opener.jsonArr;
 	for(var i=0; i<jsonArr.length; i++){
