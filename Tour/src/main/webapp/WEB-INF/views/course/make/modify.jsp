@@ -788,44 +788,63 @@ var realDateCount = 0;
 			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
 	    	success:function(){
-	    		var imageCount = 0;
-	    		// image 추가하여 image에 대한 정보 넣어주기
-	    		addImageList.forEach(function(value, key){
-	    			var formData = new FormData();
-	    			formData.append("file", value);
-	    			
-	    			$.ajax({
-	    				url: '/imageUpload/'+loginUserNumber,
-	    				data: formData,
-	    				dataType:'text',
-	    				processData: false,
-	    				contentType: false,
-	    				type: 'POST',
-	    				success: function(imageNumber){
-	    					console.log(imageNumber);
-	    					jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
-	    					jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
-	    					imageCount++;
-	    		    		if(imageCount == addImageList.size){
-	    		    			var jsonData = JSON.stringify(jsonArr);
-	    		    			$.ajax({      
-	    		    	    		type:"POST",  
-	    		    	    		url:"/course/make/modify/save",
-	    		    	    		dataType:"json",
-	    		    	    		data:jsonData,
-	    		    	    		contentType:"application/json; charset=utf-8",
-	    		    	    		success:function(){
-	    		    	    			alert("코스가 생성되었습니다.");
-	    		    					location.href="/mypage/0";
-	    		    				},
-	    		    				error:function(){
-	    		        				alert("실패");
-	    		    				},
-	    		    			});
-	    		    		}
-	    				}
+	    		if(addImageList.size != 0){
+	    			var imageCount = 0;
+	    			// image 추가하여 image에 대한 정보 넣어주기
+	    			addImageList.forEach(function(value, key){
+	    				var formData = new FormData();
+	    				formData.append("file", value);
+	    				
+	    				$.ajax({
+	    					url: '/imageUpload/'+loginUserNumber,
+	    					data: formData,
+	    					dataType:'text',
+	    					processData: false,
+	    					contentType: false,
+	    					type: 'POST',
+	    					success: function(imageNumber){
+	    						console.log(imageNumber);
+	    						jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
+	    						jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
+	    						imageCount++;
+	    		    			if(imageCount == addImageList.size){
+	    		    				var jsonData = JSON.stringify(jsonArr);
+	    		    					$.ajax({      
+	    		    	    			type:"POST",  
+	    		    	    			url:"/course/make/modify/save",
+	    		    	    			dataType:"json",
+	    		    	    			data:jsonData,
+	    		    	    			contentType:"application/json; charset=utf-8",
+	    		    	    			success:function(){
+	    		    	    				alert("코스가 생성되었습니다.");
+	    		    						location.href="/mypage/0";
+	    		    					},
+	    		    					error:function(){
+	    		        					alert("실패");
+	    		    					},
+	    		    				});
+	    		    			}
+	    					}
+	    				});
 	    			});
-	    		});
+	    		}
+	    		else{
+	    			var jsonData = JSON.stringify(jsonArr);
+					$.ajax({      
+	    				type:"POST",  
+	    				url:"/course/make/modify/save",
+	    				dataType:"json",
+	    				data:jsonData,
+	    				contentType:"application/json; charset=utf-8",
+	    				success:function(){
+	    					alert("코스가 생성되었습니다.");
+							location.href="/mypage/0";
+						},
+						error:function(){
+    						alert("실패");
+						},
+					});
+	    		}
 			},
 			error:function(){
     			alert("이미 생성된 코스이름입니다. 다시 입력해주세요.");

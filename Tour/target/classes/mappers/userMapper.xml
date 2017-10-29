@@ -31,4 +31,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_User
 		where userName like CONCAT('%', #{keyword}, '%')
 	</select>
+	
+	<update id="update">
+		update tbl_User set pwd = #{pwd}
+		where email = #{email}
+	</update>
 </mapper>
