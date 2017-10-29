@@ -34,7 +34,7 @@
       margin-bottom: 30px;
   }
   .jumbotron {
-  	  background-color:#337ab7;
+  	  background-color:#3f2018;
       color: #fff;
       padding: 100px 25px;
       font-family: Montserrat, sans-serif;
@@ -49,11 +49,11 @@
       background-color: #f6f6f6;
   }
   .logo-small {
-      color: #337ab7;
+      color: #3f2018;
       font-size: 50px;
   }
   .logo {
-      color: #337ab7;
+      color: #3f2018;
       font-size: 200px;
   }
   .thumbnail {
@@ -126,7 +126,7 @@
   }
   .navbar {
       margin-bottom: 0;
-      background-color: #337ab7;
+      background-color: #3f2018;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -139,7 +139,7 @@
       color: #fff !important;
   }
   .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #337ab7 !important;
+      color: #3f2018 !important;
       background-color: #fff !important;
   }
   .navbar-default .navbar-toggle {
@@ -149,7 +149,7 @@
   footer .glyphicon {
       font-size: 20px;
       margin-bottom: 20px;
-      color: #337ab7;
+      color: #3f2018;
   }
   .slideanim {visibility:hidden;}
   .slide {
@@ -203,6 +203,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    width:100%;
     transform: translate(-50%, -50%);
   }
   #loginModal {
@@ -234,7 +235,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo2.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
@@ -267,16 +268,16 @@
 <div class="image">
 	<img src="/resources/img/main.jpg" width="100%">
 	<div class="centered">
-		<h1 style="font-size:3em; font-weight: bold;">내 마음에 꼭 드는 여행 코스! 맴콕!</h1> 
+		<h1 style="font-size:5em; font-weight: bold;">내 마음에 꼭 드는 여행 코스! 맴콕!</h1> 
   		<p style="font-size:2em; font-weight: bold;">자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
 	</div>
 </div>
 
 <!-- Container (Popular Section) -->
 <div id="pop">
-	<div id="popular" class="container-fluid text-center" style="background-color:#337ab7;"></div>
+	<div id="popular" class="container-fluid text-center" style="background-color:#3f2018;"></div>
 	<div class="container-fluid text-center" style="background-color:#ffffff;">
-  		<h2 style="color:#337ab7;">이달의 인기 코스</h2>
+  		<h2 style="color:#3f2018;">이달의 인기 코스</h2>
 	</div>
 	<div class="top3"></div>
 	<!-- more -->

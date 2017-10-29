@@ -142,6 +142,7 @@ public class CourseMakeController {
 			for(int i=0; i<colors.size(); i++) {
 				colors.set(i, "'" + colors.get(i) + "'");
 			}
+			System.out.println("colors : " +colors);
 			model.addAttribute("colors", colors);
 		} catch (Exception e) {
 			e.printStackTrace();
