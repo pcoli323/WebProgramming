@@ -286,7 +286,6 @@ $(document).on("click",".registBtn",function(){
 		opener.initScheduleTable();
 		opener.orderRangeSchedule();
 		opener.markerPosition();
-		opener.initMap();
 		
 		// 창 닫기
 		self.close();
