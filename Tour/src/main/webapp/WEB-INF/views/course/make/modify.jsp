@@ -125,6 +125,7 @@
 <script>
 var jsonArr = JSON.parse('${list}');
 var dateJson = JSON.parse('${idList}');
+var pinColor = ${colors};
 var realDate = [];
 var realDateCount = 0;
 </script>
@@ -259,7 +260,7 @@ var realDateCount = 0;
 	}
 
 	var bufPinColor = [];
-	var pinColor = ["red", "orange", "yellow", "green", "blue", "#2a365c", "purple", "pink", "#99ff99", "skyblue", "#ffb3ff", "#333300", "#339966", "#ff0066"];
+//	var pinColor = ["red", "orange", "yellow", "green", "blue", "#2a365c", "purple", "pink", "#99ff99", "skyblue", "#ffb3ff", "#333300", "#339966", "#ff0066"];
 	//연보라 색 겹침
 	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
 	var pinColorCount = 0;

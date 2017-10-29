@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -15,5 +17,11 @@ public class ColorServiceImpl implements ColorService {
 	public String color(int colorNumber) throws Exception {
 		
 		return dao.color(colorNumber);
+	}
+
+	@Override
+	public List<String> colors() throws Exception {
+
+		return dao.colors();
 	}
 }
