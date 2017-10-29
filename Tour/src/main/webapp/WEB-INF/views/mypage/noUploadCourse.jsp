@@ -394,6 +394,7 @@ var courseNumByName = ${courseNumByName };
 		</div><!-- /courseView -->
 	</div>
 </div>
+
 <!-- Delete Modal -->
 <div class="modal fade" id="delModal" role="dialog">
 	<div class="modal-dialog" style="width:300px;">

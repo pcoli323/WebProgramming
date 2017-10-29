@@ -55,13 +55,56 @@
 	<a href="#" class="userInfo">개 인 정 보  관 리</a>
 </div>
 
+<!-- userInfo Modal -->
+<div class="modal fade" id="userInfo" role="dialog">
+	<div class="modal-dialog" style="width:300px;">
+  
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="height:50px;">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">확인창</h4>
+			</div>
+			<div class="modal-body" style="height:70px;">
+				<p>비밀번호를 작성해주세요.</p>
+				<form>
+					<input id="password" type="password">
+				</form>
+			</div>
+			<div class="modal-footer" style="height:60px;">
+				<button type="button" class="btn btn-default yes" data-dismiss="modal" style="height:35px;">네</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
+			</div>
+		</div>
+    
+	</div>
+</div>
 
 <script>
 $('.gotoNoUploadMypage').on("click", function(){
     location.href="/mypage/0";
 });
 $('.userInfo').on("click", function(){
-	location.href="/mypage/userInfo";
+    $("#userInfo").modal();
 });
+$('.yes').on("click", function(){
+	var password = document.getElementById("password").value;
+	console.log(password);
+	$.ajax({
+    	type:'post',
+        url: '/mypage/checkPassword/' + password,
+        headers: {
+			"Content-Type": "application/json",
+			"X-HTTP-Method-Override": "POST"
+		},
+		success: function(result){
+			location.href="/mypage/userInfo";
+		},
+		 error:function(){
+	  		alert("비밀번호가 틀렸습니다.");
+		}
+    });
+});
+
 </script>
 </html>

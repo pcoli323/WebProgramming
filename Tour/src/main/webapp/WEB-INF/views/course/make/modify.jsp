@@ -815,13 +815,13 @@ var realDateCount = 0;
 	//취소 버튼 이벤트 처리
 	$("#cancel").click(function(){
 		$.ajax({      
-	     type:"GET",  
-	     url:"/course/make/cancel",
-	     success:function(){
-	     	location.href="/";
-	 	},
+		     type:"GET",  
+		     url:"/course/make/cancel",
+		     success:function(){
+		     	location.href="/";
+		 	},
 			 error:function(){
-	  		location.href="/";
+		  		location.href="/";
 			}
 		});
 	});
