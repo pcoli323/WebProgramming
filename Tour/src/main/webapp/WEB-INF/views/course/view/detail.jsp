@@ -309,7 +309,7 @@
         			<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" disabled="disabled" style="border:0px;resize:none;outline:none;background-color:white">${courseVO.story}</textarea>
         		</div>
         	</c:if>
-        			
+        	
         </div><!-- /courseView-body -->
         		
         <div class="courseView-footer" style="text-align:right; clear:left">
@@ -392,7 +392,6 @@
 		replyCount();
 		console.log(infos);
 	});
-	
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
 		var position = $(window).scrollTop();

@@ -449,11 +449,9 @@ $(document).ready(function(){
     });
     
     var oar = new Array();
-<<<<<<< HEAD
     oar.push(1);
     oar.push(2);
     simpleView(oar, false, ".top3");
-=======
     $.ajax({      
 		type:"POST",  
 		url:"/call",
@@ -465,7 +463,6 @@ $(document).ready(function(){
 		}
 	});
     
->>>>>>> c4d24c17d66005d3db74356cfa16b711080077f7
 });
 
 
