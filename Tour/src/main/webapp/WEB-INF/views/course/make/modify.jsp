@@ -554,7 +554,9 @@ var realDateCount = 0;
 		limitCheck[i] = 0;
 	}
 	var selectDateVar=0; // 날짜 선정 모달에서 선택한 날짜 value값
-	var loginUserNumber = 2;
+	// login check
+	var loginCheck;
+	var loginUserNumber;
 	
 	$(document).ready(function(){
 	    $(".selectDate").click(function(){
@@ -566,6 +568,14 @@ var realDateCount = 0;
 			}
 			selectNot = 0;
 		});
+	    // login 변수 초기화
+	    loginCheck = ${loginCheck};
+		if(loginCheck == false){
+			loginUserNumber = null;
+		}
+		else{
+			loginUserNumber = ${loginUser.userNumber};
+		}
 	});
 	
 	// 날짜 선택시 Title border처리

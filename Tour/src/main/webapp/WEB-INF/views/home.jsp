@@ -221,6 +221,9 @@
    top: 20%;
    bottom: auto;
 	}
+	div {
+	background-image:url('/resources/img/bgi.png');
+	}
   </style>
 </head>
 
@@ -281,7 +284,7 @@
 	</div>
 	<div class="top3"></div>
 	<!-- more -->
-	<div id="more" class="container-fluid text-center">
+	<div id="more" class="container-fluid text-center"  style="background-image:url('/resources/img/bgi.png');">
 		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 	</div>
 </div>

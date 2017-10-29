@@ -144,6 +144,22 @@ public class CourseMakeController {
 			}
 			System.out.println("colors : " +colors);
 			model.addAttribute("colors", colors);
+			
+			// login »Æ¿Œ
+			HttpSession	session = request.getSession();
+			UserVO loginUser = new UserVO();
+			if(session.getAttribute("login") == null) {
+				model.addAttribute("loginCheck", false);
+				loginUser.setUserNumber(-1);
+				loginUser.setEmail(null);
+				loginUser.setPwd(null);
+				loginUser.setUserName(null);
+			}
+			else {
+				model.addAttribute("loginCheck", true);
+				loginUser = (UserVO) session.getAttribute("login");
+			}
+			model.addAttribute("loginUser", loginUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

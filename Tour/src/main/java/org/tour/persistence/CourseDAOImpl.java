@@ -35,7 +35,7 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return session.selectOne(namespace + ".newCourseNumber", userNumber);
 	}
-
+	
 	@Override
 	public void courseAdd(CourseVO vo) throws Exception {
 		
