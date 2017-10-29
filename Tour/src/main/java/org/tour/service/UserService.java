@@ -16,4 +16,6 @@ public interface UserService {
 	public int exist(String email) throws Exception;
 	
 	public List<Integer> search(String keyword) throws Exception;
+	
+	public void updatePWD(String email, String pwd);
 }

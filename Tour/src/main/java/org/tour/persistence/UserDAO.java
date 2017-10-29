@@ -16,4 +16,6 @@ public interface UserDAO {
 	public int exist(String email);
 	
 	public List<Integer> search(String keyword) throws Exception;
+	
+	public void updatePWD(String email, String pwd);
 }

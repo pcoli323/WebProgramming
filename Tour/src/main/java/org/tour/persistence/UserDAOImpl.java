@@ -1,5 +1,6 @@
 package org.tour.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,5 +43,18 @@ public class UserDAOImpl implements UserDAO {
 	public List<Integer> search(String keyword) throws Exception {
 		
 		return session.selectList(namespace + ".search", keyword);
+	}
+
+	@Override
+	public void updatePWD(String email, String pwd) {
+		
+		HashMap<String,String> hash = new HashMap<String,String>();
+		hash.put("email", email);
+		hash.put("pwd", pwd);
+		System.out.println(email+":"+pwd);
+		System.out.println(hash);
+		session.update(namespace + ".update", hash);
+		
+		
 	}
 }

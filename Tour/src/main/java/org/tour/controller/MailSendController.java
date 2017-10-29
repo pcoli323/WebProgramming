@@ -134,4 +134,52 @@ public class MailSendController {
 		
 	}
 	
+	@RequestMapping(value = "/mailForPWD", method = RequestMethod.POST)
+	public ResponseEntity<String> mailForPWD(@RequestBody String email) {
+		
+		ResponseEntity<String> entity = null;
+		
+		try{
+			//System.out.println(email);
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse( email );
+			JSONArray jsonArray = (JSONArray)obj;
+			JSONObject jsonData = (JSONObject) jsonArray.get(0);
+			String em = (String) jsonData.get("email");
+			//System.out.println(em);
+			
+			// 존재 하는지 확인
+			// 이메일 존재하지 않음 : 에러
+			int isExist = userService.exist(em);
+			//System.out.println(isExist);
+			if(isExist!=1) {
+				String str = "0";
+				entity = new ResponseEntity<String>(str, HttpStatus.OK);
+			}
+			// 이메일 존재 (진행)
+			else {
+				// 임시 비밀번호  생성
+				int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+				String joinCode = String.valueOf(ran);
+				
+				// 비밀번호 업데이트
+				System.out.println(em +":"+joinCode);
+				userService.updatePWD(em,joinCode);
+				
+				// 이메일 보내기	
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setTo(em);
+				message.setSubject("Memcox 임시 비밀번호 발송 메일");
+				message.setText("임시 비밀번호 : "+joinCode+"\n로그인 후 비밀번호를 수정해주세요.");		
+				mailSender.send(message);
+				
+				entity = new ResponseEntity<String>("1", HttpStatus.OK);
+			}	
+		}catch(Exception e){
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
 }

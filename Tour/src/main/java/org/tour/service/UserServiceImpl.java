@@ -41,4 +41,11 @@ public class UserServiceImpl implements UserService {
 		
 		return dao.search(keyword);
 	}
+
+	@Override
+	public void updatePWD(String email, String pwd) {
+
+		dao.updatePWD(email, pwd);
+		
+	}
 }
