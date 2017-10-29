@@ -89,6 +89,12 @@ public class CourseServiceImpl implements CourseService {
 	}
 	
 	@Override
+	public List<Integer> searchAll() throws Exception {
+		
+		return dao.searchAll();
+	}
+	
+	@Override
 	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode)throws Exception {
 		
 		return dao.searchAccordingToAreaAndSigunguCode(areaAndSigunguCode);

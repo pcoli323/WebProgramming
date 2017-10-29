@@ -298,7 +298,7 @@
         								<div style="text-align:right;width:20%;display:inline-block;">
         									<c:choose>
         										<c:when test="${gotoOne.isRepresented eq true}">
-        											<span class="representativeCheck glyphicon glyphicon-check active" id="check-${gotoID}-${gotoOne.gotoNumber}" style="color:#6495ED"></span>
+        											<span class="representativeCheck glyphicon glyphicon-check active" id="check-${gotoID}-${gotoOne.gotoNumber}" style="cursor:pointer;color:#6495ED"></span>
         											<script>
         												var order = ${gotoOne.representedOrder};
         												var gotoNumber = ${gotoOne.gotoNumber};
@@ -307,10 +307,10 @@
         											</script>
         										</c:when>
         										<c:otherwise>
-        											<span class="representativeCheck glyphicon glyphicon-check" id="check-${gotoID}-${gotoOne.gotoNumber}" style=""></span>
+        											<span class="representativeCheck glyphicon glyphicon-check" id="check-${gotoID}-${gotoOne.gotoNumber}" style="cursor:pointer;"></span>
         										</c:otherwise>
         									</c:choose>
-        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoID}-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style=""></span>
+        									<span class="glyphicon glyphicon-picture addImage" id="picture-${gotoID}-${gotoOne.gotoNumber}-${gotoOne.gotoName}" style="cursor:pointer;"></span>
         								</div>
         								</div>
         								<c:set var="gotoID" value="${gotoID + 1}"></c:set>
@@ -363,6 +363,7 @@
         </div><!-- /courseView-body -->
         		
         <div class="courseView-footer" style="text-align:right; clear:left; margin-top:10px;">
+        	<button type="button" class="btn btn-danger" id="cancel" style="outline:0">취소</button>
         	<button type="button" class="btn btn-success" id="postCourse" style="outline:0">게시</button>
 		</div><!-- /courseView-footer -->
         
@@ -515,7 +516,10 @@
 				representativeIDs.push(gotoID);
 				representatives.push(gotoNumber);
 				$(this).addClass("active");
-				$(this).attr("style", "color:#6495ED");
+				
+				var styleStr = $(this).attr("style");
+				styleStr += ";color:#6495ED";
+				$(this).attr("style", styleStr);
 				representativeList();
 			}
 		}
@@ -528,7 +532,9 @@
 				}
 			}
 			$(this).removeClass("active");
-			$(this).attr("style", "");
+			
+			var styleStr = $(this).attr("style").split(";");
+			$(this).attr("style", styleStr[0]);
 			representativeList();
 		}
 	});
@@ -642,6 +648,12 @@
 			});
 		});
 	}
+	
+	// 게시 취소
+	$('#cancel').on("click", function(){
+		var courseNumber = ${courseNumber};
+		location.href = "/mypage/"+courseNumber;
+	})
 </script>
 <%@include file="../include/footer.jsp" %>
 </body>
