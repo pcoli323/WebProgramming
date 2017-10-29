@@ -16,3 +16,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from tbl_Color
 	</select>
 	
+</mapper>
