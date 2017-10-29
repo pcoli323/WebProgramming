@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="search" resultType="map">
 		select areaCode, sigunguCode
-		from tbl_sigungu
+		from tbl_Sigungu
 		where sigunguName like CONCAT(#{keyword}, '%')
 	</select>
 </mapper>

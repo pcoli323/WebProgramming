@@ -259,8 +259,14 @@ $(document).on("click",".registBtn",function(){
 		arr.contentid = Number(0);
 		arr.contenttypeid = Number(0);
 		arr.createdtime = Number(0);
-		arr.firstimage = "";
-		arr.firstimage2 = "";
+		if(file != null){
+			arr.firstimage = URL.createObjectURL(file);
+			arr.firstimage2 = URL.createObjectURL(file);
+		}
+		else{
+			arr.firstimage = null;
+			arr.firstimage2 = null;
+		}
 		arr.modifiedtime = Number(0);
 		arr.readcount = Number(0);
 		arr.sigungucode = Number(document.getElementById('sigunguCode').value);
@@ -270,6 +276,8 @@ $(document).on("click",".registBtn",function(){
 		arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
 		arr = color(arr);
 		opener.jsonArr.push(arr);
+		// image list에 추가
+		opener.addImageList.set(opener.jsonArr.length-1, file);
 		
 		// modify 함수 재 실행
 		opener.color();

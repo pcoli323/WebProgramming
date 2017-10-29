@@ -215,6 +215,11 @@
    top: 20%;
    bottom: auto;
 	}
+ #findPWDModal {
+   position: absolute;
+   top: 20%;
+   bottom: auto;
+	}
   </style>
 </head>
 
@@ -350,7 +355,33 @@
           </form>
         </div>
         <div class="modal-footer">
+          <button id="findPWD" class="btn btn-default" > 비밀번호 찾기 </button>
           <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Modal 비밀번호 찾기 -->
+  <div class="modal fade" id="findPWDModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">비밀번호 찾기</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <label for="emailF"> 이메일 </label>
+              <input type="text" class="form-control" id="emailF" placeholder="이메일을 입력해주세요." name="emailF">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button id="sendPWD" type="button" class="btn btn-default" > 확인 </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"> 취소 </button>
         </div>
       </div>
       
@@ -430,6 +461,9 @@ $(document).ready(function(){
     $("#login").click(function(){
     	$("#loginModal").modal();
     });
+    $("#findPWD").click(function(){
+    	$("#findPWDModal").modal();
+    });
     $("#logout").click(function(){
     	alert("로그아웃되었습니다.");
     	location.href="/logout";
@@ -500,6 +534,38 @@ $("#authMail").click(function(){
 		alert("이메일을 입력해주세요.");
 	}
 });
+
+// 비밀번호 찾기 메일 보내기
+$("#sendPWD").click(function(){
+	if(document.getElementById("emailF").value!=""){
+		var arr = new Array();
+		var data = new Object();
+		data.email = document.getElementById("emailF").value;
+		arr.push(data);
+		var email = JSON.stringify(arr);
+		alert("잠시만 기다려주세요...");
+		$.ajax({      
+			type:"POST",  
+			url:"/mailForPWD",
+			dataType:"json",
+			data:email,
+			contentType:"application/json; charset=utf-8",
+			success:function(msg){
+				if(msg=="0")
+					alert("가입되지 않은 이메일입니다.");
+				else if(msg=="1")
+					alert("인증번호를 보냈습니다. 메일을 확인해주세요.");
+			},
+		 	error:function(msg){
+		 		alert("이메일을 다시확인해주세요.");
+		 	}
+		});
+	}
+	else {
+		alert("이메일을 입력해주세요.");
+	}
+});
+
 // 비밀번호 확인 1
 $("#pwd").focusout(function(){
 	var val = $(this).val(),

@@ -28,7 +28,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="search" resultType="int">
 		select userNumber
-		from tbl_user
+		from tbl_User
 		where userName like CONCAT('%', #{keyword}, '%')
 	</select>
+	
+	<update id="update">
+		update tbl_User set pwd = #{pwd}
+		where email = #{email}
+	</update>
 </mapper>
