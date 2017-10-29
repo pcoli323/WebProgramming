@@ -451,8 +451,8 @@ $(document).ready(function(){
     var oar = new Array();
     oar.push(1);
     oar.push(2);
-    simpleView(oar, false, ".top3");
-    $.ajax({      
+    simpleView(oar, false, ".top3");     
+    $.ajax({
 		type:"POST",  
 		url:"/call",
 		contentType:"application/json; charset=utf-8",
