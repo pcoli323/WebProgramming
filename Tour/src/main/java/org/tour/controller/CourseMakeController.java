@@ -37,6 +37,7 @@ import org.tour.domain.UserVO;
 import org.tour.dto.AreaDTO;
 import org.tour.dto.SelectedAreaDTO;
 import org.tour.service.AreaService;
+import org.tour.service.ColorService;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseInfoSimpleService;
 import org.tour.service.CourseService;
@@ -59,6 +60,8 @@ public class CourseMakeController {
 	private CourseInfoService courseInfoService;
 	@Inject
 	private CourseInfoSimpleService courseInfoSimpleService;
+	@Inject
+	private ColorService colorService;
 	
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public void add1(Locale locale, Model model) throws Exception {
@@ -133,7 +136,16 @@ public class CourseMakeController {
 	
 	@RequestMapping(value = "/course/make/modify", method = RequestMethod.GET)
 	public String modify(Locale locale, Model model, HttpServletRequest request) {
-		
+		List<String> colors = new ArrayList<String>();
+		try {
+			colors = colorService.colors();
+			for(int i=0; i<colors.size(); i++) {
+				colors.set(i, "'" + colors.get(i) + "'");
+			}
+			model.addAttribute("colors", colors);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "course/make/modify";
 	}
 	
@@ -144,6 +156,7 @@ public class CourseMakeController {
 		try {
 			HttpSession session = request.getSession();
 			
+			if(session.getAttribute("courseName") == null) {
 			HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
 			courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
 			courseNameCompare.put("courseName", courseName);
@@ -151,7 +164,8 @@ public class CourseMakeController {
 			
 			if(compareResult != null)
 				throw new Exception();
-
+			}
+			session.removeAttribute(courseName);
 			session.setAttribute("name", courseName);
 
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);

@@ -52,13 +52,16 @@
 		<li class="hideview"><a href="/uploadMypage">게시 된 코스</a></li><br>
 	</ul>
 	<a href="#">팔  로  우   관  리</a><br>
-	<a href="#">개 인 정 보  관 리</a>
+	<a href="#" class="userInfo">개 인 정 보  관 리</a>
 </div>
 
 
 <script>
 $('.gotoNoUploadMypage').on("click", function(){
     location.href="/mypage/0";
+});
+$('.userInfo').on("click", function(){
+	location.href="/mypage/userInfo";
 });
 </script>
 </html>

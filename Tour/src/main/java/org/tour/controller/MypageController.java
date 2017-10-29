@@ -261,8 +261,9 @@ public class MypageController {
 
 		System.out.println(gson.toJson(list));
 		
-		//session에 수정 중인 변수 집어넣기
-		session.setAttribute("modify", 1);
+		//session에 courseName 집어넣기
+		String courseName = courseService.courseReadName(courseNumber);
+		session.setAttribute("courseName", courseName);
 		entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();

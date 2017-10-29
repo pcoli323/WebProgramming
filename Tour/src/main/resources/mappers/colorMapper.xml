@@ -7,8 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="color" resultType="string">
 		select color
-		from tbl_color
+		from tbl_Color
 		where colorNumber = #{colorNumber}
+	</select>
+	
+	<select id="colors" resultType="string">
+		select color
+		from tbl_Color
 	</select>
 	
 </mapper>
