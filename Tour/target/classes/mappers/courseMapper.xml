@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update">
-		update tbl_course
+		update tbl_Course
 		set courseName = #{courseName}, story = #{story}, isPosted = true
 		where courseNumber = #{courseNumber}
 	</update>
@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="searchAccordingToUserNumber" resultType="int">
 		select distinct(courseNumber)
-		from tbl_course
+		from tbl_Course
 		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	

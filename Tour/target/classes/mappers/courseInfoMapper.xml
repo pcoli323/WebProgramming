@@ -76,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="regionList" resultType="map">
 		select distinct gotoAreaCode as areaCode, gotoSigunguCode as sigunguCode
-		from tbl_courseInfo
+		from tbl_CourseInfo
 		where courseNumber = #{courseNumber}
 	</select>
 </mapper>

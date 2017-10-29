@@ -16,7 +16,7 @@ public class ImageDAOImpl implements ImageDAO{
 	
 	public void create(ImageVO vo) throws Exception {
 		try {
-		session.insert(namespace + ".create", vo);
+			session.insert(namespace + ".create", vo);
 		}catch(Exception e) {
 			System.out.println("error in ImageDAO");
 		}
