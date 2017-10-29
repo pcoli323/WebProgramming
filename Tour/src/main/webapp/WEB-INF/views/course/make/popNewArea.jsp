@@ -281,7 +281,6 @@ $(document).on("click",".registBtn",function(){
 		
 		// modify 함수 재 실행
 		opener.color();
-		opener.clearMarkers();
 		opener.initTitle();
 		opener.inputTitleBorder();
 		opener.initScheduleTable();
