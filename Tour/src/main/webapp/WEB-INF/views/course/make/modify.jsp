@@ -223,7 +223,7 @@ var realDateCount = 0;
 					<input id="courseName" border>
 				</div>
 				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" onClick="completeName()" style="height:35px;">확인</button>
+					<button type=button class="btn btn-default" data-dismiss="modal" id="completeNameBtn" onClick="completeName()" style="height:35px;">확인</button>
 				</div>
 			</div>
 		</div>
@@ -709,8 +709,14 @@ var realDateCount = 0;
 		console.log("orderTable");
 		orderPolyLine();
 	}
+	var flightPath = [];
+	var oneoneone = 0;
 	function orderPolyLine(){
-		initMap();
+//		initMap();
+		if(oneoneone != 0){
+			deleteLine();
+		}
+		oneoneone++;
 		flightPlanCoordinates = [];
 		polyLineCount = 0;   
 		for(var z=0; z<realDate.length; z++){ //date count
@@ -719,27 +725,28 @@ var realDateCount = 0;
 					if(jsonArr[j].order != null && jsonArr[j].order == i && jsonArr[j].gotoDate == realDate[z]){
 						flightPlanCoordinates[polyLineCount] = new google.maps.LatLng(jsonArr[j].mapy, jsonArr[j].mapx);
 						polyLineCount++;
-						console.log("flightPlanCoordinates : " + flightPlanCoordinates);
-						console.log("polyLineCount : " + polyLineCount);
 						break;
 					}
 				}
 			}
-			var flightPath = new google.maps.Polyline({
+			flightPath[z] = new google.maps.Polyline({
 				path: flightPlanCoordinates,
 				geodesic: true,
 				strokeColor: '#FF0000',
 				strokeOpacity: 1.0,
 				strokeWeight: 2
 			});
-			flightPath.setMap(map);
+			flightPath[z].setMap(map);
 
 			flightPlanCoordinates = [];
 			polyLineCount = 0;   
 		}
 	}
 	function deleteLine(){
-		flightPath.setMap(null);
+		for(var i=0; i<realDate.length; i++){
+			flightPath[i].setMap(null);
+			console.log("flightPath : " + flightPath);
+		}
 	}
 	// 완료 버튼 클릭시 코스 제목 모달창
 	$(document).on("click","#completeBtn",function(){
@@ -755,6 +762,13 @@ var realDateCount = 0;
 		}
 		if(nullCheck==realDate.length)
 			alert("일정을 등록하여주세요.");
+	});
+	$(document).ready(function(){
+		$('#courseName').keyup(function(event) {
+			if(event.keyCode == 13){
+				$('#completeNameBtn').click();	
+			}
+		});
 	});
 	function completeName(){
 		for(var i=0; i<jsonArr.length; i++){
