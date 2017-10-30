@@ -469,7 +469,7 @@ $(document).ready(function(){
     	location.href="/logout";
     });
     $("#courseMore").click(function(){
-    	location.href = "/search?where='home'";
+    	location.href = "/search?where='home'&keyword=''";
     });
     $("#courseMake").click(function(){
     	if(this.value=="0")
@@ -478,7 +478,7 @@ $(document).ready(function(){
     		location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
-    	location.href = "/search?where='home'";
+    	location.href = "/search?where='home'&keyword=''";
     });
     $("#mypage").click(function(){
     	location.href="/mypage/0";

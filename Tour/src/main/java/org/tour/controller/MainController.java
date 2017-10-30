@@ -35,7 +35,7 @@ public class MainController {
 	private CourseService courseService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String search(HttpServletRequest request, @RequestParam("where") String where, Model model) throws Exception{
+	public String search(HttpServletRequest request, @RequestParam("where") String where, @RequestParam("keyword") String keyword, Model model) throws Exception{
 		
 		try {
 			HttpSession	session = request.getSession();
@@ -52,6 +52,8 @@ public class MainController {
 				loginUser = (UserVO) session.getAttribute("login");
 			}
 			model.addAttribute("where", where);
+			if(keyword!=null)
+				model.addAttribute("keyword", keyword);
 			model.addAttribute("loginUser", loginUser);
 			
 		}catch(Exception e) {
