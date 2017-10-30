@@ -1,5 +1,7 @@
 package org.tour.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,5 +38,11 @@ public class FollowDAOImpl implements FollowDAO {
 	public void deleteAll(int userNumber) throws Exception {
 		
 		session.delete(namespace + ".deleteAll", userNumber);
+	}
+
+	@Override
+	public List<Integer> read(int userNumber) {
+		
+		return session.selectList(namespace + ".read", userNumber);
 	}
 }

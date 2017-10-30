@@ -26,4 +26,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where following = #{userNumber} or followed = #{userNumber}
 	</delete>
 	
+	<select id="read" resultType="int">
+		select followed
+		from tbl_Follow
+		where following = #{userNumber}
+	</select>
 </mapper>

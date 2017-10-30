@@ -1,5 +1,7 @@
 package org.tour.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -34,5 +36,11 @@ public class FollowServiceImpl implements FollowService {
 	public void deleteAll(int userNumber) throws Exception {
 		
 		dao.deleteAll(userNumber);
+	}
+
+	@Override
+	public List<Integer> read(int userNumber) throws Exception {
+		
+		return dao.read(userNumber);
 	}
 }
