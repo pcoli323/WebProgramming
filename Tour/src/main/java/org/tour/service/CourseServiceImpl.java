@@ -117,4 +117,16 @@ public class CourseServiceImpl implements CourseService {
 		dao.modifyInModify(vo);
 		
 	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		dao.deleteAll(userNumber);
+	}
+
+	@Override
+	public List<Integer> deleteCourseRead(int userNumber) throws Exception {
+		
+		return dao.deleteCourseRead(userNumber);
+	}
 }

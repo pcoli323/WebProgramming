@@ -38,11 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where courseNumber = #{courseNumber}
 	</select>
 	
-	<select id="delete">
+	<delete id="delete">
 		delete
 		from tbl_CourseInfo
 		where courseNumber = #{courseNumber}
-	</select>
+	</delete>
 	
 	<insert id="courseInfoAdd">
 		insert into tbl_CourseInfo (courseNumber, gotoAddr1, gotoAddr2, gotoAreaCode, gotoContentID, gotoContentTypeID, gotoCreatedTime, gotoImageReal, gotoImageThum, gotoLocationX, gotoLocationY, gotoModifiedTime, gotoReadCount, gotoSigunguCode, gotoTel, gotoTitle, gotoDate, gotoOrder)

@@ -12,6 +12,21 @@
 	.bg-grey {
 		background-color: #f6f6f6;
 	}
+	.header {
+		padding-top:5px;
+		padding-bottom:5px;
+		border-bottom:1px solid #337ab7;
+	}
+
+	.mypageDiv {
+		padding-top:10px;
+		background-color:#FFFFFF;
+		padding-left:350px;
+		width:1100px;
+		margin-top:20px;
+		margin-left:400px;
+		height:750px;
+	}
 	</style>
 </head>
 <body class="bg-grey">
@@ -19,8 +34,12 @@
 <%@include file="../include/navbar.jsp" %>
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
-<div style="height:750px;">
 
+<div class="container-fluid mypageDiv">
+	<div class="header">
+		<h1>코 스 관 리</h1>
+		<p>게시 전 코스</p>
+	</div>
 </div>
 <!-- footer -->
 <%@include file="../include/footer.jsp" %>

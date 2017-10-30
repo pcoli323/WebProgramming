@@ -1,5 +1,6 @@
 package org.tour.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,5 +48,17 @@ public class UserServiceImpl implements UserService {
 
 		dao.updatePWD(email, pwd);
 		
+	}
+
+	@Override
+	public void updateUser(HashMap<String, Object> updateUser) throws Exception {
+		
+		dao.updateUser(updateUser);
+	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		dao.deleteAll(userNumber);
 	}
 }

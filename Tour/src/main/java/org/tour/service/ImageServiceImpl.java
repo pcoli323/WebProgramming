@@ -46,4 +46,10 @@ public class ImageServiceImpl implements ImageService {
 		dao.delete(imageNumber);
 	}
 	*/
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+	
+		dao.deleteAll(userNumber);
+	}
 }

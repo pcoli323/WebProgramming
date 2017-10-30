@@ -13,4 +13,6 @@ public interface ImageDAO {
 	public String getType(int imageNumber);
 	
 	//public void delete(int imageNumber);
+	
+	public void deleteAll(int userNumber);
 }

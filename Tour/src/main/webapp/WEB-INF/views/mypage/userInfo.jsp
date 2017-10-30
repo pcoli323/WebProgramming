@@ -27,6 +27,12 @@
 .bodyContent {
 	margin-bottom:30px;
 }
+
+#userDelete {
+	position:fixed;
+	top:350px;
+	left:30px;
+}
 </style>
 <body>
 
@@ -48,113 +54,175 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">이메일:</label>
 				<div class="col-sm-8">
-					<input type="email" class="form-control" id="email" value="${user.getEmail() }" readonly>
+					<input type="email" class="form-control" id="userInfoEmail" value="${user.getEmail() }" readonly>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">비밀번호:</label>
 				<div class="col-sm-8" >          
-					<input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요.">
+					<input type="password" class="form-control" id="userInfoPwd" placeholder="비밀번호를 입력해주세요.">
 				</div>
-				<label class="control-label col-sm-8 col-sm-offset-2 " id="pwdC"></label>
+				<label class="control-label col-sm-8 col-sm-offset-2" id="userInfoPwdC"></label>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">비밀번호 확인:</label>
 				<div class="col-sm-8">          
-					<input type="password" class="form-control" id="pwd2" placeholder="다시한번 비밀번호를 입력해주세요.">
+					<input type="password" class="form-control" id="userInfoPwd2" placeholder="다시한번 비밀번호를 입력해주세요.">
 				</div>
-				<label class="control-label col-sm-8 col-sm-offset-2 " id="pwdC2"></label>
+				<label class="control-label col-sm-8 col-sm-offset-2" id="userInfoPwdC2"></label>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">닉네임:</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="name" value="${user.getUserName() }">
+					<input type="text" class="form-control" id="userInfoName" value="${user.getUserName() }">
 				</div>
-				<label class="control-label col-sm-8 col-sm-offset-2 " id="nameC"></label>
+				<label class="control-label col-sm-8 col-sm-offset-2" id="userInfoNameC"></label>
 			</div>
 		</form>
 	</div>
 	<div class="footerContent">
 		<button type="button" class="btn btn-default deleteUser" style="float:left;">회원 탈퇴</button>
 		<button type="button" class="btn btn-default modifyUser" style="float:right;">완료</button>
-		<button type="button" class="btn btn-default cancel" style="float:right; margin-right:5px;">취소</button>
 	</div>
 </div>
 
 <!-- footer -->
 <%@include file="../include/footer.jsp" %>
 
+<!-- userDelete Modal -->
+<div class="modal fade" id="userDelete" role="dialog">
+	<div class="modal-dialog" style="width:300px;">
+  
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="height:50px;">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">확인창</h4>
+			</div>
+			<div class="modal-body" style="height:70px;">
+				<p>정말 탈퇴하시겠습니까?</p>
+			</div>
+			<div class="modal-footer" style="height:60px;">
+				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px;">네</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
+			</div>
+		</div>
+    
+	</div>
+</div>
+
 </body>
 <script>
-var checkpwd = false;
-var checkpwd2 = false;
-var checkname = false;
+var userInfoCheckpwd = false;
+var userInfoCheckpwd2 = false;
+var userInfoCheckname = true;
 
 // 비밀번호 확인 1
-$("#pwd").focusout(function(){
-	alert("an1");
+$("#userInfoPwd").focusout(function(){
 	var val = $(this).val();
 	regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/;
 	
-	var item = document.getElementById("pwdC");
+	var item = document.getElementById("userInfoPwdC");
 	if(val=="" | val==null){
-		alert("an1");
 		item.innerHTML = "";
-		checkpwd = false;
+		userInfoCheckpwd = false;
 	}
 	else if(!regex.test(val)){
 		item.style.color = "red";
 		item.innerHTML = "8자리 이상 16자리 이하, 영문자 + 숫자 혹은 특수 문자를 반드시 포함";
-		checkpwd = false;
+		userInfoCheckpwd = false;
 	}	
 	else{
-		alert("an3");	
 		item.style.color = "green";
 		item.innerHTML = "사용 가능";
-		checkpwd = true;
+		userInfoCheckpwd = true;
 	}
 });
 // 비밀번호 확인 2
-$("#pwd2").focusout(function(){
+$("#userInfoPwd2").focusout(function(){
 	var val = $(this).val();
-	var pwd = document.getElementById("pwd").value;
+	var pwd = document.getElementById("userInfoPwd").value;
 
-	var item = document.getElementById("pwdC2");
+	var item = document.getElementById("userInfoPwdC2");
 	if(val=="" | val==null){
 		item.innerHTML = "";
-		checkpwd2 = false;
+		userInfoCheckpwd2 = false;
 	}
 	else if(pwd==val){
 		item.style.color = "green";
 		item.innerHTML = "비밀번호 일치";
-		checkpwd2 = true;
+		userInfoCheckpwd2 = true;
 	}	
 	else{	
 		item.style.color = "red";
 		item.innerHTML = "비밀번호 불일치";
-		checkpwd2 = false;
+		userInfoCheckpwd2 = false;
 	}
 });
 // 닉네임 확인
-$("#name").focusout(function(){
+$("#userInfoName").focusout(function(){
 	var val = $(this).val();
 	regex = /^[0-9a-zA-Z가-힣]{1,10}$/;
 
-	var item = document.getElementById("nameC");
+	var item = document.getElementById("userInfoNameC");
 	if(val=="" | val==null){
 		item.innerHTML = "";
-		checkname = false;
+		userInfoCheckname = false;
 	}
 	else if(!regex.test(val)){
 		item.style.color = "red";
 		item.innerHTML = "최대 10자, 숫자,영문,한글 사용가능";
-		checkname = false;
+		userInfoCheckname = false;
 	}
 	else{
 		item.style.color = "green";
 		item.innerHTML = "사용 가능";
-		checkname = true;
+		userInfoCheckname = true;
 	}
+});
+
+$(".modifyUser").click(function(){
+	if(userInfoCheckpwd==true && userInfoCheckpwd2==true && userInfoCheckname==true){
+		var email = document.getElementById("userInfoEmail").value;
+		var pwd = document.getElementById("userInfoPwd").value;
+		var name = document.getElementById("userInfoName").value;
+		var sendData = email + "/" + pwd + "/" + name + "/";
+		
+		$.ajax({      
+			type:"POST",
+			url:"/mypage/modify",
+			dataType:"text",
+			data: sendData,
+			contentType:"application/text; charset=utf-8",
+			success:function(){
+				alert("회원정보가 수정되었습니다.");
+				location.reload();
+			},
+	 		error:function(){
+	 			alert("회원정보 수정 실패");
+	 		}
+		});
+		
+	}
+	else{
+		alert("다시 확인해주세요.");
+	}
+});
+$(".deleteUser").click(function(){
+	$('#userDelete').modal();
+});
+$('.delete').click(function(){
+	$.ajax({      
+		type:"POST",
+		url:"/userDelete",
+		success:function(){
+			alert("회원탈퇴 성공");
+			location.href="/";
+		},
+	 	error:function(){
+	 		alert("회월탈퇴 실패");
+	 	}
+	});
 });
 </script>
 </html>

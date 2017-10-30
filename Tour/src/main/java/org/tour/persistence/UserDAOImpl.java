@@ -57,4 +57,16 @@ public class UserDAOImpl implements UserDAO {
 		
 		
 	}
+
+	@Override
+	public void updateUser(HashMap<String, Object> updateUser) throws Exception {
+		
+		session.update(namespace + ".updateUser", updateUser);
+	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		session.delete(namespace + ".deleteAll", userNumber);
+	}
 }

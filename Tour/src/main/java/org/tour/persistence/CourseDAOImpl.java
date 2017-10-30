@@ -125,4 +125,16 @@ public class CourseDAOImpl implements CourseDAO {
 		session.update(namespace + ".modifyInModify", vo);
 		
 	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		session.delete(namespace + ".deleteAll", userNumber);
+	}
+
+	@Override
+	public List<Integer> deleteCourseRead(int userNumber) throws Exception {
+		
+		return session.selectList(namespace + ".deleteCourseRead", userNumber);
+	}
 }

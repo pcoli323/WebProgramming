@@ -57,4 +57,10 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		dao.deletePost(courseNumber);
 	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		dao.deleteAll(userNumber);
+	}
 }

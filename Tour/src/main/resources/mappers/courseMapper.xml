@@ -58,11 +58,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where courseNumber = #{courseNumber}
 	</update>
 	
-	<select id="delete">
+	<delete id="delete">
 		delete
 		from tbl_Course
 		where courseNumber = #{courseNumber}
-	</select>
+	</delete>
 	
 	<select id="simpleViewAll" resultType="CourseVO">
 		select *
@@ -105,4 +105,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set courseName = #{courseName}, updateDate = now()
 		where courseNumber = #{courseNumber}
 	</update>
+	
+	<delete id="deleteAll">
+		delete from tbl_Course
+		where userNumber = #{userNumber}
+	</delete>
+	
+	<select id="deleteCourseRead" resultType="int">
+		select courseNumber
+		from tbl_Course
+		where userNumber = #{userNumber}
+	</select>
 </mapper>

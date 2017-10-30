@@ -41,4 +41,8 @@ public interface CourseService {
 	public Integer noUploadCourseNumberRead(int userNumber) throws Exception;
 	
 	public void modifyInModify(CourseVO vo) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
+	
+	public List<Integer> deleteCourseRead(int userNumber) throws Exception;
 }

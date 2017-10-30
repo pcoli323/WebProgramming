@@ -42,6 +42,11 @@
 	    color: #337ab7;
 		display: block;
 	}
+	#userInfo {
+		position:fixed;
+		top:350px;
+		left:30px;
+	}
 	</style>
 </head>
 
@@ -65,7 +70,7 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">확인창</h4>
 			</div>
-			<div class="modal-body" style="height:70px;">
+			<div class="modal-body" style="height:90px;">
 				<p>비밀번호를 작성해주세요.</p>
 				<form>
 					<input id="password" type="password">
@@ -81,6 +86,13 @@
 </div>
 
 <script>
+$(document).ready(function(){
+	$('#password').keyup(function(event) {
+		if(event.keyCode == 13){
+			$('.yes').click();	
+		}
+	});
+});
 $('.gotoNoUploadMypage').on("click", function(){
     location.href="/mypage/0";
 });
@@ -105,6 +117,5 @@ $('.yes').on("click", function(){
 		}
     });
 });
-
 </script>
 </html>

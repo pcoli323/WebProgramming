@@ -9,4 +9,6 @@ public interface FollowDAO {
 	public int check(FollowVO vo) throws Exception;
 	
 	public void delete(FollowVO vo) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
 }
