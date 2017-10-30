@@ -280,7 +280,7 @@
 	<div class="container-fluid text-center" style="background-color:#ffffff;">
   		<h2 style="color:#3f2018;">이달의 인기 코스</h2>
 	</div>
-	<div class="top3"></div>
+	<div class="container top3" style="padding:20px;"></div>
 	<!-- more -->
 	<div id="more" class="container-fluid text-center bg-grey">
 		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
@@ -484,10 +484,7 @@ $(document).ready(function(){
     	location.href="/mypage/0";
     });
     
-    var oar = new Array();
-    oar.push(1);
-    oar.push(2);
-    simpleView(oar, false, ".top3");     
+    var oar = new Array();   
     $.ajax({
 		type:"POST",  
 		url:"/call",
@@ -495,7 +492,7 @@ $(document).ready(function(){
 		success:function(msg){
 			for(var i=0; i<msg.length; i++)
 				oar.push(msg[i]);
-		    simpleView(oar, false, "top3");
+		    simpleView(oar, false, ".top3");
 		}
 	});
     

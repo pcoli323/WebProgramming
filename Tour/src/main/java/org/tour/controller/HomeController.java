@@ -100,7 +100,7 @@ public class HomeController {
 		try {
 
 			List<Integer> top3List = likeService.getTop3();
-			System.out.println(top3List);
+			//System.out.println(top3List);
 			entity = new ResponseEntity<List<Integer>>(top3List, HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
