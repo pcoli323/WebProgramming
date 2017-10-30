@@ -213,7 +213,8 @@ function color(arr){
 				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 6) ||
 				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 7) ||
 				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 8) ){
-			arr.pinColor = jsonArr[i].pinColor;
+//			arr.pinColor = jsonArr[i].pinColor;
+			arr.pinColor = opener.bufPinColor[i];
 			arr.titleColor = jsonArr[i].titleColor;
 		}
 	}
@@ -277,10 +278,13 @@ $(document).on("click",".registBtn",function(){
 		arr = color(arr);
 		opener.jsonArr.push(arr);
 		// image list에 추가
-		opener.addImageList.set(opener.jsonArr.length-1, file);
+		if(file != null){
+			opener.addImageList.set(opener.jsonArr.length-1, file);
+		}
 		
 		// modify 함수 재 실행
 		opener.color();
+		opener.initMap();
 		opener.initTitle();
 		opener.inputTitleBorder();
 		opener.initScheduleTable();

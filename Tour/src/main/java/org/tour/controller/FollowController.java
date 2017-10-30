@@ -26,8 +26,11 @@ public class FollowController {
 			int check = service.check(vo);
 			if(check == 0) {
 				service.add(vo);
+				entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 			}
-			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			else {
+				entity = new ResponseEntity<String>("AREADY", HttpStatus.OK);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -56,8 +59,11 @@ public class FollowController {
 			int check = service.check(vo);
 			if(check != 0) {
 				service.delete(vo);
+				entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 			}
-			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			else {
+				entity = new ResponseEntity<String>("AREADY", HttpStatus.OK);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

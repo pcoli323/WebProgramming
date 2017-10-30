@@ -32,6 +32,8 @@ public interface CourseDAO {
 	
 	public List<CourseVO> simpleViewAll(int userNumber) throws Exception;
 	
+	public List<Integer> searchAll() throws Exception;
+	
 	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode) throws Exception;
 	
 	public List<Integer> searchAccordingToUserNumber(int userNumber) throws Exception;
@@ -41,4 +43,8 @@ public interface CourseDAO {
 	public Integer noUploadCourseNumberRead(int userNumber) throws Exception;
 	
 	public void modifyInModify(CourseVO vo) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
+
+	public List<Integer> deleteCourseRead(int userNumber) throws Exception;
 }

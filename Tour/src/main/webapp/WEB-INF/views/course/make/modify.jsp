@@ -798,6 +798,7 @@ var realDateCount = 0;
 			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
 	    	success:function(){
+	    		console.log(addImageList.size);
 	    		if(addImageList.size != 0){
 	    			var imageCount = 0;
 	    			// image 추가하여 image에 대한 정보 넣어주기

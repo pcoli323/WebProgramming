@@ -31,4 +31,10 @@ public class FollowDAOImpl implements FollowDAO {
 		
 		session.delete(namespace + ".delete", vo);
 	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		session.delete(namespace + ".deleteAll", userNumber);
+	}
 }

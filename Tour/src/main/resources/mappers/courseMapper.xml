@@ -58,11 +58,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where courseNumber = #{courseNumber}
 	</update>
 	
-	<select id="delete">
+	<delete id="delete">
 		delete
 		from tbl_Course
 		where courseNumber = #{courseNumber}
-	</select>
+	</delete>
 	
 	<select id="simpleViewAll" resultType="CourseVO">
 		select *
@@ -70,9 +70,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where userNumber = #{userNumber} and isPosted = true
 	</select>
 	
+	<select id="searchAll" resultType="int">
+		select tbl_Course.courseNumber
+		from tbl_Course left join (select *
+									from (
+										select courseNumber, count(*) as likeNum
+										from tbl_Like
+										group by courseNumber
+									) tmp
+									order by tmp.likeNum desc) tt
+		on tbl_Course.courseNumber = tt.courseNumber
+		where tbl_Course.isPosted = true
+		order by likeNum desc
+	</select>
+	
 	<select id="searchAccordingToAreaAndSigunguCode" resultType="int">
 		select distinct(courseNumber)
-		from tbl_course
+		from tbl_Course
 		where isPosted = true and courseNumber IN (select distinct(courseNumber)
 													from tbl_courseInfo
 													where
@@ -105,4 +119,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set courseName = #{courseName}, updateDate = now()
 		where courseNumber = #{courseNumber}
 	</update>
+	
+	<delete id="deleteAll">
+		delete from tbl_Course
+		where userNumber = #{userNumber}
+	</delete>
+	
+	<select id="deleteCourseRead" resultType="int">
+		select courseNumber
+		from tbl_Course
+		where userNumber = #{userNumber}
+	</select>
 </mapper>

@@ -44,5 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from tbl_Like
 		where courseNumber = #{courseNumber}
 	</delete>
+	
+	<delete id="deleteAll">
+		delete from tbl_Like
+		where userNumber = #{userNumber}
+	</delete>
 
 </mapper>

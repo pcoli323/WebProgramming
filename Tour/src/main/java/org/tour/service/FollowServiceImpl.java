@@ -29,4 +29,10 @@ public class FollowServiceImpl implements FollowService {
 		
 		dao.delete(vo);
 	}
+
+	@Override
+	public void deleteAll(int userNumber) throws Exception {
+		
+		dao.deleteAll(userNumber);
+	}
 }

@@ -36,4 +36,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update tbl_User set pwd = #{pwd}
 		where email = #{email}
 	</update>
+	
+	<update id="updateUser">
+		update tbl_User
+		set pwd = #{pwd}, userName = #{name}
+		where email = #{email}
+	</update>
+	
+	<delete id="deleteAll">
+		delete from tbl_User
+		where userNumber = #{userNumber}
+	</delete>
 </mapper>

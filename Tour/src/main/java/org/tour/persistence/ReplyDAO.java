@@ -18,4 +18,6 @@ public interface ReplyDAO {
 	public void delete(int replyNumber) throws Exception;
 	
 	public void deletePost(int courseNumber) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
 }

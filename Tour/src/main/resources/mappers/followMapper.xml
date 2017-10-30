@@ -21,4 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where following = #{following} and followed = #{followed}
 	</delete>
 	
+	<delete id="deleteAll">
+		delete from tbl_Follow
+		where following = #{userNumber} or followed = #{userNumber}
+	</delete>
+	
 </mapper>

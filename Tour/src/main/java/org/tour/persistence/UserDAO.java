@@ -1,5 +1,6 @@
 package org.tour.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.tour.domain.UserVO;
@@ -18,4 +19,8 @@ public interface UserDAO {
 	public List<Integer> search(String keyword) throws Exception;
 	
 	public void updatePWD(String email, String pwd);
+	
+	public void updateUser(HashMap<String, Object> updateUser) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
 }

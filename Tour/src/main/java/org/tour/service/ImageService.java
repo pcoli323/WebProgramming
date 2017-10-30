@@ -13,4 +13,6 @@ public interface ImageService {
 	public String getType(int imageNumber) throws Exception;
 	
 	//public void deleteIamge(int imageNumber) throws Exception;
+	
+	public void deleteAll(int userNumber) throws Exception;
 }

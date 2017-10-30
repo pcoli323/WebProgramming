@@ -392,10 +392,10 @@
 						followed:loginUserNumber
 					}),
 					success:function(result){
-						console.log("result:" + result);
-						if(result == 'SUCCESS'){
-							followToggle("follow", following, courseNumber);
+						if(result == 'AREADY'){
+							alert("이미 처리되었습니다.");
 						}
+						followToggle("follow", following, courseNumber);
 					}
 				});
 			}
@@ -414,9 +414,10 @@
 					}),
 					success:function(result){
 						console.log("result:" + result);
-						if(result == 'SUCCESS'){
-							followToggle("non-follow", following, courseNumber);
+						if(result == 'AREADY'){
+							alert("이미 처리되었습니다.");
 						}
+						followToggle("non-follow", following, courseNumber);
 					}
 				});
 			}

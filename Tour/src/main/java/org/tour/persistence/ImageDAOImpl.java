@@ -46,4 +46,10 @@ public class ImageDAOImpl implements ImageDAO{
 		session.delete(namespace + ".delete", imageNumber);
 	}
 	*/
+
+	@Override
+	public void deleteAll(int userNumber) {
+		
+		session.delete(namespace + ".deleteAll", userNumber);
+	}
 }

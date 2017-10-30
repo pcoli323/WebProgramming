@@ -479,6 +479,7 @@ $(document).ready(function(){
     		location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
+    	location.href = "/search?where='home'";
     });
     $("#mypage").click(function(){
     	location.href="/mypage/0";
@@ -570,7 +571,7 @@ $("#sendPWD").click(function(){
 
 // 비밀번호 확인 1
 $("#pwd").focusout(function(){
-	var val = $(this).val(),
+	var val = $(this).val();
 	regex = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/;
 	
 	var item = document.getElementById("pwdC");
