@@ -47,7 +47,7 @@
 	float : left;
 }
 .followList button {
-	margin: 30px;
+	margin: 10px;
 	float : right;
 }
 </style>
@@ -102,8 +102,8 @@ function followList(){
 	var str ="";
 	for(var i=0; i<users.length; i++){
 		str += "<div class='followList'><i class='material-icons'>person</i><p>" + users[i].userName + "</p>";
-		str += "<br><br><button type=button class='btn btn-default searchViewbtn' id='" + users[i].userName"'style='height:35px;'>코스 보기</button>"
-		str += "<button type=button class='btn btn-default unfollowbtn' id='" + users[i].userNumber + "-" + i + "'style='height:35px;'>팔로우 끊기</button></div>";
+		str += "<br><br><button type=button class='btn btn-default unfollowbtn' id='" + users[i].userNumber + "-" + i + "'style='height:35px;'>팔로우 끊기</button>"
+		str += "<button type=button class='btn btn-default searchViewbtn' id='" + users[i].userName + "'style='height:35px;'>코스 보기</button></div>";
 	}
 	document.getElementById('bodyContent').innerHTML = str;
 }
