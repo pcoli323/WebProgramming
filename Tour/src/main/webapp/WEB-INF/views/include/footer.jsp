@@ -9,14 +9,14 @@
   .container-fluid {
       padding: 60px 50px;
   }
-  .bg-grey {
-      background-color: #f6f6f6;
+  .bg-brown {
+      background-color: #3f2018;
   }
   </style>
 </head>
 
-<footer class="container-fluid text-center bg-grey" style="margin-top:50px;">
-  <p>이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI">http://api.visitkorea.or.kr/main.do</a></p>
+<footer class="container-fluid text-center bg-brown" style="margin-top:50px;">
+  <p style="color:#ffffff;">이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <br> <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI" style="color:#ffffff;">http://api.visitkorea.or.kr/main.do</a></p>
 </footer>
 
 </html>

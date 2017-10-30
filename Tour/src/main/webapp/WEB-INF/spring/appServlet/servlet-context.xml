@@ -31,10 +31,8 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/main"></mapping>
-			<beans:ref bean="authInterceptor"></beans:ref>
-		</interceptor>
-		<interceptor>
-			<mapping path="/mypage/upload"></mapping>
+			<mapping path="/course/make/*"></mapping>
+			<mapping path="/mypage/*"></mapping>
 			<beans:ref bean="authInterceptor"></beans:ref>
 		</interceptor>
 	</interceptors>

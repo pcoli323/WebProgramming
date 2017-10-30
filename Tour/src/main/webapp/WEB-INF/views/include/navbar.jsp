@@ -12,7 +12,7 @@
   <style>
   .navbar {
       margin-bottom: 0;
-      background-color: #337ab7;
+      background-color: #3f2018;
       z-index: 9999;
       border: 0;
       font-size: 12px !important;
@@ -25,7 +25,7 @@
       color: #fff !important;
   }
   .navbar-nav li a:hover, .navbar-nav li.active a {
-      color: #337ab7 !important;
+      color: #3f2018 !important;
       background-color: #fff !important;
   }
   .navbar-default .navbar-toggle {
@@ -59,7 +59,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo.png" height="100%"></a>
+      <a class="navbar-brand" style="padding:0px;" href="/"><img src="/resources/img/logo2.png" height="100%"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
@@ -180,13 +180,13 @@ $("#login").click(function(){
 	$("#loginModal").modal();
 });
 $("#popular").click(function(){
-	location.href="/";    	
+	location.href = "/search?where='home'";   	
 });
 $("#create").click(function(){
 	location.href="/course/make/add1";
 });
 $("#search").click(function(){
-	location.href="/";   	
+	location.href = "/search?where='home'";  	
 });
 
 //mypage click

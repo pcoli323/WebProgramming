@@ -149,7 +149,7 @@
   footer .glyphicon {
       font-size: 20px;
       margin-bottom: 20px;
-      color: #3f2018;
+      color: #ffffff;
   }
   .slideanim {visibility:hidden;}
   .slide {
@@ -221,9 +221,7 @@
    top: 20%;
    bottom: auto;
 	}
-	div {
-	background-image:url('/resources/img/bgi.png');
-	}
+	
   </style>
 </head>
 
@@ -282,9 +280,9 @@
 	<div class="container-fluid text-center" style="background-color:#ffffff;">
   		<h2 style="color:#3f2018;">이달의 인기 코스</h2>
 	</div>
-	<div class="top3"></div>
+	<div class="container top3" style="padding:20px;"></div>
 	<!-- more -->
-	<div id="more" class="container-fluid text-center"  style="background-image:url('/resources/img/bgi.png');">
+	<div id="more" class="container-fluid text-center bg-grey">
 		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 	</div>
 </div>
@@ -328,11 +326,11 @@
 </div>
 
 <!-- Footer -->
-<footer class="container-fluid text-center">
+<footer class="container-fluid text-center" style="background-color:#3f2018;">
   <a href="#home" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
-  <p>이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI">http://api.visitkorea.or.kr/main.do</a></p>
+  <p style="color:#ffffff;">이 사이트는 한국관광공사의 Tour API를 활용하여 제작되었습니다. <br> <a href="http://api.visitkorea.or.kr/main.do" title="Visit TourAPI" style="color:#ffffff;">http://api.visitkorea.or.kr/main.do</a></p>
 </footer>
 
 <!-- Modals -->
@@ -362,8 +360,7 @@
           <button id="findPWD" class="btn btn-default" > 비밀번호 찾기 </button>
           <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
         </div>
-      </div>
-      
+      </div>   
     </div>
   </div>
   
@@ -446,7 +443,6 @@
       </div>
     </div>
   </div>
-
 </body>
 
 <script>
@@ -473,6 +469,7 @@ $(document).ready(function(){
     	location.href="/logout";
     });
     $("#courseMore").click(function(){
+    	location.href = "/search?where='home'";
     });
     $("#courseMake").click(function(){
     	if(this.value=="0")
@@ -487,10 +484,7 @@ $(document).ready(function(){
     	location.href="/mypage/0";
     });
     
-    var oar = new Array();
-    oar.push(1);
-    oar.push(2);
-    simpleView(oar, false, ".top3");     
+    var oar = new Array();   
     $.ajax({
 		type:"POST",  
 		url:"/call",
@@ -498,12 +492,11 @@ $(document).ready(function(){
 		success:function(msg){
 			for(var i=0; i<msg.length; i++)
 				oar.push(msg[i]);
-		    simpleView(oar, false, "top3");
+		    simpleView(oar, false, ".top3");
 		}
 	});
     
 });
-
 
 var checkpwd = false;
 var checkpwd2 = false;
@@ -592,6 +585,7 @@ $("#pwd").focusout(function(){
 		checkpwd = true;
 	}
 });
+
 // 비밀번호 확인 2
 $("#pwd2").focusout(function(){
 	var val = $(this).val();
@@ -613,6 +607,7 @@ $("#pwd2").focusout(function(){
 		checkpwd2 = false;
 	}
 });
+
 // 닉네임 확인
 $("#name").focusout(function(){
 	var val = $(this).val(),
@@ -634,6 +629,7 @@ $("#name").focusout(function(){
 		checkname = true;
 	}
 });
+
 // 회원가입 확인
 $("#checkRegister").click(function(){
 	if(checkpwd==true && checkpwd2==true && checkname==true){
