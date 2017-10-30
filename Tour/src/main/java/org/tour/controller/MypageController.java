@@ -37,6 +37,7 @@ import org.tour.domain.AreaVO;
 import org.tour.domain.CourseInfoSimpleVO;
 import org.tour.domain.CourseInfoVO;
 import org.tour.domain.CourseVO;
+import org.tour.domain.FollowVO;
 import org.tour.domain.SigunguVO;
 import org.tour.domain.UserVO;
 import org.tour.dto.AreaDTO;
@@ -49,6 +50,7 @@ import org.tour.service.CourseChangeService;
 import org.tour.service.CourseInfoService;
 import org.tour.service.CourseInfoSimpleService;
 import org.tour.service.CourseService;
+import org.tour.service.FollowService;
 import org.tour.service.PlanService;
 import org.tour.service.SigunguService;
 import org.tour.service.UserService;
@@ -83,6 +85,8 @@ public class MypageController {
 	private AreaService areaService;
 	@Inject
 	private SigunguService sigunguService;
+	@Inject
+	private FollowService followSerivce;
 	
 	
 	//mypage view 넘어갈때 최대 값 주기
@@ -361,5 +365,58 @@ public class MypageController {
 		if(session.getAttribute("noUploadCourseNumber") != null) {
 			session.removeAttribute("noUploadCourseNumber");
 		}
+	}
+	
+	@RequestMapping(value = "/followAd", method = RequestMethod.GET)
+	public String followAd(HttpServletRequest request, Model model){
+		
+		try {
+
+			HttpSession session = request.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("login");
+			
+			List<Integer> followeds = new ArrayList<Integer>();
+			followeds = followSerivce.read(loginUser.getUserNumber());
+			
+			List<UserVO> users = new ArrayList<UserVO>();
+			
+			for(int i=0; i<followeds.size(); i++) {
+				System.out.println("followeds : " + followeds.get(i));
+				users.add((UserVO)userService.read(followeds.get(i)));
+			}
+			System.out.println("users : " + users);
+			
+			Gson gson = new Gson();
+			
+			model.addAttribute("users", gson.toJson(users));
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "mypage/followAd";
+	}
+	
+	@RequestMapping(value = "/unfollowUser/{deleteUserNumber}", method = RequestMethod.POST)
+	public ResponseEntity<Integer> unfollowUser(HttpServletRequest request, @PathVariable("deleteUserNumber") int deleteUserNumber){
+		
+		ResponseEntity<Integer> entity = null;
+		try {
+			HttpSession session = request.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("login");
+			
+			// tbl_follow delete userNumber
+			FollowVO followVO = new FollowVO();
+			followVO.setFollowed(deleteUserNumber);
+			followVO.setFollowing(loginUser.getUserNumber());
+			
+			followSerivce.delete(followVO);
+			
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }
