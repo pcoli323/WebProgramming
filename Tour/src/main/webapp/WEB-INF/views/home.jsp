@@ -221,9 +221,7 @@
    top: 20%;
    bottom: auto;
 	}
-	div {
-	background-image:url('/resources/img/bgi.png');
-	}
+	
   </style>
 </head>
 
@@ -279,18 +277,18 @@
 <!-- Container (Popular Section) -->
 <div id="pop">
 	<div id="popular" class="container-fluid text-center" style="background-color:#3f2018;"></div>
-	<div class="container-fluid text-center" style="background-color:#ffffff;">
+	<div class="container-fluid text-center" style="background-image:url('/resources/img/bgi.png');">
   		<h2 style="color:#3f2018;">이달의 인기 코스</h2>
 	</div>
-	<div class="top3"></div>
+	<div class="top3" style="background-image:url('/resources/img/bgi.png');"></div>
 	<!-- more -->
-	<div id="more" class="container-fluid text-center"  style="background-image:url('/resources/img/bgi.png');">
+	<div id="more" class="container-fluid text-center" style="background-image:url('/resources/img/bgi.png');">
 		<button class="btn btn-default" id="courseMore">인기코스 더보기</button>
 	</div>
 </div>
 
 <!-- Container (Create Section) -->
-<div id="create" class="container-fluid">
+<div id="create" class="container-fluid" style="background-image:url('/resources/img/bgi.png');">
   <div class="row">
     <div class="col-sm-6 col-sm-offset-2">
       <h2>코스 만들기</h2><br><br>
@@ -312,7 +310,7 @@
 </div>
 
 <!-- Container (Search Section) -->
-<div id="search" class="container-fluid bg-grey">
+<div id="search" class="container-fluid bg-grey" style="background-image:url('/resources/img/bgi.png');">
   <div class="row">
   	<div class="col-sm-4 col-sm-offset-2">
       <span class="glyphicon glyphicon-search logo"></span>
@@ -328,7 +326,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="container-fluid text-center">
+<footer class="container-fluid text-center" style="background-color:#3f2018;">
   <a href="#home" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
