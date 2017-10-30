@@ -91,6 +91,12 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 	
 	@Override
+	public List<Integer> searchAll() throws Exception {
+		
+		return session.selectList(namespace + ".searchAll");
+	}
+	
+	@Override
 	public List<Integer> searchAccordingToAreaAndSigunguCode(List<Map<String, Integer>> areaAndSigunguCode)throws Exception {
 		
 		return session.selectList(namespace + ".searchAccordingToAreaAndSigunguCode", areaAndSigunguCode);

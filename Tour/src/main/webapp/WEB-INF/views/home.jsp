@@ -481,6 +481,7 @@ $(document).ready(function(){
     		location.href="/course/make/add1";
     });
     $("#courseSearch").click(function(){
+    	location.href = "/search?where='home'";
     });
     $("#mypage").click(function(){
     	location.href="/mypage/0";

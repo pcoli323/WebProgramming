@@ -35,7 +35,7 @@ public class MainController {
 	private CourseService courseService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String search(HttpServletRequest request, Model model) throws Exception{
+	public String search(HttpServletRequest request, @RequestParam("where") String where, Model model) throws Exception{
 		
 		try {
 			HttpSession	session = request.getSession();
@@ -51,6 +51,7 @@ public class MainController {
 				model.addAttribute("loginCheck", true);
 				loginUser = (UserVO) session.getAttribute("login");
 			}
+			model.addAttribute("where", where);
 			model.addAttribute("loginUser", loginUser);
 			
 		}catch(Exception e) {
@@ -66,7 +67,10 @@ public class MainController {
 		ResponseEntity<List<Integer>> entity = null;
 		List<Integer> result = new ArrayList<Integer>();
 		try {
-			if(searchType.equals("region") == true) {
+			if(searchType.equals("all") == true) {
+				result = searchAll();
+			}
+			else if(searchType.equals("region") == true) {
 				result = searchRegion(keyword);
 			}
 			else if(searchType.equals("user") == true) {
@@ -85,6 +89,16 @@ public class MainController {
 			entity = new ResponseEntity<List<Integer>>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	private List<Integer> searchAll(){
+		List<Integer> result = new ArrayList<Integer>();
+		try {
+			result = courseService.searchAll();
+		}catch(Exception e) {
+			System.out.println("searchAll");
+		}
+		
+		return result;
 	}
 	private List<Integer> searchRegion(String keyword){
 		List<Integer> result = new ArrayList<Integer>();

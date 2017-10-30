@@ -74,7 +74,11 @@
 		<!-- 검색 종류 선택 -->
 		<div class="chooseSearchType">
 			<span style="margin:20px;">
-				<input type="radio" name="searchType" id="region" value="region" checked="checked">
+				<input type="radio" name="searchType" id="all" value="all" checked="checked">
+				<label for="all">전체보기</label>
+			</span>
+			<span>
+				<input type="radio" name="searchType" id="region" value="region">
 				<label for="region">지역</label>
 			</span>
 			<span>
@@ -123,15 +127,18 @@
 		        $(".searchButton").click();
 		    }
 		});
+		
+		// 어디에서 들어왔는지에 따른 메인 뷰 처리
+		var where = ${where};
+		if(where == 'home'){
+			$('#all').click();
+		}
 	});
 </script>
 
 <script>
-	$('.searchButton').on("click", function(){
-		var searchType = $("input[name=searchType]:checked").val(); 
-		console.log(searchType);
-		var keyword = $("#keywordInput").val();
-		console.log(keyword);
+	// search
+	function search(searchType, keyword){
 		$.ajax({
 			type:'get',
 			url:'/search/keyword?searchType='+searchType+"&keyword="+keyword,
@@ -150,7 +157,21 @@
 				}
 			}
 		});
+	}
+	
+	// click 처리
+	$('#all').on("click", function(){
+		var searchType = "all";
+		var keyword = "";
+		search(searchType, keyword);
 	});
+	$('.searchButton').on("click", function(){
+		var searchType = $("input[name=searchType]:checked").val(); 
+		var keyword = $("#keywordInput").val();
+		search(searchType, keyword);
+		
+	});
+	
 	// 결과 paging하여 보여주기
 	function printResult(page){
 		var endIndex = page * dataNumPerPage - 1;
