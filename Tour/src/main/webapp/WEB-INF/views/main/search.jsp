@@ -25,6 +25,7 @@
     }
     .chooseSearchType{
     height:20%;
+    padding-left:15px;
     }
     .searchKeyword{
     height:80%;
@@ -73,12 +74,9 @@
 	<div class="searchView">
 		<!-- 검색 종류 선택 -->
 		<div class="chooseSearchType">
+			<button class="btn btn-warning" id="all" style="outline:0;">모든코스보기</button>
 			<span style="margin:20px;">
-				<input type="radio" name="searchType" id="all" value="all" checked="checked">
-				<label for="all">전체보기</label>
-			</span>
-			<span>
-				<input type="radio" name="searchType" id="region" value="region">
+				<input type="radio" name="searchType" id="region" value="region" checked="checked">
 				<label for="region">지역</label>
 			</span>
 			<span>
@@ -132,11 +130,6 @@
 		var where = ${where};
 		if(where == 'home'){
 			$('#all').click();
-		}
-		else if (where == 'follow'){
-			$('#user').click();
-			document.getElementById('keywordInput').value= ${keyword};
-			search("user", ${keyword});
 		}
 	});
 </script>

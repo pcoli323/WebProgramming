@@ -216,11 +216,7 @@
 	}
 	function markerListener(localmarker, id){
 		google.maps.event.addListener(localmarker, 'click', function() {
-			for(var i=0; i<markers.length; i++){
-				markers[i].setAnimation(null);
-			}
 			showInfo(id);
-			//localmarker.setAnimation(google.maps.Animation.BOUNCE);
 		});
 	}
 </script>
@@ -447,22 +443,11 @@
 	function showMap(id){
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
-			if(markers[index].getAnimation() == null){
-				for(var i=0; i<markers.length; i++){
-					if(i != index){
-						markers[i].setAnimation(null);
-					}
-				}
-				markers[index].setAnimation(google.maps.Animation.BOUNCE);
-				map.setCenter(markers[index].getPosition());
-				map.setZoom(10);
-				$('.mapInfo').hide();
-			}
+			map.setCenter(markers[index].getPosition());
+			map.setZoom(10);
+			$('.mapInfo').hide();
 		}
 		else{
-			for(var i=0; i<markers.length; i++){
-				markers[i].setAnimation(null);
-			}
 			$('.mapInfo').show();
 		}
 	}

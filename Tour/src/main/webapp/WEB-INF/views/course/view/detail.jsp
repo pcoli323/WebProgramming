@@ -112,7 +112,6 @@
 	.story{
 	border:1px solid gold;
 	padding:20px;
-	line-height:200%;
 	}
 	.symbol{
 	font-size:30px;
@@ -183,7 +182,7 @@
 		var flightPath = new google.maps.Polyline({
 			path: pathArray,
 			geodesic: true,
-			strokeColor: '#FF0000',
+			strokeColor: 'black',
 			strokeOpacity: 1.0,
 			strokeWeight: 2
 		});
@@ -200,7 +199,6 @@
 				position: mapPositions,
 				map: map,
 				title:title,
-				animation:null,
 				icon:pinSymbol(color)
 			});
 			markers.push(marker);
@@ -217,11 +215,7 @@
 	}
 	function markerListener(localmarker, id){
 		google.maps.event.addListener(localmarker, 'click', function() {
-			for(var i=0; i<markers.length; i++){
-				markers[i].setAnimation(null);
-			}
 			showInfo(id);
-			//localmarker.setAnimation(google.maps.Animation.BOUNCE);
 		});
 	}
 </script>
@@ -337,7 +331,7 @@
         	
         	<c:if test="${courseVO.story ne null}">
         		<div class="story" style="margin-bottom:10px;">
-        			<textarea id="story" rows="9" cols="120" maxlength="1000" data-toggle="tooltip" data-placement="top" title="1000자 내외" disabled="disabled" style="border:0px;resize:none;outline:none;background-color:white">${courseVO.story}</textarea>
+        			<pre style="background-color:white;border:0px solid white;border-radius:0px;line-height:220%">${courseVO.story}</pre>
         		</div>
         	</c:if>
         	
@@ -421,7 +415,6 @@
 		likeCheck();
 		likeCount();
 		replyCount();
-		console.log(infos);
 	});
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
@@ -564,22 +557,11 @@
 	function showMap(id){
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
-			if(markers[index].getAnimation() == null){
-				for(var i=0; i<markers.length; i++){
-					if(i != index){
-						markers[i].setAnimation(null);
-					}
-				}
-				markers[index].setAnimation(google.maps.Animation.BOUNCE);
-				map.setCenter(markers[index].getPosition());
-				map.setZoom(10);
-				$('.mapInfo').hide();
-			}
+			map.setCenter(markers[index].getPosition());
+			map.setZoom(10);
+			$('.mapInfo').hide();
 		}
 		else{
-			for(var i=0; i<markers.length; i++){
-				markers[i].setAnimation(null);
-			}
 			$('.mapInfo').show();
 		}
 	}

@@ -51,10 +51,12 @@ public class MainController {
 				model.addAttribute("loginCheck", true);
 				loginUser = (UserVO) session.getAttribute("login");
 			}
-			model.addAttribute("where", where);
-			if(keyword!=null)
-				model.addAttribute("keyword", keyword);
 			model.addAttribute("loginUser", loginUser);
+			
+			model.addAttribute("where", where);
+			if(keyword!=null) {
+				model.addAttribute("keyword", keyword);
+			}
 			
 		}catch(Exception e) {
 			System.out.println("SearchMain");
