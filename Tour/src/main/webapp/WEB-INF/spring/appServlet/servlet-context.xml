@@ -23,7 +23,6 @@
 	
 	<beans:bean id="loginInterceptor" class="org.tour.interceptor.LoginInterceptor"></beans:bean>
 	<beans:bean id="authInterceptor" class="org.tour.interceptor.AuthInterceptor"></beans:bean>
-	<beans:bean id="courseMakeInterceptor" class="org.tour.interceptor.CourseMakeInterceptor"></beans:bean>
 	<interceptors>
 		<interceptor>
 			<mapping path="/login"></mapping>
@@ -35,10 +34,6 @@
 			<mapping path="/course/make/*"></mapping>
 			<mapping path="/mypage/*"></mapping>
 			<beans:ref bean="authInterceptor"></beans:ref>
-		</interceptor>
-		<interceptor>
-			<mapping path="/course/make/add1"></mapping>
-			<beans:ref bean="courseMakeInterceptor"></beans:ref>
 		</interceptor>
 	</interceptors>
 	

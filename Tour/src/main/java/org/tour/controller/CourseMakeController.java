@@ -64,7 +64,23 @@ public class CourseMakeController {
 	private ColorService colorService;
 	
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
-	public void add1(Locale locale, Model model) throws Exception {
+	public void add1(HttpServletRequest request, Locale locale, Model model) throws Exception {
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("courseInfo")==null) {
+			if(session.getAttribute("idList")!=null) {
+				session.removeAttribute("idList");
+			}
+			if(session.getAttribute("list")!=null) {
+				session.removeAttribute("list");
+			}
+			if(session.getAttribute("listU")!=null) {
+				session.removeAttribute("listU");
+			}
+			if(session.getAttribute("name")!=null) {
+				session.removeAttribute("name");
+			}
+		}
 		
 		Gson gson = new Gson();
 		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
