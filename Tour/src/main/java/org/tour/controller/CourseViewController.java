@@ -126,7 +126,7 @@ public class CourseViewController {
 	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public void readDetail(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, Model model) throws Exception {
+	public void readDetail(HttpServletRequest request, @RequestParam("courseNumber") int courseNumber, @RequestParam("reply") boolean reply, Model model) throws Exception {
 		
 		try {
 			/*
@@ -161,6 +161,7 @@ public class CourseViewController {
 			model.addAttribute("courseVO", courseVO);
 			model.addAttribute("userVO", userVO);
 			model.addAttribute("plan", plan);
+			model.addAttribute("reply", reply);
 			
 		} catch(Exception e) {
 			logger.info("readDetail");

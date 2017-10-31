@@ -160,7 +160,7 @@
 				<span class="glyphicon symbol" id="like_symbol-{{courseNumber}}" style="color:#ff0000"></span>
 				<small id="likeNum-{{courseNumber}}"></small>
 			</button>
-			<button type="button" class="symbolButton reply" id="reply-{{courseNumber}}" style="cursor:default">
+			<button type="button" class="symbolButton reply" id="reply-{{courseNumber}}" style="">
 				<span class="glyphicon glyphicon-comment symbol"></span>
 				<small id="replyNum-{{courseNumber}}"></small>
 			</button>
@@ -518,11 +518,19 @@
 		}
 	}
 	
+	$(document).on("click", '.reply', function(){
+		var idStr = $(this).attr('id').split('-');
+		var courseNumber = idStr[1];
+		
+		var url = "/course/view/detail?courseNumber=" + courseNumber + "&reply=true";
+		window.open(url, "startpop", "width=1030, height=800");
+	});
+	
 	$(document).on("click", '.change', function(){
 		var idStr = $(this).attr('id').split('-');
 		var courseNumber = idStr[1];
 		
-		var url = "/course/view/detail?courseNumber=" + courseNumber;
+		var url = "/course/view/detail?courseNumber=" + courseNumber + "&reply=false";
 		window.open(url, "startpop", "width=1030, height=800");
 	});
 	

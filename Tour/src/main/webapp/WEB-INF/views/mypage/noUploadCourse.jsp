@@ -433,13 +433,13 @@ $(document).ready(function(){
 // info가 scroll 따라 다니도록
 $(window).scroll(function(){
 	var position = $(window).scrollTop();
-	var maxPosition = $(".infoContent").height() - $(".move").height() + 150;
-	if(position <= 100){
+	var maxPosition = $(".infoContent").height() - $(".move").height() + 423;
+	if(position <= 423){
 		position = 0;
 		$(".move").stop().animate({"top":position+"px"},1000);
 	}
-	else if(position > 150 && position < maxPosition){
-		position = position-150;
+	else if(position > 423 && position < maxPosition){
+		position = position-450;
 		$(".move").stop().animate({"top":position+"px"},1000);
 	}
 });
@@ -492,7 +492,7 @@ function showMap(id){
 	if(gotoNumberMapMarker.has(id) == true){
 		var index = gotoNumberMapMarker.get(id);
 		map.setCenter(markers[index].getPosition());
-		map.setZoom(11);
+		map.setZoom(14);
 		$('.mapInfo').hide();
 	}
 	else{
