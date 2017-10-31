@@ -9,13 +9,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
+	html, body {
+		height: 84%;
+	}
 	.bg-grey {
 		background-color: #f6f6f6;
 	}
 	.header {
 		padding-top:5px;
 		padding-bottom:5px;
-		border-bottom:1px solid #337ab7;
+		border-bottom:1px solid #3f2018;
 	}
 
 	.mypageDiv {
@@ -24,8 +27,8 @@
 		padding-left:350px;
 		width:1100px;
 		margin-top:20px;
-		margin-left:400px;
-		height:750px;
+		margin-left:300px !important;
+		height:100%;
 	}
 	</style>
 </head>

@@ -10,11 +10,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 	<style>
+	html, body {
+		height: 84%;
+	}
 	.sidenav {
 		height: 100%;
 	    width: 270px;
 	    position: fixed;
-	    z-index: 1;
 	    top: 0;
 	    left: 0;
 	    background-color: #FFFFFF;
@@ -27,13 +29,13 @@
 	    padding: 6px 6px 6px 32px;
 	    text-decoration: none;
 	    font-size: 18px;
-	    color: #337ab7;
+	    color: #3f2018;
 		display: block;
 	}
 	
 	.sidenav a:hover {
-		color: #f1f1f1;
-		background-color: #337ab7;
+		color: #ffffff;
+		background-color: #3f2018;
 	}
 	
 	.hideview {
@@ -44,7 +46,7 @@
 	}
 	#userInfo {
 		position:fixed;
-		top:350px;
+		top:30%;
 		left:30px;
 	}
 	</style>
@@ -77,7 +79,7 @@
 				</form>
 			</div>
 			<div class="modal-footer" style="height:60px;">
-				<button type="button" class="btn btn-default yes" data-dismiss="modal" style="height:35px;">네</button>
+				<button type="button" class="btn btn-default yes" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
 				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
 			</div>
 		</div>

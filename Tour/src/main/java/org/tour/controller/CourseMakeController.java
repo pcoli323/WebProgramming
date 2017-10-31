@@ -160,7 +160,6 @@ public class CourseMakeController {
 			}
 			System.out.println("colors : " +colors);
 			model.addAttribute("colors", colors);
-			
 			// login 확인
 			HttpSession	session = request.getSession();
 			UserVO loginUser = new UserVO();
@@ -183,30 +182,36 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
-	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
-		
-		ResponseEntity<Integer> entity = null;
+	public ResponseEntity<String> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
+
+		ResponseEntity<String> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			
-			if(session.getAttribute("courseName") == null) {
-			HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
-			courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
-			courseNameCompare.put("courseName", courseName);
-			String compareResult = courseService.allCourseName(courseNameCompare);
-			
-			if(compareResult != null)
-				throw new Exception();
+			System.out.println("courseName : " + courseName);
+			if(courseName.equals(" ")) {
+				System.out.println("들어옴");
+				entity = new ResponseEntity<String>("2", HttpStatus.OK);
 			}
-			session.removeAttribute(courseName);
-			session.setAttribute("name", courseName);
+			else {
+				if(session.getAttribute("courseName") == null) {
+				HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
+				courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
+				courseNameCompare.put("courseName", courseName);
+				String compareResult = courseService.allCourseName(courseNameCompare);
+				
+				if(compareResult != null)
+					throw new Exception();
+				}
+				session.removeAttribute(courseName);
+				session.setAttribute("name", courseName);
 
-			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+				entity = new ResponseEntity<String>("1", HttpStatus.OK);
+			}
 			
 		}catch(Exception e) {
 			System.out.println("오류");
 			e.printStackTrace();
-			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}

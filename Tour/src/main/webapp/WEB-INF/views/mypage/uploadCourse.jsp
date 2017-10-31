@@ -11,13 +11,16 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
+	html, body {
+		height: 84%;
+	}
 	#lastImageView {
 		height:120px;
 		text-align:center;
 		color:gray;
 	}
 	.header {
-		border-bottom:1px solid #337ab7;
+		border-bottom:1px solid #3f2018;
 	}
 	.headerContent {
 		background-color:#FFFFFF;
@@ -25,7 +28,13 @@
 	}
 
 	.mypageDiv {
-		width:1200px;
+		padding-top:10px;
+		background-color:#FFFFFF;
+		padding-left:350px;
+		width:1100px;
+		margin-top:20px;
+		margin-left:300px !important;
+		height: 100%;
 	}
 	.bg-grey {
 		background-color:#f6f6f6;

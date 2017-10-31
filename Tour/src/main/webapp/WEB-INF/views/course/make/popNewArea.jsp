@@ -26,10 +26,10 @@
 	}
 	.button {
 		float: right;
-		padding-right: 100px;
+		margin: 10px;
 	}
 	#map {
-		height: 630px;
+		height: auto;
 		width: 70%;
 		float: left;
 	}
@@ -198,8 +198,27 @@ function showLatLng() {
 		file = null;
 		isPreviewImage = false;
 	});
+	
 function color(arr){
 	var jsonArr = opener.jsonArr;
+	var dateJson = opener.dateJson;
+	var areacode = Number(document.getElementById('areaCode').value);
+	var sigungucode = Number(document.getElementById('sigunguCode').value);
+	for(var i=0; i<dateJson.length; i++){
+		if((dateJson[i].areaCode == areacode && dateJson[i].sigunguCode == sigungucode) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 1) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 2) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 3) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 4) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 5) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 6) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 7) ||
+				(dateJson[i].areaCode == areacode && dateJson[i].areaCode == 8)) {
+			arr.pinColor = dateJson[i].color;
+			arr.titleColor = dateJson[i].textColor;
+		}
+	}
+	/*
 	for(var i=0; i<jsonArr.length; i++){
 		var last = jsonArr.length-1;
 		var areacode = Number(document.getElementById('areaCode').value);
@@ -214,10 +233,10 @@ function color(arr){
 				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 7) ||
 				(jsonArr[i].areacode == areacode && jsonArr[i].areacode == 8) ){
 //			arr.pinColor = jsonArr[i].pinColor;
-			arr.pinColor = opener.bufPinColor[i];
+			arr.pinColor = opener.dateJson[i];
 			arr.titleColor = jsonArr[i].titleColor;
 		}
-	}
+	}*/
 	return arr;
 }
 </script>
@@ -226,8 +245,22 @@ function color(arr){
 var dateJson = JSON.parse('${idList}');
 $(document).ready(function(){
 	var areaNameStr = "<option value='-1'> 시 / 도 </option>";
+	var checkArr = [];
+	var check = 1;
 	for(var i=0; i<dateJson.length; i++){
-		areaNameStr += "<option value=" + dateJson[i].areaCode + ">" + dateJson[i].areaName + "</option>";
+		if(checkArr.length != 0){
+			for(var j=0; j<checkArr.length; j++){
+				if(checkArr[j] == dateJson[i].areaName){
+					check = 0;
+					break;
+				} else
+					check = 1;
+			}
+		}
+		if(check == 1){
+			areaNameStr += "<option value=" + dateJson[i].areaCode + ">" + dateJson[i].areaName + "</option>";
+			checkArr[checkArr.length] = dateJson[i].areaName;
+		}
 	}
 	document.getElementById('areaCode').innerHTML = areaNameStr;
 });
@@ -245,7 +278,9 @@ $(document).on("click","#areaCode",function(){
 
 $(document).on("click",".registBtn",function(){
 	// 필수 정보 입력
-	if(document.getElementById('title').value == ""){
+	if(markers.length == 0){
+		alert("지도에 위치를 표시해주세요");
+	} else if(document.getElementById('title').value == ""){
 		alert("장소이름을 입력해주세요");
 	} else if(Number(document.getElementById('areaCode').value) == -1){
 		alert("시/도를 선택해주세요.");
@@ -284,12 +319,12 @@ $(document).on("click",".registBtn",function(){
 		
 		// modify 함수 재 실행
 		opener.color();
-		opener.initMap();
 		opener.initTitle();
 		opener.inputTitleBorder();
 		opener.initScheduleTable();
 		opener.orderRangeSchedule();
-		opener.markerPosition();
+		opener.initMap();
+		opener.orderPolyLine();
 		
 		// 창 닫기
 		self.close();
