@@ -146,9 +146,36 @@ $(document).ready(function(){
 	}
 	document.getElementById("checkboxes").innerHTML = str;
 
-	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
+	for(var i=0; i<jsona.length; i++){
+		var data = new Object();
+		var json = jsona[i];
+		
+		data.addr1 = json.addr1;
+		data.addr2 = json.addr2;
+		data.areacode = json.areacode;
+		data.contentid = json.contentid;
+		data.contenttypeid = json.contenttypeid;
+		data.createdtime = json.createdtime;
+		data.firstimage = json.firstimage;
+		data.firstimage2 = json.firstimage2;
+		data.mapx = json.mapx;
+		data.mapy = json.mapy;
+		data.modifiedtime = json.modifiedtime;
+		data.readcount = json.readcount;
+		data.tel = json.tel;
+		data.title = json.title;
+		data.sigungucode = json.sigungucode;
+		data.isNew = json.isNew;
+		data.date = json.date;
+		
+		selectedList.push(data);
+	}
+	printList();
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${listO}');
 	for(var i=0; i<jsona.length; i++){
 		var data = new Object();
 		var json = jsona[i];
