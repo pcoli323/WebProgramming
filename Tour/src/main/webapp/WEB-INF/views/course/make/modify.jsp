@@ -917,7 +917,7 @@ var realDateCount = 0;
 	//취소 버튼 이벤트 처리
 	$("#addNewArea").click(function(){
 		var url = "/course/make/addNewArea/popup/";
-		window.open(url, "startpop", "width=800, height=800");
+		window.open(url, "startpop", "width=900, height=1000");
 	});
 	// image 처리를 위한 변수
 	var addImageList = new Map();

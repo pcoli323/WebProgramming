@@ -11,12 +11,12 @@
 	<title>새로운 여행지 추가</title>
 	<style>
 	.popContainer {
-		padding: 30px;
+		padding: 30px 30px 10px 30px;
 		display: flex;
 	}
 	.addImage {
 		padding:20px;
-		height: 360px;
+		height: 320px;
 	}
 	.info {
 		padding: 10px;
