@@ -547,7 +547,7 @@ var realDateCount = 0;
 		}
 		var scheduleDateTable = "";
 		for(var i=0; i<realDate.length; i++){
-			scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:#3f2018; color:#ffffff; font-weight: bold;'>" + realDate[i] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + realDate[i] + "></table></div>";
+			scheduleDateTable += "<div style='height:23px;'><p style='font-size:18px; background-color:#3f2018; color:#ffffff; font-weight: bold;'>" + realDate[i] + "</p></div><div style='height:17em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + realDate[i] + "></table></div>";
 		}
 		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 	}
