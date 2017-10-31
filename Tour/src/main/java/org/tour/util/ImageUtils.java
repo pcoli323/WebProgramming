@@ -28,7 +28,7 @@ public class ImageUtils {
 		// BufferedImage를 통해 thumnail만들기
 		ByteArrayInputStream bain = new ByteArrayInputStream(realImage);
 		BufferedImage sourceImage = ImageIO.read(bain);
-		BufferedImage destImage = Scalr.resize(sourceImage, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+		BufferedImage destImage = Scalr.resize(sourceImage, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 140);
 		
 		// 다시 byte[]로 만들어서 return하기
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -118,13 +118,13 @@
 	color:#000000;
 	}
 	.media{
-	border-top:1px solid #FFCCCC;
+	border-bottom:1px solid #e6e6e6;
 	padding:20px;
-	padding-bottom:0px;
 	}
 	.replyInputForm{
 	margin-top:20px;
-	border-top:1px solid #FFCCCC;
+	border: 1px solid #3F2018;
+    border-bottom: 0px;
 	padding:15px;
 	padding-bottom:0px;
 	display:none;
@@ -138,7 +138,21 @@
 	text-align:right;
 	padding-bottom:15px;
 	padding-right:20px;
+	border: 1px solid #3f2018;
+    border-top: 0px;
 	display:none;
+	}
+	.pagination>li>a{
+    color: #3F2018 !important;
+    }
+    .pagination>.active>a{
+    background-color: #3F2018 !important;
+    border-color: #3F2018 !important;
+    color: white !important;
+	}
+	.pagination a:hover:not(.active) {
+	background-color: #e3beb5 !important;
+	border-color: #e3beb5 !important;
 	}
 </style>
 
@@ -357,7 +371,7 @@
 				<input class="inputForm" type="text" placeholder="댓글을 입력하세요" id="newReply">
 			</div>
 			<div class="replyInputFormButton text-right">
-				<button type="submit" class="btn btn-sm" id="addReplyBtn" style="outline:0">등록</button>
+				<button type="submit" class="btn btn-sm" id="addReplyBtn" style="outline:0;background-color:#3F2018;color:white;">등록</button>
 			</div>
 			<div class="replise">
 			</div>
@@ -397,7 +411,7 @@
 	var loginCheck;
 	var loginUserNumber;
 	var courseNumber;
-	var following;
+	var followed;
 	
 	$(document).ready(function(){
 		// 변수 초기화
@@ -409,7 +423,7 @@
 			loginUserNumber = ${loginUser.userNumber};
 		}
 		courseNumber = ${courseVO.courseNumber};
-		following = ${userVO.userNumber};
+		followed = ${userVO.userNumber};
 		// view 초기화
 		followCheck();
 		likeCheck();
@@ -444,8 +458,8 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						console.log("result:" + result);
@@ -558,7 +572,7 @@
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
 			map.setCenter(markers[index].getPosition());
-			map.setZoom(10);
+			map.setZoom(11);
 			$('.mapInfo').hide();
 		}
 		else{
@@ -608,15 +622,15 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("follow");
 							// simpleView에서도 처리
-							opener.followToggle("follow", following, courseNumber);
+							opener.followToggle("follow", followed, courseNumber);
 						}
 					}
 				});
@@ -631,15 +645,15 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("non-follow");
 							// simpleView에서도 처리
-							opener.followToggle("non-follow", following, courseNumber);
+							opener.followToggle("non-follow", followed, courseNumber);
 						}
 					}
 				});
@@ -650,12 +664,12 @@
 		// status는 원하는 상태
 		var str = "";
 		if(status == "non-follow"){
-			str = "<i class='material-icons' style='color:#d21a0b'>person_add</i>";
+			str = "<i class='material-icons' style='color:#3F2018'>person_add</i>";
 			$('#follow').removeClass("active");
 			$('#follow').html(str);
 		}
 		else{
-			str = "<i class='material-icons' style='color:#d21a0b'>people</i>";
+			str = "<i class='material-icons' style='color:#3F2018'>people</i>";
 			$('#follow').addClass("active");
 			$('#follow').html(str);
 		}
@@ -736,7 +750,7 @@
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			var courseName = "${courseVO.courseName}";
+			var courseName = "이름 없음";
 			var isGotten = true;
 			
 			$.ajax({

@@ -454,7 +454,7 @@ $(document).ready(function(){
 		loginUserNumber = ${UN};
 	if('${loginSuccess}'==1){
 		loginCheck = true;
-		alert("로그인되었습니다.");		
+		alert("로그인되었습니다.");
 	}
 		
     $("#register").click(function(){

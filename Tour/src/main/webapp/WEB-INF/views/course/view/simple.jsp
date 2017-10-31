@@ -13,12 +13,12 @@
 	position:relative;
 	width:100%;
 	margin-top:20px;
-	border: 1px solid #ff9900;
-	background-color: peachpuff;
+	margin-bottom:40px;
+	background-image: url(/resources/img/bgi.png);
 	}
 	.courseView{
 	padding:50px;
-	padding-bottom:0px;
+	padding-bottom:10px;
 	}
 	.symbolButton{
   	font-size: 14px;
@@ -99,9 +99,9 @@
 				console.log(list);
 				for(var i=0; i<list.length; i++){
 					var courseNumber = list[i].courseNumber;
-					var following = list[i].userNumber;
+					var followed = list[i].userNumber;
 					// view 초기화
-					followCheck(courseNumber, following);
+					followCheck(courseNumber, followed);
 					likeCheck(courseNumber);
 					likeCount(courseNumber);
 					replyCount(courseNumber);
@@ -274,9 +274,9 @@
 	});
 	
 	// courseView를 보는 사용자가 팔로우를 한 사용자인가?
-	function followCheck(courseNumber, following){
+	function followCheck(courseNumber, followed){
 		if(loginCheck == true){
-			if(loginUserNumber != following){
+			if(loginUserNumber != followed){
 				$.ajax({
 					type:'post',
 					url:'/follow/check',
@@ -286,24 +286,24 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 0){
 							// 사용자가 팔로우를 하지 않은 상태
-							followToggle("non-follow", following, courseNumber);
+							followToggle("non-follow", followed, courseNumber);
 						}
 						else{
-							followToggle("follow", following, courseNumber);
+							followToggle("follow", followed, courseNumber);
 						}
 					}
 				});
 			}
 		}
 		else{
-			followToggle("non-follow", following, courseNumber);
+			followToggle("non-follow", followed, courseNumber);
 		}
 	}
 	
@@ -374,7 +374,7 @@
 		}
 		else{
 			var idStr = $(this).attr('id').split('-');
-			var following = idStr[1];
+			var followed = idStr[1];
 			var courseNumber = idStr[2];
 			var checkFollow = $(this).hasClass("active");
 			
@@ -388,14 +388,14 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						if(result == 'AREADY'){
 							alert("이미 처리되었습니다.");
 						}
-						followToggle("follow", following, courseNumber);
+						followToggle("follow", followed, courseNumber);
 					}
 				});
 			}
@@ -409,32 +409,32 @@
 					},
 					dataType:'text',
 					data: JSON.stringify({
-						following:following,
-						followed:loginUserNumber
+						following:loginUserNumber,
+						followed:followed
 					}),
 					success:function(result){
 						console.log("result:" + result);
 						if(result == 'AREADY'){
 							alert("이미 처리되었습니다.");
 						}
-						followToggle("non-follow", following, courseNumber);
+						followToggle("non-follow", followed, courseNumber);
 					}
 				});
 			}
 		}
 	});
-	function followToggle(status, following, courseNumber){
+	function followToggle(status, followed, courseNumber){
 		// status는 원하는 상태
 		var str = "";
 		if(status == "non-follow"){
-			str = "<i class='material-icons' style='color:#d21a0b'>person_add</i>";
-			$('#follow-'+following+'-'+courseNumber).removeClass("active");
-			$('#follow-'+following+'-'+courseNumber).html(str);
+			str = "<i class='material-icons' style='color:#3F2018'>person_add</i>";
+			$('#follow-'+followed+'-'+courseNumber).removeClass("active");
+			$('#follow-'+followed+'-'+courseNumber).html(str);
 		}
 		else{
-			str = "<i class='material-icons' style='color:#d21a0b'>people</i>";
-			$('#follow-'+following+'-'+courseNumber).addClass("active");
-			$('#follow-'+following+'-'+courseNumber).html(str);
+			str = "<i class='material-icons' style='color:#3F2018'>people</i>";
+			$('#follow-'+followed+'-'+courseNumber).addClass("active");
+			$('#follow-'+followed+'-'+courseNumber).html(str);
 		}
 	}
 	
@@ -524,7 +524,7 @@
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
 		else{
-			var courseName = $('#name-'+courseNumber).text();
+			var courseName = "이름 없음";
 			var isGotten = true;
 			
 			$.ajax({
