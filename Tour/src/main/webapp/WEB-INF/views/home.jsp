@@ -450,8 +450,10 @@ var loginCheck = false;
 var loginUserNumber = -1;
 
 $(document).ready(function(){
-	if(${UN}!=-1)
+	if(${UN}!=-1){
+		loginCheck = true;
 		loginUserNumber = ${UN};
+	}
 	if('${loginSuccess}'==1){
 		loginCheck = true;
 		alert("로그인되었습니다.");
