@@ -12,19 +12,23 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <style>
+html, body {
+	height: 84%;
+}
 .followAdContainer {
-    margin-left: 300px;
-    margin-right: 300px;
-    padding: 50px;
-    padding-top: 10px;
-    height: 700px;
+	padding-top:10px;
+	background-color:#FFFFFF;
+	padding-left:350px;
+	width:1100px;
+	margin-top:20px;
+	margin-left:300px !important;
+	height: 100%;
 }
 .header {
-	border-bottom:1px solid #337ab7;
+	border-bottom:1px solid #3f2018;
 }
 .headerContent {
 	background-color:#FFFFFF;
-	padding:10px 30px 50px 30px;
 }
 .bodyContent {
 	display: inline-block;
@@ -59,18 +63,15 @@
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
 
-
-<div class="followAdContainer">
+<div class="container-fluid followAdContainer">
 	<div class="headerContent">
 		<div class="header">
 			<h1>팔로우 관 리</h1>
 			<p>팔로우를 관리합니다.</p>
 		</div>
 	</div>
-	<div class="bodyContent" id="bodyContent">
-	</div>
+	<div class="bodyContent" id="bodyContent"></div>
 </div>
-
 <!-- unfollow Modal -->
 <div class="modal fade" id="unfollow" role="dialog">
 	<div class="modal-dialog" style="width:300px;">
@@ -85,7 +86,7 @@
 				<p>팔로우 취소하시겠습니까?</p>
 			</div>
 			<div class="modal-footer" style="height:60px;">
-				<button type="button" class="btn btn-default unfollow" data-dismiss="modal" style="height:35px;">네</button>
+				<button type="button" class="btn btn-default unfollow" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
 				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
 			</div>
 		</div>
@@ -93,6 +94,9 @@
 	</div>
 </div>
 
+
+<!-- footer -->
+<%@include file="../include/footer.jsp" %>
 </body>
 <script>
 var users = JSON.parse('${users}');
@@ -103,7 +107,7 @@ function followList(){
 	for(var i=0; i<users.length; i++){
 		str += "<div class='followList'><i class='material-icons'>person</i><p>" + users[i].userName + "</p>";
 		str += "<br><br><button type=button class='btn btn-default unfollowbtn' id='" + users[i].userNumber + "-" + i + "'style='height:35px;'>팔로우 끊기</button>"
-		str += "<button type=button class='btn btn-default searchViewbtn' id='" + users[i].userName + "'style='height:35px;'>코스 보기</button></div>";
+		str += "<button type=button class='btn btn-default searchViewbtn' id='" + users[i].userName + "'style='height:35px; background-color:#3f2018; color:#ffffff;'>코스 보기</button></div>";
 	}
 	document.getElementById('bodyContent').innerHTML = str;
 }

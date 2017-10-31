@@ -8,6 +8,7 @@
   <style>
   .container-fluid {
       padding: 60px 50px;
+      position: relative;
   }
   .bg-brown {
       background-color: #3f2018;

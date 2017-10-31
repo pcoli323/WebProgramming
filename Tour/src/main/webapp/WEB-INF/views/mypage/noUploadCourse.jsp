@@ -14,7 +14,9 @@
 	<style>
 	@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 	@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
-	html, body{overflow-x:hidden;}
+	html, body {
+		height: 84%;
+	}
 	body {
 		font-family: "Lato", sans-serif;
 	}
@@ -35,7 +37,7 @@
 		padding-left:350px;
 		width:1100px;
 		margin-top:20px;
-		margin-left:400px;
+		margin-left:300px !important;
 	}
 	.selectCourseName {
 		width:200px;
@@ -179,7 +181,7 @@
 	.header {
 		padding-top:5px;
 		padding-bottom:5px;
-		border-bottom:1px solid #337ab7;
+		border-bottom:1px solid #3f2018;
 	}
 	.allView {
 		padding-top:30px;
@@ -387,9 +389,9 @@ var courseNumByName = ${courseNumByName };
 			</div><!-- /courseView-body -->
         
 			<div class="courseView-footer" style="text-align:right; clear:left">
-				<button type="button" class="btn btn-default modify">수정</button>
-				<button type="button" class="btn btn-default deleteModal">삭제</button>
-				<button type="button" class="btn btn-default post">게시</button>
+				<button type="button" class="btn btn-default modify" style="background-color:#783D2E; color:#ffffff;">수정</button>
+				<button type="button" class="btn btn-default deleteModal" style="background-color:#ffffff; color:#3f2018;">삭제</button>
+				<button type="button" class="btn btn-default post" style="background-color:#3f2018; color:#ffffff;">게시</button>
 			</div><!-- /courseView-footer -->
 		</div><!-- /courseView -->
 	</div>
@@ -409,8 +411,8 @@ var courseNumByName = ${courseNumByName };
 				<p>정말 삭제하시겠습니까?</p>
 			</div>
 			<div class="modal-footer" style="height:60px;">
-				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px;">네</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px;">아니오</button>
+				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px; background-color:#ffffff; color:#3f2018;">아니오</button>
 			</div>
 		</div>
     

@@ -115,8 +115,17 @@
    }
    #colorIndex {
 	   position: fixed;
+	   right: 1%;
 	   top: 100px;
-	   right: 150px;
+	   width: 150px;
+   }
+   .colorIndexDiv {
+   		display: flex;
+   }
+   .colorIndexDiv label {
+   		font-size: 10px;
+   		width: auto;
+   		height: 20px;
    }
 	</style>
 </head>
@@ -128,6 +137,10 @@ var dateJson = JSON.parse('${idList}');
 var pinColor = ${colors};
 var realDate = [];
 var realDateCount = 0;
+var courseInfo = [];
+if(${courseInfo}){
+	courseInfo = JSON.parse('${courseInfo}');
+}
 </script>
 
 <!-- header -->
@@ -245,7 +258,7 @@ var realDateCount = 0;
 		});
 		//pinColorRed()
 		markerPosition();
-		
+		//orderPolyLine();
 	}
 //	var pinColor = [];
 	function pinSymbol(color) {
@@ -264,6 +277,7 @@ var realDateCount = 0;
 	//연보라 색 겹침
 	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
 	var pinColorCount = 0;
+	/*
 	for(var i=1; i<jsonArr.length; i++){
 		if((jsonArr[i-1].areacode != jsonArr[i].areacode) || ((jsonArr[i-1].sigungucode != jsonArr[i].sigungucode) && (
 				(jsonArr[i-1].areacode != 1 && jsonArr[i].areacode != 1) && 
@@ -296,7 +310,36 @@ var realDateCount = 0;
 		jsonArr[0].pinColor = pinColor[0];
 		jsonArr[0].titleColor = titleColor[0];
 	}
+	*/
+	var colorIndexStr = "";
+	for(var i=0; i<dateJson.length; i++) {
+		dateJson[i].color = pinColor[pinColorCount];
+		dateJson[i].textColor = titleColor[pinColorCount];
+		pinColorCount++;
+		colorIndexStr += "<div class='colorIndexDiv'><label class='control-label col-sm-2' style='background-color:" + dateJson[i].textColor + ";'>" + dateJson[i].areaName + " " + dateJson[i].sigunguName + "</label></div>";
+	}
+	document.getElementById('colorIndex').innerHTML = colorIndexStr;
 	
+	colorMatch();
+	function colorMatch(){
+		for(var i=0; i<dateJson.length; i++) {
+			for(var j=0; j<jsonArr.length; j++) {
+				if((dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].sigunguCode == jsonArr[j].sigungucode) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 1) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 2) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 3) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 4) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 5) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 6) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 7) ||
+						(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 8)) {
+					jsonArr[j].pinColor = dateJson[i].color;
+					jsonArr[j].titleColor = dateJson[i].textColor;
+				}
+			}
+		}
+	}
+	/*
 	var colorIndexStr = "";
 	for(var i=0; i<dateJson.length; i++) {
 		for(var j=0; j<jsonArr.length; j++) {
@@ -310,13 +353,14 @@ var realDateCount = 0;
 					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 7) ||
 					(dateJson[i].areaCode == jsonArr[j].areacode && dateJson[i].areaCode == 8)) {
 				dateJson[i].color = jsonArr[j].pinColor;
-				colorIndexStr += "<p>" + dateJson[i].areaName + " " + dateJson[i].sigunguName + "</p><form><input style='background-color:" + jsonArr[j].titleColor + ";' border=none></form>";
+				//<label class='control-label col-sm-2' style='background-color:" + jsonArr[j].titleColor + ";'>     </label>
+				colorIndexStr += "<div class='colorIndexDiv'><label class='control-label col-sm-2' style='background-color:" + jsonArr[j].titleColor + ";'>" + dateJson[i].areaName + " " + dateJson[i].sigunguName + "</label></div>";
 				break;
 			}
 		}
 	}
 	document.getElementById('colorIndex').innerHTML = colorIndexStr;
-	
+	*/
 	color();
 	function color(){
 		for(var i=0; i<jsonArr.length; i++){
@@ -783,6 +827,9 @@ var realDateCount = 0;
 			}
 		});
 	});
+	if(courseInfo != null){
+		document.getElementById('courseName').value = courseInfo[0].courseName;
+	}
 	function completeName(){
 		for(var i=0; i<jsonArr.length; i++){
 			delete jsonArr[i].init;
@@ -790,71 +837,79 @@ var realDateCount = 0;
 			delete jsonArr[i].pinColor;
 			delete jsonArr[i].titleColor;
 		}
-		var courseName = document.getElementById("courseName").value;
-
+		var courseName = " ";
+		if(document.getElementById("courseName").value){
+			courseName = document.getElementById("courseName").value;
+		}
 		$.ajax({
 			type:"POST",
 			url:"/course/make/modify/name",
 			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
-	    	success:function(){
-	    		console.log(addImageList.size);
-	    		if(addImageList.size != 0){
-	    			var imageCount = 0;
-	    			// image 추가하여 image에 대한 정보 넣어주기
-	    			addImageList.forEach(function(value, key){
-	    				var formData = new FormData();
-	    				formData.append("file", value);
-	    				
-	    				$.ajax({
-	    					url: '/imageUpload/'+loginUserNumber,
-	    					data: formData,
-	    					dataType:'text',
-	    					processData: false,
-	    					contentType: false,
-	    					type: 'POST',
-	    					success: function(imageNumber){
-	    						console.log(imageNumber);
-	    						jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
-	    						jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
-	    						imageCount++;
-	    		    			if(imageCount == addImageList.size){
-	    		    				var jsonData = JSON.stringify(jsonArr);
-	    		    					$.ajax({      
-	    		    	    			type:"POST",  
-	    		    	    			url:"/course/make/modify/save",
-	    		    	    			dataType:"json",
-	    		    	    			data:jsonData,
-	    		    	    			contentType:"application/json; charset=utf-8",
-	    		    	    			success:function(){
-	    		    	    				alert("코스가 생성되었습니다.");
-	    		    						location.href="/mypage/0";
-	    		    					},
-	    		    					error:function(){
-	    		        					alert("실패");
-	    		    					},
-	    		    				});
-	    		    			}
-	    					}
-	    				});
-	    			});
+	    	success:function(result){
+	    		console.log("nameResult : " + result);
+	    		if(result == "2"){
+	    			alert("이름을 입력하여주세요.");
 	    		}
-	    		else{
-	    			var jsonData = JSON.stringify(jsonArr);
-					$.ajax({      
-	    				type:"POST",  
-	    				url:"/course/make/modify/save",
-	    				dataType:"json",
-	    				data:jsonData,
-	    				contentType:"application/json; charset=utf-8",
-	    				success:function(){
-	    					alert("코스가 생성되었습니다.");
-							location.href="/mypage/0";
-						},
-						error:function(){
-    						alert("실패");
-						},
-					});
+	    		else {
+		    		console.log(addImageList.size);
+		    		if(addImageList.size != 0){
+		    			var imageCount = 0;
+		    			// image 추가하여 image에 대한 정보 넣어주기
+		    			addImageList.forEach(function(value, key){
+		    				var formData = new FormData();
+		    				formData.append("file", value);
+		    				
+		    				$.ajax({
+		    					url: '/imageUpload/'+loginUserNumber,
+		    					data: formData,
+		    					dataType:'text',
+		    					processData: false,
+		    					contentType: false,
+		    					type: 'POST',
+		    					success: function(imageNumber){
+		    						console.log(imageNumber);
+		    						jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
+		    						jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
+		    						imageCount++;
+		    		    			if(imageCount == addImageList.size){
+		    		    				var jsonData = JSON.stringify(jsonArr);
+		    		    					$.ajax({      
+		    		    	    			type:"POST",  
+		    		    	    			url:"/course/make/modify/save",
+		    		    	    			dataType:"json",
+		    		    	    			data:jsonData,
+		    		    	    			contentType:"application/json; charset=utf-8",
+		    		    	    			success:function(){
+		    		    	    				alert("코스가 생성되었습니다.");
+		    		    						location.href="/mypage/0";
+		    		    					},
+		    		    					error:function(){
+		    		        					alert("실패");
+		    		    					},
+		    		    				});
+		    		    			}
+		    					}
+		    				});
+		    			});
+		    		}
+		    		else{
+		    			var jsonData = JSON.stringify(jsonArr);
+						$.ajax({      
+		    				type:"POST",  
+		    				url:"/course/make/modify/save",
+		    				dataType:"json",
+		    				data:jsonData,
+		    				contentType:"application/json; charset=utf-8",
+		    				success:function(){
+		    					alert("코스가 생성되었습니다.");
+								location.href="/mypage/0";
+							},
+							error:function(){
+	    						alert("실패");
+							},
+						});
+		    		}
 	    		}
 			},
 			error:function(){
