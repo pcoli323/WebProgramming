@@ -12,8 +12,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 90px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 180px; right: 1%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 60px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 220px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
 	color:#3f2018;
@@ -158,6 +158,8 @@ $(document).ready(function(){
 	}
 	document.getElementById("checkboxes").innerHTML = str;
 
+	$('#myTab a[href="#'+jsonIDArr[0].areaCode+'-'+jsonIDArr[0].sigunguCode+'"]').trigger('click');
+	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
 	for(var i=0; i<jsona.length; i++){
