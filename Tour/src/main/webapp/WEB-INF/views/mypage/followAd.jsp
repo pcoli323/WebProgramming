@@ -35,9 +35,10 @@ html, body {
 }
 .bodyContent {
 	display: inline-block;
+	width: 100%;
 }
 .followList {
-	width: 280%;
+	width: 90%;
 	height: 150px;
 	background-color: white;
 	margin: 20px 20px 10px 40px;
