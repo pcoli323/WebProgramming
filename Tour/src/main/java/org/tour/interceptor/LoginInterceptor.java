@@ -30,7 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("login")!=null) {
 			session.removeAttribute("login");
-			session.removeAttribute("UN");
+			session.setAttribute("UN", -1);
 			
 			if(session.getAttribute("idList")!=null) {
 				session.removeAttribute("idList");
