@@ -129,7 +129,7 @@
    }
 	</style>
 </head>
-<body>
+<body id="home">
 
 <script>
 var jsonArr = JSON.parse('${list}');

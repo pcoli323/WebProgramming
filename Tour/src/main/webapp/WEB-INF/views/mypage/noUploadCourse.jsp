@@ -279,7 +279,7 @@ function fitFontSize(id, length){
 
 </head>
 
-<body class="bg-grey">
+<body class="bg-grey" id='home'>
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
 <script>

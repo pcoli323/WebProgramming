@@ -34,13 +34,13 @@
 		width:1100px;
 		margin-top:20px;
 		margin-left:300px !important;
-		height: 100%;
+		height: auto;
 	}
 	.bg-grey {
 		background-color:#f6f6f6;
 	}
 </style>
-<body class="bg-grey">
+<body class="bg-grey" id='home'>
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
 

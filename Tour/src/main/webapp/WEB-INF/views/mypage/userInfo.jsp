@@ -39,7 +39,7 @@ html, body {
 	left:30px;
 }
 </style>
-<body style="background-color:#f2f2f2">
+<body style="background-color:#f2f2f2" id='home'>
 
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
