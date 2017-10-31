@@ -222,7 +222,7 @@ function makePath(){
 	var flightPath = new google.maps.Polyline({
 		path: pathArray,
 		geodesic: true,
-		strokeColor: '#FF0000',
+		strokeColor: 'black',
 		strokeOpacity: 1.0,
 		strokeWeight: 2
 	});
@@ -239,7 +239,6 @@ function makeMarker(locationX, locationY, image, title, address, tel, id, color)
 			position: mapPositions,
 			map: map,
 			title:title,
-			animation:null,
 			icon:pinSymbol(color)
 		});
 		markers.push(marker);
@@ -256,11 +255,7 @@ function makeMarker(locationX, locationY, image, title, address, tel, id, color)
 }
 function markerListener(localmarker, id){
 	google.maps.event.addListener(localmarker, 'click', function() {
-		for(var i=0; i<markers.length; i++){
-			markers[i].setAnimation(null);
-		}
 		showInfo(id);
-		//localmarker.setAnimation(google.maps.Animation.BOUNCE);
 	});
 }
 </script>
@@ -389,8 +384,8 @@ var courseNumByName = ${courseNumByName };
 			</div><!-- /courseView-body -->
         
 			<div class="courseView-footer" style="text-align:right; clear:left">
-				<button type="button" class="btn btn-default modify" style="background-color:#783D2E; color:#ffffff;">수정</button>
-				<button type="button" class="btn btn-default deleteModal" style="background-color:#ffffff; color:#3f2018;">삭제</button>
+				<button type="button" class="btn btn-default modify" style="background-color:#3f2018; color:#ffffff;">수정</button>
+				<button type="button" class="btn btn-default deleteModal" style="background-color:#3f2018; color:#ffffff;">삭제</button>
 				<button type="button" class="btn btn-default post" style="background-color:#3f2018; color:#ffffff;">게시</button>
 			</div><!-- /courseView-footer -->
 		</div><!-- /courseView -->
@@ -412,7 +407,7 @@ var courseNumByName = ${courseNumByName };
 			</div>
 			<div class="modal-footer" style="height:60px;">
 				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px; background-color:#ffffff; color:#3f2018;">아니오</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">아니오</button>
 			</div>
 		</div>
     
@@ -491,29 +486,20 @@ $('.goto').on("click", function(){
 	showInfo(id);
 });
 
+
 // map의 정보 보여주기
 function showMap(id){
 	if(gotoNumberMapMarker.has(id) == true){
 		var index = gotoNumberMapMarker.get(id);
-		if(markers[index].getAnimation() == null){
-			for(var i=0; i<markers.length; i++){
-				if(i != index){
-					markers[i].setAnimation(null);
-				}
-			}
-			markers[index].setAnimation(google.maps.Animation.BOUNCE);
-			map.setCenter(markers[index].getPosition());
-			map.setZoom(10);
-			$('.mapInfo').hide();
-		}
+		map.setCenter(markers[index].getPosition());
+		map.setZoom(11);
+		$('.mapInfo').hide();
 	}
 	else{
-		for(var i=0; i<markers.length; i++){
-			markers[i].setAnimation(null);
-		}
 		$('.mapInfo').show();
 	}
 }
+
 // info 보여주기
 function showInfo(id){
 	var image = images[id];

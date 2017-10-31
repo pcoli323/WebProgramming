@@ -35,7 +35,7 @@ html, body {
 
 #userDelete {
 	position:fixed;
-	top:350px;
+	top:30%;
 	left:30px;
 }
 </style>
@@ -109,7 +109,7 @@ html, body {
 			</div>
 			<div class="modal-footer" style="height:60px;">
 				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
-				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px; background-color:#ffffff; color:#3f2018;">아니오</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">아니오</button>
 			</div>
 		</div>
     

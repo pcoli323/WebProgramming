@@ -37,7 +37,7 @@ html, body {
 	display: inline-block;
 }
 .followList {
-	width: 290%;
+	width: 280%;
 	height: 150px;
 	background-color: white;
 	margin: 20px 20px 10px 40px;
@@ -56,6 +56,12 @@ html, body {
 .followList button {
 	margin: 10px;
 	float : right;
+}
+
+#unfollow {
+	position:fixed;
+	top:30%;
+	left:30px;
 }
 </style>
 <body style='background-color:#f2f2f2' id='home'>
@@ -90,7 +96,7 @@ html, body {
 			</div>
 			<div class="modal-footer" style="height:60px;">
 				<button type="button" class="btn btn-default unfollow" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
-				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">아니오</button>
 			</div>
 		</div>
     
@@ -109,7 +115,7 @@ function followList(){
 	var str ="";
 	for(var i=0; i<users.length; i++){
 		str += "<div class='followList'><i class='material-icons'>person</i><p>" + users[i].userName + "</p>";
-		str += "<br><br><button type=button class='btn btn-default unfollowbtn' id='" + users[i].userNumber + "-" + i + "'style='height:35px;'>팔로우 끊기</button>"
+		str += "<br><br><button type=button class='btn btn-default unfollowbtn' id='" + users[i].userNumber + "-" + i + "'style='height:35px;' background-color:#3f2018; color:#ffffff;>팔로우 끊기</button>"
 		str += "<button type=button class='btn btn-default searchViewbtn' id='" + users[i].userName + "'style='height:35px; background-color:#3f2018; color:#ffffff;'>코스 보기</button></div>";
 	}
 	document.getElementById('bodyContent').innerHTML = str;
@@ -123,7 +129,7 @@ $(document).on("click",".unfollowbtn",function(){
 	deleteUserNumber = id[0];
 	index = id[1];
 	
-	console.log(deleteUserNumber);
+//	console.log(deleteUserNumber);
 	$('#unfollow').modal();
 });
 $(document).on("click",".searchViewbtn",function(){

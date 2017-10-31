@@ -80,7 +80,7 @@
 			</div>
 			<div class="modal-footer" style="height:60px;">
 				<button type="button" class="btn btn-default yes" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
-				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">아니오</button>
 			</div>
 		</div>
     
@@ -103,7 +103,7 @@ $('.userInfo').on("click", function(){
 });
 $('.yes').on("click", function(){
 	var password = document.getElementById("password").value;
-	console.log(password);
+//	console.log(password);
 	$.ajax({
     	type:'post',
         url: '/mypage/checkPassword/' + password,

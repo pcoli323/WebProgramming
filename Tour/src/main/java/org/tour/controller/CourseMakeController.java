@@ -111,7 +111,7 @@ public class CourseMakeController {
 			session.removeAttribute("listO");
 		if(session.getAttribute("listU")!=null)
 			session.removeAttribute("listU");
-		System.out.println(jsonarray);
+//		System.out.println(jsonarray);
 	}
 		
 	@RequestMapping(value = "/course/make/test", method = RequestMethod.GET)
@@ -156,7 +156,7 @@ public class CourseMakeController {
 			for(int i=0; i<colors.size(); i++) {
 				colors.set(i, "'" + colors.get(i) + "'");
 			}
-			System.out.println("colors : " +colors);
+//			System.out.println("colors : " +colors);
 			model.addAttribute("colors", colors);
 			// login 확인
 			HttpSession	session = request.getSession();
@@ -190,9 +190,9 @@ public class CourseMakeController {
 		ResponseEntity<String> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			System.out.println("courseName : " + courseName);
+//			System.out.println("courseName : " + courseName);
 			if(courseName.equals(" ")) {
-				System.out.println("들어옴");
+//				System.out.println("들어옴");
 				entity = new ResponseEntity<String>("2", HttpStatus.OK);
 			}
 			else {
@@ -201,7 +201,7 @@ public class CourseMakeController {
 						courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
 						courseNameCompare.put("courseName", courseName);
 						String compareResult = courseService.allCourseName(courseNameCompare);
-						System.out.println(compareResult);
+//						System.out.println(compareResult);
 						if(compareResult != null)
 							throw new Exception();
 					}
@@ -211,7 +211,7 @@ public class CourseMakeController {
 			}
 			
 		}catch(Exception e) {
-			System.out.println("오류");
+//			System.out.println("오류");
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
@@ -330,7 +330,7 @@ public class CourseMakeController {
 					}
 					courseInfoService.courseInfoAdd(vo);
 					
-					System.out.println(vo.getIsNew());
+//					System.out.println(vo.getIsNew());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

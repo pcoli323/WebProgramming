@@ -147,7 +147,7 @@ public class MypageController {
 				test = "'" + test + "'";
 				courseNameByNum.add(i, test);
 			}
-			System.out.println(plan);
+//			System.out.println(plan);
 
 			session.setAttribute("courseNumByName", noUploadCourseNumber);
 			model.addAttribute("courseName", courseNameByNum);
@@ -257,13 +257,13 @@ public class MypageController {
 		session.setAttribute("courseInfo", gson.toJson(courseInfo));
 		
 		
-		System.out.println(session.getAttribute("idList"));
-		System.out.println(session.getAttribute("listO"));
-		System.out.println(session.getAttribute("listU"));
-		System.out.println(session.getAttribute("courseInfo"));
+//		System.out.println(session.getAttribute("idList"));
+//		System.out.println(session.getAttribute("listO"));
+//		System.out.println(session.getAttribute("listU"));
+//		System.out.println(session.getAttribute("courseInfo"));
 		
 
-		System.out.println(gson.toJson(list));
+//		System.out.println(gson.toJson(list));
 		
 		//session에 courseName 집어넣기
 		String courseName = courseService.courseReadName(courseNumber);
@@ -300,7 +300,7 @@ public class MypageController {
 				loginUser = (UserVO) session.getAttribute("login");
 			}
 			
-			System.out.println(loginUser.getUserNumber());
+//			System.out.println(loginUser.getUserNumber());
 			
 			List<Integer> uploadCourseNumber = courseService.uploadCourseNumber(loginUser.getUserNumber());
 			List<CourseVO> simpleViewAll = courseService.simpleViewAll(loginUser.getUserNumber());
@@ -319,7 +319,7 @@ public class MypageController {
 				representatives.put(courseNameByNum.get(i), courseInfoService.representatives(uploadCourseNumber.get(i)));
 			}
 
-			System.out.println(uploadCourseNumber);
+//			System.out.println(uploadCourseNumber);
 			model.addAttribute("courseName", courseNameByNum);
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("courseNumber", uploadCourseNumber);
@@ -381,10 +381,10 @@ public class MypageController {
 			List<UserVO> users = new ArrayList<UserVO>();
 			
 			for(int i=0; i<followeds.size(); i++) {
-				System.out.println("followeds : " + followeds.get(i));
+//				System.out.println("followeds : " + followeds.get(i));
 				users.add((UserVO)userService.read(followeds.get(i)));
 			}
-			System.out.println("users : " + users);
+//			System.out.println("users : " + users);
 			
 			Gson gson = new Gson();
 			

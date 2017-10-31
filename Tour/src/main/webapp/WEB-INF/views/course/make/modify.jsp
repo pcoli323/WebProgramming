@@ -176,8 +176,8 @@ var realDateCount = 0;
 					<p>정말 삭제하시겠습니까?</p>
 				</div>
 				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" onClick="deleteLine()" style="height:35px;">네</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px;">아니오</button>
+					<button type=button class="btn btn-default" data-dismiss="modal" onClick="deleteLine()" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">아니오</button>
 				</div>
 			</div>
      
@@ -208,17 +208,17 @@ var realDateCount = 0;
 					</form>
 				</div>
 				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" onClick="insertDate()" style="height:35px;">확  인</button>
+					<button type=button class="btn btn-default" data-dismiss="modal" onClick="insertDate()" style="height:35px; background-color:#3f2018; color:#ffffff;">확  인</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<div id="complete">
-		<button type="button" class="btn btn-default" id="prev" style="height:30px;">이전</button>
-		<button type='button' class="btn btn-default" id="cancel" style="height:30px;">취소</button>
-		<button type="button" id="completeBtn" class="btn btn-default" style="height:30px;">완료</button>
-		<button type="button" id="addNewArea" class="btn btn-default" style="height:30px;">새로운 지역 추가</button>
+		<button type="button" class="btn btn-default" id="prev" style="height:30px; background-color:#3f2018; color:#ffffff;">이전</button>
+		<button type='button' class="btn btn-default" id="cancel" style="height:30px; background-color:#3f2018; color:#ffffff;">취소</button>
+		<button type="button" id="completeBtn" class="btn btn-default" style="height:30px; background-color:#3f2018; color:#ffffff;">완료</button>
+		<button type="button" id="addNewArea" class="btn btn-default" style="height:30px; background-color:#3f2018; color:#ffffff;">새로운 지역 추가</button>
 	</div>
 	
 	<!-- Complete Modal -->
@@ -234,7 +234,7 @@ var realDateCount = 0;
 					<input id="courseName" border>
 				</div>
 				<div class="modal-footer" style="height:60px;">
-					<button type=button class="btn btn-default" data-dismiss="modal" id="completeNameBtn" onClick="completeName()" style="height:35px;">확인</button>
+					<button type=button class="btn btn-default" data-dismiss="modal" id="completeNameBtn" onClick="completeName()" style="height:35px; background-color:#3f2018; color:#ffffff;">확인</button>
 				</div>
 			</div>
 		</div>
@@ -640,7 +640,7 @@ var realDateCount = 0;
 				jsonArr[calBtnValue].border = 0;
 
 				jsonArr[calBtnValue].pinColor = bufPinColor[calBtnValue];
-				console.log("bufPinColor : " + bufPinColor);
+//				console.log("bufPinColor : " + bufPinColor);
 				clearMarkers();
 				markerPosition();
 	
@@ -659,7 +659,7 @@ var realDateCount = 0;
 				
 			initSchedule();
 			if(selectDateVar != 0 && limitCheck[limitCheckVar] < 7){
-				console.log(selectDateVar);
+//				console.log(selectDateVar);
 				jsonArr[calBtnValue].border = 1;
 				jsonArr[calBtnValue].init = 1;
 				
@@ -760,7 +760,7 @@ var realDateCount = 0;
 				}
 			}
 		}
-		console.log("orderTable");
+//		console.log("orderTable");
 		orderPolyLine();
 	}
 	var flightPath = [];
@@ -799,7 +799,7 @@ var realDateCount = 0;
 	function deleteLine(){
 		for(var i=0; i<realDate.length; i++){
 			flightPath[i].setMap(null);
-			console.log("flightPath : " + flightPath);
+//			console.log("flightPath : " + flightPath);
 		}
 	}
 	// 완료 버튼 클릭시 코스 제목 모달창
@@ -846,12 +846,12 @@ var realDateCount = 0;
 			data:courseName,
 	    	contentType:"application/json; charset=utf-8",
 	    	success:function(result){
-	    		console.log("nameResult : " + result);
+//	    		console.log("nameResult : " + result);
 	    		if(result == "2"){
 	    			alert("이름을 입력하여주세요.");
 	    		}
 	    		else {
-		    		console.log(addImageList.size);
+//		    		console.log(addImageList.size);
 		    		if(addImageList.size != 0){
 		    			var imageCount = 0;
 		    			// image 추가하여 image에 대한 정보 넣어주기
@@ -867,7 +867,7 @@ var realDateCount = 0;
 		    					contentType: false,
 		    					type: 'POST',
 		    					success: function(imageNumber){
-		    						console.log(imageNumber);
+//		    						console.log(imageNumber);
 		    						jsonArr[key].firstimage = "/getRealImage?imageNumber=" + imageNumber;
 		    						jsonArr[key].firstimage2 = "/getThumImage?imageNumber=" + imageNumber;
 		    						imageCount++;
