@@ -121,6 +121,7 @@
    }
    .colorIndexDiv {
    		display: flex;
+   		line-height: 20px;
    }
    .colorIndexDiv label {
    		font-size: 10px;
@@ -458,12 +459,13 @@ var realDateCount = 0;
 	// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
+		console.log("삭제");
         clearMarkers();
         jsonArr.splice(Status,1);
         markers.splice(Status,1);
         flightPlanCoordinates.splice(Status,1);// 그 일치하는 jsonArr부분 삭제 필요
-		orderTable();
         initTitle();
+		orderTable();
         inputTitleBorder();
         initScheduleTable();
         orderRangeSchedule();
@@ -545,7 +547,7 @@ var realDateCount = 0;
 		}
 		var scheduleDateTable = "";
 		for(var i=0; i<realDate.length; i++){
-			scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:pink; font-weight: bold;'>" + realDate[i] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + realDate[i] + "></table></div>";
+			scheduleDateTable += "<div style='height:20px;'><p style='font-size:18px; background-color:#3f2018; color:#ffffff; font-weight: bold;'>" + realDate[i] + "</p></div><div style='height:16em; padding-top:10px; padding-right:8%; padding-left:8%;'><table style='width:100%;' id=" + realDate[i] + "></table></div>";
 		}
 		document.getElementById("scheduleDate").innerHTML = scheduleDateTable;
 	}
@@ -648,10 +650,10 @@ var realDateCount = 0;
 					limitCheck[limitCheckVar]--;
 				
 			}
-			if(limitCheck[limitCheckVar] == 5)
+			if(selectDateVar != 0 && limitCheck[limitCheckVar] == 5)
 				alert("일정이 빡빡하진 않나요?");
 			// 7개로 제한
-			if(limitCheck[limitCheckVar] == 7){
+			if(selectDateVar != 0 && limitCheck[limitCheckVar] == 7){
 				delete jsonArr[calBtnValue].order;
 				delete jsonArr[calBtnValue].gotoDate;
 				alert("피곤하실거예요~ 이 날의 일정은 여기까지");
@@ -768,7 +770,7 @@ var realDateCount = 0;
 	function orderPolyLine(){
 //		initMap();
 		if(oneoneone != 0){
-			deleteLine();
+			deletePolyLine();
 		}
 		oneoneone++;
 		flightPlanCoordinates = [];
@@ -786,7 +788,7 @@ var realDateCount = 0;
 			flightPath[z] = new google.maps.Polyline({
 				path: flightPlanCoordinates,
 				geodesic: true,
-				strokeColor: '#FF0000',
+				strokeColor: 'black',
 				strokeOpacity: 1.0,
 				strokeWeight: 2
 			});
@@ -796,7 +798,7 @@ var realDateCount = 0;
 			polyLineCount = 0;   
 		}
 	}
-	function deleteLine(){
+	function deletePolyLine(){
 		for(var i=0; i<realDate.length; i++){
 			flightPath[i].setMap(null);
 //			console.log("flightPath : " + flightPath);
