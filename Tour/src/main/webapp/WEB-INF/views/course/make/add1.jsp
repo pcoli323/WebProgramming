@@ -14,7 +14,7 @@
 </head>
 <style>
 </style>
-<body>
+<body id="home">
 	<!-- header -->
 	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add1 -->

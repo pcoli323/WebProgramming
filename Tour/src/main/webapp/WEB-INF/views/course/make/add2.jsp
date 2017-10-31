@@ -35,8 +35,20 @@
 #sbox li {
 	margin-right: 15px;
 }
+.pagination>li>a{
+    color: #3F2018 !important;
+    }
+    .pagination>.active>a{
+    background-color: #3F2018 !important;
+    border-color: #3F2018 !important;
+    color: white !important;
+   }
+   .pagination a:hover:not(.active) {
+   background-color: #e3beb5 !important;
+   border-color: #e3beb5 !important;
+   }
 </style>
-<body>
+<body id="home">
 	<!-- header -->
 	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add2 -->
@@ -300,8 +312,26 @@ function saveAprint(data,id) {
     presentPage = data.response.body.pageNo;
     
     var str ="";
-	for(var i=0; i<jsonItems.length; i++){
-		var json = jsonItems[i];
+    if(Array.isArray(jsonItems)){
+    	for(var i=0; i<jsonItems.length; i++){
+    		var json = jsonItems[i];
+    		if(json.firstimage!=null)
+    			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><img src='" + json.firstimage + "' style='height:485px; weight:auto;float:left;'>";
+    		else
+    			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><div style='height:485px;width:70%;background-color:#F5F5F5;float:left;text-align:center;padding: 200px 0px;'>이미지 파일이 없습니다.</div>"
+    		str += "<div style='padding:100px 0px;text-align:center'><h4>"+json.title+"</h4><br><p>";
+    		if(json.addr1!=null)
+    			str += "주소 : "+json.addr1;
+    		if(json.addr2!=null)
+    			str += " "+json.addr2;
+    		if(json.tel!=null)
+    			str += "<br> 전화번호 : "+json.tel;
+    		str += "</p>"+"<button type='button' class='btn' style='background-color:#3f2018;' id='"+json.contentid+"'> <font color='#ffffff'>선택</font> </button>"+"</div></div>";
+    	}
+    }
+
+    else {
+    	var json = jsonItems;
 		if(json.firstimage!=null)
 			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><img src='" + json.firstimage + "' style='height:485px; weight:auto;float:left;'>";
 		else
@@ -314,7 +344,9 @@ function saveAprint(data,id) {
 		if(json.tel!=null)
 			str += "<br> 전화번호 : "+json.tel;
 		str += "</p>"+"<button type='button' class='btn' style='background-color:#3f2018;' id='"+json.contentid+"'> <font color='#ffffff'>선택</font> </button>"+"</div></div>";
-	}
+    }
+    
+	
 	
 	// 페이징
 	str += "<ul class='pagination'>";
