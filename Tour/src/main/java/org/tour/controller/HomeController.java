@@ -52,7 +52,7 @@ public class HomeController {
 	private LikeService likeService;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(HttpServletRequest request, Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
@@ -61,6 +61,9 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("UN", -1);
 		return "home";
 	}
 	

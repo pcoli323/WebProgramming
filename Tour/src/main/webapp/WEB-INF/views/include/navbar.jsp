@@ -180,13 +180,13 @@ $("#login").click(function(){
 	$("#loginModal").modal();
 });
 $("#popular").click(function(){
-	location.href = "/search?where='home'";   	
+	location.href = "/search?where='home'&keyword=''";   	
 });
 $("#create").click(function(){
 	location.href="/course/make/add1";
 });
 $("#search").click(function(){
-	location.href = "/search?where='home'";  	
+	location.href = "/search?where='home'&keyword=''";  	
 });
 
 //mypage click

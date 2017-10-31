@@ -71,7 +71,7 @@ $(document).ready(function(){
 	var str ="";
 	for(var i=0; i<jsonAreaArr.length; i++){
 		var json = jsonAreaArr[i];
-		str += "<li class='nav-item'>" + "<a class='nav-link' data-toggle='tab' href='#" + json.areaCode + "' role='tab'>" + json.areaName + "</a>" + "</li>";
+		str += "<li class='nav-item'>" + "<a class='nav-link' data-toggle='tab' style='color:#3f2018;' href='#" + json.areaCode + "' role='tab'>" + json.areaName + "</a>" + "</li>";
 	}
 	document.getElementById("myTab").innerHTML = str;
 	
@@ -81,12 +81,12 @@ $(document).ready(function(){
 		var json = jsonAreaArr[i];
 		str += "<div class='tab-pane' id='" + json.areaCode + "' role='tabpanel'>" + "<div class='btn-group' data-toggle='buttons'>";
 		if(String(json.isServicedAll)=="true")
-			str += "<label class='btn btn-primary'>" + "<input id='" + json.areaCode + "-0-" + json.areaName + "-전체' type='checkbox' autocomplete='off'>" + json.areaName + " 전체" + "</label>";
+			str += "<label class='btn' style='background-color:#3f2018;'>" + "<input id='" + json.areaCode + "-0-" + json.areaName + "-전체' type='checkbox' autocomplete='off'>" + "<font color='#ffffff'>" + json.areaName + " 전체" + "</font></label>";
 		for(var j=0; j<jsonSigunguArr.length; j++){
 			var json2 = jsonSigunguArr[j];
 			if(String(json.areaCode)==String(json2.areaCode)){
 				if(String(json2.isServiced)=="true")
-					str += "<label class='btn btn-primary'>" + "<input id='" + json.areaCode + "-" + json2.sigunguCode + "-" + json.areaName + "-" + json2.sigunguName + "' type='checkbox' autocomplete='off'>" + json2.sigunguName + "</label>";		
+					str += "<label class='btn' style='background-color:#3f2018;'>" + "<input id='" + json.areaCode + "-" + json2.sigunguCode + "-" + json.areaName + "-" + json2.sigunguName + "' type='checkbox' autocomplete='off'>" + "<font color='#ffffff'>" + json2.sigunguName + "</font></label>";		
 			}
 		}
 		str += "</div>" + "</div>";
