@@ -83,7 +83,7 @@ public class MainController {
 			else {
 				System.out.println("¿À·ù!");
 			}
-			System.out.println(result.toString());
+			//System.out.println(result.toString());
 			
 			entity = new ResponseEntity<List<Integer>>(result, HttpStatus.OK);
 			
