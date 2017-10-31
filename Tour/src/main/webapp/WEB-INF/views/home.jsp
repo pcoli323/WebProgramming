@@ -282,13 +282,13 @@
 	</div>
 	<div class="container top3" style="padding:20px;"></div>
 	<!-- more -->
-	<div id="more" class="container-fluid text-center bg-grey">
+	<div id="more" class="container-fluid text-center">
 		<button class="btn btn-default" id="courseMore" style="background-color:#3f2018;"><font color="#ffffff">인기코스 더보기</font></button>
 	</div>
 </div>
 
 <!-- Container (Create Section) -->
-<div id="create" class="container-fluid">
+<div id="create" class="container-fluid bg-grey">
   <div class="row">
     <div class="col-sm-6 col-sm-offset-2">
       <h2>코스 만들기</h2><br><br>
@@ -310,7 +310,7 @@
 </div>
 
 <!-- Container (Search Section) -->
-<div id="search" class="container-fluid bg-grey">
+<div id="search" class="container-fluid">
   <div class="row">
   	<div class="col-sm-4 col-sm-offset-2">
       <span class="glyphicon glyphicon-search logo"></span>
@@ -447,7 +447,7 @@
 
 <script>
 var loginCheck = false;
-var loginUserNumber = null;
+var loginUserNumber = -1;
 
 $(document).ready(function(){
 	if(${UN}!=-1)
@@ -456,7 +456,9 @@ $(document).ready(function(){
 		loginCheck = true;
 		alert("로그인되었습니다.");
 	}
-		
+	if('${loginSuccess}'==2){
+		alert("아이디와 비밀번호를 확인해주세요.");
+	}
     $("#register").click(function(){
     	$("#registerModal").modal();    	
     });
@@ -468,6 +470,7 @@ $(document).ready(function(){
     });
     $("#logout").click(function(){
     	alert("로그아웃되었습니다.");
+    	loginUserNumber = -1;
     	location.href="/logout";
     });
     $("#courseMore").click(function(){

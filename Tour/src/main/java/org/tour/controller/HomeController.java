@@ -85,6 +85,9 @@ public class HomeController {
 				model.addAttribute("userVO",vo);
 				model.addAttribute("loginSuccess","1");
 			}
+			else {
+				model.addAttribute("loginSuccess","2");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
