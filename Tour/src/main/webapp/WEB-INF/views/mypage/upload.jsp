@@ -444,7 +444,7 @@
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
 			map.setCenter(markers[index].getPosition());
-			map.setZoom(11);
+			map.setZoom(14);
 			$('.mapInfo').hide();
 		}
 		else{

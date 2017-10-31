@@ -429,6 +429,12 @@
 		likeCheck();
 		likeCount();
 		replyCount();
+		
+		var isReply = ${reply};
+		if(isReply == true){
+			$('#reply').click();
+			window.scrollTo(0, document.body.scrollHeight);
+		}
 	});
 	// info가 scroll 따라 다니도록
 	$(window).scroll(function(){
@@ -570,7 +576,7 @@
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
 			map.setCenter(markers[index].getPosition());
-			map.setZoom(11);
+			map.setZoom(14);
 			$('.mapInfo').hide();
 		}
 		else{
