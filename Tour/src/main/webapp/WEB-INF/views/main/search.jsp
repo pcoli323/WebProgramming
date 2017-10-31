@@ -12,7 +12,7 @@
 	.content{
 	position:relative;
 	width:65%;
-	height:100%;
+	min-height:600px;
 	margin:auto;
 	margin-top:30px;
 	}

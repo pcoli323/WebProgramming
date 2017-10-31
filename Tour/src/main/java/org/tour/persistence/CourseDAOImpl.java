@@ -45,7 +45,11 @@ public class CourseDAOImpl implements CourseDAO {
 	@Override
 	public int courseNumberRead(int userNumber) throws Exception {
 
-		return session.selectOne(namespace + ".courseNumberRead", userNumber);
+		if(session.selectOne(namespace + ".courseNumberRead", userNumber) == null) {
+			return -1;
+		} else {
+			return session.selectOne(namespace + ".courseNumberRead", userNumber);
+		}
 	}
 	
 	@Override

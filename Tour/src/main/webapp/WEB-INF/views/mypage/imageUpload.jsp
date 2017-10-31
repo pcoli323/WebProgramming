@@ -95,7 +95,7 @@
 			<span class="glyphicon glyphicon-hand-left"></span>
 		</div>
 		<div style="display:block;text-align:right;color:DarkGray;font-size:10px;">
-			최대 파일 크기 : 10MB, 가능한 파일 유형 : jpg/jpeg, png, gif
+			최대 파일 크기 : 5MB, 가능한 파일 유형 : jpg/jpeg, png, gif
 		</div>
 	</div><!-- /imageHeader -->
 	
@@ -191,8 +191,8 @@
 		if(fileTest == false){
 			alert("JPG/JPEG, PNG, GIF 형식만 가능합니다.");
 		}
-		else if(file.size > 10485760){
-			alert("최대파일크기 : 10MB");
+		else if(file.size > 5242880){
+			alert("최대파일크기 : 5MB");
 		}
 		else{
 			$('.explain').hide();

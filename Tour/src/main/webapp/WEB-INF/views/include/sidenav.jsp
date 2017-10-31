@@ -33,11 +33,10 @@
 		display: block;
 	}
 	
-	.sidenav a:hover {
+	.hoverOn a:hover {
 		color: #ffffff;
 		background-color: #3f2018;
-	}
-	
+	}	
 	.hideview {
 	    text-decoration: none;
 	    font-size: 10px;
@@ -53,13 +52,15 @@
 </head>
 
 <div class="sidenav">
-	<a>코    스     관    리</a><br>
-	<ul>
-		<li class="hideview"><a href="#" class="gotoNoUploadMypage">게시 전 코스</a></li><br>
-		<li class="hideview"><a href="/uploadMypage">게시 된 코스</a></li><br>
-	</ul>
-	<a href="/followAd">팔  로  우   관  리</a><br>
-	<a href="#" class="userInfo">개 인 정 보  관 리</a>
+	<a style="font-weight:bold">코    스     관    리</a><br>
+	<div class="hoverOn">
+		<ul>
+			<li class="hideview"><a href="#" class="gotoNoUploadMypage">게시 전 코스</a></li><br>
+			<li class="hideview"><a href="/uploadMypage">게시 된 코스</a></li><br>
+		</ul>
+		<a href="/followAd">팔  로  우   관  리</a><br>
+		<a href="#" class="userInfo">개 인 정 보  관 리</a>
+	</div>
 </div>
 
 <!-- userInfo Modal -->
@@ -88,13 +89,6 @@
 </div>
 
 <script>
-$(document).ready(function(){
-	$('#password').keyup(function(event) {
-		if(event.keyCode == 13){
-			$('.yes').click();	
-		}
-	});
-});
 $('.gotoNoUploadMypage').on("click", function(){
     location.href="/mypage/0";
 });

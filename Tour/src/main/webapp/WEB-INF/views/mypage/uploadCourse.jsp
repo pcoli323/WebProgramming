@@ -34,7 +34,12 @@
 		width:1100px;
 		margin-top:20px;
 		margin-left:300px !important;
+	}
+	.autoHeight {
 		height: auto;
+	}
+	.percentHeight {
+		height: 100%;
 	}
 	.bg-grey {
 		background-color:#f6f6f6;
@@ -47,7 +52,7 @@
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
 
-<div class="container-fluid mypageDiv">
+<div class="container-fluid mypageDiv percentHeight">
 	<div class="headerContent">
 		<div class="header">
 			<h1>코 스 관 리</h1>
@@ -80,6 +85,10 @@
 		var mypage = true;
 		var position = ".mypageSimpleView";
 		var result = ${courseNumber };
+		if(result.length){
+			$('.mypageDiv').removeClass("percentHeight");
+			$('.mypageDiv').addClass("autoHeight");
+		}
 //		console.log(result);
 		simpleView(result, mypage, position);
 		

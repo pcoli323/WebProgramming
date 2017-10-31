@@ -84,6 +84,7 @@
     	align:right;
     	height:50px;
     	float:right;
+   		margin-bottom: 10px;
     }
     #contentImg {
     	float:left;
@@ -94,24 +95,18 @@
     }
     #delModal {
 	   position: fixed;
-	   top: 100px;
-	   right: 450px;
-	   bottom: auto;
-	   left: auto;
+	   top:30%;
+	   left:30px;
    }
     #calModal {
 	   position: fixed;
-	   top: 100px;
-	   right: 450px;
-	   bottom: auto;
-	   left: auto;
+	   top:30%;
+	   left:30px;
    }
    #completeModal {
 	   position: fixed;
-	   top: 200px;
-	   right: auto;
-	   bottom: auto;
-	   left: 800px;
+	   top:30%;
+	   left:30px;
    }
    #colorIndex {
 	   position: fixed;

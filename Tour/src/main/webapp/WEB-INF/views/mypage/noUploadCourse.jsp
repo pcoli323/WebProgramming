@@ -38,6 +38,7 @@
 		width:1100px;
 		margin-top:20px;
 		margin-left:300px !important;
+		height: auto;
 	}
 	.selectCourseName {
 		width:200px;
@@ -189,6 +190,11 @@
 	.courseView-header {
 		margin-bottom:50px;
 	}
+	#delModal {
+	position:fixed;
+	top:30%;
+	left:30px;
+	}
 	</style>
 	
 	<!-- map처리 -->
@@ -215,7 +221,7 @@ function pinSymbol(color) {
 		fillOpacity: 1,
 		strokeColor: color,
 		strokeWeight: 2,
-		scale: 4,
+		scale: 6,
 	};
 }
 function makePath(){

@@ -189,7 +189,7 @@
 			fillOpacity: 1,
 			strokeColor: color,
 			strokeWeight: 2,
-			scale: 4,
+			scale: 6,
 		};
 	}
 	function makePath(){
