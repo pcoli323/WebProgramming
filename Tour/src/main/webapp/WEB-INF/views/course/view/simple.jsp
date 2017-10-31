@@ -114,9 +114,6 @@
 				var source = $("#template").html();
 				var template = Handlebars.compile(source);
 				$(position).html(template(templateData));
-				console.log(templateData);
-				console.log(list.length);
-				console.log(list);
 				for(var i=0; i<list.length; i++){
 					var courseNumber = list[i].courseNumber;
 					var followed = list[i].userNumber;
@@ -310,7 +307,6 @@
 						followed:followed
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 0){
 							// 사용자가 팔로우를 하지 않은 상태
 							followToggle("non-follow", followed, courseNumber);
@@ -354,7 +350,6 @@
 					userNumber:loginUserNumber
 				}),
 				success:function(result){
-					console.log("result:" + result);
 					if(result == 0){
 						// 사용자가 좋아요를 누르지 않은 상태
 						likeToggle("non-active", courseNumber);
@@ -433,7 +428,6 @@
 						followed:followed
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'AREADY'){
 							alert("이미 처리되었습니다.");
 						}
@@ -459,8 +453,6 @@
 	}
 	
 	$(document).on("click", '.like', function(){
-		console.log(loginUserNumber);
-		console.log(loginCheck);
 		if(loginCheck == false){
 			alert("로그인 후 사용하실 수 있습니다.");
 		}
@@ -483,7 +475,6 @@
 						userNumber:loginUserNumber
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("active", courseNumber);
 							likeCount(courseNumber);
@@ -505,7 +496,6 @@
 						userNumber:loginUserNumber
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("non-active", courseNumber);
 							likeCount(courseNumber);
@@ -562,7 +552,6 @@
 					isGotten:isGotten
 				}),
 				success:function(result){
-					console.log("result:" + result);
 					if(result == 'SUCCESS'){
 						alert("mypage에서 확인하실 수 있습니다.");
 					}

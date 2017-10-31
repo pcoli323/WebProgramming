@@ -158,7 +158,6 @@
 			type:'get',
 			url:'/search/keyword?searchType='+searchType+"&keyword="+keyword,
 			success:function(result){
-				console.log(result);
 				searchResult = result;
 				if(result.length != 0){
 					searchResult = result;

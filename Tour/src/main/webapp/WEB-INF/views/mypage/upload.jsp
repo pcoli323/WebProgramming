@@ -593,7 +593,7 @@
 			}),
 			dataType:'text',
 			success: function(){
-				console.log("courseUpdate");
+				//console.log("courseUpdate");
 			}
 		});
 	}
@@ -611,7 +611,7 @@
 			}),
 			dataType:'text',
 			success: function(){
-				console.log("representativeMark");
+				//console.log("representativeMark");
 			}
 		});
 	}
@@ -628,7 +628,7 @@
 				contentType: false,
 				type: 'POST',
 				success: function(){
-					console.log("image")
+					//console.log("image")
 				}
 			});
 		});

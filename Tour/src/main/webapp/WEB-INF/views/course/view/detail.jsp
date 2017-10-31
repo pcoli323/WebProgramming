@@ -462,7 +462,6 @@
 						followed:followed
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 0){
 							// 사용자가 팔로우를 하지 않은 상태
 							followToggle("non-follow");
@@ -506,7 +505,6 @@
 					userNumber:loginUserNumber
 				}),
 				success:function(result){
-					console.log("result:" + result);
 					if(result == 0){
 						// 사용자가 좋아요를 누르지 않은 상태
 						likeToggle("non-active");
@@ -626,7 +624,6 @@
 						followed:followed
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("follow");
 							// simpleView에서도 처리
@@ -649,7 +646,6 @@
 						followed:followed
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							followToggle("non-follow");
 							// simpleView에서도 처리
@@ -695,7 +691,6 @@
 						userNumber:loginUserNumber
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("active");
 							likeCount();
@@ -720,7 +715,6 @@
 						userNumber:loginUserNumber
 					}),
 					success:function(result){
-						console.log("result:" + result);
 						if(result == 'SUCCESS'){
 							likeToggle("non-active");
 							likeCount();
@@ -768,7 +762,6 @@
 					isGotten:isGotten
 				}),
 				success:function(result){
-					console.log("result:" + result);
 					if(result == 'SUCCESS'){
 						alert("mypage에서 확인하실 수 있습니다.");
 					}
@@ -808,8 +801,6 @@
 	function getList(page){
 		
 		$.getJSON("/replise/list/"+courseNumber+"/"+page, function(data){
-			console.log(data.list.length);
-			
 			var source = $("#template").html();
 			var template = Handlebars.compile(source);
 			
@@ -882,7 +873,6 @@
 					replyer:loginUserNumber
 				}),
 				success:function(result){
-					console.log("result: " + result);
 					if(result == 'SUCCESS'){
 						alert("등록 되었습니다.");
 						replyPage = 1;
@@ -919,7 +909,6 @@
 			data:JSON.stringify({reply:reply}),
 			dataType:'text',
 			success:function(result){
-				console.log("result: " + result);
 				if(result == 'SUCCESS'){
 					alert("수정 되었습니다.");
 					getList(replyPage);
@@ -943,7 +932,6 @@
 			},
 			dataType:'text',
 			success:function(result){
-				console.log("result: " + result);
 				if(result == 'SUCCESS'){
 					alert("삭제 되었습니다.");
 					getList(replyPage);
