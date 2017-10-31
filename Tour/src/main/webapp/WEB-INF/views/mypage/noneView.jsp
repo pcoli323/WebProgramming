@@ -32,7 +32,7 @@
 	}
 	</style>
 </head>
-<body class="bg-grey">
+<body class="bg-grey" id='home'>
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
 <!-- sidenav -->

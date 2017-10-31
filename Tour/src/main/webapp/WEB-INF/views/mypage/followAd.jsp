@@ -10,6 +10,9 @@
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
 html, body {
@@ -34,7 +37,7 @@ html, body {
 	display: inline-block;
 }
 .followList {
-	width:1100px;
+	width: 290%;
 	height: 150px;
 	background-color: white;
 	margin: 20px 20px 10px 40px;
@@ -55,7 +58,7 @@ html, body {
 	float : right;
 }
 </style>
-<body style='background-color:#f2f2f2'>
+<body style='background-color:#f2f2f2' id='home'>
 
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>

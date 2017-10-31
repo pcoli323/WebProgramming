@@ -143,6 +143,11 @@
 		if(where == 'home'){
 			$('#all').click();
 		}
+		else if (where == 'follow'){
+			$('#user').click();
+			document.getElementById('keywordInput').value= ${keyword};
+			search("user", ${keyword});
+		}
 	});
 </script>
 
