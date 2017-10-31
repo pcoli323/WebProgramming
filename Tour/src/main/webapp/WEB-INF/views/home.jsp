@@ -17,7 +17,7 @@
   body {
       font: 400 15px Lato, sans-serif;
       line-height: 1.8;
-      color: #818181;
+      color: #000000;
   }
   h2 {
       font-size: 24px;
