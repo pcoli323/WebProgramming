@@ -7,7 +7,7 @@
 <html>
 <style type="text/css">
 	html, body{
-	height:100%;
+	min-height:100%;
 	}
 	.content{
 	position:relative;
