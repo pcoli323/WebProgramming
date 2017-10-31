@@ -80,7 +80,7 @@
 		var mypage = true;
 		var position = ".mypageSimpleView";
 		var result = ${courseNumber };
-		console.log(result);
+//		console.log(result);
 		simpleView(result, mypage, position);
 		
 	});

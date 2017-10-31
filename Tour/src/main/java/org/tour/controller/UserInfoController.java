@@ -119,7 +119,7 @@ public class UserInfoController {
 			HttpSession	session = request.getSession();
 			
 			String[] splitData = data.split("/");
-			System.out.println("data : " + data);
+//			System.out.println("data : " + data);
 			String email = splitData[0];
 			String pwd = splitData[1];
 			String name = splitData[2];
@@ -128,7 +128,7 @@ public class UserInfoController {
 			updateUser.put("email", email);
 			updateUser.put("pwd", pwd);
 			updateUser.put("name", name);
-			System.out.println("updateUser : " + updateUser);
+//			System.out.println("updateUser : " + updateUser);
 			
 			userService.updateUser(updateUser);
 
@@ -168,7 +168,7 @@ public class UserInfoController {
 			// delete courseNumber read
 			List<Integer> courseNumbers = new ArrayList<Integer>();
 			courseNumbers = courseService.deleteCourseRead(userNumber);
-			System.out.println("courseNumbers : " + courseNumbers.size());
+//			System.out.println("courseNumbers : " + courseNumbers.size());
 			if(courseNumbers.size() != 0) {
 				for(int i=0; i<courseNumbers.size(); i++) {
 					// tbl_courseinfoSimple delete
