@@ -137,10 +137,6 @@ var dateJson = JSON.parse('${idList}');
 var pinColor = ${colors};
 var realDate = [];
 var realDateCount = 0;
-var courseInfo = [];
-if(${courseInfo}){
-	courseInfo = JSON.parse('${courseInfo}');
-}
 </script>
 
 <!-- header -->
@@ -219,6 +215,7 @@ if(${courseInfo}){
 	</div>
 	
 	<div id="complete">
+		<button type="button" class="btn btn-default" id="prev" style="height:30px;">이전</button>
 		<button type='button' class="btn btn-default" id="cancel" style="height:30px;">취소</button>
 		<button type="button" id="completeBtn" class="btn btn-default" style="height:30px;">완료</button>
 		<button type="button" id="addNewArea" class="btn btn-default" style="height:30px;">새로운 지역 추가</button>
@@ -827,7 +824,9 @@ if(${courseInfo}){
 			}
 		});
 	});
-	if(courseInfo != null){
+	if(${modifying} == 1){
+		var courseInfo = JSON.parse('${courseInfo}');
+		
 		document.getElementById('courseName').value = courseInfo[0].courseName;
 	}
 	function completeName(){
@@ -925,7 +924,11 @@ if(${courseInfo}){
 	});
 	// image 처리를 위한 변수
 	var addImageList = new Map();
-	
+
+	// 이전 버튼 처리 이벤트
+	$("#prev").click(function(){  
+		location.href="/course/make/add2";
+	});
 	//취소 버튼 이벤트 처리
 	$("#cancel").click(function(){
 		$.ajax({      

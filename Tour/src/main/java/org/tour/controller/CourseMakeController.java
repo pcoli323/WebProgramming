@@ -172,6 +172,11 @@ public class CourseMakeController {
 				model.addAttribute("loginCheck", true);
 				loginUser = (UserVO) session.getAttribute("login");
 			}
+			if(session.getAttribute("courseInfo") != null) {
+				model.addAttribute("modifying", 1);
+			}
+			else
+				model.addAttribute("modifying", 0);
 			model.addAttribute("loginUser", loginUser);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,19 +196,18 @@ public class CourseMakeController {
 				entity = new ResponseEntity<String>("2", HttpStatus.OK);
 			}
 			else {
-				if(session.getAttribute("courseName") == null) {
-				HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
-				courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
-				courseNameCompare.put("courseName", courseName);
-				String compareResult = courseService.allCourseName(courseNameCompare);
-				
-				if(compareResult != null)
-					throw new Exception();
-				}
-				session.removeAttribute(courseName);
-				session.setAttribute("name", courseName);
-
-				entity = new ResponseEntity<String>("1", HttpStatus.OK);
+					if(session.getAttribute("courseInfo") == null) {
+						HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
+						courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
+						courseNameCompare.put("courseName", courseName);
+						String compareResult = courseService.allCourseName(courseNameCompare);
+						System.out.println(compareResult);
+						if(compareResult != null)
+							throw new Exception();
+					}
+					session.setAttribute("name", courseName);
+					
+					entity = new ResponseEntity<String>("1", HttpStatus.OK);
 			}
 			
 		}catch(Exception e) {
