@@ -6,7 +6,7 @@
 
 <html>
 <style type="text/css">
-	body{
+	html, body{
 	height:100%;
 	}
 	.content{
@@ -81,7 +81,7 @@
 </head>
 
 <%@include file="../include/navbar.jsp" %>
-<body>
+<body id="home">
 <div class="content">
 	<div class="searchView">
 		<!-- 검색 종류 선택 -->

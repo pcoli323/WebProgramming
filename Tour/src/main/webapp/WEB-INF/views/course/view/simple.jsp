@@ -20,6 +20,26 @@
 	padding:50px;
 	padding-bottom:10px;
 	}
+	.modify{
+	background-color:#3F2018;
+	color:white;
+	border:1px solid #3F2018;
+	}
+	.modify:hover{
+	background-color:#e3beb5;
+	color:black;
+	border:1px solid #e3beb5;
+	}
+	.deletePost{
+	background-color:#3F2018;
+	color:white;
+	border:1px solid #3F2018;
+	}
+	.deletePost:hover{
+	background-color:#e3beb5;
+	color:black;
+	border:1px solid #e3beb5;
+	}
 	.symbolButton{
   	font-size: 14px;
   	text-align: center;
