@@ -66,22 +66,6 @@ public class CourseMakeController {
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public void add1(HttpServletRequest request, Locale locale, Model model) throws Exception {
 		
-		HttpSession session = request.getSession();
-		if(session.getAttribute("courseInfo")==null) {
-			if(session.getAttribute("idList")!=null) {
-				session.removeAttribute("idList");
-			}
-			if(session.getAttribute("list")!=null) {
-				session.removeAttribute("list");
-			}
-			if(session.getAttribute("listU")!=null) {
-				session.removeAttribute("listU");
-			}
-			if(session.getAttribute("name")!=null) {
-				session.removeAttribute("name");
-			}
-		}
-		
 		Gson gson = new Gson();
 		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
 		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
@@ -96,12 +80,22 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
+		
 		System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
 	public void add2(HttpServletRequest request, Model model) {
 		model.addAttribute("serviceKey", "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D");
+		HttpSession session = request.getSession();
+		JSONArray jsonarray = new JSONArray();
+		if(session.getAttribute("list")==null)
+			session.setAttribute("list", jsonarray);
+		if(session.getAttribute("listO")==null)
+			session.setAttribute("listO", jsonarray);
+		if(session.getAttribute("listU")==null)
+			session.setAttribute("listU", jsonarray);
+		
 	}
 	
 	@RequestMapping(value = "/course/make/add2/save", method = RequestMethod.POST)
@@ -113,6 +107,10 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("list", jsonarray);
+		if(session.getAttribute("listO")!=null)
+			session.removeAttribute("listO");
+		if(session.getAttribute("listU")!=null)
+			session.removeAttribute("listU");
 		System.out.println(jsonarray);
 	}
 		
@@ -160,7 +158,6 @@ public class CourseMakeController {
 			}
 			System.out.println("colors : " +colors);
 			model.addAttribute("colors", colors);
-			
 			// login 확인
 			HttpSession	session = request.getSession();
 			UserVO loginUser = new UserVO();
@@ -175,6 +172,11 @@ public class CourseMakeController {
 				model.addAttribute("loginCheck", true);
 				loginUser = (UserVO) session.getAttribute("login");
 			}
+			if(session.getAttribute("courseInfo") != null) {
+				model.addAttribute("modifying", 1);
+			}
+			else
+				model.addAttribute("modifying", 0);
 			model.addAttribute("loginUser", loginUser);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,30 +185,35 @@ public class CourseMakeController {
 	}
 	
 	@RequestMapping(value = "/course/make/modify/name", method = RequestMethod.POST)
-	public ResponseEntity<Integer> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
-		
-		ResponseEntity<Integer> entity = null;
+	public ResponseEntity<String> name(HttpServletRequest request, @RequestBody String courseName) throws ParseException {
+
+		ResponseEntity<String> entity = null;
 		try {
 			HttpSession session = request.getSession();
-			
-			if(session.getAttribute("courseName") == null) {
-			HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
-			courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
-			courseNameCompare.put("courseName", courseName);
-			String compareResult = courseService.allCourseName(courseNameCompare);
-			
-			if(compareResult != null)
-				throw new Exception();
+			System.out.println("courseName : " + courseName);
+			if(courseName.equals(" ")) {
+				System.out.println("들어옴");
+				entity = new ResponseEntity<String>("2", HttpStatus.OK);
 			}
-			session.removeAttribute(courseName);
-			session.setAttribute("name", courseName);
-
-			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+			else {
+					if(session.getAttribute("courseInfo") == null) {
+						HashMap<String, Object> courseNameCompare = new HashMap<String, Object>();
+						courseNameCompare.put("userNumber", ((UserVO)session.getAttribute("login")).getUserNumber());
+						courseNameCompare.put("courseName", courseName);
+						String compareResult = courseService.allCourseName(courseNameCompare);
+						System.out.println(compareResult);
+						if(compareResult != null)
+							throw new Exception();
+					}
+					session.setAttribute("name", courseName);
+					
+					entity = new ResponseEntity<String>("1", HttpStatus.OK);
+			}
 			
 		}catch(Exception e) {
 			System.out.println("오류");
 			e.printStackTrace();
-			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}

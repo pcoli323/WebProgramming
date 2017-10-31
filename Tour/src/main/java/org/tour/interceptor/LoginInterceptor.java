@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.tour.domain.UserVO;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -18,6 +19,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		Object userVO = modelMap.get("userVO");
 		if(userVO!=null) {
 			session.setAttribute("login", userVO);
+			session.setAttribute("UN", ((UserVO)userVO).getUserNumber());
 		}
 		super.postHandle(request, response, handler, modelAndView);
 	}
@@ -28,12 +30,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("login")!=null) {
 			session.removeAttribute("login");
+			session.removeAttribute("UN");
 			
 			if(session.getAttribute("idList")!=null) {
 				session.removeAttribute("idList");
 			}
 			if(session.getAttribute("list")!=null) {
 				session.removeAttribute("list");
+			}
+			if(session.getAttribute("listO")!=null) {
+				session.removeAttribute("listO");
 			}
 			if(session.getAttribute("listU")!=null) {
 				session.removeAttribute("listU");

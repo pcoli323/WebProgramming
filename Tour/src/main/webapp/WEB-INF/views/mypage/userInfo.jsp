@@ -10,15 +10,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <style>
+html, body {
+	height: 84%;
+}
 .userInfoContainer {
-    margin-left: 300px;
-    margin-right: 300px;
-    padding: 50px;
-    padding-top: 10px;
-    height: 700px;
+	padding-top:10px;
+	background-color:#FFFFFF;
+	padding-left:350px;
+	width:1100px;
+	margin-top:20px;
+	margin-left:300px !important;
+	height: 100%;
 }
 .header {
-	border-bottom:1px solid #337ab7;
+	border-bottom:1px solid #3f2018;
 }
 .headerContent {
 	background-color:#FFFFFF;
@@ -34,7 +39,7 @@
 	left:30px;
 }
 </style>
-<body>
+<body style="background-color:#f2f2f2">
 
 <!-- header -->
 <%@include file="../include/navbar.jsp" %>
@@ -42,7 +47,7 @@
 <!-- sidenav -->
 <%@include file="../include/sidenav.jsp" %>
 
-<div class="userInfoContainer">
+<div class="container-fluid  userInfoContainer">
 	<div class="headerContent">
 		<div class="header">
 			<h1>개인정보 관 리</h1>
@@ -81,8 +86,8 @@
 		</form>
 	</div>
 	<div class="footerContent">
-		<button type="button" class="btn btn-default deleteUser" style="float:left;">회원 탈퇴</button>
-		<button type="button" class="btn btn-default modifyUser" style="float:right;">완료</button>
+		<button type="button" class="btn btn-default deleteUser" style="float:left; background-color:#ffffff; color:#3f2018;">회원 탈퇴</button>
+		<button type="button" class="btn btn-default modifyUser" style="float:right; background-color:#3f2018; color:#ffffff;">완료</button>
 	</div>
 </div>
 
@@ -103,8 +108,8 @@
 				<p>정말 탈퇴하시겠습니까?</p>
 			</div>
 			<div class="modal-footer" style="height:60px;">
-				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px;">네</button>
-				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px;">아니오</button>
+				<button type="button" class="btn btn-default delete" data-dismiss="modal" style="height:35px; background-color:#3f2018; color:#ffffff;">네</button>
+				<button type="button" class="btn btn-default no" data-dismiss="modal" style="height:35px; background-color:#ffffff; color:#3f2018;">아니오</button>
 			</div>
 		</div>
     

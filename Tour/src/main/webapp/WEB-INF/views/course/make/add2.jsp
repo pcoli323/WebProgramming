@@ -12,19 +12,19 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 150px; right: 1%; text-align:center; width: 150px; border:2px solid #4E7AC7; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 50px; right: 1%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 90px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 180px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
-	color:#337ab7;
-	border:1px solid #337ab7;
+	color:#3f2018;
+	border:1px solid #3f2018;
 	padding-right:20px;
 	border-radius: 10px;
 }
 .selectedBox {
 	font-size:20px;
 	color:#ffffff;
-	background-color:#337ab7;
+	background-color:#3f2018;
 	border:1px solid #024782;
 	padding-right:20px;
 	border-radius: 10px;
@@ -35,8 +35,20 @@
 #sbox li {
 	margin-right: 15px;
 }
+.pagination>li>a{
+    color: #3F2018 !important;
+    }
+    .pagination>.active>a{
+    background-color: #3F2018 !important;
+    border-color: #3F2018 !important;
+    color: white !important;
+   }
+   .pagination a:hover:not(.active) {
+   background-color: #e3beb5 !important;
+   border-color: #e3beb5 !important;
+   }
 </style>
-<body>
+<body id="home">
 	<!-- header -->
 	<%@include file="../../include/navbar.jsp" %>
 	<!-- /course/make/add2 -->
@@ -53,7 +65,7 @@
 			<div class="row" style="padding:10px;">
 				<div class="col-sm-12">
 					<form id="sbox">
-						<label class="radio-inline box">
+						<label class="radio-inline box" >
       						<input type="radio" name="optradio" value="0">전체
     					</label>
     					<label class="radio-inline selectedBox">
@@ -104,8 +116,9 @@
 		</div>
 		<!-- 다음 단계 이동 -->
 		<div class="floating2">
-			<button type="button" class="btn btn-default" id="cancel">취소</button>
+			<button type="button" class="btn btn-default" id="prev">이전</button>
 			<button type="button" class="btn btn-default" id="next">다음</button>
+			<button type="button" class="btn btn-default" id="cancel">취소</button>
 		</div>
 		<div class="floating" style="overflow-y:auto; overflow-x:hidden; height:400px;" id="selected">
 			<h4>선택한 여행지</h4>
@@ -133,7 +146,7 @@ $(document).ready(function(){
 	var str ="";
 	for(var i=0; i<jsonIDArr.length; i++){
 		var json = jsonIDArr[i];
-		str += "<li class='nav-item'>" + "<a class='nav-link' data-toggle='tab' href='#" + json.areaCode + "-" + json.sigunguCode + "' role='tab'>" + json.areaName + " " + json.sigunguName + "</a>" + "</li>";
+		str += "<li class='nav-item'>" + "<a class='nav-link' data-toggle='tab' style='color:#3f2018;' href='#" + json.areaCode + "-" + json.sigunguCode + "' role='tab'>" + json.areaName + " " + json.sigunguName + "</a>" + "</li>";
 	}
 	document.getElementById("myTab").innerHTML = str;
 	
@@ -145,9 +158,36 @@ $(document).ready(function(){
 	}
 	document.getElementById("checkboxes").innerHTML = str;
 
-	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
+	for(var i=0; i<jsona.length; i++){
+		var data = new Object();
+		var json = jsona[i];
+		
+		data.addr1 = json.addr1;
+		data.addr2 = json.addr2;
+		data.areacode = json.areacode;
+		data.contentid = json.contentid;
+		data.contenttypeid = json.contenttypeid;
+		data.createdtime = json.createdtime;
+		data.firstimage = json.firstimage;
+		data.firstimage2 = json.firstimage2;
+		data.mapx = json.mapx;
+		data.mapy = json.mapy;
+		data.modifiedtime = json.modifiedtime;
+		data.readcount = json.readcount;
+		data.tel = json.tel;
+		data.title = json.title;
+		data.sigungucode = json.sigungucode;
+		data.isNew = json.isNew;
+		data.date = json.date;
+		
+		selectedList.push(data);
+	}
+	printList();
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${listO}');
 	for(var i=0; i<jsona.length; i++){
 		var data = new Object();
 		var json = jsona[i];
@@ -272,8 +312,26 @@ function saveAprint(data,id) {
     presentPage = data.response.body.pageNo;
     
     var str ="";
-	for(var i=0; i<jsonItems.length; i++){
-		var json = jsonItems[i];
+    if(Array.isArray(jsonItems)){
+    	for(var i=0; i<jsonItems.length; i++){
+    		var json = jsonItems[i];
+    		if(json.firstimage!=null)
+    			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><img src='" + json.firstimage + "' style='height:485px; weight:auto;float:left;'>";
+    		else
+    			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><div style='height:485px;width:70%;background-color:#F5F5F5;float:left;text-align:center;padding: 200px 0px;'>이미지 파일이 없습니다.</div>"
+    		str += "<div style='padding:100px 0px;text-align:center'><h4>"+json.title+"</h4><br><p>";
+    		if(json.addr1!=null)
+    			str += "주소 : "+json.addr1;
+    		if(json.addr2!=null)
+    			str += " "+json.addr2;
+    		if(json.tel!=null)
+    			str += "<br> 전화번호 : "+json.tel;
+    		str += "</p>"+"<button type='button' class='btn' style='background-color:#3f2018;' id='"+json.contentid+"'> <font color='#ffffff'>선택</font> </button>"+"</div></div>";
+    	}
+    }
+
+    else {
+    	var json = jsonItems;
 		if(json.firstimage!=null)
 			str += "<div style='margin:10px; padding:5px; border:2px solid #F5F5F5; height:500px; weight=800px;'><img src='" + json.firstimage + "' style='height:485px; weight:auto;float:left;'>";
 		else
@@ -285,8 +343,10 @@ function saveAprint(data,id) {
 			str += " "+json.addr2;
 		if(json.tel!=null)
 			str += "<br> 전화번호 : "+json.tel;
-		str += "</p>"+"<button type='button' class='btn btn-primary' id='"+json.contentid+"'> 선택 </button>"+"</div></div>";
-	}
+		str += "</p>"+"<button type='button' class='btn' style='background-color:#3f2018;' id='"+json.contentid+"'> <font color='#ffffff'>선택</font> </button>"+"</div></div>";
+    }
+    
+	
 	
 	// 페이징
 	str += "<ul class='pagination'>";
@@ -414,6 +474,11 @@ function printList() {
 	
 	document.getElementById("selected").innerHTML = str;
 }
+
+// 이전 버튼 처리 이벤트
+$("#prev").click(function(){  
+	location.href="/course/make/add1";
+});
 
 // 다음 버튼 처리 이벤트
 $("#next").click(function(){  

@@ -248,7 +248,7 @@ public class MypageController {
 				list.add(coursesList.get(i));
 			}
 		}
-		session.setAttribute("list", gson.toJson(list));
+		session.setAttribute("listO", gson.toJson(list));
 		session.setAttribute("listU", gson.toJson(listU));
 
 		
@@ -258,7 +258,7 @@ public class MypageController {
 		
 		
 		System.out.println(session.getAttribute("idList"));
-		System.out.println(session.getAttribute("list"));
+		System.out.println(session.getAttribute("listO"));
 		System.out.println(session.getAttribute("listU"));
 		System.out.println(session.getAttribute("courseInfo"));
 		
