@@ -12,8 +12,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 150px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 50px; right: 1%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 90px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 180px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
 	color:#3f2018;
@@ -146,9 +146,36 @@ $(document).ready(function(){
 	}
 	document.getElementById("checkboxes").innerHTML = str;
 
-	
 	// 초기 데이터 설정 (for 수정용)
 	var jsona = JSON.parse('${list}');
+	for(var i=0; i<jsona.length; i++){
+		var data = new Object();
+		var json = jsona[i];
+		
+		data.addr1 = json.addr1;
+		data.addr2 = json.addr2;
+		data.areacode = json.areacode;
+		data.contentid = json.contentid;
+		data.contenttypeid = json.contenttypeid;
+		data.createdtime = json.createdtime;
+		data.firstimage = json.firstimage;
+		data.firstimage2 = json.firstimage2;
+		data.mapx = json.mapx;
+		data.mapy = json.mapy;
+		data.modifiedtime = json.modifiedtime;
+		data.readcount = json.readcount;
+		data.tel = json.tel;
+		data.title = json.title;
+		data.sigungucode = json.sigungucode;
+		data.isNew = json.isNew;
+		data.date = json.date;
+		
+		selectedList.push(data);
+	}
+	printList();
+	
+	// 초기 데이터 설정 (for 수정용)
+	var jsona = JSON.parse('${listO}');
 	for(var i=0; i<jsona.length; i++){
 		var data = new Object();
 		var json = jsona[i];

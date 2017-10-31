@@ -19,6 +19,9 @@ public class CourseMakeInterceptor extends HandlerInterceptorAdapter {
 		if(session.getAttribute("list")!=null) {
 			session.removeAttribute("list");
 		}
+		if(session.getAttribute("listO")!=null) {
+			session.removeAttribute("listO");
+		}
 		if(session.getAttribute("listU")!=null) {
 			session.removeAttribute("listU");
 		}

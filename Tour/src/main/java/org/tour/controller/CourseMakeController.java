@@ -66,22 +66,6 @@ public class CourseMakeController {
 	@RequestMapping(value = "/course/make/add1", method = RequestMethod.GET)
 	public void add1(HttpServletRequest request, Locale locale, Model model) throws Exception {
 		
-		HttpSession session = request.getSession();
-		if(session.getAttribute("courseInfo")==null) {
-			if(session.getAttribute("idList")!=null) {
-				session.removeAttribute("idList");
-			}
-			if(session.getAttribute("list")!=null) {
-				session.removeAttribute("list");
-			}
-			if(session.getAttribute("listU")!=null) {
-				session.removeAttribute("listU");
-			}
-			if(session.getAttribute("name")!=null) {
-				session.removeAttribute("name");
-			}
-		}
-		
 		Gson gson = new Gson();
 		model.addAttribute("areaList", gson.toJson(areaService.selectAll()));
 		model.addAttribute("sigunguList", gson.toJson(sigunguService.selectAll()));
@@ -96,12 +80,22 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
+		
 		System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
 	public void add2(HttpServletRequest request, Model model) {
 		model.addAttribute("serviceKey", "ZMWqGPxD2Y1ds3Sr4PJcz62ZsAzs3Wwu2%2FIWwyGFvbQXC0wCQQHcyaYY%2B6H8LDIVst1GREAN9DNoE2mUHU2%2Ffg%3D%3D");
+		HttpSession session = request.getSession();
+		JSONArray jsonarray = new JSONArray();
+		if(session.getAttribute("list")==null)
+			session.setAttribute("list", jsonarray);
+		if(session.getAttribute("listO")==null)
+			session.setAttribute("listO", jsonarray);
+		if(session.getAttribute("listU")==null)
+			session.setAttribute("listU", jsonarray);
+		
 	}
 	
 	@RequestMapping(value = "/course/make/add2/save", method = RequestMethod.POST)
@@ -113,6 +107,10 @@ public class CourseMakeController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("list", jsonarray);
+		if(session.getAttribute("listO")!=null)
+			session.removeAttribute("listO");
+		if(session.getAttribute("listU")!=null)
+			session.removeAttribute("listU");
 		System.out.println(jsonarray);
 	}
 		
