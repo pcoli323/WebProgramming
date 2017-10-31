@@ -63,7 +63,8 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("UN", -1);
+		if(session.getAttribute("UN")==null)
+			session.setAttribute("UN", -1);
 		return "home";
 	}
 	
