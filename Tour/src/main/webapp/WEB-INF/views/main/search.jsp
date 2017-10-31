@@ -19,7 +19,7 @@
 	.searchView{
 	width:100%;
 	height:150px;
-	border:1px solid #ff9900;
+	border:1px solid #3F2018;
     padding:20px;
 	background-color:white;
     }
@@ -50,12 +50,24 @@
     .searchButton{
     width:100%;
     height:100%;
-    background-color:#ff9900 !important;
+    background-color:#3F2018 !important;
     border-top-left-radius:0px !important;
     border-bottom-left-radius:0px !important;
     color:white !important;
     outline:0 !important;
     }
+    .pagination>li>a{
+    color: #3F2018 !important;
+    }
+    .pagination>.active>a{
+    background-color: #3F2018 !important;
+    border-color: #3F2018 !important;
+    color: white !important;
+	}
+	.pagination a:hover:not(.active) {
+	background-color: #e3beb5 !important;
+	border-color: #e3beb5 !important;
+	}
 </style>
 
 <head>
@@ -74,7 +86,7 @@
 	<div class="searchView">
 		<!-- 검색 종류 선택 -->
 		<div class="chooseSearchType">
-			<button class="btn btn-warning" id="all" style="outline:0;">모든코스보기</button>
+			<button class="btn btn-warning" id="all" style="outline:0;background-color:#3F2018;border-color:#371C15;">모든코스보기</button>
 			<span style="margin:20px;">
 				<input type="radio" name="searchType" id="region" value="region" checked="checked">
 				<label for="region">지역</label>
@@ -108,8 +120,8 @@
 	var loginCheck;
 	var loginUserNumber;
 	var searchResult = [];
-	var dataNumPerPage = 2;
-	var pageNum = 2;
+	var dataNumPerPage = 10;
+	var pageNum = 5;
 	
 	$(document).ready(function(){
 		// 변수 초기화

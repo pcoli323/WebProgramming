@@ -181,7 +181,7 @@
 		var flightPath = new google.maps.Polyline({
 			path: pathArray,
 			geodesic: true,
-			strokeColor: '#FF0000',
+			strokeColor: 'black',
 			strokeOpacity: 1.0,
 			strokeWeight: 2
 		});
@@ -444,7 +444,7 @@
 		if(gotoNumberMapMarker.has(id) == true){
 			var index = gotoNumberMapMarker.get(id);
 			map.setCenter(markers[index].getPosition());
-			map.setZoom(10);
+			map.setZoom(11);
 			$('.mapInfo').hide();
 		}
 		else{
