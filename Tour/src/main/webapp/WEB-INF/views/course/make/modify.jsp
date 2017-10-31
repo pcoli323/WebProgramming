@@ -459,7 +459,7 @@ var realDateCount = 0;
 	// 가고 싶은 곳 title 삭제 처리
 	function deleteLine() {
 		var Status = delBtnValue;
-		console.log("삭제");
+//		console.log("삭제");
         clearMarkers();
         jsonArr.splice(Status,1);
         markers.splice(Status,1);
