@@ -12,8 +12,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
-.floating { position: fixed; top: 150px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
-.floating2 { position: fixed; bottom: 50px; right: 1%; text-align:center; width: 150px;}
+.floating { position: fixed; top: 90px; right: 1%; text-align:center; width: 150px; border:2px solid #3f2018; background-color:#ffffff;}
+.floating2 { position: fixed; bottom: 180px; right: 1%; text-align:center; width: 150px;}
 .box {
 	font-size:20px;
 	color:#3f2018;
