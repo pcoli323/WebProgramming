@@ -81,7 +81,7 @@ public class CourseMakeController {
 		HttpSession session = request.getSession();
 		session.setAttribute("idList", jsonarray);
 		
-		System.out.println(jsonarray);
+		//System.out.println(jsonarray);
 	}
 	
 	@RequestMapping(value = "/course/make/add2", method = RequestMethod.GET)
