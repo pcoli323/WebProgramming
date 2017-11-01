@@ -91,11 +91,11 @@
   <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog"> 
       <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
+      <div class="modal-content" >
+      	<div class="modal-header" >
           	<button type="button" class="close" data-dismiss="modal">&times;</button>
-          	<h4 class="modal-title" style="text-align:center;">로그인</h4>
-        </div>     
+          	<h4 class="modal-title" style="text-align:center;"><font color="#3f2018"> 로그인 </font></h4>
+        </div>
         <div class="modal-body" style="padding:40px 50px;">
           <form role="form" action="/login" method="post">
             <div class="form-group">
@@ -106,11 +106,36 @@
               <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호 </label>
               <input type="password" class="form-control" id="psw" placeholder="비밀번호를 입력해주세요" name="pwd">
             </div>        
-            <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> 로그인 </button>
+            <button type="submit" class="btn btn-primary btn-block" style="background-color:#3f2018;" ><span class="glyphicon glyphicon-off"></span><font color="#ffffff"> 로그인 </font> </button>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소 </button>
+          <button id="findPWD" class="btn btn-default" style="background-color:#3f2018;"> <font color="#ffffff"> 비밀번호 찾기 </font></button>
+          <button type="submit" class="btn btn-default pull-right" data-dismiss="modal" style="background-color:#3f2018;"> <font color="#ffffff"> 취소 </font></button>
+        </div>
+      </div>   
+    </div>
+  </div>
+  
+   <!-- Modal 비밀번호 찾기 -->
+  <div class="modal fade" id="findPWDModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><font color="#3f2018">비밀번호 찾기</font></h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <label for="emailF"> 이메일 </label>
+              <input type="text" class="form-control" id="emailF" placeholder="이메일을 입력해주세요." name="emailF">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button id="sendPWD" type="button" class="btn btn-default" style="background-color:#3f2018;"> <font color="#ffffff">확인</font> </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#3f2018;"><font color="#ffffff"> 취소</font></button>
         </div>
       </div>
       
@@ -135,8 +160,8 @@
       					</div>
     				</div>
     				<div class="form-group">
-    					<button type="button" class="btn btn-default col-sm-2 col-sm-offset-2" id="authMail">인증메일보내기</button>
-      					<label class="control-label col-sm-2" for="auth">인증번호 </label>
+    					<button type="button" class="btn btn-default col-sm-2 col-sm-offset-2" id="authMail" style="background-color:#3f2018;"><font color="#ffffff"> 인증메일보내기 </font></button>
+      					<label class="control-label col-sm-2" for="auth" >인증번호 </label>
       					<div class="col-sm-4">
         					<input type="text" class="form-control" id="auth" placeholder="인증번호를 입력해주세요." name="auth">
       					</div>
@@ -165,8 +190,8 @@
   				</form>
         	</div>
         	<div class="modal-footer">
-        		<button type="button" class="btn btn-default" id="checkRegister">완료</button>
-        		<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+        		<button type="button" class="btn btn-default" id="checkRegister" style="background-color:#3f2018;"><font color="#ffffff">완료</font></button>
+        		<button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#3f2018;"><font color="#ffffff">취소</font></button>
         	</div>
       </div>
     </div>

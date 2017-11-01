@@ -49,7 +49,7 @@
 	}
 	.imageView{
 	width:500px;
-	height:285px;
+	height:100%;
 	text-align:center;
 	margin:auto;
 	}
@@ -178,8 +178,8 @@ function showLatLng() {
 		if(fileTest == false){
 			alert("JPG/JPEG, PNG, GIF 형식만 가능합니다.");
 		}
-		else if(file.size > 10485760){
-			alert("최대파일크기 : 10MB");
+		else if(file.size > 5242880){
+			alert("최대파일크기 : 5MB");
 		}
 		else{
 			$('.explain').hide();
