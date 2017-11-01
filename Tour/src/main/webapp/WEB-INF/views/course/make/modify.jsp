@@ -455,6 +455,14 @@ var realDateCount = 0;
 	function deleteLine() {
 		var Status = delBtnValue;
 //		console.log("삭제");
+		if(jsonArr[Status].gotoDate != null){
+			for(var i=0; i<realDate.length; i++){
+				if(realDate[i] == jsonArr[Status].gotoDate){
+					limitCheck[i]--;
+					break;
+				}
+			}
+		}
         clearMarkers();
         jsonArr.splice(Status,1);
         markers.splice(Status,1);
