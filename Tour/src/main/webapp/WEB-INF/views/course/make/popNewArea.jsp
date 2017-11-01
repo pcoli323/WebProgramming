@@ -286,55 +286,57 @@ $(document).on("click",".registBtn",function(){
 		alert("시/도를 선택해주세요.");
 	} else if(Number(document.getElementById('sigunguCode').value) == -1){
 		alert("시/군/구를 선택해주세요.")
-	} else if(document.getElementById('title').value != "") {
-		for(var i=0; i<opener.jsonArr.length; i++){
-			if(opener.jsonArr[i].title == document.getElementById('title').value) {
-				alert("일치하는 장소이름이 존재합니다.");
-				break;
-			}
-		}
 	} else {
-		// modify에 list 값 추가
-		var arr = new Object();
-		arr.addr1 = document.getElementById('address').value;
-		arr.addr2 = "";
-		arr.areacode = Number(document.getElementById('areaCode').value);
-		arr.contentid = Number(0);
-		arr.contenttypeid = Number(0);
-		arr.createdtime = Number(0);
-		if(file != null){
-			arr.firstimage = URL.createObjectURL(file);
-			arr.firstimage2 = URL.createObjectURL(file);
+		if(document.getElementById('title').value != "") {
+			for(var i=0; i<opener.jsonArr.length; i++){
+				if(opener.jsonArr[i].title == document.getElementById('title').value) {
+					alert("일치하는 장소이름이 존재합니다.");
+					break;
+				}
+			}
+		} else {
+			// modify에 list 값 추가
+			var arr = new Object();
+			arr.addr1 = document.getElementById('address').value;
+			arr.addr2 = "";
+			arr.areacode = Number(document.getElementById('areaCode').value);
+			arr.contentid = Number(0);
+			arr.contenttypeid = Number(0);
+			arr.createdtime = Number(0);
+			if(file != null){
+				arr.firstimage = URL.createObjectURL(file);
+				arr.firstimage2 = URL.createObjectURL(file);
+			}
+			else{
+				arr.firstimage = null;
+				arr.firstimage2 = null;
+			}
+			arr.modifiedtime = Number(0);
+			arr.readcount = Number(0);
+			arr.sigungucode = Number(document.getElementById('sigunguCode').value);
+			arr.tel = document.getElementById('number').value;
+			arr.title = document.getElementById('title').value;
+			arr.mapx = String(markers[(markerCount-1)].getPosition().lng());
+			arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
+			arr = color(arr);
+			opener.jsonArr.push(arr);
+			// image list에 추가
+			if(file != null){
+				opener.addImageList.set(opener.jsonArr.length-1, file);
+			}
+			
+			// modify 함수 재 실행
+			opener.color();
+			opener.initTitle();
+			opener.inputTitleBorder();
+			opener.initScheduleTable();
+			opener.orderRangeSchedule();
+			opener.initMap();
+			opener.orderPolyLine();
+			
+			// 창 닫기
+			self.close();
 		}
-		else{
-			arr.firstimage = null;
-			arr.firstimage2 = null;
-		}
-		arr.modifiedtime = Number(0);
-		arr.readcount = Number(0);
-		arr.sigungucode = Number(document.getElementById('sigunguCode').value);
-		arr.tel = document.getElementById('number').value;
-		arr.title = document.getElementById('title').value;
-		arr.mapx = String(markers[(markerCount-1)].getPosition().lng());
-		arr.mapy = String(markers[(markerCount-1)].getPosition().lat());
-		arr = color(arr);
-		opener.jsonArr.push(arr);
-		// image list에 추가
-		if(file != null){
-			opener.addImageList.set(opener.jsonArr.length-1, file);
-		}
-		
-		// modify 함수 재 실행
-		opener.color();
-		opener.initTitle();
-		opener.inputTitleBorder();
-		opener.initScheduleTable();
-		opener.orderRangeSchedule();
-		opener.initMap();
-		opener.orderPolyLine();
-		
-		// 창 닫기
-		self.close();
 	}
 });
 
