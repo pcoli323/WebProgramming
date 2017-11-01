@@ -571,6 +571,9 @@
 			// success로 끝나면 게시된 거 보여주기
 			updateCourse(courseNumber, courseName, story);
 			representativeMark(courseNumber);
+			if(addImageList.size == 0){
+				location.href = "/uploadMypage";
+			}
 			addImages();
 		}
 	});
