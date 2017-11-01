@@ -268,7 +268,7 @@ var realDateCount = 0;
 	var bufPinColor = [];
 //	var pinColor = ["red", "orange", "yellow", "green", "blue", "#2a365c", "purple", "pink", "#99ff99", "skyblue", "#ffb3ff", "#333300", "#339966", "#ff0066"];
 	//연보라 색 겹침
-	var titleColor = ["#ffe6e6", "#fff6e6", "#ffffe6", "#e6ffe6", "#e6e6ff", "#eef0f7", "#ffe6ff", "#ffe6ea", "#e6ffe6", "#e9f6fb", "#ffe6ff", "#ffffe6", "#ecf9f2", "#ffe6f0"];
+	var titleColor = ['#ffcccc', '#ffedcc', '#ccffcc', '#ccccff', '#8080ff', '#ffccff', '#f5d6d6', '#f2e6d9', '#ccffff', '#dfecec', '#ffcccc', '#ffedcc', '#ccffcc', '#ccccff', '#8080ff', '#ffccff', '#f5d6d6', '#f2e6d9', '#ccffff', '#dfecec', '#ffcccc', '#ffedcc', '#ccffcc', '#ccccff', '#8080ff', '#ffccff', '#f5d6d6', '#f2e6d9', '#ccffff', '#dfecec'];
 	var pinColorCount = 0;
 	/*
 	for(var i=1; i<jsonArr.length; i++){
