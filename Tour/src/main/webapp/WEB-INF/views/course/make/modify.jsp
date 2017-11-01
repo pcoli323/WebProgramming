@@ -371,7 +371,7 @@ var realDateCount = 0;
 				icon: pinSymbol(jsonArr[i].pinColor),
 			});
 			markers[i] = marker;
-			var address = jsonArr[i].address;
+			var address = jsonArr[i].addr1;
 			if(address == null)
 				address = "";
 			var tel = jsonArr[i].tel;

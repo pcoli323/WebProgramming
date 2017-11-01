@@ -286,6 +286,13 @@ $(document).on("click",".registBtn",function(){
 		alert("시/도를 선택해주세요.");
 	} else if(Number(document.getElementById('sigunguCode').value) == -1){
 		alert("시/군/구를 선택해주세요.")
+	} else if(document.getElementById('title').value != "") {
+		for(var i=0; i<opener.jsonArr.length; i++){
+			if(opener.jsonArr[i].title == document.getElementById('title').value) {
+				alert("일치하는 장소이름이 존재합니다.");
+				break;
+			}
+		}
 	} else {
 		// modify에 list 값 추가
 		var arr = new Object();

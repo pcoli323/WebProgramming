@@ -572,9 +572,11 @@
 			updateCourse(courseNumber, courseName, story);
 			representativeMark(courseNumber);
 			addImages();
-			location.href = "/uploadMypage";
 		}
 	});
+	function move(){
+		location.href = "/uploadMypage";
+	}
 	function updateCourse(courseNumber, courseName, story){
 		if(story == ""){
 			story = null;
@@ -616,6 +618,7 @@
 		});
 	}
 	function addImages(){
+		var count = 0;
 		addImageList.forEach(function(value, key){
 			var formData = new FormData();
 			formData.append("file", value);
@@ -629,6 +632,10 @@
 				type: 'POST',
 				success: function(){
 					//console.log("image")
+					count++;
+					if(count == addImageList.size){
+						location.href = "/uploadMypage";
+					}
 				}
 			});
 		});

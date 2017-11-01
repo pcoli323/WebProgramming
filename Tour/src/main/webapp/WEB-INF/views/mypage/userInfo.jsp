@@ -23,7 +23,7 @@ html, body {
 	width:1100px;
 	margin-top:20px;
 	margin-left:300px !important;
-	height: auto;
+	height: 100%;
 }
 .header {
 	border-bottom:1px solid #3f2018;
@@ -34,6 +34,10 @@ html, body {
 }
 .bodyContent {
 	margin-bottom:30px;
+}
+
+.footerContent {
+	margin-top: 10px;
 }
 
 #userDelete {
