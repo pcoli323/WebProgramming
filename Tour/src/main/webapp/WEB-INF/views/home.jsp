@@ -7,7 +7,7 @@
 <head>
   <title>MemCox</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -269,7 +269,7 @@
 <div class="image">
 	<img src="/resources/img/main.jpg" width="100%">
 	<div class="centered">
-		<h1 style="font-size:5em; font-weight: bold;">내 마음에 꼭 드는 여행 코스! 맴콕!</h1> 
+		<h1 style="font-size:4.5em; font-weight: bold;">내 마음에 꼭 드는 여행 코스! 맴콕!</h1> 
   		<p style="font-size:2em; font-weight: bold;">자신만의 여행 코스를 만들고 다른사람들과 공유해보세요!</p> 
 	</div>
 </div>
