@@ -65,9 +65,6 @@
 			<div class="row" style="padding:10px;">
 				<div class="col-sm-12">
 					<form id="sbox">
-						<label class="radio-inline box" >
-      						<input type="radio" name="optradio" value="0">전체
-    					</label>
     					<label class="radio-inline selectedBox">
       						<input type="radio" name="optradio" value="12" checked="checked">관광지
     					</label>
@@ -75,16 +72,7 @@
       						<input type="radio" name="optradio" value="14">문화시설
     					</label>
     					<label class="radio-inline box">
-      						<input type="radio" name="optradio" value="15">축제/공연/행사
-    					</label>
-    					<label class="radio-inline box">
-      						<input type="radio" name="optradio" value="25">여행코스
-    					</label>
-    					<label class="radio-inline box">
       						<input type="radio" name="optradio" value="28">레포츠
-    					</label>
-    					<label class="radio-inline box">
-      						<input type="radio" name="optradio" value="32">숙박
     					</label>
     					<label class="radio-inline box">
       						<input type="radio" name="optradio" value="38">쇼핑
@@ -133,6 +121,7 @@ var jsonItems; // Ajax 호출 후 데이터를 저장하는 변수 (jsonArray)
 var selectedList = new Array(); // 선택한 여행지 정보 (jsonArray)
 var selectedListUser = new Array(); // 사용자가 추가한 여행지 정보 (jsonArray)
 var total;
+var totalPage;
 var presentPage;
 var contentType = "12";
 var orderOptions = "B";
@@ -311,6 +300,7 @@ $(document).on("click",".nav-link",function(){
 function saveAprint(data,id) {
     jsonItems = data.response.body.items.item;
     total = data.response.body.totalCount;
+    totalPage = parseInt((total/10)+1);
     presentPage = data.response.body.pageNo;
     
     var str ="";
@@ -352,32 +342,37 @@ function saveAprint(data,id) {
 	
 	// 페이징
 	str += "<ul class='pagination'>";
-	var max = (((total/10)+1) - (((total/10)+1)%5));
-	var num;
-	for(var i=0; i<5; i++){
-		if((presentPage-1)%5==i){
-			num = i;
-		}
-	}
+
+	// 이전
 	if(presentPage>5){
-		var s = id+"_"+(presentPage-(num+5));
+		var s = id+"_"+(presentPage-5);
 		str += "<li><a href='#' id='"+s+"'onclick='callpage(this)');'>이전</a></li>";
 	}
+	
+	// 5개
+	var index = (presentPage-1)%5; // 0~4
+	var max = 0;
 	for(var i=0; i<5; i++){
-		if((presentPage-1)%5==i){
-			num = i;
+		if(index==i){
 			var s = id+"_"+presentPage;
 			str += "<li class='active'><a href='#' id='"+s+"'onclick='callpage(this)'>"+presentPage+"</a></li>";
+			max = presentPage;
+			//console.log(s);
 		}
 		else{
-			if((presentPage-(num-i))<=max){
-				var s = id+"_"+(presentPage-(num-i));
-				str += "<li><a href='#' id='"+s+"'onclick='callpage(this)'>"+(presentPage-(num-i))+"</a></li>";
+			var num = presentPage-(index-i);
+			if(num<=totalPage){
+				var s = id+"_"+num;
+				str += "<li><a href='#' id='"+s+"'onclick='callpage(this)'>"+num+"</a></li>";
+				max = presentPage-(index-i);
+				//console.log(s);
 			}		
 		}
 	}
-	if(presentPage<=max){
-		var s = id+"_"+(presentPage+(5-num));
+	
+	// 다음
+	if(max<totalPage){
+		var s = id+"_"+(max+1);
 		str += "<li><a href='#' id='"+s+"'onclick='callpage(this)');'>다음</a></li>";
 	}
 	str += "</ul>";
