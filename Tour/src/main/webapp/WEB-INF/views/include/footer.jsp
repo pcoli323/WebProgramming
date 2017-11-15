@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport">
-  
   <style>
   .container-fluid {
       padding: 60px 50px;

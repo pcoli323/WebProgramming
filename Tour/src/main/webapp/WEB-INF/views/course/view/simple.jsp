@@ -52,12 +52,16 @@
 	font-size:30px;
 	color:#000000;
 	}
+	.representativeImageBox{
+	width: 100%;
+	height:100%;
+	}
 	.representativeImage {
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    }
+	border-radius: 50%;
+	}
     .representativeImageTable {
     padding:5px 5px 10px 10px;
     font-family:'Nanum Pen Script';
@@ -190,7 +194,7 @@
 		str += "<table style='display:inline-block;'><tr>";
 		for(var i=0; i<representatives.length; i++){
 			var representative = representatives[i];
-			str += "<td class='representativeImageTable'>";
+			str += "<td class='representativeImageTable'><div class='representativeImageBox'>";
 			if(i%2 == 0){
 				if(representative.gotoImageThum != null){
 					str += "<img src='"+representative.gotoImageThum+"' class='representativeImage thumImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
@@ -204,12 +208,12 @@
 				}
 				str += representative.gotoTitle;
 			}
-			str += "</td>";
+			str += "</div></td>";
 		}
 		str += "</tr><tr>";
 		for(var i=0; i<representatives.length; i++){
 			var representative = representatives[i];
-			str += "<td class='representativeImageTable'>";
+			str += "<td class='representativeImageTable'><div class='representativeImageBox'>";
 			if(i%2 != 0){
 				if(representative.gotoImageThum != null){
 					str += "<img src='"+representative.gotoImageThum+"' class='representativeImage thumImage' id='img-"+representative.gotoNumber+"-"+courseNumber+"'><br>";
@@ -223,7 +227,7 @@
 				}
 				str += representative.gotoTitle;
 			}
-			str += "</td>";
+			str += "</div></td>";
 		}
 		str += "</tr></table>";
 		
